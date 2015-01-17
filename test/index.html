@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>yoyoyo</title>
+    <link href="jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    <link href="select2/dist/css/select2.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="tabs">
+        <ul>
+            <li>
+                <a href="#beans">Beans</a>
+            </li>
+            <li>
+                <a href="#clocks">Lovely Timepieces</a>
+            </li>
+            <li>
+                <a href="#cheeses">Havarti etc.</a>
+            </li>
+        </ul>
+        <div id="beans">
+            <select class="html-multi-chosen-select" multiple="multiple" style="width:300px"></select>
+            <input type="button" id="yoyo" value="Click Me" />
+
+        </div>
+        <div id="clocks">
+            The time is now: Immediately
+        </div>
+        <div id="cheeses">
+            <a href="https://www.youtube.com/watch?v=ufJTqT5gMg0">Cheeses of the World</a>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript">
+        $("#tabs").tabs();
+    </script>
+</body>
+</html>

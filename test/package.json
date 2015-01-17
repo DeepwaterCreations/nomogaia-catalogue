@@ -1,0 +1,8 @@
+{
+    "name": "testestestest",
+    "main": "index.html",
+    "window": {
+        "title": "does anything here work?",
+        "width": 1000
+    }
+}
