@@ -1,1 +1,0 @@
-# nomogaia-catalogue

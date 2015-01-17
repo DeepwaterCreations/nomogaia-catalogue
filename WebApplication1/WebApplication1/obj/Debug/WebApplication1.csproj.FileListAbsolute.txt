@@ -1,6 +1,0 @@
-C:\Users\Colin\Documents\Visual Studio 2015\Projects\WebSite1\nomogaia-catalogue\WebApplication1\WebApplication1\bin\WebApplication1.dll.config
-C:\Users\Colin\Documents\Visual Studio 2015\Projects\WebSite1\nomogaia-catalogue\WebApplication1\WebApplication1\bin\WebApplication1.dll
-C:\Users\Colin\Documents\Visual Studio 2015\Projects\WebSite1\nomogaia-catalogue\WebApplication1\WebApplication1\bin\WebApplication1.pdb
-C:\Users\Colin\Documents\Visual Studio 2015\Projects\WebSite1\nomogaia-catalogue\WebApplication1\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyReference.cache
-C:\Users\Colin\Documents\Visual Studio 2015\Projects\WebSite1\nomogaia-catalogue\WebApplication1\WebApplication1\obj\Debug\WebApplication1.dll
-C:\Users\Colin\Documents\Visual Studio 2015\Projects\WebSite1\nomogaia-catalogue\WebApplication1\WebApplication1\obj\Debug\WebApplication1.pdb
