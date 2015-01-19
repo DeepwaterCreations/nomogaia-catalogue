@@ -13,10 +13,10 @@
 
     //This is the meta-data that says what shape the table is, rather than what specific data is currently in
     //the table.
-    function TableStructure() {
+    function TableUI() {
         this.rows = [];
     }
-    var tableStructure = new TableStructure();
+    var tableUI = new TableUI();
 
     //Represents the data currently in the table. 
     function TableData() {
@@ -31,16 +31,22 @@
             });
 
             //"Class members"
-            this.listenFunctions = [];
+            // is a dictonary columnName: [listeners...]
+            this.listenFunctions = {};
 
-            this.addListener = function (listenerFunction) {
-                this.listenFunctions.push(listenerFunction);
+            this.addListener = function (columnName, listenerFunction) {
+                if (listenerFunction[columnName].length == 0) {
+                    this.listenFunctions[columnName] = [listenerFunction];
+                } else {
+                    this.listenFunctions[columnName].push(listenerFunction);
+                }
+                
             };
 
             this.setData = function (columnName, data) {
                 this[columnName] = data;
                 //Also call the listener functions
-                this.listenFunctions.forEach(function (listenerfunction) {
+                this.listenFunctions[columnName].forEach(function (listenerfunction) {
                     listenerfunction(this);
                 });
             };
@@ -56,13 +62,11 @@
         //Adds a data row to the table. If a second argument is specified, 
         //it gets passed in as a listener function.
         //Returns the newly-added row.
-        this.addRow = function (listenerFunc) {
-            this.rows.push(new this.RowData());
-            if (listenerFunc !== undefined) {
-                this.rows[this.rows.length - 1].addListener(listenerFunc);
-            }
+        this.addRow = function () {
+            var newRow = new this.RowData();
+            this.rows.push(newRow);
             console.log("Adding row " + this.rows.length);
-            return this.rows[this.rows.length - 1];
+            return newRow;
         };
 
         this.log = function () {
@@ -83,12 +87,12 @@
         "3": ["cows", "chickens", "rats"]
     };
 
-    function Row() {
+    function RowUI() {
         this.id = id++;
 
         this.genHTMLString = function () {
             var HTMLstring = '<tr id=' + this.id + '><td>';
-            HTMLstring += '<select class="first"><option value="-">-</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td><td><select  class="second"/></td></tr>';
+            HTMLstring += '<select class="Catalog"><option value="-">-</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td><td><select  class="Category"/></td></tr>';
             return HTMLstring;
 
         };
@@ -111,65 +115,63 @@
 
         var myRow = this;
 
-        this.get('second').change(
+        this.get('Category').change(
 
         function () {
             for (var key in dataList) {
                 var obj = dataList[key];
-                var at = $.inArray(myRow.getValue('second'), obj);
+                var at = $.inArray(myRow.getValue('Category'), obj);
                 if (at != -1) {
-                    myRow.setValue('first', key);
+                    myRow.setValue('Catalog', key);
                     //TODO this will not call
                     //this.firstUpdate();
                 }
             }
         });
 
-        var updateFirst = function () {
+        var updateCatalog = function () {
             //remove everything for id+get
-            myRow.get('second')
+            myRow.get('Category')
                 .find('option')
                 .remove()
                 .end();
             // now add back what we need
-            if (myRow.getValue('first') == "-") {
+            if (myRow.getValue('Catalog') == "-") {
                 //todo u
-                myRow.get('second').append('<option value="-">-</option>');
+                myRow.get('Category').append('<option value="-">-</option>');
                 for (var key in dataList) {
                     var obj = dataList[key];
                     obj.forEach(function (x1) {
-                        myRow.get('second').append('<option value="' + x1 + '">' + x1 + '</option>');
+                        myRow.get('Category').append('<option value="' + x1 + '">' + x1 + '</option>');
                     });
                 }
             } else {
-                myRow.get('second').append('<option value="-">-</option>');
+                myRow.get('Category').append('<option value="-">-</option>');
                 console.log('myRow: ' + myRow.getValue);
-                console.log('first: ' + myRow.get('first'));
-                console.log('firstValue: ' + myRow.getValue('first'));
-                dataList[myRow.getValue('first')].forEach(function (ele) {
-                    myRow.get('second').append('<option value="' + ele + '">' + ele + '</option>');
+                console.log('Catalog: ' + myRow.get('Catalog'));
+                console.log('CatalogValue: ' + myRow.getValue('Catalog'));
+                dataList[myRow.getValue('Catalog')].forEach(function (ele) {
+                    myRow.get('Category').append('<option value="' + ele + '">' + ele + '</option>');
                 });
             }
         };
 
-        this.dataUpdate = function () {
-            //What should happen when the underlying data is changed?
-        }
+        this.get('Catalog').change(updateCatalog);
+        updateCatalog();
 
-        this.get('first').change(updateFirst);
-        updateFirst();
+        tableUI.rows.push(myRow);
+        this.data = tableData.addRow();
 
-        tableStructure.rows.push(myRow);
-        this.data = tableData.addRow(this.dataUpdate);
+        //TODO add the approprate listeners to data
     }
 
     var searchTable = function () {
         console.log("searching table");
         var searchString = $('#searchInput').val();
         console.log(searchString);
-        tableStructure.rows.forEach(function (row) {
+        tableUI.rows.forEach(function (row) {
             console.log(row);
-            if (row.getValue('second').indexOf(searchString) > -1) {
+            if (row.getValue('Category').indexOf(searchString) > -1) {
                 row.getRow().show();
             } else {
                 row.getRow().hide();
@@ -179,7 +181,7 @@
 
     var onClickAdd = function () {
         console.log("I was clicked");
-        new Row(id);
+        new RowUI(id);
         tableData.log();
     };
 
@@ -187,13 +189,13 @@
         console.log("Sort button clicked");
 
         //Sort the array of rows
-        tableStructure.rows.sort(function (firstRow, secondRow) {
-            return firstRow.getValue('first') - secondRow.getValue('first');
+        tableUI.rows.sort(function (firstRow, secondRow) {
+            return firstRow.getValue('Catalog') - secondRow.getValue('Catalog');
         });
 
         //Empty the table and then repopulate it.
         $('myTable').empty();
-        tableStructure.rows.forEach(function (row) {
+        tableUI.rows.forEach(function (row) {
             row.addToTable();
         });
 

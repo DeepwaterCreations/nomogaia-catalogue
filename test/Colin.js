@@ -1,5 +1,4 @@
 ﻿function colinMain() {
-    console.log("testing 1,2,3");
 
     var rightsHolders = ["colin", "chris", "poulami"]
     //[{ id: 'enhancement', text: 'enhancement' }, { id: 'bug', text: 'bug' }
@@ -38,18 +37,13 @@
                     rightsHolders.push(value);
                     // make the new one stick around
                     $(this).find('option[value="' + value + '"]').removeAttr('data-select2-tag');
-                    //console.log(list[option].attr('data-select2-tag'));
-                    //list[option].removeAttr('data-select2-tag');
-                    //$('.html-multi-chosen-select').remove(list[option]);
-                    //$('.rightsHolders option[value=' + value + ']').remove();
 
+                    // add it to the other rights holders lists
                     var rightsHoldersSelectList = $('.rightsHolders');
-                    console.log(rightsHoldersSelectList);
                     for (var i = 0; i < rightsHoldersSelectList.length; i++) {
                         var rightsHoldersSelect = rightsHoldersSelectList[i];
                         if (rightsHoldersSelect != $(this)[0]) {
-                            console.log(rightsHoldersSelect);
-                            //rightsHoldersSelect.append('<option value=' + value + '>' + value + '</option>');
+                            $(rightsHoldersSelect).append('<option value="' + value + '">' + value + '</option>');
                         }
                     }
                 }
