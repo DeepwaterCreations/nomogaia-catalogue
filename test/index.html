@@ -24,7 +24,14 @@
 
         </div>
         <div id="clocks">
-            The time is now: Immediately
+            <input type="text" id="searchInput" />
+			<input type="button" id="sortButton" value="Sort" />
+			<table id="myTable">
+				<thead>
+					<tr></tr>
+				</thead>
+			</table>
+			<input type="button" id="addRow" value="Add" />
         </div>
         <div id="cheeses">
             <a href="https://www.youtube.com/watch?v=ufJTqT5gMg0">Cheeses of the World</a>
@@ -35,6 +42,7 @@
     <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="fiddle.js" />
     <script type="text/javascript">
         $("#tabs").tabs();
     </script>
