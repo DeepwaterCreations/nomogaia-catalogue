@@ -1,0 +1,26 @@
+<html>
+<body>
+<div id="tabs">
+    <ul>
+        <li><a href="#catalogsTab">Catalogs</a>
+        </li>
+    </ul>
+    <div id="catalogsTab">
+        <input type="text" id="searchInput" />
+        <input type="button" id="sortButton" value="Sort" />
+        <table id="myTable">
+            <thead>
+                <tr></tr>
+            </thead>
+        </table>
+        <input type="button" id="addRow" value="Add" />
+    </div>
+</div>
+<script>
+    $("#tabs").tabs();
+</script>
+
+<script type="text/javascript" src="fiddle.js" />
+
+</body>
+</html>
