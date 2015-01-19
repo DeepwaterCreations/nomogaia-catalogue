@@ -1,5 +1,8 @@
 ﻿function nalydMain() {
 
+    //Testing Node.js filesystem stuff
+    var fs = require('fs');
+  
     var id = 0;
 
     //This is the list of column names. Populate the html table from here.
