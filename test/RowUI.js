@@ -9,6 +9,15 @@ var dataList = {
 function RowUI() {
     this.id = id++;
 
+    //var getID = function () {
+    //    var id = 0;
+    //    return function () {
+    //        return id++;
+    //    };
+    //}(); //Note the parentheses. This anonymous function is actually being called, and getID is its return value, not the function itself. This is apparently a standard Javascript thing even though it seems
+    ////stupid that you can't tell if you're getting the function or its return value until you look at the very bottom.
+    //this.id = getID();
+
     this.genHTMLString = function () {
         var HTMLstring = '<tr id=' + this.id + '><td>';
         HTMLstring += '<select class="Catalog"><option value="-">-</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td><td><select  class="Category"/></td></tr>';
