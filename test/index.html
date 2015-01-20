@@ -36,7 +36,12 @@
 			<input type="button" id="addRow" value="Add" />
         </div>
         <div id="cheeses">
-            <a href="https://www.youtube.com/watch?v=ufJTqT5gMg0">Cheeses of the World</a>
+            <input type="file" id="chooseFile" />
+            <input type="button" id="readFileButton" value="Read File" />
+            <input type="button" id="writeFileButton" value="Write File" />
+            <div id="fileedit">
+                <textarea name="fileText" cols="50" rows="50" id="fileTextBox" > </textarea>
+            </div>
         </div>
     </div>
 
@@ -47,7 +52,7 @@
     <script type="text/javascript" src="TableUI.js"></script>
     <script type="text/javascript" src="RowUI.js" ></script>
     <script type="text/javascript" src="Colin.js"></script>
-    <script type="text/javascript" src="Nalyd.js"></script>
+    <script type="text/javascript" src="FileReadWrite.js" />
     <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript">
         $("#tabs").tabs();
