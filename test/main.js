@@ -2,14 +2,13 @@
 var fs = require('fs');
 
 //This is the list of column names. Populate the html table from here.
-var columnList = ["Project", "Catalog", "Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];
+var columnList = ["Catalog", "Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];
 //This next bit of code is for populating the HTML table. I have no idea where, ultimately, this
 //code should live, or what function it ought to be a part of, but for now, it's right here:
 columnList.forEach(function (columnName) {
     var tableID = "myTable";
     $("#" + tableID).find("tr").append("<th>" + columnName + "</th>");
 });
-
 
 var tableUI = new TableUI();
 

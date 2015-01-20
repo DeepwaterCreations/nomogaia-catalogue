@@ -15,12 +15,16 @@ function TableData() {
         this.listenFunctions = {};
 
         this.addListener = function (columnName, listenerFunction) {
-            if (listenerFunction[columnName].length == 0) {
+            if (listenerFunction[columnName] == undefined) {
                 this.listenFunctions[columnName] = [listenerFunction];
             } else {
                 this.listenFunctions[columnName].push(listenerFunction);
             }
 
+        };
+
+        this.getData = function (columnName) {
+            return this[columnName];
         };
 
         this.setData = function (columnName, data) {
