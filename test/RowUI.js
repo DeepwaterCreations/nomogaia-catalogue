@@ -19,17 +19,17 @@ function RowUI() {
         } else if (column == "Topic") {
             return '<td><select  class="Topic"/></td>';
         } else if (column == "Input") {
-            return '<td><input class="Input" type="submit" value="Submit"></td>';
+            return '<td><input class="Input" type="text" value=""></td>';
         } else if (column == "Module") {
             return '<td><select  class="Module"/></td>';
         } else if (column == "Source") {
-            return '<td><input class="Source" type="submit" value="Submit"></td>';
+            return '<td><input class="Source" type="text" value=""></td>';
         } else if (column == "Impacted Rights") {
             return '<td><select  class="Impacted Rights"/></td>';
         } else if (column == "Impacted Rights-Holders") {
             return '<td><select  class="Impacted Rights-Holders"/></td>';
         } else if (column == "Score") {
-            return '<td><input class="Source" type="submit" value="Submit"></td>';
+            return '<td><input class="Source" type="text" value=""></td>';
         } else if (column == "Monitor") {
             return '<td><select  class="Monitor"/></td>';
         } else {
@@ -38,6 +38,7 @@ function RowUI() {
         }
     }
 
+    // Colin thinks this goes outside the class
     //var getID = function () {
     //    var id = 0;
     //    return function () {
