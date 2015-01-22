@@ -49,11 +49,11 @@ function RowUI(table) {
 
     this.genHTMLStringElement = function (column) {
         if (column == "Catalog") {
-            return '<td><select class="'+this.toColumnName(column)+'"><option value="-">-</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>';
+            return '<td><select class="' + this.toColumnName(column) + '" style="width:100px"></select></td>';
         } else if (column == "Category") {
-            return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
+            return '<td><select  class="' + this.toColumnName(column) + '" style="width:100px"/></td>';
         } else if (column == "Topic") {
-            return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
+            return '<td><select  class="' + this.toColumnName(column) + '" style="width:100px"/></td>';
         } else if (column == "Input") {
             return '<td><input class="' + this.toColumnName(column) + '" type="text" value=""></td>';
         } else if (column == "Module") {
@@ -65,7 +65,7 @@ function RowUI(table) {
         } else if (column == "Impacted Rights-Holders") {
             return '<td><select  class="' + this.toColumnName(column) + '" multiple="multiple" style="width:100px"/></td>';
         } else if (column == "Score") {
-            return '<td><input class="' + this.toColumnName(column) + '" type="text" value=""></td>';
+            return '<td><input class="' + this.toColumnName(column) + '" type="number" value=""></td>';
         } else if (column == "Monitor") {
             return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
         } else {
@@ -107,11 +107,58 @@ function RowUI(table) {
     };
     // private
     this.getUIValue = function (column) {
-        return myRow.get(column).val();
+        //return myRow.get(column).val();
+        if (column == "Catalog") {
+            return myRow.get(column).select2("val");
+        } else if (column == "Category") {
+            return myRow.get(column).select2("val");
+        } else if (column == "Topic") {
+            return myRow.get(column).select2("val");
+        } else if (column == "Input") {
+
+        } else if (column == "Module") {
+            return myRow.get(column).select2("val");
+        } else if (column == "Source") {
+
+        } else if (column == "Impacted Rights") {
+
+        } else if (column == "Impacted Rights-Holders") {
+
+        } else if (column == "Score") {
+
+        } else if (column == "Monitor") {
+
+        } else {
+            console.log("column: " + column + " not found");
+            return '';
+        }
     };
     // private
     this.setUIValue = function (column, value) {
-        return myRow.get(column).val(value);
+        //myRow.get(column).val(value);
+        if (column == "Catalog") {
+            myRow.get(column).select2("val", value);
+        } else if (column == "Category") {
+            myRow.get(column).select2("val", value);
+        } else if (column == "Topic") {
+            myRow.get(column).select2("val", value);
+        } else if (column == "Input") {
+
+        } else if (column == "Module") {
+            myRow.get(column).select2("val", value);
+        } else if (column == "Source") {
+
+        } else if (column == "Impacted Rights") {
+
+        } else if (column == "Impacted Rights-Holders") {
+
+        } else if (column == "Score") {
+
+        } else if (column == "Monitor") {
+
+        } else {
+            console.log("column: " + column + " not found");
+        }
     };
     this.getValue = function (column) {
         return myRow.data.getData(column);
@@ -134,9 +181,10 @@ function RowUI(table) {
 
     console.log(this);
     this.toSelect2("Catalog");
+    this.toSelect2("Category");
 
-    // makes a select a mutliselect with add
-    this.toSelect2MultiWithAdd = function (className) {
+    // makes a select a with add
+    this.toSelect2WithAdd = function (className) {
         var backingList= this.table.tableData.getColumnOptions(className);
 
         console.log(className, backingList);
@@ -150,8 +198,10 @@ function RowUI(table) {
         this.get(className).on("select2:select", generateOnSelect(className, backingList));
     }
 
-    this.toSelect2MultiWithAdd("Impacted Rights-Holders");
-    this.toSelect2MultiWithAdd("Impacted Rights");
+    this.toSelect2WithAdd("Impacted Rights-Holders");
+    this.toSelect2WithAdd("Impacted Rights");
+    this.toSelect2WithAdd("Topic");
+    this.toSelect2WithAdd("Module");
 
    
     // when category updates we need to update catalog too 

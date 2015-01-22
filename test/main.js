@@ -28,8 +28,6 @@ columnList.forEach(function (columnName) {
 
 var table = new Table();
 
-
-
 var searchTable = function () {
     console.log("searching table");
     var searchString = $('#searchInput').val();

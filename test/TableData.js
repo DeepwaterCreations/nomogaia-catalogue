@@ -65,9 +65,11 @@ function TableData() {
 
     // the options for a drop down in the key column
     this.columnOptions = {
-        "Catalog": [1, 2, 3],
+        "Catalog": ["-","1", "2", "3"],
         "Impacted Rights": ["right to Internet", "right to pizza", "right to sleep"],
-        "Impacted Rights-Holders": ["colin", "chris", "poulami"]
+        "Impacted Rights-Holders": ["colin", "chris", "poulami"],
+        "Topic": ["topic", "topcana", "topdog"],
+        "Module":["sun","mooon","stars"]
     }
 
     // a getter for ColumnOptions
