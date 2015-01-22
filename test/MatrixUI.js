@@ -8,4 +8,12 @@
 //We also want to listen to the appropriate data values.
 //And, we'll want tool tips on the table data elements. (So they'll need title='' !)
 
+//Add the column headings
+table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
+    $("#matrixTable").find("thead").find("tr").append('<th title="">' + rightsholderName + '</th>');
+});
 
+//Add the rows
+table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
+    $("#matrixTable").find("tbody").append('<tr><th title="">' + rightName + '</th></tr>');
+});
