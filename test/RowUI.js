@@ -1,6 +1,4 @@
-﻿var id = 0;
-
-var dataList = {
+﻿var dataList = {
     "1": ["cats", "dogs", "pigs"],
     "2": ["goats", "monkeys", "rhinos"],
     "3": ["cows", "chickens", "rats"]
@@ -9,61 +7,67 @@ var dataList = {
 function isInt(n) {
     return (typeof n == 'number' && n % 1 === 0);
 }
-function generateOnSelect(className, backingList) {
-    return function () {
-        console.log(className, backingList);
-        //todo remove the old one
-        var list = $(this).find('Option');
-        for (var option in list) {
-            if (isInt(parseInt(option))) {
-                var value = list[option].value;
-                if (backingList.indexOf(value) == -1) {
-                    // add to list
-                    backingList.push(value);
-                    // make the new one stick around
-                    $(this).find('option[value="' + value + '"]').removeAttr('data-select2-tag');
 
-                    // add it to the other rights holders lists
-                    var rightsHoldersSelectList = $('.' + className);
-                    for (var i = 0; i < rightsHoldersSelectList.length; i++) {
-                        var rightsHoldersSelect = rightsHoldersSelectList[i];
-                        if (rightsHoldersSelect != $(this)[0]) {
-                            $(rightsHoldersSelect).append('<option value="' + value + '">' + value + '</option>');
+
+function RowUI(table) {
+    this.table = table;
+    this.id = table.nextId();
+    this.data = table.tableData.addRow();
+    var myRow = this;
+
+    this.toColumnName = function(column){
+        return column.replace(/ /g, '_');
+    }
+
+    function generateOnSelect(className, backingList) {
+        return function () {
+            console.log(className, backingList);
+            //todo remove the old one
+            var list = $(this).find('Option');
+            for (var option in list) {
+                if (isInt(parseInt(option))) {
+                    var value = list[option].value;
+                    if (backingList.indexOf(value) == -1) {
+                        // add to list
+                        backingList.push(value);
+                        // make the new one stick around
+                        $(this).find('option[value="' + value + '"]').removeAttr('data-select2-tag');
+
+                        // add it to the other rights holders lists
+                        var rightsHoldersSelectList = $('.' + myRow.toColumnName(className));
+                        for (var i = 0; i < rightsHoldersSelectList.length; i++) {
+                            var rightsHoldersSelect = rightsHoldersSelectList[i];
+                            if (rightsHoldersSelect != $(this)[0]) {
+                                $(rightsHoldersSelect).append('<option value="' + value + '">' + value + '</option>');
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
-
-function RowUI(table) {
-    this.table = table;
-    this.id = id++;
-    this.data = table.tableData.addRow();
-    var myRow = this;
 
     this.genHTMLStringElement = function (column) {
         if (column == "Catalog") {
-            return '<td><select class="Catalog"><option value="-">-</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>';
+            return '<td><select class="'+this.toColumnName(column)+'"><option value="-">-</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></td>';
         } else if (column == "Category") {
-            return '<td><select  class="Category"/></td>';
+            return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
         } else if (column == "Topic") {
-            return '<td><select  class="Topic"/></td>';
+            return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
         } else if (column == "Input") {
-            return '<td><input class="Input" type="text" value=""></td>';
+            return '<td><input class="' + this.toColumnName(column) + '" type="text" value=""></td>';
         } else if (column == "Module") {
-            return '<td><select  class="Module"/></td>';
+            return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
         } else if (column == "Source") {
-            return '<td><input class="Source" type="text" value=""></td>';
+            return '<td><input class="' + this.toColumnName(column) + '" type="text" value=""></td>';
         } else if (column == "Impacted Rights") {
-            return '<td><select  class="Impacted_Rights" multiple="multiple" /></td>';
+            return '<td><select  class="' + this.toColumnName(column) + '" multiple="multiple" style="width:100px"/></td>';
         } else if (column == "Impacted Rights-Holders") {
-            return '<td><select  class="Impacted_Rights-Holders" multiple="multiple" /></td>';
+            return '<td><select  class="' + this.toColumnName(column) + '" multiple="multiple" style="width:100px"/></td>';
         } else if (column == "Score") {
-            return '<td><input class="Score" type="text" value=""></td>';
+            return '<td><input class="' + this.toColumnName(column) + '" type="text" value=""></td>';
         } else if (column == "Monitor") {
-            return '<td><select  class="Monitor"/></td>';
+            return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
         } else {
             console.log("column: "+ column +" not found");
             return '';
@@ -99,7 +103,7 @@ function RowUI(table) {
 
     //Gets the html elements for the row
     this.get = function (column) {
-        return myRow.getRow().find('.' + column);
+        return myRow.getRow().find('.' +this.toColumnName(column));
     };
     // private
     this.getUIValue = function (column) {
@@ -119,32 +123,35 @@ function RowUI(table) {
     };
 
     // makes a select a select2
-    this.toSelect2 = function (className, backingList) {
-        console.log(className + " toSelect2WithAdd");
+    this.toSelect2 = function (className) {
+        var backingList= this.table.tableData.getColumnOptions(className);
+
         // make the rightsHolder a awesome multiselect
-        this.getRow().find("." + className).select2({
+        this.get(className).select2({
             data: backingList,
         });
     }
 
     console.log(this);
-    this.toSelect2("Catalog", this.table.tableData.getColumnOptions("Catalog"));
+    this.toSelect2("Catalog");
 
     // makes a select a mutliselect with add
-    this.toSelect2MultiWithAdd = function (className, backingList) {
-        console.log(className + " toSelect2WithAdd");
+    this.toSelect2MultiWithAdd = function (className) {
+        var backingList= this.table.tableData.getColumnOptions(className);
+
+        console.log(className, backingList);
         // make the rightsHolder a awesome multiselect
-        this.getRow().find("." + className).select2({
+        this.get(className).select2({
             data: backingList,
             tags: true,
         });
 
         // when rights holders is updated update the other rows
-        this.getRow().find("." + className).on("select2:select", generateOnSelect(className, backingList));
+        this.get(className).on("select2:select", generateOnSelect(className, backingList));
     }
 
-    this.toSelect2MultiWithAdd("Impacted_Rights-Holders", this.table.tableData.getColumnOptions("Impacted Rights-Holders"));
-    this.toSelect2MultiWithAdd("Impacted_Rights", this.table.tableData.getColumnOptions("Impacted Rights"));
+    this.toSelect2MultiWithAdd("Impacted Rights-Holders");
+    this.toSelect2MultiWithAdd("Impacted Rights");
 
    
     // when category updates we need to update catalog too 
