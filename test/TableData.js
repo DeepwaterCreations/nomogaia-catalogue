@@ -41,6 +41,7 @@ function TableData() {
                 console.log(this[columnName]);
             });
         };
+
     };
 
     //Adds a data row to the table. If a second argument is specified, 
@@ -61,5 +62,22 @@ function TableData() {
         }
         console.log("There are " + i + " rows of data.");
     };
+
+    // the options for a drop down in the key column
+    this.columnOptions = {
+        "Catalog": [1, 2, 3],
+        "Impacted Rights": ["right to Internet", "right to pizza", "right to sleep"],
+        "Impacted Rights-Holders": ["colin", "chris", "poulami"]
+    }
+
+    // a getter for ColumnOptions
+    this.getColumnOptions = function (column) {
+        if (this.columnOptions.hasOwnProperty(column)) {
+            return this.columnOptions[column];
+        } else {
+            console.log("column: " + column + " not found");
+            return [];
+        }
+    }
 
 }
