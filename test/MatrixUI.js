@@ -22,7 +22,7 @@ function updateMatrix() {
 
     //Then, rebuild it.
     table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
-        $("#matrixTable").find("tbody").append('<tr></tr>'); //<th title="">' + rightName + '</th>');
+        $("#matrixTable").find("tbody").append('<tr></tr>');
         $("#matrixTable").find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
 
         //Generate the scores and push them into the htmlString.
