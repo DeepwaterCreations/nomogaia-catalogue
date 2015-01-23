@@ -38,6 +38,7 @@ function updateMatrix() {
                     //Generate tooltip text displaying a title and the issue.
                     tooltipContent += '<b>' + row["Topic"] + '</b>';
                     tooltipContent += '<p>' + row["Input"] + '</p>';
+                    //TODO: Also put in the individual score values, and maybe color-coding?
                 }
             });
             if (scoreCount > 0) {
@@ -45,6 +46,7 @@ function updateMatrix() {
                 $("#matrixTable").find("tbody").find('tr').last().append('<td title="">' + avg + '</td>');
                 //Also add a tooltip.
                 $("#matrixTable").find("tbody").find('tr').last().children().last().tooltip({ content: tooltipContent });
+                //TODO: Style with CSS? Somehow these need color-coded backgrounds, right?
             }
             else
                 $("#matrixTable").find("tbody").find('tr').last().append('<td>-</td>');
