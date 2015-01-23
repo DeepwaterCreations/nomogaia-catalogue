@@ -22,7 +22,6 @@ $('#readFileButton').click(function () {
     })
 });
 
-
 //When the write file button is clicked, write the contents of the div's text box to
 //the file specified by 'filepath'.
 $('#writeFileButton').click(function () {

@@ -73,11 +73,19 @@ function onClickSort() {
 
 }
 
+var file = fs.createReadStream("template1.csv");
+file.setEncoding('utf8');
+var categoryHierarchy = file.on('data', function (chunk) {
+    return new CategoryHierarchy(chunk);
+})
+
 $(document).ready(function () {
     $('#addRow').click(onClickAdd);
     $('#searchInput').keyup(searchTable);
     $('#sortButton').click(onClickSort);
     $('.CatalogHeader').click(updateSearchColumn);
+
+    
 
     // code colin is testing
     colinMain();
