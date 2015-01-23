@@ -69,7 +69,7 @@ $(document).ready(function () {
     $('#searchInput').keyup(searchTable);
     $('#sortButton').click(onClickSort);
     $('.CatalogHeader').click(updateSearchColumn);
-
+    $('#tabs').on('tabsactivate', updateMatrix); //Currently updates the matrix on every tab change.
     // code colin is testing
     colinMain();
 });
