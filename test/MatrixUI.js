@@ -22,30 +22,33 @@ function updateMatrix() {
 
     //Then, rebuild it.
     table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
-        var htmlString = '<tr><th title="">' + rightName + '</th>';
+        $("#matrixTable").find("tbody").append('<tr></tr>'); //<th title="">' + rightName + '</th>');
+        $("#matrixTable").find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
 
         //Generate the scores and push them into the htmlString.
         var rows = table.tableData.getRows("Impacted Rights", rightName);
         table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
             var scoreCount = 0;
             var scoreSum = 0;
+            var tooltipContent = "";
             rows.forEach(function (row) {
                 if (row["Impacted Rights-Holders"].indexOf(rightsholderName) > -1) {
                     scoreCount++;
                     scoreSum += parseInt(row["Score"]);
+                    //Generate tooltip text displaying a title and the issue.
+                    tooltipContent += '<b>' + row["Topic"] + '</b>';
+                    tooltipContent += '<p>' + row["Input"] + '</p>';
                 }
             });
             if (scoreCount > 0) {
                 var avg = scoreSum / scoreCount;
-                htmlString += '<td>' + avg + '</td>';
+                $("#matrixTable").find("tbody").find('tr').last().append('<td title="">' + avg + '</td>');
+                //Also add a tooltip.
+                $("#matrixTable").find("tbody").find('tr').last().children().last().tooltip({ content: tooltipContent });
             }
             else
-                htmlString += '<td>-</td>'
+                $("#matrixTable").find("tbody").find('tr').last().append('<td>-</td>');
         });
-
-        htmlString += '</tr>';
-        $("#matrixTable").find("tbody").append(htmlString);
-
     });
 }
 
