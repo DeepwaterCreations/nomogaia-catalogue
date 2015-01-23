@@ -14,6 +14,35 @@ table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (right
 });
 
 //Add the rows
+//For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
+//Then put the averages in the table.
 table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
-    $("#matrixTable").find("tbody").append('<tr><th title="">' + rightName + '</th></tr>');
+    var htmlString = '<tr><th title="">' + rightName + '</th>';
+
+    //Generate the scores and push them into the htmlString.
+    var rows = table.tableData.getRows("Impacted Rights", rightName);
+    table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName){
+        var scoreCount;
+        var scoreSum = 0;
+        rows.forEach(function (row) {
+            console.log(row);
+            if (row["Impacted Rights-Holders"].indexOf(rightsholderName) > -1) {
+                scoreCount++;
+                console.log(row["Score"]);
+                scoreSum += parseInt(row["Score"]);
+            }
+        });
+        if (scoreSum > 0) {
+            var avg = scoreSum / scoreCount;
+            htmlString += '<td>' + avg + '</td>';
+        }
+        else
+            htmlString += '<td>-</td>'
+    });
+
+    htmlString += '</tr>';
+    $("#matrixTable").find("tbody").append(htmlString);
+
 });
+
+

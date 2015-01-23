@@ -54,6 +54,23 @@ function TableData() {
         return newRow;
     };
 
+    //Returns an array with all the rows for which the "columnName" value contains "data". 
+    //If "columnName" holds an array, includes the row in the return values if that array contains "data".
+    this.getRows = function (columnName, data) {
+        if (columnName && data) {
+            var matchingRows = [];
+            this.rows.forEach(function (row) {
+                if (row[columnName].isArray()) {
+                    if (row[columnName].contains(data))
+                        matchingRows.push(row);
+                }
+                else if (row[columnName] === data)
+                    matchingRows.push(row);
+            });
+            return matchingRows;
+        }
+    };
+
     this.log = function () {
         var i = 0;
         for (var row in this.rows) {
