@@ -63,8 +63,9 @@ function TableData() {
         if (columnName && data) {
             var matchingRows = [];
             this.rows.forEach(function (row) {
-                if (row[columnName].isArray()) {
-                    if (row[columnName].contains(data))
+                if (!(columnName in row)) return;
+                if (row[columnName].constructor === Array) {
+                    if (row[columnName].indexOf(data) >= 0)
                         matchingRows.push(row);
                 }
                 else if (row[columnName] === data)

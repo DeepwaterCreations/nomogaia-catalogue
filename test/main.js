@@ -1,12 +1,3 @@
-//Here's a handy function to test if an array contains a given element.
-//NOPE, just use indexOf, noob!
-//Array.prototype.contains = function (data) {
-//    return this.forEach(function (element) {
-//        if (element === data)
-//            return true;
-//    });
-//};
-
 //Testing Node.js filesystem stuff
 var fs = require('fs');
 
@@ -85,8 +76,6 @@ $(document).ready(function () {
     $('#sortButton').click(onClickSort);
     $('.CatalogHeader').click(updateSearchColumn);
 
-    
+    $('#tabs').on('tabsactivate', updateMatrix); //Currently updates the matrix on every tab change.
 
-    // code colin is testing
-    colinMain();
 });
