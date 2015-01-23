@@ -28,11 +28,15 @@ function TableData() {
         };
 
         this.setData = function (columnName, data) {
+            console.log(columnName + "," + data);
+            console.log(this.listenFunctions);
             this[columnName] = data;
             //Also call the listener functions
-            this.listenFunctions[columnName].forEach(function (listenerfunction) {
-                listenerfunction(this);
-            });
+            if (columnName in this.listenFunctions){
+                this.listenFunctions[columnName].forEach(function (listenerfunction) {
+                    listenerfunction(this);
+                });
+            }
         };
 
         //Prints the data to the console for debugging purposes
@@ -50,7 +54,6 @@ function TableData() {
     this.addRow = function () {
         var newRow = new this.RowData();
         this.rows.push(newRow);
-        console.log("Adding row " + this.rows.length);
         return newRow;
     };
 
@@ -60,7 +63,6 @@ function TableData() {
             this.rows[row].log();
             i++;
         }
-        console.log("There are " + i + " rows of data.");
     };
 
     // the options for a drop down in the key column

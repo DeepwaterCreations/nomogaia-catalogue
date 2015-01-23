@@ -4,11 +4,12 @@
 var fs = require('fs');
 
 //This is the list of column names. Populate the html table from here.
-var columnList = ["Catalog", "Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];
+var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];
 //Here's where the tool tips for column headings are specified:
 var columnListTooltips = {
     "Catalog" : "Shoeboxes.", 
-    "Category" : "Does this shirt fit properly?", 
+    "Category": "Does this shirt fit properly?",
+    "Sub-Category": "a box in a box",
     "Topic" : "Pants are for demons and breadcrumbs.", 
     "Input" : "SOCKS! SOCKS! SOCKS!", 
     "Module" : "What... are you eating under there?", 
@@ -22,19 +23,22 @@ var columnListTooltips = {
 //code should live, or what function it ought to be a part of, but for now, it's right here:
 columnList.forEach(function (columnName) {
     var tableID = "myTable";
-    $("#" + tableID).find("tr").append("<th title=''>" + columnName + "</th>");
+    $("#" + tableID).find("tr").append("<th class='CatalogHeader' title=''>" + columnName + "</th>");
     $("#" + tableID).find("tr").children().last().tooltip({ content: columnListTooltips[columnName] });
 });
 
 var table = new Table();
 
+var searchColumn = 'Category';
+
+var updateSearchColumn = function () {
+    searchColumn = $(this).text();
+}
+
 var searchTable = function () {
-    console.log("searching table");
     var searchString = $('#searchInput').val();
-    console.log(searchString);
     table.tableUI.rows.forEach(function (row) {
-        console.log(row);
-        if (row.getValue('Category').indexOf(searchString) > -1) {
+        if (row.getValue(searchColumn).indexOf(searchString) > -1) {
             row.getRow().show();
         } else {
             row.getRow().hide();
@@ -43,13 +47,11 @@ var searchTable = function () {
 };
 
 var onClickAdd = function () {
-    console.log("I was clicked");
     new RowUI(table);
     table.tableData.log();
 };
 
 function onClickSort() {
-    console.log("Sort button clicked");
 
     //Sort the array of rows
     table.tableUI.rows.sort(function (firstRow, secondRow) {
@@ -66,8 +68,9 @@ function onClickSort() {
 
 $(document).ready(function () {
     $('#addRow').click(onClickAdd);
-    $('#searchInput').change(searchTable);
+    $('#searchInput').keyup(searchTable);
     $('#sortButton').click(onClickSort);
+    $('.CatalogHeader').click(updateSearchColumn);
 
     // code colin is testing
     colinMain();

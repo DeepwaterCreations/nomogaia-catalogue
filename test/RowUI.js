@@ -21,7 +21,6 @@ function RowUI(table) {
 
     function generateOnSelect(className, backingList) {
         return function () {
-            console.log(className, backingList);
             //todo remove the old one
             var list = $(this).find('Option');
             for (var option in list) {
@@ -46,11 +45,13 @@ function RowUI(table) {
             }
         }
     }
-
+    
     this.genHTMLStringElement = function (column) {
         if (column == "Catalog") {
             return '<td><select class="' + this.toColumnName(column) + '" style="width:100px"></select></td>';
         } else if (column == "Category") {
+            return '<td><select  class="' + this.toColumnName(column) + '" style="width:100px"/></td>';
+        } else if (column == "Sub-Category") {
             return '<td><select  class="' + this.toColumnName(column) + '" style="width:100px"/></td>';
         } else if (column == "Topic") {
             return '<td><select  class="' + this.toColumnName(column) + '" style="width:100px"/></td>';
@@ -87,11 +88,9 @@ function RowUI(table) {
     this.genHTMLString = function () {
         var HTMLstring = '<tr id=' + this.id + '>';
         for (var column in columnList) {
-            console.log("looking for: " + columnList[column]);
             HTMLstring += this.genHTMLStringElement(columnList[column]);
         }
         HTMLstring += "</tr>"
-        console.log(HTMLstring);
         return HTMLstring;
     };
 
@@ -105,6 +104,7 @@ function RowUI(table) {
     this.get = function (column) {
         return myRow.getRow().find('.' +this.toColumnName(column));
     };
+    
     // private
     this.getUIValue = function (column) {
         //return myRow.get(column).val();
@@ -112,20 +112,22 @@ function RowUI(table) {
             return myRow.get(column).select2("val");
         } else if (column == "Category") {
             return myRow.get(column).select2("val");
+        } else if (column == "Sub-Category") {
+            return myRow.get(column).select2("val");
         } else if (column == "Topic") {
             return myRow.get(column).select2("val");
         } else if (column == "Input") {
-
+            return myRow.get(column).val();
         } else if (column == "Module") {
             return myRow.get(column).select2("val");
         } else if (column == "Source") {
-
+            return myRow.get(column).val();
         } else if (column == "Impacted Rights") {
-
+            return myRow.get(column).select2("val");
         } else if (column == "Impacted Rights-Holders") {
-
+            return myRow.get(column).select2("val");
         } else if (column == "Score") {
-
+            return myRow.get(column).val();
         } else if (column == "Monitor") {
 
         } else {
@@ -139,6 +141,8 @@ function RowUI(table) {
         if (column == "Catalog") {
             myRow.get(column).select2("val", value);
         } else if (column == "Category") {
+            myRow.get(column).select2("val", value);
+        } else if (column == "Sub-Category") {
             myRow.get(column).select2("val", value);
         } else if (column == "Topic") {
             myRow.get(column).select2("val", value);
@@ -179,15 +183,14 @@ function RowUI(table) {
         });
     }
 
-    console.log(this);
     this.toSelect2("Catalog");
     this.toSelect2("Category");
+    this.toSelect2("Sub-Category");
 
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
         var backingList= this.table.tableData.getColumnOptions(className);
 
-        console.log(className, backingList);
         // make the rightsHolder a awesome multiselect
         this.get(className).select2({
             data: backingList,
@@ -207,9 +210,6 @@ function RowUI(table) {
     // when category updates we need to update catalog too 
     var updateCategory = function () {
         myRow.setUIValue(myRow.data.getData("Category"));
-        console.log("updateCategory was called");
-        //var oldValue = myRow.get('Catalog').val();
-        //console.log("oldVale:" + oldValue);
         for (var key in dataList) {
             var obj = dataList[key];
             var at = $.inArray(myRow.getValue('Category'), obj);
@@ -219,15 +219,25 @@ function RowUI(table) {
             }
         }
     }
-    this.data.addListener('Category', updateCategory);
-
-    // TODO put in a for loop when we have more columns
-    this.get('Category').change(function () {
-        myRow.data.setData('Category', myRow.getUIValue('Category'))
-    });
-    this.get('Catalog').change(function () {
-        myRow.data.setData('Catalog', myRow.getUIValue('Catalog'))
-    });
+    
+    for (var i in columnList) {
+        var column = columnList[i];
+        console.log("adding: " + column);
+        
+        this.get(column).change(function(columnName){
+            return function () {
+                myRow.data.setData(columnName, myRow.getUIValue(columnName))
+            };
+        }(column));
+            
+    }
+    
+    //this.get('Catalog').change(function () {
+    //    myRow.data.setData('Catalog', myRow.getUIValue('Catalog'))
+    //});
+    //this.get('Category').change(function () {
+    //    myRow.data.setData('Category', myRow.getUIValue('Category'))
+    //});
 
     // when catalog updates we need to update category too 
     var updateCatalog = function () {
@@ -268,7 +278,9 @@ function RowUI(table) {
             console.log("selecting");
         }
     };
+    //add our listeners
     this.data.addListener('Catalog', updateCatalog);
+    this.data.addListener('Category', updateCategory);
     //this probably goes in a for loop too someday
     this.data.setData('Catalog',this.getUIValue('Catalog'));
     this.data.setData('Category',this.getUIValue('Category'));
