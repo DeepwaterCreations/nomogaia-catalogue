@@ -1,11 +1,40 @@
 ﻿function CategoryHierarchy(string) {
-    // string catalog : list categories
-    this.catalogContains = {};
-    // string category : list sub-category
-    this.categoryContains = {};
-    // string sub-category : list topics
-    this.subCategoryContains = {};
+    // string catalog : {string category : {string sub-category : {string topics : string description}}}
+    this.hierarchy = {};
     var lines = string.split("\n");
+
+    this.add = function (catalog, category, subCategory, topic, description) {
+        console.log(catalog + "," + category + "," + subCategory + "," + topic);
+        if (catalog in this.hierarchy) {
+            var categoryContains = this.hierarchy[catalog];
+            if (category in categoryContains) {
+                var subCategoryContains = categoryContains[category];
+                if (subCategory in subCategoryContains) {
+                        var topics = subCategoryContains[subCategory];
+                        topics[topic+""] =  description ;
+                } else {
+                    var topicDescription = {}
+                    topicDescription[topic + ""] = description;
+                    
+                    subCategoryContains[subCategory + ""] = topicDescription;
+                }
+            } else {
+                var topicDescription = {}
+                topicDescription[topic + ""] = description;
+                var subCategoryDescription = {}
+                subCategoryDescription[subCategory + ""] = topicDescription;
+                categoryContains[category + ""] = subCategoryDescription;
+            }
+        } else {
+            var topicDescription = {}
+            topicDescription[topic + ""] = description;
+            var subCategoryDescription = {}
+            subCategoryDescription[subCategory + ""] = topicDescription;
+            var CategoryDescription = {}
+            CategoryDescription[category + ""] = subCategoryDescription;
+            this.hierarchy[catalog + ""] = CategoryDescription;
+        }
+    }
 
     for (i in lines) {
         var line = lines[i];
@@ -16,33 +45,10 @@
         var category = lineSplit[1];
         var subCategory = lineSplit[2];
         var topic = lineSplit[3];
+        var description = "";
 
-        console.log(catalog + "," + category + "," + subCategory + "," + topic);
 
-        if (catalog in this.catalogContains) {
-            if (this.catalogContains[catalog].indexOf(category) ==-1) {
-                this.catalogContains[catalog].push(category);
-            }
-        } else {
-            this.catalogContains[catalog] = [category];
-        }
-
-        if (category in this.categoryContains) {
-            if (this.categoryContains[category].indexOf(subCategory) == -1) {
-                this.categoryContains[category].push(subCategory);
-            }
-        } else {
-            this.categoryContains[category] = [subCategory];
-        }
-
-        if (subCategory in this.subCategoryContains) {
-            if (this.subCategoryContains[subCategory].indexOf(topic) == -1) {
-                this.subCategoryContains[subCategory].push(topic);
-            }
-        } else {
-            this.subCategoryContains[subCategory] = [topic];
-        }
-
+        this.add(catalog, category, subCategory, topic, description);
     }
 
     console.log(this);
