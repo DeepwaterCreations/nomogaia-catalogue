@@ -8,8 +8,10 @@
 //We also want to listen to the appropriate data values.
 //And, we'll want tool tips on the table data elements. (So they'll need title='' !)
 
+//Also, this monitor business. 
+//I need to populote the dripdown.
 
-function updateMatrix() {
+function rebuildMatrix(monitor) {
     //First clear what's already there.
     $("#matrixTable").empty();
 
@@ -25,11 +27,18 @@ function updateMatrix() {
     //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
     //Then put the averages in the table.
     table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
-        $("#matrixTable").find("tbody").append('<tr></tr>');
+        $("#matrixTable").find("tbody").append('<tr class="' + rightName +'"></tr>');
         $("#matrixTable").find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
 
         //Generate the scores and push them into the htmlString.
         var rows = table.tableData.getRows("Impacted Rights", rightName);
+        //We won't need rows that don't match the selected monitor.
+        console.log("Monitor is " + monitor);
+        if (monitor) {
+            rows = rows.filter(function (row) {
+                return ("Monitor" in row) && (row["Monitor"] === monitor);
+            });
+        }
         //If a row doesn't have rights-holders associated with it, we don't have a use for it, so filter them out.
         rows = rows.filter(function (row) {
             return "Impacted Rights-Holders" in row;
@@ -50,15 +59,14 @@ function updateMatrix() {
             });
             if (scoreCount > 0) {
                 var avg = scoreSum / scoreCount;
-                $("#matrixTable").find("tbody").find('tr').last().append('<td title="">' + avg + '</td>');
+                $("#matrixTable").find("tbody").find('tr').last().append('<td title="" class="'+ rightsholderName +'">' + avg + '</td>');
                 //Also add a tooltip.
                 $("#matrixTable").find("tbody").find('tr').last().children().last().tooltip({ content: tooltipContent });
                 //TODO: Style with CSS? Somehow these need color-coded backgrounds, right?
             }
             else
-                $("#matrixTable").find("tbody").find('tr').last().append('<td>-</td>');
+                $("#matrixTable").find("tbody").find('tr').last().append('<td class="' + rightsholderName + '">-</td>');
         });
     });
 }
-
 

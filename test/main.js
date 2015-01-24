@@ -76,7 +76,16 @@ $(document).ready(function () {
     $('#sortButton').click(onClickSort);
     $('.CatalogHeader').click(updateSearchColumn);
 
-    $('#tabs').on('tabsactivate', updateMatrix); //Currently updates the matrix on every tab change.
+    //Currently updates the matrix on every tab change. 
+    //TODO: Make the matrix tab not be the first active one, or else change it so it builds on creation.
+    $('#tabs').on('tabsactivate', function (event, data) {
+        rebuildMatrix();
+    });
+    $('#matrixMonitorSelect').selectmenu({
+        change: function (event, ui) {
+            rebuildMatrix(this.val());
+        }
+    });
 
     $('#catalog').selectmenu();
     $('#category').selectmenu();
