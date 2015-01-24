@@ -10,12 +10,12 @@
             if (category in categoryContains) {
                 var subCategoryContains = categoryContains[category];
                 if (subCategory in subCategoryContains) {
-                        var topics = subCategoryContains[subCategory];
-                        topics[topic+""] =  description ;
+                    var topics = subCategoryContains[subCategory];
+                    topics[topic + ""] = description;
                 } else {
                     var topicDescription = {}
                     topicDescription[topic + ""] = description;
-                    
+
                     subCategoryContains[subCategory + ""] = topicDescription;
                 }
             } else {
@@ -34,7 +34,7 @@
             CategoryDescription[category + ""] = subCategoryDescription;
             this.hierarchy[catalog + ""] = CategoryDescription;
         }
-    }
+    };
 
     for (i in lines) {
         var line = lines[i];
@@ -49,6 +49,156 @@
 
 
         this.add(catalog, category, subCategory, topic, description);
+    }
+
+    // returns a list of catalogs
+    this.getCatalogs = function () {
+        var result = [];
+        for (var key in this.hierarchy) {
+            result.push(key);
+        }
+        return result;
+    };
+
+    // returns a list of Categories for a given catalog
+    this.getCategories = function (catalog) {
+        var result = [];
+        for (var key in this.hierarchy[catalog]) {
+            result.push(key);
+        }
+        return result;
+    };
+
+    // returns a list of subCategories for a given catalog and category
+    this.getSubCategories = function (catalog, category ) {
+        var result = [];
+        for (var key in this.hierarchy[catalog][category]) {
+            result.push(key);
+        }
+        return result;
+    };
+
+    // returns a list of topics for a given catalog, category and SubCategories
+    this.getTopics = function (catalog, category, subCategory) {
+        var result = [];
+        for (var key in this.hierarchy[catalog][category][subCategory]) {
+            result.push(key);
+        }
+        return result;
+    };
+
+    // returns the description for a given  topic
+    this.getDescription = function (topic) {
+        var subCategory = this.getTopicSubCategory(topic);
+        var category = this.getTopicCategory(topic);
+        var catalog = this.getTopicCatalog(topic);
+        return this.hierarchy[catalog][category][subCategory][topic];
+    };
+
+    // returns the subCategory that contains a given topic
+    this.getTopicSubCategory = function (topic) {
+        for (var catalog in this.hierarchy) {
+            var categories = this.hierarchy[catalog];
+            for (var category in categories) {
+                var subCategories = categories[category];
+                for (var subCategory in subCategories) {
+                    var topics = subCategories[subCategory];
+                    if (topic in topics) {
+                        return subCategory;
+                    }
+                }
+            }
+        }
+    }
+
+    // returns the category that contains a given topic
+    this.getTopicCategory = function (topic) {
+        for (var catalog in this.hierarchy) {
+            var categories = this.hierarchy[catalog];
+            for (var category in categories) {
+                var subCategories = categories[category];
+                for (var subCategory in subCategories) {
+                    var topics = subCategories[subCategory];
+                    if (topic in topics) {
+                        return category;
+                    }
+                }
+            }
+        }
+    }
+
+    // returns the catalog that contains a given topic
+    this.getTopicCatalog = function (topic) {
+        for (var catalog in this.hierarchy) {
+            var categories = this.hierarchy[catalog];
+            for (var category in categories) {
+                var subCategories = categories[category];
+                for (var subCategory in subCategories) {
+                    var topics = subCategories[subCategory];
+                    if (topic in topics) {
+                        return catalog;
+                    }
+                }
+            }
+        }
+    }
+
+    // returns the subCatory that contains a given topic
+    this.getTopicSubCategory = function (topic) {
+        for (var catalog in this.hierarchy) {
+            var categories = this.hierarchy[catalog];
+            for (var category in categories) {
+                var subCategories = categories[category];
+                for (var subCategory in subCategories) {
+                    var topics = subCategories[subCategory];
+                    if (topic in topics) {
+                        return subCategory;
+                    }
+                }
+            }
+        }
+    }
+
+    // returns a list of Categories that could contain a subCategory
+    this.getSubCategoryCategories = function (subCategory) {
+        var result =[]
+        for (var catalog in this.hierarchy) {
+            var categories = this.hierarchy[catalog];
+            for (var category in categories) {
+                var subCategories = categories[category];
+                if (subCategory in subCategories) {
+                    result.push(category);
+                }
+            }
+        }
+        return result;
+    }
+
+    // returns a list of Catalogs that could contain a subCategory
+    this.getSubCategoryCatalogs = function (subCategory) {
+        var result = []
+        for (var catalog in this.hierarchy) {
+            var categories = this.hierarchy[catalog];
+            for (var category in categories) {
+                var subCategories = categories[category];
+                if (subCategory in subCategories) {
+                    result.push(catalog);
+                }
+            }
+        }
+        return result;
+    }
+
+    // returns a list of Catalogs that could contain a subCategory
+    this.getCategoryCatalogs = function (category) {
+        var result = []
+        for (var catalog in this.hierarchy) {
+            var categories = this.hierarchy[catalog];
+            if (category in categories) {
+                result.push(catalog);
+            }
+        }
+        return result;
     }
 
     console.log(this);
