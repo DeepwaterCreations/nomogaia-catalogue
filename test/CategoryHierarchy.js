@@ -95,8 +95,9 @@
         return this.hierarchy[catalog][category][subCategory][topic];
     };
 
-    // returns the subCategory that contains a given topic
-    this.getTopicSubCategory = function (topic) {
+    // returns the subCategoreis that contains a given topic
+    this.getTopicSubCategories = function (topic) {
+        var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             for (var category in categories) {
@@ -104,15 +105,17 @@
                 for (var subCategory in subCategories) {
                     var topics = subCategories[subCategory];
                     if (topic in topics) {
-                        return subCategory;
+                        result.push(subCategory);
                     }
                 }
             }
         }
+        return result;
     }
 
-    // returns the category that contains a given topic
-    this.getTopicCategory = function (topic) {
+    // returns the categories that contains a given topic
+    this.getTopicCategories = function (topic) {
+        var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             for (var category in categories) {
@@ -120,15 +123,17 @@
                 for (var subCategory in subCategories) {
                     var topics = subCategories[subCategory];
                     if (topic in topics) {
-                        return category;
+                        result.push(category);
                     }
                 }
             }
         }
+        return result;
     }
 
-    // returns the catalog that contains a given topic
-    this.getTopicCatalog = function (topic) {
+    // returns the catalogss that contains a given topic
+    this.getTopicCatalogs = function (topic) {
+        var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             for (var category in categories) {
@@ -136,15 +141,17 @@
                 for (var subCategory in subCategories) {
                     var topics = subCategories[subCategory];
                     if (topic in topics) {
-                        return catalog;
+                        result.push(catalog);
                     }
                 }
             }
         }
+        return result;
     }
 
-    // returns the subCatory that contains a given topic
-    this.getTopicSubCategory = function (topic) {
+    // returns the subCatories that contains a given topic
+    this.getTopicSubCategories = function (topic) {
+        var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             for (var category in categories) {
@@ -152,11 +159,12 @@
                 for (var subCategory in subCategories) {
                     var topics = subCategories[subCategory];
                     if (topic in topics) {
-                        return subCategory;
+                        result.push(subCategory);
                     }
                 }
             }
         }
+        return result;
     }
 
     // returns a list of Categories that could contain a subCategory
