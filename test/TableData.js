@@ -1,7 +1,9 @@
 ﻿//Represents the data currently in the table. 
-function TableData() {
+function TableData(categoryHierarchy) {
     //Holds RowData objects.
     this.rows = [];
+
+    this.categoryHierarchy = categoryHierarchy;
 
     //Holds the data for a single row.
     this.RowData = function () {
@@ -85,20 +87,29 @@ function TableData() {
 
     // the options for a drop down in the key column
     this.columnOptions = {
-        "Catalog": ["-","1", "2", "3"],
         "Impacted Rights": ["right to Internet", "right to pizza", "right to sleep"],
         "Impacted Rights-Holders": ["colin", "chris", "poulami"],
-        "Topic": ["topic", "topcana", "topdog"],
         "Module":["sun","mooon","stars"]
     }
 
+
     // a getter for ColumnOptions
     this.getColumnOptions = function (column) {
-        if (this.columnOptions.hasOwnProperty(column)) {
-            return this.columnOptions[column];
+        if (column == "Catalog") {
+            return this.categoryHierarchy.getCatalogs();
+        } else if (column == "Category") {
+            return this.categoryHierarchy.getCategories();
+        } else if (column == "Sub-Category") {
+            return this.categoryHierarchy.getSubCategories();
+        } else if (column == "Topic") {
+            return this.categoryHierarchy.getTopics();
         } else {
-            console.log("column: " + column + " not found");
-            return [];
+            if (this.columnOptions.hasOwnProperty(column)) {
+                return this.columnOptions[column];
+            } else {
+                console.log("column: " + column + " not found");
+                return [];
+            }
         }
     }
 

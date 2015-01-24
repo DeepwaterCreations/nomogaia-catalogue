@@ -1,8 +1,8 @@
-﻿var dataList = {
-    "1": ["cats", "dogs", "pigs"],
-    "2": ["goats", "monkeys", "rhinos"],
-    "3": ["cows", "chickens", "rats"]
-};
+﻿//var dataList = {
+//    "1": ["cats", "dogs", "pigs"],
+//    "2": ["goats", "monkeys", "rhinos"],
+//    "3": ["cows", "chickens", "rats"]
+//};
 
 function isInt(n) {
     return (typeof n == 'number' && n % 1 === 0);
@@ -222,7 +222,6 @@ function RowUI(table) {
     
     for (var i in columnList) {
         var column = columnList[i];
-        console.log("adding: " + column);
         
         this.get(column).change(function(columnName){
             return function () {
@@ -241,6 +240,7 @@ function RowUI(table) {
 
     // when catalog updates we need to update category too 
     var updateCatalog = function () {
+        // first let's update category 
         console.log(myRow);
         myRow.setUIValue(myRow.data.getData("Catalog"));
         console.log("updateCatalog was called");
@@ -256,14 +256,14 @@ function RowUI(table) {
             //todo u
             myRow.get('Category').append('<option value="-">-</option>');
             for (var key in dataList) {
-                var obj = dataList[key];
+                var obj = table.categoryHierarchy.getCategories();
                 obj.forEach(function (x1) {
                     myRow.get('Category').append('<option value="' + x1 + '">' + x1 + '</option>');
                 });
             }
         } else {
             myRow.get('Category').append('<option value="-">-</option>');
-            dataList[myRow.getValue('Catalog')].forEach(function (ele) {
+            table.categoryHierarchy.getCategories(myRow.getValue('Catalog')).forEach(function (ele) {
                 myRow.get('Category').append('<option value="' + ele + '">' + ele + '</option>');
             });
         }
@@ -277,10 +277,50 @@ function RowUI(table) {
             myRow.get("Category").find("option[value='" + oldValue + "']").attr("selected", "selected");
             console.log("selecting");
         }
+
+        // let's update subCategory
+        myRow.get('Sub-Category')
+            .find('option')
+            .remove()
+            .end();
+        // now add back what we need
+        myRow.get('Sub-Category').append('<option value="-">-</option>');
+        if (myRow.getValue('Catalog') == "-") {
+            for (var key in dataList) {
+                var obj = table.categoryHierarchy.getSubCategories();
+                obj.forEach(function (x1) {
+                    myRow.get('Sub-Category').append('<option value="' + x1 + '">' + x1 + '</option>');
+                });
+            }
+        } else {
+            table.categoryHierarchy.getSubCategories(myRow.getValue('Catalog')).forEach(function (ele) {
+                myRow.get('Sub-Category').append('<option value="' + ele + '">' + ele + '</option>');
+            });
+        }
+
+        // let's update topic
+        myRow.get('Topic')
+            .find('option')
+            .remove()
+            .end();
+        // now add back what we need
+        myRow.get('Topic').append('<option value="-">-</option>');
+        if (myRow.getValue('Catalog') == "-") {
+            for (var key in dataList) {
+                var obj = table.categoryHierarchy.getTopics();
+                obj.forEach(function (x1) {
+                    myRow.get('Topic').append('<option value="' + x1 + '">' + x1 + '</option>');
+                });
+            }
+        } else {
+            table.categoryHierarchy.getTopics(myRow.getValue('Catalog')).forEach(function (ele) {
+                myRow.get('Topic').append('<option value="' + ele + '">' + ele + '</option>');
+            });
+        }
     };
     //add our listeners
     this.data.addListener('Catalog', updateCatalog);
-    this.data.addListener('Category', updateCategory);
+    //this.data.addListener('Category', updateCategory);
     //this probably goes in a for loop too someday
     this.data.setData('Catalog',this.getUIValue('Catalog'));
     this.data.setData('Category',this.getUIValue('Category'));

@@ -57,23 +57,58 @@
         for (var key in this.hierarchy) {
             result.push(key);
         }
+        console.log("getAllCatalogs", result);
         return result;
     };
 
     // returns a list of Categories for a given catalog
     this.getCategories = function (catalog) {
         var result = [];
-        for (var key in this.hierarchy[catalog]) {
-            result.push(key);
+        if (catalog == undefined) {
+            for (var catalog in this.hierarchy) {
+                var categories = this.hierarchy[catalog];
+                for (var category in categories) {
+                    if (result.indexOf(category) == -1) {
+                        result.push(category);
+                    }
+                }
+            }
+        } else {
+            for (var key in this.hierarchy[catalog]) {
+                result.push(key);
+            }
         }
         return result;
     };
 
     // returns a list of subCategories for a given catalog and category
-    this.getSubCategories = function (catalog, category ) {
+    this.getSubCategories = function (catalog, category) {
         var result = [];
-        for (var key in this.hierarchy[catalog][category]) {
-            result.push(key);
+        if (catalog == undefined) {
+            for (var catalog in this.hierarchy) {
+                var categories = this.hierarchy[catalog];
+                for (var category in categories) {
+                    var subCategories = categories[category];
+                    for (var subCategory in subCategories) {
+                        if (result.indexOf(subCategory) == -1) {
+                            result.push(subCategory);
+                        }
+                    }
+                }
+            }
+        }else if (category == undefined) {
+            for (var category in this.hierarchy[catalog]) {
+                var categories = this.hierarchy[catalog]
+                for (var subCategory in categories[category]) {
+                    if (result.indexOf(subCategory) == -1) {
+                        result.push(subCategory);
+                    }
+                }
+            }
+        } else {
+            for (var key in this.hierarchy[catalog][category]) {
+                result.push(key);
+            }
         }
         return result;
     };
@@ -81,8 +116,45 @@
     // returns a list of topics for a given catalog, category and SubCategories
     this.getTopics = function (catalog, category, subCategory) {
         var result = [];
-        for (var key in this.hierarchy[catalog][category][subCategory]) {
-            result.push(key);
+        if (catalog == undefined) {
+            for (var catalog in this.hierarchy) {
+                var categories = this.hierarchy[catalog];
+                for (var category in categories) {
+                    var subCategories = categories[category];
+                    for (var subCategory in subCategories) {
+                        var topics = subCategories[subCategory];
+                        for (var topic in topics) {
+                            if (result.indexOf(topic) == -1) {
+                                result.push(topic);
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (category == undefined) {
+            var categories = this.hierarchy[catalog];
+            for (var category in categories) {
+                var subCategories = categories[category];
+                for (var subCategory in subCategories) {
+                    var topics = subCategories[subCategory];
+                    for (var topic in topics) {
+                        if (result.indexOf(topic) == -1) {
+                            result.push(topic);
+                        }
+                    }
+                }
+            }
+        } else if (subCategory == undefined) {
+            var topics = subCategories[subCategory];
+            for (var topic in topics) {
+                if (result.indexOf(topic) == -1) {
+                    result.push(topic);
+                }
+            }
+        } else {
+            for (var key in this.hierarchy[catalog][category][subCategory]) {
+                result.push(key);
+            }
         }
         return result;
     };
@@ -169,7 +241,7 @@
 
     // returns a list of Categories that could contain a subCategory
     this.getSubCategoryCategories = function (subCategory) {
-        var result =[]
+        var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             for (var category in categories) {

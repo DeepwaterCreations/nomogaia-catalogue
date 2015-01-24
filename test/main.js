@@ -25,7 +25,15 @@ columnList.forEach(function (columnName) {
     $("#" + tableID).find("tr").children().last().tooltip({ content: columnListTooltips[columnName] });
 });
 
-var table = new Table();
+
+var filename = "template1.csv";
+var buf = fs.readFileSync(filename, "utf8");
+console.log(buf);
+
+var categoryHierarchy = new CategoryHierarchy(buf);
+
+
+var table = new Table(categoryHierarchy);
 
 var searchColumn = 'Category';
 
@@ -63,12 +71,6 @@ function onClickSort() {
     });
 
 }
-
-var file = fs.createReadStream("template1.csv");
-file.setEncoding('utf8');
-var categoryHierarchy = file.on('data', function (chunk) {
-    return new CategoryHierarchy(chunk);
-})
 
 $(document).ready(function () {
     $('#addRow').click(onClickAdd);
