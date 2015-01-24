@@ -78,4 +78,7 @@ $(document).ready(function () {
 
     $('#tabs').on('tabsactivate', updateMatrix); //Currently updates the matrix on every tab change.
 
+    $('#catalog').selectmenu();
+    $('#category').selectmenu();
+    $('#subcategory').selectmenu();
 });
