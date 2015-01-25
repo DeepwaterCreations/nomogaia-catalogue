@@ -8,25 +8,32 @@
 //We also want to listen to the appropriate data values.
 //And, we'll want tool tips on the table data elements. (So they'll need title='' !)
 
-//Add the column headings
-table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
-    $("#matrixTable").find("thead").find("tr").append('<th title="">' + rightsholderName + '</th>');
-});
 
-//Add the rows
-//For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
-//Then put the averages in the table.
 function updateMatrix() {
     //First clear what's already there.
-    $("#matrixTable").find("tbody").empty();
+    $("#matrixTable").empty();
 
     //Then, rebuild it.
+    $("#matrixTable").append("<thead><tr><th></th></tr></thead>"); //Contains a blank <th> so there's space for a column of row names.
+    $("#matrixTable").append("<tbody></tbody>");
+    //Add the column headings
+    table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
+        $("#matrixTable").find("thead").find("tr").append('<th title="">' + rightsholderName + '</th>');
+    });
+
+    //Add the rows
+    //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
+    //Then put the averages in the table.
     table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
         $("#matrixTable").find("tbody").append('<tr></tr>');
         $("#matrixTable").find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
 
         //Generate the scores and push them into the htmlString.
         var rows = table.tableData.getRows("Impacted Rights", rightName);
+        //If a row doesn't have rights-holders associated with it, we don't have a use for it, so filter them out.
+        rows = rows.filter(function (row) {
+            return "Impacted Rights-Holders" in row;
+        });
         table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
             var scoreCount = 0;
             var scoreSum = 0;
