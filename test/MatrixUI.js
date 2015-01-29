@@ -8,8 +8,10 @@
 //We also want to listen to the appropriate data values.
 //And, we'll want tool tips on the table data elements. (So they'll need title='' !)
 
+//Also, this monitor business. 
+//I need to populote the dripdown.
 
-function updateMatrix() {
+function rebuildMatrix(monitor) {
     //First clear what's already there.
     $("#matrixTable").empty();
 
@@ -25,11 +27,18 @@ function updateMatrix() {
     //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
     //Then put the averages in the table.
     table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
-        $("#matrixTable").find("tbody").append('<tr></tr>');
+        $("#matrixTable").find("tbody").append('<tr class="' + rightName +'"></tr>');
         $("#matrixTable").find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
 
         //Generate the scores and push them into the htmlString.
         var rows = table.tableData.getRows("Impacted Rights", rightName);
+        //We won't need rows that don't match the selected monitor.
+        console.log("Monitor is " + monitor);
+        if (monitor) {
+            rows = rows.filter(function (row) {
+                return ("Monitor" in row) && (row["Monitor"] === monitor);
+            });
+        }
         //If a row doesn't have rights-holders associated with it, we don't have a use for it, so filter them out.
         rows = rows.filter(function (row) {
             return "Impacted Rights-Holders" in row;
@@ -50,15 +59,48 @@ function updateMatrix() {
             });
             if (scoreCount > 0) {
                 var avg = scoreSum / scoreCount;
-                $("#matrixTable").find("tbody").find('tr').last().append('<td title="">' + avg + '</td>');
+                $("#matrixTable").find("tbody").find('tr').last().append('<td title="" class="'+ rightsholderName +'">' + avg + '</td>');
                 //Also add a tooltip.
                 $("#matrixTable").find("tbody").find('tr').last().children().last().tooltip({ content: tooltipContent });
                 //TODO: Style with CSS? Somehow these need color-coded backgrounds, right?
             }
             else
-                $("#matrixTable").find("tbody").find('tr').last().append('<td>-</td>');
+                $("#matrixTable").find("tbody").find('tr').last().append('<td class="' + rightsholderName + '">-</td>');
         });
     });
 }
 
+//Tablogic:
+//Each new tab will build a new matrix. The build function should take monitor as an argument. Switching tabs, I guess, should also rebuild.
+//This is slow and ugly, though.
+//But I don't really see a good alternative. I'll have to iterate through the whole table just to change the values anyway. ...right?
 
+var monitorTabs = $("#monitorTabs").tabs();
+
+//To make them vertical:
+monitorTabs.tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+$("#monitorTabs li").removeClass("ui-corner-top").addClass("ui-corner-left");
+
+var tabCount = function () {
+    count = 1;
+    return function () {
+        return count++;
+    }
+}();
+function addTab() {
+    var label = "New Tab";
+    var count = tabCount();
+    var id = "newTab" + count;
+    var liString = '<li><a href="#' + id + '">' + label + '</a></li>';
+    $("#addMonitorTabli").before(liString);
+
+    var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>'
+    monitorTabs.append('<div id="' + id + '">' + tableTemplate + '</div>');
+    monitorTabs.tabs("refresh");
+    return count;
+}
+$("#addMonitorTabli").on("click", function () {
+    monitorTabs.tabs("option", "active", addTab());
+});
+
+//TODO: It might be overkill, but I could give the monitor tabs some booleans to let them not rebuild more than once when the data hasn't changed. 
