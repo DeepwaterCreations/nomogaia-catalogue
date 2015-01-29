@@ -37,7 +37,7 @@
     };
 
     for (i in lines) {
-        var line = lines[i];
+        var line = lines[i].trim();
         //TODO ignore commas in quotes
         // also handle quotes as in a,b,c,"yo dog"
         var lineSplit = line.split(",");
@@ -64,7 +64,7 @@
     // returns a list of Categories for a given catalog
     this.getCategories = function (catalog) {
         var result = [];
-        if (catalog == undefined) {
+        if (catalog == undefined || catalog =='-') {
             for (var catalog in this.hierarchy) {
                 var categories = this.hierarchy[catalog];
                 for (var category in categories) {
@@ -84,7 +84,7 @@
     // returns a list of subCategories for a given catalog and category
     this.getSubCategories = function (catalog, category) {
         var result = [];
-        if (catalog == undefined) {
+        if (catalog == undefined || catalog == '-') {
             for (var catalog in this.hierarchy) {
                 var categories = this.hierarchy[catalog];
                 for (var category in categories) {
@@ -96,7 +96,7 @@
                     }
                 }
             }
-        }else if (category == undefined) {
+        } else if (category == undefined || category == '-') {
             for (var category in this.hierarchy[catalog]) {
                 var categories = this.hierarchy[catalog]
                 for (var subCategory in categories[category]) {
@@ -115,8 +115,9 @@
 
     // returns a list of topics for a given catalog, category and SubCategories
     this.getTopics = function (catalog, category, subCategory) {
+        console.log(catalog + " , " + category + " , " + subCategory);
         var result = [];
-        if (catalog == undefined) {
+        if (catalog == undefined || catalog == '-') {
             for (var catalog in this.hierarchy) {
                 var categories = this.hierarchy[catalog];
                 for (var category in categories) {
@@ -131,7 +132,7 @@
                     }
                 }
             }
-        } else if (category == undefined) {
+        } else if (category == undefined || category == '-') {
             var categories = this.hierarchy[catalog];
             for (var category in categories) {
                 var subCategories = categories[category];
@@ -144,11 +145,14 @@
                     }
                 }
             }
-        } else if (subCategory == undefined) {
-            var topics = subCategories[subCategory];
-            for (var topic in topics) {
-                if (result.indexOf(topic) == -1) {
-                    result.push(topic);
+        } else if (subCategory == undefined || subCategory == '-') {
+            var subCategories = this.hierarchy[catalog][category];
+            for (var subCategory in subCategories) {
+                var topics = subCategories[subCategory];
+                for (var topic in topics) {
+                    if (result.indexOf(topic) == -1) {
+                        result.push(topic);
+                    }
                 }
             }
         } else {
@@ -169,60 +173,57 @@
 
     // returns the subCategoreis that contains a given topic
     this.getTopicSubCategories = function (topic) {
-        var result = []
-        for (var catalog in this.hierarchy) {
-            var categories = this.hierarchy[catalog];
-            for (var category in categories) {
-                var subCategories = categories[category];
-                for (var subCategory in subCategories) {
-                    var topics = subCategories[subCategory];
-                    if (topic in topics) {
-                        result.push(subCategory);
+        if (topic == '-') {
+            return this.getSubCategories();
+        } else {
+            var result = []
+            for (var catalog in this.hierarchy) {
+                var categories = this.hierarchy[catalog];
+                for (var category in categories) {
+                    var subCategories = categories[category];
+                    for (var subCategory in subCategories) {
+                        var topics = subCategories[subCategory];
+                        if (topic in topics) {
+                            if (result.indexOf(subCategory) == -1) {
+                                result.push(subCategory);
+                            }
+                        }
                     }
                 }
             }
+            return result;
         }
-        return result;
     }
 
     // returns the categories that contains a given topic
     this.getTopicCategories = function (topic) {
-        var result = []
-        for (var catalog in this.hierarchy) {
-            var categories = this.hierarchy[catalog];
-            for (var category in categories) {
-                var subCategories = categories[category];
-                for (var subCategory in subCategories) {
-                    var topics = subCategories[subCategory];
-                    if (topic in topics) {
-                        result.push(category);
+        if (topic == '-') {
+            return this.getCategories();
+        } else {
+            var result = []
+            for (var catalog in this.hierarchy) {
+                var categories = this.hierarchy[catalog];
+                for (var category in categories) {
+                    var subCategories = categories[category];
+                    for (var subCategory in subCategories) {
+                        var topics = subCategories[subCategory];
+                        if (topic in topics) {
+                            if (result.indexOf(category) == -1) {
+                                result.push(category);
+                            }
+                        }
                     }
                 }
             }
+            return result;
         }
-        return result;
     }
 
     // returns the catalogss that contains a given topic
     this.getTopicCatalogs = function (topic) {
-        var result = []
-        for (var catalog in this.hierarchy) {
-            var categories = this.hierarchy[catalog];
-            for (var category in categories) {
-                var subCategories = categories[category];
-                for (var subCategory in subCategories) {
-                    var topics = subCategories[subCategory];
-                    if (topic in topics) {
-                        result.push(catalog);
-                    }
-                }
-            }
+        if (topic == '-') {
+            return this.getCatalogs();
         }
-        return result;
-    }
-
-    // returns the subCatories that contains a given topic
-    this.getTopicSubCategories = function (topic) {
         var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
@@ -231,7 +232,9 @@
                 for (var subCategory in subCategories) {
                     var topics = subCategories[subCategory];
                     if (topic in topics) {
-                        result.push(subCategory);
+                        if (result.indexOf(catalog) == -1) {
+                            result.push(catalog);
+                        }
                     }
                 }
             }
@@ -241,13 +244,18 @@
 
     // returns a list of Categories that could contain a subCategory
     this.getSubCategoryCategories = function (subCategory) {
+        if (subCategory == '-') {
+            return this.getCategories();
+        }
         var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             for (var category in categories) {
                 var subCategories = categories[category];
                 if (subCategory in subCategories) {
-                    result.push(category);
+                    if (result.indexOf(category) == -1) {
+                        result.push(category);
+                    }
                 }
             }
         }
@@ -256,13 +264,18 @@
 
     // returns a list of Catalogs that could contain a subCategory
     this.getSubCategoryCatalogs = function (subCategory) {
+        if (subCategory == '-') {
+            return this.getCatalogs();
+        }
         var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             for (var category in categories) {
                 var subCategories = categories[category];
                 if (subCategory in subCategories) {
-                    result.push(catalog);
+                    if (result.indexOf(catalog) == -1) {
+                        result.push(catalog);
+                    }
                 }
             }
         }
@@ -271,17 +284,19 @@
 
     // returns a list of Catalogs that could contain a subCategory
     this.getCategoryCatalogs = function (category) {
+        if (category == '-') {
+            return this.getCatalogs();
+        }
         var result = []
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             if (category in categories) {
-                result.push(catalog);
+                if (result.indexOf(catalog)==-1) {
+                    result.push(catalog);
+                }
             }
         }
         return result;
     }
-
     console.log(this);
-
-
 }

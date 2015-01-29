@@ -96,13 +96,21 @@ function TableData(categoryHierarchy) {
     // a getter for ColumnOptions
     this.getColumnOptions = function (column) {
         if (column == "Catalog") {
-            return this.categoryHierarchy.getCatalogs();
+            var result = this.categoryHierarchy.getCatalogs();
+            result.unshift("-");
+            return result;
         } else if (column == "Category") {
-            return this.categoryHierarchy.getCategories();
+            var result = this.categoryHierarchy.getCategories();
+            result.unshift("-");
+            return result;
         } else if (column == "Sub-Category") {
-            return this.categoryHierarchy.getSubCategories();
+            var result = this.categoryHierarchy.getSubCategories();
+            result.unshift("-");
+            return result;
         } else if (column == "Topic") {
-            return this.categoryHierarchy.getTopics();
+            var result = this.categoryHierarchy.getTopics();
+            result.unshift("-");
+            return result;
         } else {
             if (this.columnOptions.hasOwnProperty(column)) {
                 return this.columnOptions[column];

@@ -1,6 +1,6 @@
 ﻿//Step 1: Fill up the select menus.
 
-table.tableData.columnOptions["Catalog"].forEach(function (catalogItem) {
+table.tableData.getColumnOptions("Catalog").forEach(function (catalogItem) {
     $("#catalogSelect").append('<option>' + catalogItem + '</options>');
 });
 
