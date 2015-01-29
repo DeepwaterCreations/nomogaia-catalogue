@@ -22,17 +22,30 @@
             </li>
         </ul>
         <div id="beans">
-            <label for="matrixMonitoirSelect">Monitor:</label>
-            <select name="matrixMonitor" id="matrixMonitorSelect"></select><br />
+            <div id="monitorTabs">
+                <ul>
+                    <li>
+                        <a href="#monitor1Tab">1</a>
+                    </li>
+                    <li id="addMonitorTabli">
+                        <a href="#addMonitorTab">Add</a>
+                    </li>
+                </ul>
 
-            <table id="matrixTable" border="1">
-                <thead>
-                    <tr>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+                <div id="monitor1Tab">
+                    <table id="matrixTable" border="1">
+                        <thead>
+                            <tr>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div id="addMonitorTab">
+                    This is the add monitor tab.
+                </div>
+            </div>
         </div>
         <div id="clocks">
             <input type="text" id="searchInput" />
