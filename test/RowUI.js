@@ -9,10 +9,16 @@ function isInt(n) {
 }
 
 
-function RowUI(table) {
+function RowUI(table,rowData) {
     this.table = table;
     this.id = table.nextId();
-    this.data = table.tableData.addRow();
+    if (rowData == undefined) {
+        this.data = table.tableData.addRow();
+    } else {
+        this.data = rowData;
+        this.table.tableData.addRow(rowData)
+    }
+    
     var myRow = this;
 
     this.toColumnName = function(column){
@@ -30,7 +36,7 @@ function RowUI(table) {
                         // add to list
                         backingList.push(value);
                         // make the new one stick around
-                        $(this).find('option[value="' + value + '"]').removeAttr('data-select2-tag');
+                        $(this).find("option[value='" + value + "']").removeAttr('data-select2-tag');
 
                         // add it to the other rights holders lists
                         var rightsHoldersSelectList = $('.' + myRow.toColumnName(className));
@@ -180,8 +186,11 @@ function RowUI(table) {
 
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
-        var backingList= this.table.tableData.getColumnOptions(className);
-
+        if (rowData == undefined) {
+            var backingList = this.table.tableData.getColumnOptions(className);
+        } else {
+            var backingList = [rowData.getData(className)];
+        }
         // make the rightsHolder a awesome multiselect
         this.get(className).select2({
             data: backingList,
@@ -195,6 +204,14 @@ function RowUI(table) {
     this.toSelect2WithAdd("Impacted Rights-Holders");
     this.toSelect2WithAdd("Impacted Rights");
     this.toSelect2WithAdd("Module");
+
+    //this probably goes in a for loop too someday
+    if (rowData != undefined) {
+        this.setUIValue('Catalog', this.data.getData('Catalog'));
+        this.setUIValue('Category', this.data.getData('Category'));
+        this.setUIValue('Sub-Category', this.data.getData('Sub-Category'));
+        this.setUIValue('Topic', this.data.getData('Topic'));
+    }
     
     for (var i in columnList) {
         var column = columnList[i];
@@ -328,12 +345,13 @@ function RowUI(table) {
     this.data.addListener('Sub-Category', updateSubCategory);
     this.data.addListener('Topic', updateTopic);
     //this probably goes in a for loop too someday
-    this.data.setData('Catalog',this.getUIValue('Catalog'));
-    this.data.setData('Category', this.getUIValue('Category'));
-    this.data.setData('Sub-Category', this.getUIValue('Sub-Category'));
-    this.data.setData('Topic', this.getUIValue('Topic'));
-
-    table.tableUI.rows.push(myRow);
+    if (rowData == undefined) {
+        //this probably goes in a for loop too someday
+        this.data.setData('Catalog', this.getUIValue('Catalog'));
+        this.data.setData('Category', this.getUIValue('Category'));
+        this.data.setData('Sub-Category', this.getUIValue('Sub-Category'));
+        this.data.setData('Topic', this.getUIValue('Topic'));
+    }
 
     //TODO add the approprate listeners to data
 }

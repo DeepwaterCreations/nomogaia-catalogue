@@ -6,7 +6,13 @@ function Table(categoryHierarchy) {
     this.nextId = function () {
         return this.id++;
     }
+    
 
     this.tableUI = new TableUI();
     this.tableData = new TableData(categoryHierarchy);
+    this.addRow = function(data){
+        var myRow=new RowUI(this,data);
+        this.tableUI.rows.push(myRow);
+        return myRow;
+    }
 }

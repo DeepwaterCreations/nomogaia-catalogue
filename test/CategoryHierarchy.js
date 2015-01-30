@@ -3,31 +3,41 @@
     this.hierarchy = {};
     var lines = string.split("\n");
 
-    this.add = function (catalog, category, subCategory, topic, description) {
-        console.log(catalog + "," + category + "," + subCategory + "," + topic);
+    this.dequote = function (string) {
+        //console.log(string);
+        //console.log(string.slice(0, 1));
+        //console.log(string.slice(-1));
+        if (string.slice(0,1) == "\"" && string.slice(-1) == "\"") {
+            return string.substring(1, string.length - 1);
+        }
+        return string;
+    }
+
+    this.add = function (catalog, category, subCategory, topicString, topicInstance) {
+        //console.log(catalog + "," + category + "," + subCategory + "," + topicString);
         if (catalog in this.hierarchy) {
             var categoryContains = this.hierarchy[catalog];
             if (category in categoryContains) {
                 var subCategoryContains = categoryContains[category];
                 if (subCategory in subCategoryContains) {
                     var topics = subCategoryContains[subCategory];
-                    topics[topic + ""] = description;
+                    topics[topicString + ""] = topicInstance;
                 } else {
                     var topicDescription = {}
-                    topicDescription[topic + ""] = description;
+                    topicDescription[topicString + ""] = topicInstance;
 
                     subCategoryContains[subCategory + ""] = topicDescription;
                 }
             } else {
                 var topicDescription = {}
-                topicDescription[topic + ""] = description;
+                topicDescription[topicString + ""] = topicInstance;
                 var subCategoryDescription = {}
                 subCategoryDescription[subCategory + ""] = topicDescription;
                 categoryContains[category + ""] = subCategoryDescription;
             }
         } else {
             var topicDescription = {}
-            topicDescription[topic + ""] = description;
+            topicDescription[topicString + ""] = topicInstance;
             var subCategoryDescription = {}
             subCategoryDescription[subCategory + ""] = topicDescription;
             var CategoryDescription = {}
@@ -37,18 +47,26 @@
     };
 
     for (i in lines) {
-        var line = lines[i].trim();
+        var line = lines[i];
         //TODO ignore commas in quotes
         // also handle quotes as in a,b,c,"yo dog"
-        var lineSplit = line.split(",");
-        var catalog = lineSplit[0];
-        var category = lineSplit[1];
-        var subCategory = lineSplit[2];
-        var topic = lineSplit[3];
-        var description = "";
+        //console.log(line);
+        var lineSplit = line.split("\t");
+        if (lineSplit[0] != "") {
+            var catalog = this.dequote(lineSplit[0].trim());
+            var category = this.dequote(lineSplit[1].trim());
+            var subCategory = this.dequote(lineSplit[2].trim());
+            var topicString = this.dequote(lineSplit[3].trim());
+            var description = this.dequote(lineSplit[4].trim());
+            var module = this.dequote(lineSplit[5].trim());
+            var source = this.dequote(lineSplit[6].trim());
 
+            //console.log(catalog + ", " + category + ", " + subCategory + ", " + topicString + ", " + description + ", " + module + ", " + source);
 
-        this.add(catalog, category, subCategory, topic, description);
+            var topicInstance = new Topic(catalog, category, subCategory, topicString, description, module, source);
+
+            this.add(catalog, category, subCategory, topicString, topicInstance);
+        }
     }
 
     // returns a list of catalogs
@@ -57,7 +75,6 @@
         for (var key in this.hierarchy) {
             result.push(key);
         }
-        console.log("getAllCatalogs", result);
         return result;
     };
 
@@ -115,7 +132,6 @@
 
     // returns a list of topics for a given catalog, category and SubCategories
     this.getTopics = function (catalog, category, subCategory) {
-        console.log(catalog + " , " + category + " , " + subCategory);
         var result = [];
         if (catalog == undefined || catalog == '-') {
             for (var catalog in this.hierarchy) {
@@ -298,5 +314,12 @@
         }
         return result;
     }
-    console.log(this);
+    this.getTopicInstance = function (topicString) {
+        var catalog = this.getTopicCatalogs(topicString);
+        var category = this.getTopicCategories(topicString);
+        var subCategory = this.getTopicSubCategories(topicString);
+        return this.hierarchy[catalog[0]][category[0]][subCategory[0]][topicString];
+    }
+
+    console.log("colin",this);
 }
