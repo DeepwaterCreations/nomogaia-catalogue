@@ -2,7 +2,7 @@
 var fs = require('fs');
 
 //This is the list of column names. Populate the html table from here.
-var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];
+var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score"];
 //Here's where the tool tips for column headings are specified:
 var columnListTooltips = {
     "Catalog" : "Shoeboxes.", 
@@ -71,8 +71,6 @@ function onClickSort() {
 }
 
 $(document).ready(function () {
-
-    console.log("Colin - ready called")
     // we need to add all the rows with module =None to the table
     var topicList = categoryHierarchy.getTopics();
     //console.log("Colin", topicList);
