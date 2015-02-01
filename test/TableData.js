@@ -5,56 +5,15 @@ function TableData(categoryHierarchy) {
 
     this.categoryHierarchy = categoryHierarchy;
 
-    //Holds the data for a single row.
-    this.RowData = function () {
-        //Constructor code
-        columnList.forEach(function (columnName) {
-            this[columnName] = "UNINITIALIZED";
-        });
-
-        //"Class members"
-        // is a dictonary columnName: [listeners...]
-        this.listenFunctions = {};
-
-        this.addListener = function (columnName, listenerFunction) {
-            if (listenerFunction[columnName] == undefined) {
-                this.listenFunctions[columnName] = [listenerFunction];
-            } else {
-                this.listenFunctions[columnName].push(listenerFunction);
-            }
-
-        };
-
-        this.getData = function (columnName) {
-            return this[columnName];
-        };
-
-        this.setData = function (columnName, data) {
-            console.log(columnName + "," + data);
-            console.log(this.listenFunctions);
-            this[columnName] = data;
-            //Also call the listener functions
-            if (columnName in this.listenFunctions){
-                this.listenFunctions[columnName].forEach(function (listenerfunction) {
-                    listenerfunction(this);
-                });
-            }
-        };
-
-        //Prints the data to the console for debugging purposes
-        this.log = function () {
-            columnList.forEach(function (columnName) {
-                console.log(this[columnName]);
-            });
-        };
-
-    };
-
     //Adds a data row to the table. If a second argument is specified, 
     //it gets passed in as a listener function.
     //Returns the newly-added row.
-    this.addRow = function () {
-        var newRow = new this.RowData();
+    this.addRow = function (inRow) {
+        if (inRow == undefined) {
+            var newRow = new RowData();
+        } else {
+            var newRow = inRow;
+        }
         this.rows.push(newRow);
         return newRow;
     };

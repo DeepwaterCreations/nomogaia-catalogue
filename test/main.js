@@ -26,11 +26,11 @@ columnList.forEach(function (columnName) {
 });
 
 
-var filename = "template1.csv";
-var buf = fs.readFileSync(filename, "utf8");
+var filename = "TopicInfo.txt";
+var buf = fs.readFileSync(filename, "utf8");//
+console.log(buf);
 
 var categoryHierarchy = new CategoryHierarchy(buf);
-
 
 var table = new Table(categoryHierarchy);
 
@@ -52,8 +52,7 @@ var searchTable = function () {
 };
 
 var onClickAdd = function () {
-    new RowUI(table);
-    table.tableData.log();
+    table.addRow();
 };
 
 function onClickSort() {
@@ -72,6 +71,35 @@ function onClickSort() {
 }
 
 $(document).ready(function () {
+
+    console.log("Colin - ready called")
+    // we need to add all the rows with module =None to the table
+    var topicList = categoryHierarchy.getTopics();
+    //console.log("Colin", topicList);
+    topicList.forEach(function (topicString) {
+        var topicInstance = categoryHierarchy.getTopicInstance(topicString);
+        if (topicInstance.module == "None") {
+            //console.log("Colin", topicInstance);
+            var data = topicInstance.toData();
+            var myRow = table.addRow(data);
+            //myRow.setUIValue("Catalog", topicInstance.catalog);
+            
+            //myRow.setUIValue("Category", topicInstance.category);
+            
+            //myRow.setUIValue("Sub-Category", topicInstance.subCategory);
+            
+            //myRow.setUIValue("Topic", topicInstance.topic);
+            myRow.get("Topic").prop("disabled", true);
+            myRow.get("Sub-Category").prop("disabled", true);
+            myRow.get("Category").prop("disabled", true);
+            myRow.get("Catalog").prop("disabled", true);
+            //myRow.setUIValue("Module", topicInstance.module);
+            //myRow.setUIValue("Source", topicInstance.source);
+        }
+    });
+
+
+
     $('#addRow').click(onClickAdd);
     $('#searchInput').keyup(searchTable);
     $('#sortButton').click(onClickSort);
@@ -82,6 +110,7 @@ $(document).ready(function () {
     $('#tabs').on('tabsactivate', function (event, data) {
         matrix.rebuild(1);
     });
+
 
     $('#catalog').selectmenu();
     $('#category').selectmenu();
