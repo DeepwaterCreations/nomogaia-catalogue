@@ -28,7 +28,6 @@ columnList.forEach(function (columnName) {
 
 var filename = "template1.csv";
 var buf = fs.readFileSync(filename, "utf8");
-console.log(buf);
 
 var categoryHierarchy = new CategoryHierarchy(buf);
 
@@ -81,12 +80,7 @@ $(document).ready(function () {
     //Currently updates the matrix on every tab change. 
     //TODO: Make the matrix tab not be the first active one, or else change it so it builds on creation.
     $('#tabs').on('tabsactivate', function (event, data) {
-        rebuildMatrix();
-    });
-    $('#matrixMonitorSelect').selectmenu({
-        change: function (event, ui) {
-            rebuildMatrix(this.val());
-        }
+        matrix.rebuild(1);
     });
 
     $('#catalog').selectmenu();
