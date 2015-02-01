@@ -4,7 +4,6 @@
     var lines = string.split("\n");
 
     this.add = function (catalog, category, subCategory, topic, description) {
-        console.log(catalog + "," + category + "," + subCategory + "," + topic);
         if (catalog in this.hierarchy) {
             var categoryContains = this.hierarchy[catalog];
             if (category in categoryContains) {
