@@ -9,28 +9,33 @@ function MonitorTabs() {
     this.addTabClass = "addTab"; //Should go in the list item that holds the "Add" tab.
     
     //Closure for keeping track of how many tabs there are.
-    this.tabCount = function () {
-        count = 1;
-        return function () {
-            return count++;
-        }
-    }();
+    //this.tabCount = function () {
+    //    count = 1; //We already have the "add" tab.  
+    //    return function () {
+    //        this.numTabs = function () {
+    //            return count;
+    //        };
+    //        return count++;
+    //    }
+    //}();
+    this.tabCount = 1; // :C
 
     //When a tabDiv changes tabs, this is called to coordinate between all tabDivs.
-    this.changeToTab = function(activatedTab){
-        if ($(activatedTab + " " + addTabClass).length > 0) return; //Should we handle the case where a new tab is created here, or elsewhere? Or will that call this automagically through the "activate" event?
+    this.changeToTab = function (source) {
+        var activeTab = $(source).tabs("option", "active");
+        if (activeTab === this.tabCount) return; //I *think* this is the case where it's the "add tab" tab? 
+        console.log("Nalyd: activeTab: " + activeTab);
+        console.log("Nalyd: tabCount: " + this.tabCount);
 
-        tabsDivList.forEach(function (tabsDiv) {
-            //This is confusing. activatedTab is a DOM object, but the activate method
-            //takes an index. How do I get that index short of iterating over the DOM
-            //until I get a match?
-
-        })
+        this.tabsDivList.forEach(function (tabsDiv) {
+            if (tabsDiv.tabs("option", "active") !== activeTab)
+                tabsDiv.tabs("option", "active", activeTab);            
+        });
     };
 
     //Add a new tab, for when the add tab button is clicked.
     this.addTab = function () {
-        var count = this.tabCount();
+        var count = this.tabCount++;
         var id = "newTab" + count;
         var liString = '<li><a href="#' + id + '">' + this.newTabLabel + '</a></li>';
                 
@@ -59,7 +64,7 @@ function MonitorTabs() {
         var that = this;
         $("#" + tabsDivID).tabs({
             activate: function (event, ui) {
-                that.changeToTab(ui.newTab);
+                that.changeToTab(event.target);
             }
         })
 
