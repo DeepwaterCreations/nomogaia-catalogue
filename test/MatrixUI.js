@@ -11,6 +11,8 @@
 
 function Matrix() {
 
+    this.divID = "matrixMonitorTabs";
+
     //We need to know which table we're rebuilding in the function.
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
@@ -75,11 +77,14 @@ function Matrix() {
 
     this.addMonitorTabEvent = function (id, count) {
         var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
-        $("#monitorTabs").find('#' + id, 'div').append(tableTemplate);
-        //monitorTabs.append('<div id="' + id + '">' + tableTemplate + '</div>');
+        $("#" + this.divID).find('#' + id, 'div').append(tableTemplate);
+        //this.rebuild(monitorTabs.getActiveMonitor());
     };
 
-    monitorTabs.addTabsDiv("monitorTabs", this.addMonitorTabEvent);
+    monitorTabs.addTabsDiv(this.divID, this.addMonitorTabEvent);
+
+    //Bind the monitor tab activate event so that the table can be repopulated appropriately.
+    //TODO: Implement this. Make sure we don't repopulate when we don't need to.
 }
 var matrix = new Matrix();
 
