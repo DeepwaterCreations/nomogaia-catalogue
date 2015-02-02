@@ -53,7 +53,7 @@ function Matrix() {
                         scoreCount++;
                         scoreSum += parseInt(row["Score"]);
                         //Generate tooltip text displaying a title and the issue.
-                        tooltipContent += '<b>' + row["Topic"] + '</b>';
+                        tooltipContent += '<b>' + row["Topic"] + ': '+ row["Score"]+ '</b>';
                         tooltipContent += '<p>' + row["Input"] + '</p>';
                         //TODO: Also put in the individual score values, and maybe color-coding?
                     }

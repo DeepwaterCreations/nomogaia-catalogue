@@ -106,7 +106,6 @@ $(document).ready(function () {
     //TODO: Make the matrix tab not be the first active one, or else change it so it builds on creation.
     $('#tabs').on('tabsactivate', function (event, data) {
         matrix.rebuild(1);
-        console.log("Colin - monitorTables", monitorTables);
         rebuildImpactedRights(monitorTables);
     });
 
