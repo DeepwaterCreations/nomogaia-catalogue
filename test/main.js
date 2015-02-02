@@ -26,13 +26,15 @@ columnList.forEach(function (columnName) {
 });
 
 
-var filename = "TopicInfo.txt";
+var filename = "TopicInfoTest.txt";
 var buf = fs.readFileSync(filename, "utf8");//
 console.log(buf);
 
 var categoryHierarchy = new CategoryHierarchy(buf);
 
+var monitorTables = new MonitorTables();
 var table = new Table(categoryHierarchy);
+monitorTables.push(table);
 
 var searchColumn = 'Category';
 
@@ -95,8 +97,6 @@ $(document).ready(function () {
         }
     });
 
-
-
     $('#addRow').click(onClickAdd);
     $('#searchInput').keyup(searchTable);
     $('#sortButton').click(onClickSort);
@@ -106,7 +106,8 @@ $(document).ready(function () {
     //TODO: Make the matrix tab not be the first active one, or else change it so it builds on creation.
     $('#tabs').on('tabsactivate', function (event, data) {
         matrix.rebuild(1);
-        rebuildImpactedRights();
+        console.log("Colin - monitorTables", monitorTables);
+        rebuildImpactedRights(monitorTables);
     });
 
     $('#catalog').selectmenu();
