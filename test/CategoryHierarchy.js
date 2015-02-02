@@ -69,6 +69,42 @@
         }
     }
 
+    this.subCategoriesDown = function (subCategories, subCategory, topicsDownIn) {
+        if (subCategory == undefined || subCategory == '-') {
+            for (var subCategory in subCategories) {
+                topicsDownIn(subCategories[subCategory])
+            }
+        } else {
+            if (subCategory in subCategories) {
+                topicsDownIn(subCategories[subCategory]);
+            }
+        }
+    }
+
+    this.categoriesDown = function (categories, category,  subCategory, subCategoriesDownIn, topicsDownIn) {
+        if (category == undefined || category == '-') {
+            for (var category in categories) {
+                subCategoriesDownIn(categories[category], subCategory, topicsDownIn)
+            }
+        } else {
+            if (category in categories) {
+                subCategoriesDownIn(categories[category], subCategory, topicsDownIn);
+            }
+        }
+    }
+
+    this.catalogDown = function (catalog, category, categoriesDownIn, subCategory,subCategoriesDownIn, topicsDownIn) {
+        if (catalog == undefined || catalog == '-') {
+            for (var catalog in this.hierarchy) {
+                categoriesDownIn(this.hierarchy[catalog], category, subCategory, subCategoriesDownIn, topicsDownIn)
+            }
+        } else {
+            if (catalog in this.hierarchy) {
+                categoriesDownIn(this.hierarchy[catalog], category, subCategory, subCategoriesDownIn, topicsDownIn);
+            }
+        }
+    }
+
     // returns a list of catalogs
     this.getCatalogs = function () {
         var result = [];
@@ -80,8 +116,8 @@
 
     // returns a list of Categories for a given catalog
     this.getCategories = function (catalog) {
-        var result = [];
-        if (catalog == undefined || catalog =='-') {
+        /*var result = [];
+        if (catalog == undefined || catalog == '-') {
             for (var catalog in this.hierarchy) {
                 var categories = this.hierarchy[catalog];
                 for (var category in categories) {
@@ -95,87 +131,55 @@
                 result.push(key);
             }
         }
+        return result;*/
+
+        var result = [];
+
+        var myCategoriesDown = function (categories) {
+            for (var category in categories) {
+                if (result.indexOf(category) == -1) {
+                    result.push(category);
+                }
+            }
+        }
+
+        this.catalogDown(catalog, category, myCategoriesDown);
+
         return result;
     };
 
     // returns a list of subCategories for a given catalog and category
     this.getSubCategories = function (catalog, category) {
         var result = [];
-        if (catalog == undefined || catalog == '-') {
-            for (var catalog in this.hierarchy) {
-                var categories = this.hierarchy[catalog];
-                for (var category in categories) {
-                    var subCategories = categories[category];
-                    for (var subCategory in subCategories) {
-                        if (result.indexOf(subCategory) == -1) {
-                            result.push(subCategory);
-                        }
-                    }
+
+        var mySubCategoriesDown = function (subCategories) {
+            for (var subCategory in subCategories) {
+                if (result.indexOf(subCategory) == -1) {
+                    result.push(subCategory);
                 }
-            }
-        } else if (category == undefined || category == '-') {
-            for (var category in this.hierarchy[catalog]) {
-                var categories = this.hierarchy[catalog]
-                for (var subCategory in categories[category]) {
-                    if (result.indexOf(subCategory) == -1) {
-                        result.push(subCategory);
-                    }
-                }
-            }
-        } else {
-            for (var key in this.hierarchy[catalog][category]) {
-                result.push(key);
             }
         }
+
+        this.catalogDown(catalog, category, this.categoriesDown, subCategory, mySubCategoriesDown);
+
         return result;
     };
 
     // returns a list of topics for a given catalog, category and SubCategories
     this.getTopics = function (catalog, category, subCategory) {
+        console.log("Colin - " + catalog + " " + category + " " + subCategory);
         var result = [];
-        if (catalog == undefined || catalog == '-') {
-            for (var catalog in this.hierarchy) {
-                var categories = this.hierarchy[catalog];
-                for (var category in categories) {
-                    var subCategories = categories[category];
-                    for (var subCategory in subCategories) {
-                        var topics = subCategories[subCategory];
-                        for (var topic in topics) {
-                            if (result.indexOf(topic) == -1) {
-                                result.push(topic);
-                            }
-                        }
-                    }
+
+        var topicsDown = function(topics){
+            for (var topic in topics) {
+                if (result.indexOf(topic) == -1) {
+                    result.push(topic);
                 }
-            }
-        } else if (category == undefined || category == '-') {
-            var categories = this.hierarchy[catalog];
-            for (var category in categories) {
-                var subCategories = categories[category];
-                for (var subCategory in subCategories) {
-                    var topics = subCategories[subCategory];
-                    for (var topic in topics) {
-                        if (result.indexOf(topic) == -1) {
-                            result.push(topic);
-                        }
-                    }
-                }
-            }
-        } else if (subCategory == undefined || subCategory == '-') {
-            var subCategories = this.hierarchy[catalog][category];
-            for (var subCategory in subCategories) {
-                var topics = subCategories[subCategory];
-                for (var topic in topics) {
-                    if (result.indexOf(topic) == -1) {
-                        result.push(topic);
-                    }
-                }
-            }
-        } else {
-            for (var key in this.hierarchy[catalog][category][subCategory]) {
-                result.push(key);
             }
         }
+
+        this.catalogDown(catalog, category, this.categoriesDown, subCategory, this.subCategoriesDown, topicsDown);
+
         return result;
     };
 

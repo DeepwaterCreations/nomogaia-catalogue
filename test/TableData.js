@@ -44,13 +44,29 @@ function TableData(categoryHierarchy) {
         }
     };
 
-    // the options for a drop down in the key column
-    this.columnOptions = {
-        "Impacted Rights": ["right to Internet", "right to pizza", "right to sleep"],
-        "Impacted Rights-Holders": ["colin", "chris", "poulami"],
-        "Module":["sun","mooon","stars"]
+    this.loadFromFile = function (fileName) {
+        var fs = require('fs');
+        var buf = fs.readFileSync(fileName, "utf8");
+        var result = [];
+        buf.split("\n").forEach(function (line) {
+            line = line.trim();
+            if (line != "") {
+                result.push(line);
+            }
+        })
+        console.log("Colin", result);
+        return result;
     }
 
+    var that = this;
+
+    // the options for a drop down in the key column
+    this.columnOptions = {
+        "Impacted Rights": that.loadFromFile("Impacted Rights.csv"),
+        "Impacted Rights-Holders": that.loadFromFile("Rightsholders.csv"),
+        "Module": that.loadFromFile("Module.csv")
+    }
+    console.log("Colin", this);
 
     // a getter for ColumnOptions
     this.getColumnOptions = function (column) {

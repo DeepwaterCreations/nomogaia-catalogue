@@ -171,7 +171,11 @@ function RowUI(table,rowData) {
 
     // makes a select a select2
     this.toSelect2 = function (className) {
-        var backingList= this.table.tableData.getColumnOptions(className);
+        if (rowData == undefined) {
+            var backingList = this.table.tableData.getColumnOptions(className);
+        } else {
+            var backingList = [rowData.getData(className)];
+        }
 
         // make the rightsHolder a awesome multiselect
         this.get(className).select2({
@@ -186,11 +190,7 @@ function RowUI(table,rowData) {
 
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
-        if (rowData == undefined) {
-            var backingList = this.table.tableData.getColumnOptions(className);
-        } else {
-            var backingList = [rowData.getData(className)];
-        }
+        var backingList = this.table.tableData.getColumnOptions(className);
         // make the rightsHolder a awesome multiselect
         this.get(className).select2({
             data: backingList,
@@ -309,7 +309,7 @@ function RowUI(table,rowData) {
 
     // when subcategory updates we need to update the other columns
     var updateSubCategory = function () {
-        console.log("Sub-Category updated");
+        console.log("Colin - Sub-Category updated");
 
         // everyone more detailed one is "-" 
         if (myRow.getValue('Topic') == '-') {
