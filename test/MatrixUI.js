@@ -8,10 +8,12 @@
 //We also want to listen to the appropriate data values.
 //And, we'll want tool tips on the table data elements. (So they'll need title='' !)
 
-//Also, this monitor business. 
-//I need to populote the dripdown.
 
 function Matrix() {
+
+    //We need to know which table we're rebuilding in the function.
+    //We also don't want to do this unless something has legitimately changed.
+    //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
         //First clear what's already there.
         $("#matrixTable").empty();
@@ -71,7 +73,6 @@ function Matrix() {
         });
     };
 
-    //TODO: Hook this up to the MonitorTabsUI stuff.
     this.addMonitorTabEvent = function (id, count) {
         var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
         $("#monitorTabs").find('#' + id, 'div').append(tableTemplate);
