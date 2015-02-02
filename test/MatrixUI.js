@@ -8,10 +8,14 @@
 //We also want to listen to the appropriate data values.
 //And, we'll want tool tips on the table data elements. (So they'll need title='' !)
 
-//Also, this monitor business. 
-//I need to populote the dripdown.
 
 function Matrix() {
+
+    this.divID = "matrixMonitorTabs";
+
+    //We need to know which table we're rebuilding in the function.
+    //We also don't want to do this unless something has legitimately changed.
+    //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
         //First clear what's already there.
         $("#matrixTable").empty();
@@ -71,14 +75,18 @@ function Matrix() {
         });
     };
 
-    //TODO: Hook this up to the MonitorTabsUI stuff.
-    this.addMonitorTabEvent = function (id, count) {
-        var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
-        $("#monitorTabs").find('#' + id, 'div').append(tableTemplate);
-        //monitorTabs.append('<div id="' + id + '">' + tableTemplate + '</div>');
-    };
+    this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
+        return function (id, count) {
+            var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
+            $("#" + that.divID).find('#' + id, 'div').append(tableTemplate);
+            that.rebuild(monitorTabs.getActiveMonitor());
+        };
+    }(this);
 
-    monitorTabs.addTabsDiv("monitorTabs", this.addMonitorTabEvent);
+    monitorTabs.addTabsDiv(this.divID, this.addMonitorTabEvent);
+
+    //Bind the monitor tab activate event so that the table can be repopulated appropriately.
+    //TODO: Implement this. Make sure we don't repopulate when we don't need to.
 }
 var matrix = new Matrix();
 
