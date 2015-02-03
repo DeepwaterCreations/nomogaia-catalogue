@@ -44,7 +44,11 @@ function MonitorTabs() {
         var count = this.tabCount++;
         var id = "newTab" + count;
         var liString = '<li><a href="#' + id + '">' + this.newTabLabel + '</a></li>';
-                
+           
+        //Tell MonitorTables to create a new table.
+        monitorTables.addTable();
+
+        //Update the tabDivs so they display the new tab.
         var that = this; //Seriously, though, Javascript? SERIOUSLY?
         this.tabsDivList.forEach(function (tabsDiv) {
             tabsDiv.tabsObj.find('.' + that.addTabClass).before(liString);
@@ -54,7 +58,7 @@ function MonitorTabs() {
             tabsDiv.tabsObj.tabs("option", "active", count);
 
             tabsDiv.addTab(id, count);
-        });       
+        });
     }
 
     //Makes the div a JqueryUI tabs widget, styles it as vertical, and adds it to the list.
