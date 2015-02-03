@@ -215,6 +215,7 @@ function RowUI(table,rowData) {
         this.setUIValue('Module', this.data.getData('Module'));
     }
     
+    // pass UI changes on to the dataRow
     for (var i in columnList) {
         var column = columnList[i];
         
@@ -226,13 +227,6 @@ function RowUI(table,rowData) {
         }(column));
             
     }
-    
-    //this.get('Catalog').change(function () {
-    //    myRow.data.setData('Catalog', myRow.getUIValue('Catalog'))
-    //});
-    //this.get('Category').change(function () {
-    //    myRow.data.setData('Category', myRow.getUIValue('Category'))
-    //});
 
     this.updateColumnOptions = function (column, list) {
         //remember the old value
@@ -346,7 +340,7 @@ function RowUI(table,rowData) {
     this.data.addListener('Category', updateCategory);
     this.data.addListener('Sub-Category', updateSubCategory);
     this.data.addListener('Topic', updateTopic);
-    //this probably goes in a for loop too someday
+    //TODO this probably goes in a for loop someday
     if (rowData == undefined) {
         //this probably goes in a for loop too someday
         this.data.setData('Catalog', this.getUIValue('Catalog'));
@@ -355,6 +349,4 @@ function RowUI(table,rowData) {
         this.data.setData('Topic', this.getUIValue('Topic'));
         this.data.setData('Module', this.getUIValue('Module'));
     }
-
-    //TODO add the approprate listeners to data
 }
