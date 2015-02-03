@@ -13,30 +13,40 @@ function Matrix() {
 
     this.divID = "matrixMonitorTabs";
 
+    this.matrixTablePrefix = "matrixTable";
+
     //We need to know which table we're rebuilding in the function.
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
+        var matrixTableID = this.matrixTablePrefix + monitor;
+
+        if (!monitorTables.backingData[monitor]) {
+            console.log("ERROR: Monitor " + monitor + " is undefined.");
+            return undefined;
+        }
+        var data = monitorTables.backingData[monitor].tableData;
+
         //First clear what's already there.
-        $("#matrixTable").empty();
+        $("#" + matrixTableID).empty();
 
         //Then, rebuild it.
-        $("#matrixTable").append("<thead><tr><th></th></tr></thead>"); //Contains a blank <th> so there's space for a column of row names.
-        $("#matrixTable").append("<tbody></tbody>");
+        $("#" + matrixTableID).append("<thead><tr><th></th></tr></thead>"); //Contains a blank <th> so there's space for a column of row names.
+        $("#" + matrixTableID).append("<tbody></tbody>");
         //Add the column headings
-        table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
-            $("#matrixTable").find("thead").find("tr").append('<th title="">' + rightsholderName + '</th>');
+        data.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
+            $("#" + matrixTableID).find("thead").find("tr").append('<th title="">' + rightsholderName + '</th>');
         });
 
         //Add the rows
         //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
         //Then put the averages in the table.
-        table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
-            $("#matrixTable").find("tbody").append('<tr class="' + rightName + '"></tr>');
-            $("#matrixTable").find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
+        data.columnOptions["Impacted Rights"].forEach(function (rightName) {
+            $("#" + matrixTableID).find("tbody").append('<tr class="' + rightName + '"></tr>');
+            $("#" + matrixTableID).find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
 
             //Generate the scores and push them into the htmlString.
-            var rows = table.tableData.getRows("Impacted Rights", rightName);
+            var rows = data.getRows("Impacted Rights", rightName);
             //We won't need rows that don't match the selected monitor.
             console.log("Monitor is " + monitor);
             if (monitor) {
@@ -48,7 +58,7 @@ function Matrix() {
             rows = rows.filter(function (row) {
                 return "Impacted Rights-Holders" in row;
             });
-            table.tableData.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
+            data.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
                 var scoreCount = 0;
                 var scoreSum = 0;
                 var tooltipContent = "";
@@ -64,15 +74,17 @@ function Matrix() {
                 });
                 if (scoreCount > 0) {
                     var avg = scoreSum / scoreCount;
-                    $("#matrixTable").find("tbody").find('tr').last().append('<td title="" class="' + rightsholderName + '">' + avg + '</td>');
+                    $("#" + matrixTableID).find("tbody").find('tr').last().append('<td title="" class="' + rightsholderName + '">' + avg + '</td>');
                     //Also add a tooltip.
-                    $("#matrixTable").find("tbody").find('tr').last().children().last().tooltip({ content: tooltipContent });
+                    $("#" + matrixTableID).find("tbody").find('tr').last().children().last().tooltip({ content: tooltipContent });
                     //TODO: Style with CSS? Somehow these need color-coded backgrounds, right?
                 }
                 else
-                    $("#matrixTable").find("tbody").find('tr').last().append('<td class="' + rightsholderName + '">-</td>');
+                    $("#" + matrixTableID).find("tbody").find('tr').last().append('<td class="' + rightsholderName + '">-</td>');
             });
         });
+
+        return $("#" + matrixTableID); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
     };
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
@@ -83,7 +95,7 @@ function Matrix() {
         };
     }(this);
 
-    monitorTabs.addTabsDiv(this.divID, this.addMonitorTabEvent);
+    monitorTabs.addTabsDiv(this.divID, {addTab : this.addMonitorTabEvent});
 
     //Bind the monitor tab activate event so that the table can be repopulated appropriately.
     //TODO: Implement this. Make sure we don't repopulate when we don't need to.
