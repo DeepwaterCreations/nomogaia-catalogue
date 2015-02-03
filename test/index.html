@@ -18,13 +18,10 @@
                 <a href="#cheeses">Havarti etc.</a>
             </li>
             <li>
-                <a href="#addTopic">Add New Topic</a>
-            </li>
-            <li>
                 <a href="#impactedRights">Impacted Rights</a>
             </li>
         </ul>
-        <div id="beans">
+        <div id="beans" class="tab">
             <div id="matrixMonitorTabs">
                 <ul>
                     <!--<li>
@@ -50,55 +47,51 @@
                 </div>-->
             </div>
         </div>
-        <div id="clocks">
+        <div id="clocks" class="tab">
             <input type="text" id="searchInput" />
-			<input type="button" id="sortButton" value="Sort" />
-			<table id="myTable">
-				<thead>
-					<tr></tr>
-				</thead>
-			</table>
-			<input type="button" id="addRow" value="Add" />
+            <input type="button" id="sortButton" value="Sort" />
+            <table id="myTable">
+                <thead>
+                    <tr></tr>
+                </thead>
+            </table>
+            <input type="button" id="addRow" value="Add" />
+            <form action="#">
+                <fieldset>
+                    <label for="catalogSelect">Catalog:</label>
+                    <select name="catalog" id="catalogSelect"></select><br />
+
+                    <label for="categorySelect">Category:</label>
+                    <select name="category" id="categorySelect"></select><br />
+
+                    <label for="subcategorySelect">Subcategory:</label>
+                    <select name="subcategory" id="subcategorySelect"></select><br />
+
+                    <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
+
+                    <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="10" id="topicDescTextBox"></textarea><br />
+
+                    <input type="button" id="addTopicButton" value="Add Topic" />
+                </fieldset>
+            </form>
         </div>
-        <div id="cheeses">
+        <div id="cheeses" class="tab">
             <input type="file" id="chooseFile" />
             <input type="button" id="readFileButton" value="Read File" />
             <input type="button" id="writeFileButton" value="Write File" />
             <div id="fileedit">
-                <textarea name="fileText" cols="50" rows="50" id="fileTextBox" > </textarea>
+                <textarea name="fileText" cols="50" rows="50" id="fileTextBox"> </textarea>
             </div>
         </div>
-        <div id="addTopic">
-            <form action="#">
-                <fieldset>
-                    <label for="catalogSelect">Catalog:</label>
-                    <select name="catalog" id="catalogSelect"></select><br/>
-
-                    <label for="categorySelect">Category:</label>
-                    <select name="category" id="categorySelect"></select><br/>
-
-                    <label for="subcategorySelect">Subcategory:</label>
-                    <select name="subcategory" id="subcategorySelect"></select><br/>
-
-                    <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
-
-                    <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="10" id="topicDescTextBox" ></textarea><br/>
-
-                    <input type="button" id="addTopicButton" value="Add Topic"/>
-                </fieldset>
-            </form>
-        </div>
-        <div id="beans">
-            <div id="impactedRights">
-                <table id="impactedRightsTable" border="1">
-                    <thead>
-                        <tr>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+        <div id="impactedRights" class="tab">
+            <table id="impactedRightsTable" border="1">
+                <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
 
@@ -106,9 +99,9 @@
     <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="RowData.js"></script>
-    <script type="text/javascript" src="TableData.js" ></script>
+    <script type="text/javascript" src="TableData.js"></script>
     <script type="text/javascript" src="TableUI.js"></script>
-    <script type="text/javascript" src="RowUI.js" ></script>
+    <script type="text/javascript" src="RowUI.js"></script>
     <script type="text/javascript" src="Table.js"></script>
     <script type="text/javascript" src="CategoryHierarchy.js"></script>
     <script type="text/javascript" src="FileReadWrite.js"></script>
@@ -122,41 +115,43 @@
     <script type="text/javascript">
         $("#tabs").tabs();
     </script>
+    <style type="text/css" src="Test.css"></style>
     <style type="text/css">
         .ui-tabs-vertical {
             width: 55em;
         }
 
-        .ui-tabs-vertical .ui-tabs-nav {
-            padding: .2em .1em .2em .2em;
-            float: left;
-            width: 12em;
-        }
+            .ui-tabs-vertical .ui-tabs-nav {
+                padding: .2em .1em .2em .2em;
+                float: left;
+                width: 12em;
+            }
 
-        .ui-tabs-vertical .ui-tabs-nav li {
-            clear: left;
-            width: 100%;
-            border-bottom-width: 1px !important;
-            border-right-width: 0 !important;
-            margin: 0 -1px .2em 0;
-        }
+                .ui-tabs-vertical .ui-tabs-nav li {
+                    clear: left;
+                    width: 100%;
+                    border-bottom-width: 1px !important;
+                    border-right-width: 0 !important;
+                    margin: 0 -1px .2em 0;
+                }
 
-        .ui-tabs-vertical .ui-tabs-nav li a {
-            display: block;
-        }
+                    .ui-tabs-vertical .ui-tabs-nav li a {
+                        display: block;
+                    }
 
-        .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
-            padding-bottom: 0;
-            padding-right: .1em;
-            border-right-width: 1px;
-            border-right-width: 1px;
-        }
+                    .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+                        padding-bottom: 0;
+                        padding-right: .1em;
+                        border-right-width: 1px;
+                        border-right-width: 1px;
+                    }
 
-        .ui-tabs-vertical .ui-tabs-panel {
-            padding: 1em;
-            float: right;
-            width: 40em;
-        }
+            .ui-tabs-vertical .ui-tabs-panel {
+                padding: 1em;
+                float: right;
+                width: 40em;
+            }
     </style>
+
 </body>
 </html>
