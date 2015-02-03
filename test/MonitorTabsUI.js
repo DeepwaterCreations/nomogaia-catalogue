@@ -1,8 +1,13 @@
 ﻿
 
 function MonitorTabs() {
-    this.tabsDivList = [];
-    this.tabsDivAddTabFunctions = [];
+    //this.TabsDiv = {
+    //    tabsObj: "",
+    //    addTab: function (id, count) { }, //id is the HTML id, count is the index of the new tab.
+    //    changeTab: function (newlyActiveTab) { } //newlyActiveTab is the index of the activated tab.
+    //};
+    this.tabsDivList = []; //Stores tabDivs.
+
 
     this.addTabLabel = "Add";
     this.newTabLabel = "New Tab";
@@ -27,8 +32,10 @@ function MonitorTabs() {
         console.log("Nalyd: tabCount: " + this.tabCount);
 
         this.tabsDivList.forEach(function (tabsDiv) {
-            if (tabsDiv.tabs("option", "active") !== newlyActiveTab)
-                tabsDiv.tabs("option", "active", newlyActiveTab);
+            if (tabsDiv.tabsObj.tabs("option", "active") !== newlyActiveTab){
+                tabsDiv.tabsObj.tabs("option", "active", newlyActiveTab);
+                tabsDiv.changeTab(newlyActiveTab);
+            }   
         });
     };
 
@@ -40,24 +47,23 @@ function MonitorTabs() {
                 
         var that = this; //Seriously, though, Javascript? SERIOUSLY?
         this.tabsDivList.forEach(function (tabsDiv) {
-            tabsDiv.find('.' + that.addTabClass).before(liString);
-            tabsDiv.append('<div id="' + id + '"></div>');
+            tabsDiv.tabsObj.find('.' + that.addTabClass).before(liString);
+            tabsDiv.tabsObj.append('<div id="' + id + '"></div>');
 
-            tabsDiv.tabs("refresh");
-            tabsDiv.tabs("option", "active", count);
-        });
-       
-        this.tabsDivAddTabFunctions.forEach(function(tabsFunc){
-            tabsFunc(id, count);
-        });
+            tabsDiv.tabsObj.tabs("refresh");
+            tabsDiv.tabsObj.tabs("option", "active", count);
+
+            tabsDiv.addTab(id, count);
+        });       
     }
 
     //Makes the div a JqueryUI tabs widget, styles it as vertical, and adds it to the list.
     //tabsDivFunc will be called whenever a new tab is added so that each tabDiv can populate the tab appropriately.
-    this.addTabsDiv = function (tabsDivID, tabsDivAddTabFunc) {
-        this.tabsDivList.push($("#" + tabsDivID).tabs().addClass("ui-tabs-vertical ui-helper-clearfix"));
+    this.addTabsDiv = function (tabsDivID, functionObj) {
+        var newTabsDiv = {};
+        newTabsDiv.tabsObj = $("#" + tabsDivID).tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
         $("#" + tabsDivID + " li").removeClass("ui-corner-top").addClass("ui-corner-left");
-
+        
         //Bind the activate event to a method for making sure all the tabsDivs are linked.
         var that = this;
         $("#" + tabsDivID).tabs({
@@ -76,8 +82,11 @@ function MonitorTabs() {
 
         $("#" + tabsDivID).tabs("refresh");
 
-        //Add the tabDiv's function to the list.
-        this.tabsDivAddTabFunctions.push(tabsDivAddTabFunc);
+        //Add the functions.
+        newTabsDiv.addTab = (functionObj.addTab || function () { });
+        newTabsDiv.changeTab = (functionObj.changeTab || function () { });
+
+        this.tabsDivList.push(newTabsDiv);
     }       
 };
 
