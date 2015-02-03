@@ -1,5 +1,5 @@
 ﻿function rightHasEntries(rightName, monitorTables) {
-    for (var i=0;i<monitorTables.backingData.length;i++) {
+    for (var i = 0; i < monitorTables.backingData.length; i++) {
         if (monitorTables.backingData[i].tableData.getRows("Impacted Rights", rightName).length != 0) {
             return true;
         }
@@ -7,6 +7,7 @@
     return false;
 }
 
+// context is true or false
 function filterRows(rows, module, context) {
     // if we are looking at a specific module
     // filter out all the rows not in that module
@@ -113,34 +114,57 @@ function rebuildImpactedRights(monitorTable, index) {
     headerString += "</tr>";
     impactedRightsTable.find("thead").append(headerString);
 
-    //Add the rows
-    table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
+    //Sort the right from most to least impacted
 
-        if (rightHasEntries(rightName,monitorTable)) {
+    var allRights = table.tableData.columnOptions["Impacted Rights"];
 
-            //add an empty row
-            impactedRightsTable.find("tbody").append('<tr class="' + toClassName(rightName) + '"></tr>');
-            var rowBeingAdded = impactedRightsTable.find("." + toClassName(rightName));
+    var impactedRights = [];
 
-            // add the title row
-            rowBeingAdded.append('<td class="Right">' + rightName + '</td>')
-
-            // add the context
-            var contextRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), "None", true);
-            rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
-            console.log("Colin", rowBeingAdded.find("." + toClassName(rightName) + ".Context"));
-            rowBeingAdded.find("." + toClassName(rightName) + ".Context").tooltip({ content: getToolTip(contextRows) });
-
-            //Add the cells
-            modules.forEach(function (myModule) {
-
-                // find the average score for the rows
-                var moduleRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), myModule, false);
-                rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
-                rowBeingAdded.find("." + toClassName(rightName) + "." + myModule).tooltip({ content: getToolTip(moduleRows) });
-
-            });
+    // we are not interested in rights with no entiries
+    allRights.forEach(function (rightName) {
+        if (rightHasEntries(rightName, monitorTable)) {
+            impactedRights.push(rightName);
         }
+    });
+
+    //sort the rows by most impacted
+    //TODO we are currently using the first table, would it be better to use the newest?
+    impactedRights.sort(function (rightA, rightB) {
+        var rightARows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightA), "", false);
+        var rightBRows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightB), "", false);
+        var diff = getAverage(rightBRows) - getAverage(rightARows);
+        if (diff != 0) {
+            return diff;
+        } else {
+            var innerRightARows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightA), "", true);
+            var innerRightBRows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightB), "", true);
+            return getAverage(innerRightBRows) - getAverage(innerRightARows);
+        }
+    });
+
+    impactedRights.forEach(function (rightName) {
+
+        //add an empty row
+        impactedRightsTable.find("tbody").append('<tr class="' + toClassName(rightName) + '"></tr>');
+        var rowBeingAdded = impactedRightsTable.find("." + toClassName(rightName));
+
+        // add the title row
+        rowBeingAdded.append('<td class="Right">' + rightName + '</td>')
+
+        // add the context
+        var contextRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), "None", true);
+        rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
+        console.log("Colin", rowBeingAdded.find("." + toClassName(rightName) + ".Context"));
+        rowBeingAdded.find("." + toClassName(rightName) + ".Context").tooltip({ content: getToolTip(contextRows) });
+
+        //Add the cells
+        modules.forEach(function (myModule) {
+
+            // find the average score for the rows
+            var moduleRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), myModule, false);
+            rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
+            rowBeingAdded.find("." + toClassName(rightName) + "." + myModule).tooltip({ content: getToolTip(moduleRows) });
+        });
     });
 }
 

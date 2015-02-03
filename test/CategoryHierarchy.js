@@ -116,22 +116,6 @@
 
     // returns a list of Categories for a given catalog
     this.getCategories = function (catalog) {
-        /*var result = [];
-        if (catalog == undefined || catalog == '-') {
-            for (var catalog in this.hierarchy) {
-                var categories = this.hierarchy[catalog];
-                for (var category in categories) {
-                    if (result.indexOf(category) == -1) {
-                        result.push(category);
-                    }
-                }
-            }
-        } else {
-            for (var key in this.hierarchy[catalog]) {
-                result.push(key);
-            }
-        }
-        return result;*/
 
         var result = [];
 
@@ -167,7 +151,6 @@
 
     // returns a list of topics for a given catalog, category and SubCategories
     this.getTopics = function (catalog, category, subCategory) {
-        console.log("Colin - " + catalog + " " + category + " " + subCategory);
         var result = [];
 
         var topicsDown = function(topics){
@@ -318,6 +301,8 @@
         }
         return result;
     }
+
+
     this.getTopicInstance = function (topicString) {
         var catalog = this.getTopicCatalogs(topicString);
         var category = this.getTopicCategories(topicString);
