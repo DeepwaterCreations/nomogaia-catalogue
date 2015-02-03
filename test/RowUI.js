@@ -205,12 +205,14 @@ function RowUI(table,rowData) {
     this.toSelect2WithAdd("Impacted Rights");
     this.toSelect2WithAdd("Module");
 
-    //this probably goes in a for loop too someday
+    //TODO this probably goes in a for loop someday
     if (rowData != undefined) {
         this.setUIValue('Catalog', this.data.getData('Catalog'));
         this.setUIValue('Category', this.data.getData('Category'));
         this.setUIValue('Sub-Category', this.data.getData('Sub-Category'));
         this.setUIValue('Topic', this.data.getData('Topic'));
+        this.setUIValue('Source', this.data.getData('Source'));
+        this.setUIValue('Module', this.data.getData('Module'));
     }
     
     for (var i in columnList) {
@@ -351,6 +353,7 @@ function RowUI(table,rowData) {
         this.data.setData('Category', this.getUIValue('Category'));
         this.data.setData('Sub-Category', this.getUIValue('Sub-Category'));
         this.data.setData('Topic', this.getUIValue('Topic'));
+        this.data.setData('Module', this.getUIValue('Module'));
     }
 
     //TODO add the approprate listeners to data
