@@ -24,6 +24,7 @@ function MonitorTabs() {
     };
 
     //When a tabDiv changes tabs, this is called to coordinate between all tabDivs.
+    //TODO: This seems to get called too many times when I create a new tab? 
     this.changeToTab = function (source) {
         var newlyActiveTab = $(source).tabs("option", "active");
         if (newlyActiveTab === this.tabCount) return; //I *think* this is the case where it's the "add tab" tab? 
@@ -32,10 +33,10 @@ function MonitorTabs() {
         console.log("Nalyd: tabCount: " + this.tabCount);
 
         this.tabsDivList.forEach(function (tabsDiv) {
-            if (tabsDiv.tabsObj.tabs("option", "active") !== newlyActiveTab){
+            //if (tabsDiv.tabsObj.tabs("option", "active") !== newlyActiveTab){ //This if is being false when it shouldn't. I think the tabs("option", "active") is already up to date by the time we get here...? 
                 tabsDiv.tabsObj.tabs("option", "active", newlyActiveTab);
                 tabsDiv.changeTab(newlyActiveTab);
-            }   
+            //}   
         });
     };
 
@@ -44,7 +45,11 @@ function MonitorTabs() {
         var count = this.tabCount++;
         var id = "newTab" + count;
         var liString = '<li><a href="#' + id + '">' + this.newTabLabel + '</a></li>';
-                
+           
+        //Tell MonitorTables to create a new table.
+        monitorTables.addTable();
+
+        //Update the tabDivs so they display the new tab.
         var that = this; //Seriously, though, Javascript? SERIOUSLY?
         this.tabsDivList.forEach(function (tabsDiv) {
             tabsDiv.tabsObj.find('.' + that.addTabClass).before(liString);
@@ -54,7 +59,7 @@ function MonitorTabs() {
             tabsDiv.tabsObj.tabs("option", "active", count);
 
             tabsDiv.addTab(id, count);
-        });       
+        });
     }
 
     //Makes the div a JqueryUI tabs widget, styles it as vertical, and adds it to the list.
