@@ -24,6 +24,7 @@ function MonitorTabs() {
     };
 
     //When a tabDiv changes tabs, this is called to coordinate between all tabDivs.
+    //TODO: This seems to get called too many times when I create a new tab? 
     this.changeToTab = function (source) {
         var newlyActiveTab = $(source).tabs("option", "active");
         if (newlyActiveTab === this.tabCount) return; //I *think* this is the case where it's the "add tab" tab? 
@@ -32,10 +33,10 @@ function MonitorTabs() {
         console.log("Nalyd: tabCount: " + this.tabCount);
 
         this.tabsDivList.forEach(function (tabsDiv) {
-            if (tabsDiv.tabsObj.tabs("option", "active") !== newlyActiveTab){
+            //if (tabsDiv.tabsObj.tabs("option", "active") !== newlyActiveTab){ //This if is being false when it shouldn't. I think the tabs("option", "active") is already up to date by the time we get here...? 
                 tabsDiv.tabsObj.tabs("option", "active", newlyActiveTab);
                 tabsDiv.changeTab(newlyActiveTab);
-            }   
+            //}   
         });
     };
 

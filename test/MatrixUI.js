@@ -95,7 +95,16 @@ function Matrix() {
         };
     }(this);
 
-    monitorTabs.addTabsDiv(this.divID, {addTab : this.addMonitorTabEvent});
+    this.changeMonitorTabEvent = function (that) {
+        return function (newlyActiveTab) {
+            that.rebuild(newlyActiveTab); //The index of the tab is currently the same as the monitor. This might change, though. 
+        }
+    }(this);
+
+    monitorTabs.addTabsDiv(this.divID, {
+        addTab: this.addMonitorTabEvent,
+        changeTab: this.changeMonitorTabEvent
+    });
 
     //Bind the monitor tab activate event so that the table can be repopulated appropriately.
     //TODO: Implement this. Make sure we don't repopulate when we don't need to.
