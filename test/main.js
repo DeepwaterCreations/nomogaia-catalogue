@@ -105,7 +105,7 @@ $(document).ready(function () {
     //Currently updates the matrix on every tab change. 
     //TODO: Make the matrix tab not be the first active one, or else change it so it builds on creation.
     $('#tabs').on('tabsactivate', function (event, data) {
-        rebuildImpactedRights(monitorTables);
+        rebuildImpactedRights(monitorTables,0);
     });
 
     $('#catalog').selectmenu();

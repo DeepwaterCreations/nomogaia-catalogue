@@ -1,4 +1,13 @@
-﻿function filterRows(rows, module, context) {
+﻿function rightHasEntries(rightName, monitorTables) {
+    for (var i=0;i<monitorTables.backingData.length;i++) {
+        if (monitorTables.backingData[i].tableData.getRows("Impacted Rights", rightName).length != 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function filterRows(rows, module, context) {
     // if we are looking at a specific module
     // filter out all the rows not in that module
     if (module != "") {
@@ -30,25 +39,37 @@ function getAverage(rows) {
     return average;
 }
 
+function toClassName(column) {
+    return column.replace(/ /g, '_');
+}
+
 function getToolTip(rows) {
 
     var tooltipContent = "";
     rows.forEach(function (row) {
 
-        tooltipContent += '<b>' + row["Topic"] + ': '+ row["Score"]+ '</b>';
-        tooltipContent += '<p>' + row["Input"] + '</p>';
+        tooltipContent += '<b>' + row["Topic"] + ': ' + row["Score"] + '</b>';
+        if (row["Input"] != undefined) {
+            tooltipContent += '<p>' + row["Input"] + '</p>';
+        } else {
+            tooltipContent += '<br>';
+        }
     });
+
+    if (tooltipContent == "") {
+        tooltipContent = "No entires";
+    }
 
     return tooltipContent;
 }
 
 function getCell(myRows, classes) {
-    return '<td class="' + classes + '">' + getAverage(myRows) + '</td>';
+    return '<td title="" class="' + classes + '">' + getAverage(myRows) + '</td>';
 }
 
-function rebuildImpactedRights(monitorTable) {
+function rebuildImpactedRights(monitorTable, index) {
 
-    var table = monitorTable.backingData[0];
+    var table = monitorTable.backingData[index];
 
     var impactedRightsTable = $("#impactedRightsTable");
     //First clear what's already there.
@@ -59,12 +80,8 @@ function rebuildImpactedRights(monitorTable) {
     impactedRightsTable.append("<tbody></tbody>");
     //Add the column headings
 
-    var headersList1 = ["", "Context"];
-    var headersList2 = ["Right"];
-    for (var i = 0; i < monitorTable.backingData.length; i++) {
-        headersList2.push(i + "");
-    }
-    var headerWidths = { "Right": 1, "Context": monitorTable.backingData.length}
+    var headersList = ["Right", "Context"];
+
 
     var moduleIsUsed = function (module) {
         for (var j = 0; j < monitorTable.backingData.length; j++) {
@@ -84,83 +101,45 @@ function rebuildImpactedRights(monitorTable) {
     table.tableData.getColumnOptions("Module").forEach(function (module) {
         if (moduleIsUsed(module)) {
             modules.push(module);
-            headersList1.push(module);
-            headerWidths[module + ""] = monitorTable.backingData.length;
-            for (var i = 0; i < monitorTable.backingData.length; i++) {
-                headersList2.push(i + "");
-            }
+            headersList.push(module);
         }
     })
 
     //Add the first row of headers
-    var headerString1 = "<tr>"
-    headersList1.forEach(function (header) {
-        headerString1 += '<th title="">' + header + '</th>';
+    var headerString = "<tr>"
+    headersList.forEach(function (header) {
+        headerString += '<th title="">' + header + '</th>';
     });
-    headerString1 += "</tr>";
-    impactedRightsTable.find("thead").append(headerString1);
-
-    //Add the second row of headers
-    var headerString2 = "<tr>"
-    headersList2.forEach(function (header) {
-        headerString2 += '<th title="">' + header + '</th>';
-    });
-    headerString2 += "</tr>";
-    impactedRightsTable.find("thead").append(headerString2);
+    headerString += "</tr>";
+    impactedRightsTable.find("thead").append(headerString);
 
     //Add the rows
     table.tableData.columnOptions["Impacted Rights"].forEach(function (rightName) {
 
-        // string Context/Module: {Monitor"+i : tooltip }
-        var toolTips = {}
+        if (rightHasEntries(rightName,monitorTable)) {
 
-        if (table.tableData.getRows("Impacted Rights", rightName).length != 0) {
+            //add an empty row
+            impactedRightsTable.find("tbody").append('<tr class="' + toClassName(rightName) + '"></tr>');
+            var rowBeingAdded = impactedRightsTable.find("." + toClassName(rightName));
 
-            var rowString = '<tr class="' + rightName + '">';
-
-            // add the name
-            rowString += '<td>' + rightName + '</td>';
+            // add the title row
+            rowBeingAdded.append('<td class="Right">' + rightName + '</td>')
 
             // add the context
-            for (var i = 0; i < monitorTable.backingData.length; i++) {
-                var myRows = filterRows(monitorTable.backingData[i].tableData.getRows("Impacted Rights", rightName), "None", true);
-                if ("Context" in toolTips) {
-                    toolTips["Context"]["Monitor" + i] = getToolTip(myRows);
-                } else {
-                    toolTips["Context"] = {};
-                    toolTips["Context"]["Monitor" + i] = getToolTip(myRows);
-                }
-                rowString += getCell(myRows, rightName + " Monitor"+i + " Context");
-            }
-            
+            var contextRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), "None", true);
+            rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
+            console.log("Colin", rowBeingAdded.find("." + toClassName(rightName) + ".Context"));
+            rowBeingAdded.find("." + toClassName(rightName) + ".Context").tooltip({ content: getToolTip(contextRows) });
+
             //Add the cells
             modules.forEach(function (myModule) {
 
                 // find the average score for the rows
-                // add the context
-                for (var i = 0; i < monitorTable.backingData.length; i++) {
-                    var myRows = filterRows(monitorTable.backingData[i].tableData.getRows("Impacted Rights", rightName), myModule, false);
-                    if (myModule + "" in toolTips) {
-                        toolTips[myModule+""]["Monitor" + i] = getToolTip(myRows);
-                    } else {
-                        toolTips[myModule + ""] = {};
-                        toolTips[myModule + ""]["Monitor" + i] = getToolTip(myRows);
-                    }
-                    rowString += getCell(myRows, rightName + " Monitor" + i + " " + myModule);
-                }
-                
-            });
-            // actully add the row
-            rowString += '</tr>';
-            impactedRightsTable.find("tbody").append(rowString);
+                var moduleRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), myModule, false);
+                rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
+                rowBeingAdded.find("." + toClassName(rightName) + "." + myModule).tooltip({ content: getToolTip(moduleRows) });
 
-            console.log("Colin", toolTips);
-            // now we need to add all the tool tips
-            for (var module in toolTips) {
-                for (var monitor in toolTips[module]) {
-                    impactedRightsTable.find("." + module + " ." + monitor).tooltip({ content: toolTips[module][monitor] });
-                }
-            }
+            });
         }
     });
 }
