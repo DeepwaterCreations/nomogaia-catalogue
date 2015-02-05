@@ -110,7 +110,6 @@ $(document).ready(function () {
     });
 
     //TODO: Check event.target or ui.newTab or whatever to make sure the tab being activated is the relevant one.
-    //I think also that currently events from the monitor tabs are bubbling up to the parent tabs and being caught here, even though they shouldn't be. 
     $('#tabs').on('tabsactivate', function (event, data) {
         if (event.target === this) { //Filters to make sure this event came from the right source. Without it, we can get tabactivate events from the monitor tabs here as well as the actual page tabs. 
             //if (data.newTab === $("#matrixTab")){ //TODO: This really shouldn't be a hard-coded string. //BUG: It never gets into this condition, and I don't know what data.newTab should be compared to.

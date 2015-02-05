@@ -35,7 +35,7 @@ function MonitorTabs() {
         this.tabsDivList.forEach(function (tabsDiv) {
             //if (tabsDiv.tabsObj.tabs("option", "active") !== newlyActiveTab){ //This if is being false when it shouldn't. I think the tabs("option", "active") is already up to date by the time we get here...? 
                 tabsDiv.tabsObj.tabs("option", "active", newlyActiveTab);
-                tabsDiv.changeTab(newlyActiveTab);
+                if("changeTab" in tabsDiv) tabsDiv.changeTab(newlyActiveTab);
             //}   
         });
     };
@@ -58,8 +58,7 @@ function MonitorTabs() {
 
             tabsDiv.tabsObj.tabs("refresh");
             tabsDiv.tabsObj.tabs("option", "active", count);
-
-            tabsDiv.addTab(id, count);
+            if("addTab" in tabsDiv) tabsDiv.addTab(id, count);
         });
     }
     var that = this;
