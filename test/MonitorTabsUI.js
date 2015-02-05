@@ -40,8 +40,22 @@ function MonitorTabs() {
         });
     };
 
-    //Add a new tab, for when the add tab button is clicked.
-    $("#addMonitorDialog").dialog({ autoOpen: false, modal: true });
+    //Defines the dialog that appears when the add tab is clicked.
+    $("#addMonitorDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [
+            {
+                text: "Ok",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ],
+    });
+
+    //Add a new tab, for when the add tab button is clicked. This function is called by the add monitor dialog,
+    //when it closes.
     this.addTab = function (event) {
         var count = this.tabCount++;
         var id = "newTab" + count;
@@ -81,9 +95,10 @@ function MonitorTabs() {
             }
         })
 
-        //Add the "add tab" tab and binds its click event to the addTab function.
+        //Add the "add tab" tab and binds its click event to open the add monitor dialog.
         $("#" + tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#addMonitorTab">' + this.addTabLabel + '</a></li>'); //TODO: Make #addMonitorTab a var.
         $("#" + tabsDivID).find('.' + this.addTabClass).on("click", function () {
+            $("#addMonitorDialog :input").val("");
             $("#addMonitorDialog").dialog("open");
         });
         //Also give the add tab a div.
