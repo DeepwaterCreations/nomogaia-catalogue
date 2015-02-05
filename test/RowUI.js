@@ -91,7 +91,8 @@ function RowUI(table,rowData) {
         return HTMLstring;
     };
 
-    $('#myTable').append(this.genHTMLString());
+    console.log("Colin - body", this.table.body);
+    this.table.body.append(this.genHTMLString());
 
     this.getRow = function () {
         return $('#' + myRow.id);
@@ -163,11 +164,9 @@ function RowUI(table,rowData) {
     };
     this.getValue = function (column) {
         return myRow.data.getData(column);
-        //return this.get(column).val();
     };
     this.setValue = function (column, value) {
         return myRow.data.setData(column, value);
-        //return this.get(column).val(value);
     };
 
     // makes a select a select2
@@ -178,7 +177,7 @@ function RowUI(table,rowData) {
             var backingList = [rowData.getData(className)];
         }
 
-        // make the rightsHolder a awesome multiselect
+        // make the className a awesome multiselect
         this.get(className).select2({
             data: backingList,
         });
@@ -192,13 +191,12 @@ function RowUI(table,rowData) {
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
         var backingList = this.table.tableData.getColumnOptions(className);
-        // make the rightsHolder a awesome multiselect
+        // make classname a select2
         this.get(className).select2({
             data: backingList,
             tags: true,
         });
 
-        // when rights holders is updated update the other rows
         this.get(className).on("select2:select", generateOnSelect(className, backingList));
     }
 
@@ -208,12 +206,12 @@ function RowUI(table,rowData) {
 
     //TODO this probably goes in a for loop someday
     if (rowData != undefined) {
-        this.setUIValue('Catalog', this.data.getData('Catalog'));
-        this.setUIValue('Category', this.data.getData('Category'));
-        this.setUIValue('Sub-Category', this.data.getData('Sub-Category'));
-        this.setUIValue('Topic', this.data.getData('Topic'));
-        this.setUIValue('Source', this.data.getData('Source'));
-        this.setUIValue('Module', this.data.getData('Module'));
+        //this.setUIValue('Catalog', this.data.getData('Catalog'));
+        //this.setUIValue('Category', this.data.getData('Category'));
+        //this.setUIValue('Sub-Category', this.data.getData('Sub-Category'));
+        //this.setUIValue('Topic', this.data.getData('Topic'));
+        //this.setUIValue('Source', this.data.getData('Source'));
+        //this.setUIValue('Module', this.data.getData('Module'));
     }
     
     // pass UI changes on to the dataRow

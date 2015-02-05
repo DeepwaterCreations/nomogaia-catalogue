@@ -39,7 +39,6 @@ RowData = function (rowData) {
     }
 
     if (rowData == undefined) {
-        console.log("Colin - rowData", this);
         this.rowData = null;
         //add empty data
         var that = this;
