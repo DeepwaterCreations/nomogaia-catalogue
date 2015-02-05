@@ -13,6 +13,8 @@ function MonitorTabs() {
     this.newTabLabel = "New Tab";
     this.addTabClass = "addTab"; //Should go in the list item that holds the "Add" tab.
     
+    this.addTabDivLabel = "AddTabDiv";
+
     this.tabCount = 0;
 
     //Returns the index of the active monitor.
@@ -96,13 +98,13 @@ function MonitorTabs() {
         })
 
         //Add the "add tab" tab and binds its click event to open the add monitor dialog.
-        $("#" + tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#addMonitorTab">' + this.addTabLabel + '</a></li>'); //TODO: Make #addMonitorTab a var.
+        $("#" + tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#' + tabsDivID + this.addTabDivLabel + '">' + this.addTabLabel + '</a></li>');
         $("#" + tabsDivID).find('.' + this.addTabClass).on("click", function () {
             $("#addMonitorDialog :input").val("");
             $("#addMonitorDialog").dialog("open");
         });
         //Also give the add tab a div.
-        $("#" + tabsDivID + " ul").after('<div id="addMonitorTab"></div>'); //TODO: Still make #addMonitorTab a var.
+        $("#" + tabsDivID + " ul").after('<div id="' + tabsDivID + this.addTabDivLabel + '"></div>');
 
         $("#" + tabsDivID).tabs("refresh");
 
