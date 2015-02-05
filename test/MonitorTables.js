@@ -18,20 +18,11 @@
         return newTable;
     }
 
-    //getter and setter for count;
-    //var getSetCount = (function () {
-    //    var count = 0;
-    //    return [function () {
-    //        return count;
-    //    },
-    //    function (newCount) {
-    //        count = newCount;
-    //    }]
-    //})();
-    //getCount = getSetCount[0];
-    //setCount = getSetCount[1];
-
-    //this.add = function (table) {
-    //    backingData.push(table);
-    //}
+    this.toOut = function () {
+        var out = [];
+        this.backingData.forEach(function (table) {
+            out.push(table.toOut());
+        });
+        return out;
+    }
 }
