@@ -59,7 +59,7 @@ function MonitorTabs() {
     this.addTab = function (event) {
         var count = this.tabCount++;
         var id = "newTab" + count;
-        var liString = '<li><a href="#' + id + '">' + $("#monitorNameField").val() + '</a></li>';
+        var liString = '<li><a href="#' + id + '">' + ($("#monitorNameField").val() || this.newTabLabel) + '</a></li>';
            
         //Tell MonitorTables to create a new table.
         monitorTables.addTable();
