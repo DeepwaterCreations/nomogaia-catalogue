@@ -76,8 +76,9 @@ function Matrix() {
                     var avg = scoreSum / scoreCount;
                     $("#" + matrixTableID).find("tbody").find('tr').last().append('<td title="" class="' + rightsholderName + '">' + avg + '</td>');
                     //Also add a tooltip.
-                    $("#" + matrixTableID).find("tbody").find('tr').last().children().last().tooltip({ content: tooltipContent });
-                    //TODO: Style with CSS? Somehow these need color-coded backgrounds, right?
+                    var cell = $("#" + matrixTableID).find("tbody").find('tr').last().children().last();
+                    cell.tooltip({ content: tooltipContent });
+                    cell.css("background-color", getBackGroundColor(avg));
                 }
                 else
                     $("#" + matrixTableID).find("tbody").find('tr').last().append('<td class="' + rightsholderName + '">-</td>');

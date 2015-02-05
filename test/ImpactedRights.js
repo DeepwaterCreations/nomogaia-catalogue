@@ -7,6 +7,20 @@
     return false;
 }
 
+function getBackGroundColor(score) {
+    if (score <= -12) {
+        return "red";
+    } else if (score <= -.5) {
+        return "orange";
+    } else if (score < .5) {
+        return "yellow";
+    } else if (score < 12) {
+        return "green";
+    } else {
+        return "blue";
+    }
+}
+
 // context is true or false
 function filterRows(rows, module, context) {
     // if we are looking at a specific module
@@ -89,7 +103,8 @@ function rebuildImpactedRights(monitorTable, index) {
             var myTable = monitorTable.backingData[j];
             for (var i = 0; i < myTable.tableData.rows.length; i++) {
                 var row = myTable.tableData.rows[i];
-                if (row.getData("Module") == module) {
+                if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Score") != "UNINITIALIZED") {
+                    console.log("Colin - passed! ", row);
                     return true;
                 }
             }
@@ -155,7 +170,9 @@ function rebuildImpactedRights(monitorTable, index) {
         var contextRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), "None", true);
         rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
         console.log("Colin", rowBeingAdded.find("." + toClassName(rightName) + ".Context"));
-        rowBeingAdded.find("." + toClassName(rightName) + ".Context").tooltip({ content: getToolTip(contextRows) });
+        var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
+        cell.tooltip({ content: getToolTip(contextRows) });
+        cell.css("background-color", getBackGroundColor(getAverage(contextRows)));
 
         //Add the cells
         modules.forEach(function (myModule) {
@@ -163,7 +180,9 @@ function rebuildImpactedRights(monitorTable, index) {
             // find the average score for the rows
             var moduleRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), myModule, false);
             rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
-            rowBeingAdded.find("." + toClassName(rightName) + "." + myModule).tooltip({ content: getToolTip(moduleRows) });
+            var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + myModule);
+            cell.tooltip({ content: getToolTip(moduleRows) });
+            cell.css("background-color", getBackGroundColor(getAverage(moduleRows)));
         });
     });
 }
