@@ -9,15 +9,15 @@
 
 function getBackGroundColor(score) {
     if (score <= -12) {
-        return "red";
+        return "#FF0000"; //Red
     } else if (score <= -.5) {
-        return "orange";
+        return "#FF9933"; //Orange
     } else if (score < .5) {
-        return "yellow";
+        return "#FFFF33"; //Yellow
     } else if (score < 12) {
-        return "green";
+        return "#66FF99"; //Green
     } else {
-        return "blue";
+        return "#52A4FF"; //Blue
     }
 }
 
