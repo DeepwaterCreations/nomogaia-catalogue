@@ -41,10 +41,11 @@ function MonitorTabs() {
     };
 
     //Add a new tab, for when the add tab button is clicked.
-    this.addTab = function () {
+    $("#addMonitorDialog").dialog({ autoOpen: false, modal: true });
+    this.addTab = function (event) {
         var count = this.tabCount++;
         var id = "newTab" + count;
-        var liString = '<li><a href="#' + id + '">' + this.newTabLabel + '</a></li>';
+        var liString = '<li><a href="#' + id + '">' + $("#monitorNameField").val() + '</a></li>';
            
         //Tell MonitorTables to create a new table.
         monitorTables.addTable();
@@ -61,6 +62,10 @@ function MonitorTabs() {
             tabsDiv.addTab(id, count);
         });
     }
+    var that = this;
+    $("#addMonitorDialog").on("dialogclose", function () {
+        that.addTab.apply(that);
+    });
 
     //Makes the div a JqueryUI tabs widget, styles it as vertical, and adds it to the list.
     //tabsDivFunc will be called whenever a new tab is added so that each tabDiv can populate the tab appropriately.
@@ -80,7 +85,7 @@ function MonitorTabs() {
         //Add the "add tab" tab and binds its click event to the addTab function.
         $("#" + tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#addMonitorTab">' + this.addTabLabel + '</a></li>'); //TODO: Make #addMonitorTab a var.
         $("#" + tabsDivID).find('.' + this.addTabClass).on("click", function () {
-            that.addTab.apply(that);
+            $("#addMonitorDialog").dialog("open");
         });
         //Also give the add tab a div.
         $("#" + tabsDivID + " ul").after('<div id="addMonitorTab"></div>'); //TODO: Still make #addMonitorTab a var.
@@ -92,7 +97,7 @@ function MonitorTabs() {
         newTabsDiv.changeTab = (functionObj.changeTab || function () { });
 
         this.tabsDivList.push(newTabsDiv);
-    }       
+    }
 };
 
 var monitorTabs = new MonitorTabs();
