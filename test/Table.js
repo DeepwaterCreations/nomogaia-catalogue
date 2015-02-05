@@ -6,7 +6,10 @@ function Table(categoryHierarchy) {
     this.nextId = function () {
         return this.id++;
     }
-    
+
+    this.toOut = function () {
+        return this.tableData.toOut();
+    }
 
     this.tableUI = new TableUI();
     this.tableData = new TableData(categoryHierarchy);

@@ -13,6 +13,7 @@ function RowUI(table,rowData) {
     this.table = table;
     this.id = table.nextId();
     if (rowData == undefined) {
+        console.log("Colin - adding a row", rowData);
         this.data = table.tableData.addRow();
     } else {
         this.data = rowData;

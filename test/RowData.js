@@ -1,11 +1,30 @@
-﻿//Holds the data for a single row.
+﻿//TODO to closure?
+var rowDataId = 0;
+
+//Holds the data for a single row.
 RowData = function (rowData) {
+    this.id = rowDataId++;
 
     // is a dictonary columnName: [listeners...]
     this.listenFunctions = {};
 
     // a list of functions we are using to listen to the row we are rapping
     this.listeningWith = [];
+
+    this.toOut = function () {
+        // we need a unique identifier for each one so we can "point" to other rowData if we have to
+        var out = {};
+        out["id"] = this.id;
+        if (this.rowData == null) {
+            var that = this;
+            columnList.forEach(function (columnName) {
+                out[columnName] = that[columnName];
+            });
+        } else {
+            out["pointsTo"] = this.rowData.id;
+        }
+        return out;
+    }
 
     // generates a function that calls our listeners
     this.callMyListeners = function (myRowData, columnName) {
@@ -20,10 +39,12 @@ RowData = function (rowData) {
     }
 
     if (rowData == undefined) {
+        console.log("Colin - rowData", this);
         this.rowData = null;
         //add empty data
+        var that = this;
         columnList.forEach(function (columnName) {
-            this[columnName] = "UNINITIALIZED";
+            that[columnName] = "UNINITIALIZED";
         });
     } else {
         this.rowData = rowData;

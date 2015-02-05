@@ -102,6 +102,13 @@ $(document).ready(function () {
     $('#sortButton').click(onClickSort);
     $('.CatalogHeader').click(updateSearchColumn);
 
+    $('#save').click(function () {
+        console.log("Colin - toOut",monitorTables.toOut());//JSON.stringify()
+    });
+    $('#load').click(function () {
+        console.log("Colin - row1", monitorTables);//JSON.stringify()
+    });
+
     //TODO: Check event.target or ui.newTab or whatever to make sure the tab being activated is the relevant one.
     //I think also that currently events from the monitor tabs are bubbling up to the parent tabs and being caught here, even though they shouldn't be. 
     $('#tabs').on('tabsactivate', function (event, data) {

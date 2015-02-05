@@ -18,6 +18,14 @@ function TableData(categoryHierarchy) {
         return newRow;
     };
 
+    this.toOut = function () {
+        var out = [];
+        this.rows.forEach(function (row) {
+            out.push(row.toOut());
+        });
+        return out;
+    }
+
     //Returns an array with all the rows for which the "columnName" value contains "data". 
     //If "columnName" holds an array, includes the row in the return values if that array contains "data".
     this.getRows = function (columnName, data) {
