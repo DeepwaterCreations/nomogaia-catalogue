@@ -91,7 +91,6 @@ function RowUI(table,rowData) {
         return HTMLstring;
     };
 
-    console.log("Colin - body", this.table.body);
     this.table.body.append(this.genHTMLString());
 
     this.getRow = function () {

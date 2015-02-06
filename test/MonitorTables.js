@@ -25,4 +25,32 @@
         });
         return out;
     }
+
+    //this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
+    //    return function (id, count) {
+    //        var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
+    //        $("#" + that.divID).find('#' + id, 'div').append(tableTemplate);
+    //        that.rebuild(monitorTabs.getActiveMonitor());
+    //    };
+    //}(this);
+    var that = this;
+    this.changeMonitorTabEvent = function (that) {
+        return function (newlyActiveTab) {
+            // hide all the tables except the currently active one
+            that.backingData.forEach(function (table) {
+                if (table.id == newlyActiveTab) {
+                    table.getTable().show();
+                } else {
+                    table.getTable().hide();
+                }
+            });
+        }
+    }(this);
+
+    this.divID = "catalogMonitorTabs"
+
+    monitorTabs.addTabsDiv(this.divID, {
+        //addTab: this.addMonitorTabEvent,
+        changeTab: this.changeMonitorTabEvent
+    });
 }
