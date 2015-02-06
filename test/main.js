@@ -1,6 +1,7 @@
 //This is the list of column names. Populate the html table from here.
 var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score"];
 
+var fs = require("fs");
 var filename = "TopicInfoTest.txt";
 var buf = fs.readFileSync(filename, "utf8");//
 console.log(buf);
