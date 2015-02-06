@@ -1,4 +1,19 @@
-﻿var filepath = "";
+﻿$('#save').click(function () {
+    var fileDialog = $("#saveFileDialog");
+    fileDialog.change(function (event) {
+        //Stuff...?
+        console.log("Nalyd - toOut " + $(this).val());
+    });
+    fileDialog.trigger("click");
+    console.log("Colin - toOut", monitorTables.toOut());//JSON.stringify()
+});
+
+$('#load').click(function () {
+    console.log("Colin - row1", monitorTables);//JSON.stringify()
+});
+
+//-----
+var filepath = "";
 
 //When a file is selected, get the filepath and set 'filepath' to it.
 $('#chooseFile').change(function (event) {
