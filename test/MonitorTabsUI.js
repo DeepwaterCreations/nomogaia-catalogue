@@ -10,7 +10,7 @@ function MonitorTabs() {
 
 
     this.addTabLabel = "Add";
-    this.newTabLabel = "New Tab";
+    this.newTabLabel = "Monitor #";
     this.addTabClass = "addTab"; //Should go in the list item that holds the "Add" tab.
     
     this.addTabDivLabel = "AddTabDiv";
@@ -60,8 +60,8 @@ function MonitorTabs() {
     //when it closes.
     this.addTab = function (event) {
         var count = this.tabCount++;
-        var id = "newTab" + count;
-        var liString = '<li><a href="#' + id + '">' + ($("#monitorNameField").val() || this.newTabLabel) + '</a></li>';
+        var id = "monitorTab" + count;
+        var liString = '<li><a href="#' + id + '">' + (count === 0 ? "Initial": this.newTabLabel + count) + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
            
         //Tell MonitorTables to create a new table.
         monitorTables.addTable();

@@ -89,4 +89,6 @@ $(document).ready(function () {
     $('#catalog').selectmenu();
     $('#category').selectmenu();
     $('#subcategory').selectmenu();
+
+    monitorTabs.addTab();
 });
