@@ -86,6 +86,7 @@ function MonitorTabs() {
     //tabsDivFunc will be called whenever a new tab is added so that each tabDiv can populate the tab appropriately.
     this.addTabsDiv = function (tabsDivID, functionObj) {
         var newTabsDiv = {};
+        $("#" + tabsDivID).append("<ul></ul>");
         newTabsDiv.tabsObj = $("#" + tabsDivID).tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
         $("#" + tabsDivID + " li").removeClass("ui-corner-top").addClass("ui-corner-left");
         
