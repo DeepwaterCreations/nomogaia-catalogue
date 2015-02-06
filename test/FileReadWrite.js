@@ -1,18 +1,34 @@
 ﻿var fs = require('fs');
+
+//What we're basically doing with these is using the button's onClick to trigger the (hidden) file input's onClick. That way, we get the dialog but not the
+//standard filepath-and-"choose-file"-button UI element from the file input. See https://github.com/nwjs/nw.js/wiki/File-dialogs
 $('#save').click(function () {
     var fileDialog = $("#saveFileDialog");
-    fileDialog.change(function (event) {
+    fileDialog.on("change", function (event) {
         console.log("Nalyd - toOut " + $(this).val());
 
         var filew = fs.createWriteStream($(this).val());
         filew.write(JSON.stringify(monitorTables.toOut()));
     });
     fileDialog.trigger("click");
-    console.log("Colin - toOut", monitorTables.toOut());//JSON.stringify()
+    //console.log("Colin - toOut", monitorTables.toOut());//JSON.stringify()
 });
 
 $('#load').click(function () {
-    console.log("Colin - row1", monitorTables);//JSON.stringify()
+    var fileDialog = $("#loadFileDialog");
+    fileDialog.on("change", function (event) {
+        console.log("Nalyd - toOut " + $(this).val());
+
+        var filer = fs.createReadStream($(this).val());
+        filer.setEncoding('utf8');
+        filer.on('data', function (chunk) {
+            console.log(chunk);
+            $('#fileTextBox').val(chunk);
+        })
+    });
+
+    fileDialog.trigger("click");
+    //console.log("Colin - row1", monitorTables);//JSON.stringify()
 });
 
 //-----
