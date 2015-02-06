@@ -1,6 +1,3 @@
-//Testing Node.js filesystem stuff
-var fs = require('fs');
-
 //This is the list of column names. Populate the html table from here.
 var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score"];
 
@@ -35,10 +32,6 @@ var onClickAdd = function () {
     table.addRow();
 };
 
-function onClickSort() {
-    //
-}
-
 $(document).ready(function () {
     // we need to add all the rows with module =None to the table
     var topicList = categoryHierarchy.getTopics();
@@ -66,7 +59,6 @@ $(document).ready(function () {
 
     $('#addRow').click(onClickAdd);
     $('#searchInput').keyup(searchTable);
-    $('#sortButton').click(onClickSort);
     $('.CatalogHeader').click(updateSearchColumn);
 
     //TODO: Check event.target or ui.newTab or whatever to make sure the tab being activated is the relevant one.
