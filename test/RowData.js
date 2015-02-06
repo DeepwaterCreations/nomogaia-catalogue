@@ -26,6 +26,21 @@ RowData = function (rowData) {
         return out;
     }
 
+    this.populateFromJason = function (objRow) {
+        this.id = objRow.id;
+
+        if ("pointsTo" in objRow) {
+            //TODO: Figure this the heck out.
+        }
+        else{
+            var that = this;
+            columnList.forEach(function (columnName) {
+                that[columnName] = objRow[columnName];
+            });
+        }
+        return this;
+    }
+
     // generates a function that calls our listeners
     this.callMyListeners = function (myRowData, columnName) {
         return function (caller) {

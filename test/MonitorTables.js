@@ -26,6 +26,13 @@
         return out;
     }
 
+    this.makeFromFile = function (JSONstring) {
+        //First, clear the existing data.
+        this.backingData = [];
+
+
+    }
+
     //this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
     //    return function (id, count) {
     //        var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';

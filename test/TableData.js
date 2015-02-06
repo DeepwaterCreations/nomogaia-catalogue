@@ -26,6 +26,16 @@ function TableData(categoryHierarchy) {
         return out;
     }
 
+    this.populateFromJSON = function (objFromFile) {
+        //Start by clearing the existing data.
+        this.rows = [];
+
+        var that = this;
+        objFromFile[0].forEach(function (objRow) {
+            that.addRow(new RowData().populateFromJSON(objRow));
+        });
+    }
+
     //Returns an array with all the rows for which the "columnName" value contains "data". 
     //If "columnName" holds an array, includes the row in the return values if that array contains "data".
     this.getRows = function (columnName, data) {
