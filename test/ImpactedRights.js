@@ -82,6 +82,21 @@ function getCell(myRows, classes) {
     return '<td title="" class="' + classes + '">' + getAverage(myRows) + '</td>';
 }
 
+function addMonitorTabsToImpactedRights(monitorTables) {
+    //var that = this;
+    var changeIRMonitorTabEvent = function (index) {
+        console.log("Colin - changeIRMonitorTabEvent index:" + index);
+        rebuildImpactedRights(monitorTables, index)
+    }
+
+    this.divID = "impactedRightsMonitorTabs"
+
+    monitorTabs.addTabsDiv(this.divID, {
+        //addTab: this.addMonitorTabEvent,
+        changeTab: changeIRMonitorTabEvent
+    });
+}
+
 function rebuildImpactedRights(monitorTable, index) {
 
     var table = monitorTable.backingData[index];
@@ -176,7 +191,6 @@ function rebuildImpactedRights(monitorTable, index) {
 
         //Add the cells
         modules.forEach(function (myModule) {
-
             // find the average score for the rows
             var moduleRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), myModule, false);
             rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));

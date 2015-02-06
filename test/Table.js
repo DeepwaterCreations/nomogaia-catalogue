@@ -5,6 +5,7 @@
 function Table(categoryHierarchy) {
     this.categoryHierarchy = categoryHierarchy;
     console.log("Colin, table id increased")
+    this.idCounter = 0;
     this.id = tableId++;
 
     // TODO add a new tables to tables
@@ -40,7 +41,7 @@ function Table(categoryHierarchy) {
     });
 
     this.nextId = function () {
-        return this.id++;
+        return this.idCounter++;
     }
 
     this.toOut = function () {

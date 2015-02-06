@@ -1,10 +1,4 @@
-﻿//var dataList = {
-//    "1": ["cats", "dogs", "pigs"],
-//    "2": ["goats", "monkeys", "rhinos"],
-//    "3": ["cows", "chickens", "rats"]
-//};
-
-function isInt(n) {
+﻿function isInt(n) {
     return (typeof n == 'number' && n % 1 === 0);
 }
 
@@ -94,7 +88,7 @@ function RowUI(table,rowData) {
     this.table.body.append(this.genHTMLString());
 
     this.getRow = function () {
-        return $('#' + myRow.id);
+        return table.getTable().find('#' + myRow.id);
     };
 
     //Gets the html elements for the row
@@ -125,8 +119,6 @@ function RowUI(table,rowData) {
             return myRow.get(column).select2("val");
         } else if (column == "Score") {
             return myRow.get(column).val();
-        } else if (column == "Monitor") {
-
         } else {
             console.log("column: " + column + " not found");
             return '';
@@ -144,19 +136,17 @@ function RowUI(table,rowData) {
         } else if (column == "Topic") {
             myRow.get(column).select2("val", value);
         } else if (column == "Input") {
-
+            myRow.get(column).val(value);
         } else if (column == "Module") {
             myRow.get(column).select2("val", value);
         } else if (column == "Source") {
-
+            myRow.get(column).val(value);
         } else if (column == "Impacted Rights") {
-
+            myRow.get(column).select2("val", value);
         } else if (column == "Impacted Rights-Holders") {
-
+            myRow.get(column).select2("val", value);
         } else if (column == "Score") {
-
-        } else if (column == "Monitor") {
-
+            myRow.get(column).val(value);
         } else {
             console.log("column: " + column + " not found");
         }
@@ -203,14 +193,12 @@ function RowUI(table,rowData) {
     this.toSelect2WithAdd("Impacted Rights");
     this.toSelect2WithAdd("Module");
 
-    //TODO this probably goes in a for loop someday
+    // if we have data update the UI to match
     if (rowData != undefined) {
-        //this.setUIValue('Catalog', this.data.getData('Catalog'));
-        //this.setUIValue('Category', this.data.getData('Category'));
-        //this.setUIValue('Sub-Category', this.data.getData('Sub-Category'));
-        //this.setUIValue('Topic', this.data.getData('Topic'));
-        //this.setUIValue('Source', this.data.getData('Source'));
-        //this.setUIValue('Module', this.data.getData('Module'));
+        var that = this;
+        columnList.forEach(function (columnName) {
+            that.setUIValue(columnName, rowData.getData(columnName));
+        });
     }
     
     // pass UI changes on to the dataRow
@@ -338,13 +326,22 @@ function RowUI(table,rowData) {
     this.data.addListener('Category', updateCategory);
     this.data.addListener('Sub-Category', updateSubCategory);
     this.data.addListener('Topic', updateTopic);
-    //TODO this probably goes in a for loop someday
+    //for the rest we loop
+    var that = this;
+    columnList.forEach(function (columnName) {
+        if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
+            that.data.addListener(columnName, function () {
+                console.log("data changed, name: " + columnName + " value; " + that.data.getData(columnName));
+                that.setUIValue(columnName,that.data.getData(columnName))
+            })
+        }
+    });
+
+    // if we do not have data update the data to match our UI
     if (rowData == undefined) {
-        //this probably goes in a for loop too someday
-        this.data.setData('Catalog', this.getUIValue('Catalog'));
-        this.data.setData('Category', this.getUIValue('Category'));
-        this.data.setData('Sub-Category', this.getUIValue('Sub-Category'));
-        this.data.setData('Topic', this.getUIValue('Topic'));
-        this.data.setData('Module', this.getUIValue('Module'));
+        var that = this;
+        columnList.forEach(function (columnName) {
+            that.data.setData(columnName, that.getUIValue(columnName));
+        });
     }
 }

@@ -1,4 +1,15 @@
-﻿//TODO to closure?
+﻿function arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length != b.length) return false;
+
+    for (var i = 0; i < a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
+}
+
+//TODO to closure?
 var rowDataId = 0;
 
 //Holds the data for a single row.
@@ -62,11 +73,12 @@ RowData = function (rowData) {
         });
     } else {
         this.rowData = rowData;
+        var that = this;
         // we want to listen to the changes to the row we are rapping so we pass it listeners that call our listeners
         columnList.forEach(function (columnName) {
-            var listner = this.callMyListeners(this, columnName);
-            this.listeningWith.push(listner);
-            this.rowData.addListener(columnName, listner);
+            var listner = that.callMyListeners(that, columnName);
+            that.listeningWith.push(listner);
+            that.rowData.addListener(columnName, listner);
         });
     }
 
@@ -82,7 +94,7 @@ RowData = function (rowData) {
         for (var columnName in this.listenFunctions) {
             var index = this.listenFunctions[columnName].indexOf(listenerFunction);
             if (index > -1) {
-                array.splice(index, 1);
+                this.listenFunctions[columnName].splice(index, 1);
                 return;
             }
         }
@@ -92,34 +104,39 @@ RowData = function (rowData) {
         if (this.rowData == undefined) {
             return this[columnName];
         } else {
-            return this.getData(columnName);
+            return this.rowData.getData(columnName);
         }
     };
 
     this.setData = function (columnName, data) {
-        if (this.rowData != undefined) {
-            // since a change has been made we no long are going to look to rowData
-            // we are now our own independent grown-up data point!
+        // we only need to do something if the new value is different that the old value
+        if (!arraysEqual(data, this[columnName])) {
 
-            //copy the data over from to data we were rapping
-            columnList.forEach(function (columnName) {
-                this[columnName] = this.rowData[columnName];
-            });
+            if (this.rowData != undefined) {
+                // since a change has been made we no long are going to look to rowData
+                // we are now our own independent grown-up data point!
 
-            // now remove our listeners form rowData
-            this.listeningWith.forEach(function (listener) {
-                this.rowData.removeListener(listener);
-            });
+                var that = this;
+                //copy the data over from to data we were rapping
+                columnList.forEach(function (columnName) {
+                    that[columnName] = that.rowData.getData(columnName);
+                });
 
-            // stop rapping rowData
-            this.rowData = null;
-        }
-        this[columnName] = data;
-        // call the listeners
-        if (columnName in this.listenFunctions) {
-            this.listenFunctions[columnName].forEach(function (listenerfunction) {
-                listenerfunction(this);
-            });
+                // now remove our listeners form rowData
+                this.listeningWith.forEach(function (listener) {
+                    that.rowData.removeListener(listener);
+                });
+
+                // stop wrapping rowData
+                this.rowData = undefined;
+            }
+            this[columnName] = data;
+            // call the listeners
+            if (columnName in this.listenFunctions) {
+                this.listenFunctions[columnName].forEach(function (listenerfunction) {
+                    listenerfunction(this);
+                });
+            }
         }
     };
 

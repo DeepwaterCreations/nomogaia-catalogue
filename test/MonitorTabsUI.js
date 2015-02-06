@@ -1,6 +1,4 @@
-﻿
-
-function MonitorTabs() {
+﻿function MonitorTabs() {
     //this.TabsDiv = {
     //    tabsObj: "",
     //    addTab: function (id, count) { }, //id is the HTML id, count is the index of the new tab.
@@ -54,16 +52,11 @@ function MonitorTabs() {
         ],
     });
 
-    //Add a new tab, for when the add tab button is clicked. This function is called by the add monitor dialog,
-    //when it closes.
-    this.addTab = function (event) {
+    this.init= function(){
         var count = this.tabCount++;
         var id = "monitorTab" + count;
         var liString = '<li><a href="#' + id + '">' + (count === 0 ? "Initial": this.newTabLabel + count) + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
-           
-        //Tell MonitorTables to create a new table.
-        monitorTables.addTable();
-
+        
         //Update the tabDivs so they display the new tab.
         var that = this; //Seriously, though, Javascript? SERIOUSLY?
         this.tabsDivList.forEach(function (tabsDiv) {
@@ -74,6 +67,16 @@ function MonitorTabs() {
             tabsDiv.tabsObj.tabs("option", "active", count);
             if("addTab" in tabsDiv) tabsDiv.addTab(id, count);
         });
+    }
+
+    //Add a new tab, for when the add tab button is clicked. This function is called by the add monitor dialog,
+    //when it closes.
+    this.addTab = function (event) {
+           
+        //Tell MonitorTables to create a new table.
+        monitorTables.addTable(monitorTables.backingData[monitorTables.backingData.length - 1]);
+
+        this.init();
     }
     var that = this;
     $("#addMonitorDialog").on("dialogclose", function () {

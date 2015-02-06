@@ -13,6 +13,8 @@ var monitorTables = new MonitorTables();
 var table = new Table(categoryHierarchy);
 monitorTables.push(table);
 
+addMonitorTabsToImpactedRights(monitorTables)
+
 var searchColumn = 'Category';
 
 var updateSearchColumn = function () {
@@ -77,5 +79,5 @@ $(document).ready(function () {
     $('#category').selectmenu();
     $('#subcategory').selectmenu();
 
-    monitorTabs.addTab();
+    monitorTabs.init();
 });

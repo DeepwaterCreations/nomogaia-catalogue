@@ -14,7 +14,7 @@
         result.setData("Sub-Category", this.subCategory);
         result.setData("Topic", this.topic);
         result.setData("Module", this.module);
-        result.setData("Soucre", this.source);
+        result.setData("Source", this.source);
         return result;
     }
 }

@@ -2,17 +2,22 @@
     // a list of tables 
     this.backingData = [];
 
-    this.push = function(table){
+    this.push = function (table) {
         this.backingData.push(table);
     }
 
-    this.addTable = function () {
+    this.addTable = function (copyFrom) {
         var newTable = new Table();
 
-        //Gives it the values from the previous Table... I think. 
-        //(We might instead want a method of Table that returns an appropriate clone. But we also want the previous Table's values to continue to be reflected in this one if someone goes back and 
-        //changes them, so there should definitely be a prototype in here somewhere.)
-        newTable.prototype = this.backingData[this.backingData.length-1]; //This doesn't get the scores, though... 
+        console.log("Colin - copying form:", copyFrom);
+
+        if (copyFrom != undefined) {
+            copyFrom.tableData.rows.forEach(function (row) {
+                var newRowData = new RowData(row);
+                newTable.tableUI.rows.push(new RowUI(newTable, newRowData));
+            });
+        }
+
         this.push(newTable);
 
         return newTable;
@@ -44,10 +49,13 @@
     this.changeMonitorTabEvent = function (that) {
         return function (newlyActiveTab) {
             // hide all the tables except the currently active one
+            console.log("Colin - newlyActiveTab:" + newlyActiveTab);
             that.backingData.forEach(function (table) {
                 if (table.id == newlyActiveTab) {
+                    console.log("Colin - show table" + table.id);
                     table.getTable().show();
                 } else {
+                    console.log("Colin - hide table" + table.id);
                     table.getTable().hide();
                 }
             });
