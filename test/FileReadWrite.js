@@ -1,8 +1,11 @@
-﻿$('#save').click(function () {
+﻿var fs = require('fs');
+$('#save').click(function () {
     var fileDialog = $("#saveFileDialog");
     fileDialog.change(function (event) {
-        //Stuff...?
         console.log("Nalyd - toOut " + $(this).val());
+
+        var filew = fs.createWriteStream($(this).val());
+        filew.write(JSON.stringify(monitorTables.toOut()));
     });
     fileDialog.trigger("click");
     console.log("Colin - toOut", monitorTables.toOut());//JSON.stringify()
@@ -22,7 +25,6 @@ $('#chooseFile').change(function (event) {
 });
 
 //When the read file button is clicked, read the file and put its contents in the div. 
-var fs = require('fs');
 $('#readFileButton').click(function () {
     if (filepath === "") {
         console.log("Error: No file selected");
