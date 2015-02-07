@@ -34,31 +34,20 @@ function Matrix() {
         $("#" + matrixTableID).append("<thead><tr><th></th></tr></thead>"); //Contains a blank <th> so there's space for a column of row names.
         $("#" + matrixTableID).append("<tbody></tbody>");
         //Add the column headings
-        data.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
+        data.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
             $("#" + matrixTableID).find("thead").find("tr").append('<th title="">' + rightsholderName + '</th>');
         });
 
         //Add the rows
         //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
         //Then put the averages in the table.
-        data.columnOptions["Impacted Rights"].forEach(function (rightName) {
+        data.getColumnOptions("Impacted Rights").forEach(function (rightName) {
             $("#" + matrixTableID).find("tbody").append('<tr class="' + rightName + '"></tr>');
             $("#" + matrixTableID).find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
 
             //Generate the scores and push them into the htmlString.
             var rows = data.getRows("Impacted Rights", rightName);
-            //We won't need rows that don't match the selected monitor.
-            console.log("Monitor is " + monitor);
-            if (monitor) {
-                rows = rows.filter(function (row) {
-                    return ("Monitor" in row) && (row.getData("Monitor") === monitor);
-                });
-            }
-            //If a row doesn't have rights-holders associated with it, we don't have a use for it, so filter them out.
-            rows = rows.filter(function (row) {
-                return "Impacted Rights-Holders" in row;
-            });
-            data.columnOptions["Impacted Rights-Holders"].forEach(function (rightsholderName) {
+            data.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
                 var scoreCount = 0;
                 var scoreSum = 0;
                 var tooltipContent = "";
