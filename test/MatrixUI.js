@@ -58,7 +58,6 @@ function Matrix() {
                         //Generate tooltip text displaying a title and the issue.
                         tooltipContent += '<b>' + row.getData("Topic") + ': '+ row.getData("Score")+ '</b>';
                         tooltipContent += '<p>' + row["Input"] + '</p>';
-                        //TODO: Also put in the individual score values, and maybe color-coding?
                     }
                 });
                 if (scoreCount > 0) {

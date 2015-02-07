@@ -36,6 +36,11 @@ var onClickAdd = function () {
     table.addRow();
 };
 
+monitorTabs.addTabsDiv("sideBar", {
+    //addTab: this.addMonitorTabEvent,
+    //changeTab: changeIRMonitorTabEvent
+});
+
 $(document).ready(function () {
     // we need to add all the rows with module =None to the table
     var topicList = categoryHierarchy.getTopics();

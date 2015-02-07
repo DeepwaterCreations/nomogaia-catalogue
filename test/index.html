@@ -6,72 +6,76 @@
     <link href="select2/dist/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="tabs">
-        <ul>
-            <li id="matrixTab">
-                <a href="#beans">Beans</a>
-            </li>
-            <li>
-                <a href="#clocks">Lovely Timepieces</a>
-            </li>
-            <li>
-                <a href="#cheeses">Havarti etc.</a>
-            </li>
-            <li>
-                <a href="#impactedRights">Impacted Rights</a>
-            </li>
-        </ul>
-        <div id="beans" class="tab">
-            <div id="matrixMonitorTabs">
+    <div id="sideBar">
+
+    </div>
+    <div id="main">
+        <div id="tabs">
+            <ul id="tabsBar">
+                <li id="matrixTab">
+                    <a href="#beans">Beans</a>
+                </li>
+                <li>
+                    <a href="#clocks">Lovely Timepieces</a>
+                </li>
+                <li>
+                    <a href="#cheeses">Havarti etc.</a>
+                </li>
+                <li>
+                    <a href="#impactedRights">Impacted Rights</a>
+                </li>
+            </ul>
+            <div id="beans" class="tab">
+                <div id="matrixMonitorTabs">
+                </div>
             </div>
-        </div>
-        <div id="clocks" class="tab">
-            <div id="catalogMonitorTabs">
-                <div id="tables"></div>
+            <div id="clocks" class="tab">
+                <div id="catalogMonitorTabs">
+                    <div id="tables"></div>
+                </div>
+                <input type="text" id="searchInput" />
+
+                <input type="button" id="addRow" value="Add" />
+                <form action="#">
+                    <fieldset>
+                        <label for="catalogSelect">Catalog:</label>
+                        <select name="catalog" id="catalogSelect"></select><br />
+
+                        <label for="categorySelect">Category:</label>
+                        <select name="category" id="categorySelect"></select><br />
+
+                        <label for="subcategorySelect">Subcategory:</label>
+                        <select name="subcategory" id="subcategorySelect"></select><br />
+
+                        <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
+
+                        <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="10" id="topicDescTextBox"></textarea><br />
+
+                        <input type="button" id="addTopicButton" value="Add Topic" />
+                    </fieldset>
+                </form>
             </div>
-            <input type="text" id="searchInput" />
-            
-            <input type="button" id="addRow" value="Add" />
-            <form action="#">
-                <fieldset>
-                    <label for="catalogSelect">Catalog:</label>
-                    <select name="catalog" id="catalogSelect"></select><br />
+            <div id="cheeses" class="tab">
+                <input type="file" id="chooseFile" />
+                <input type="button" id="readFileButton" value="Read File" />
+                <input type="button" id="writeFileButton" value="Write File" />
 
-                    <label for="categorySelect">Category:</label>
-                    <select name="category" id="categorySelect"></select><br />
+                <button id="save" type="button">Save</button>
+                <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
 
-                    <label for="subcategorySelect">Subcategory:</label>
-                    <select name="subcategory" id="subcategorySelect"></select><br />
+                <button id="load" type="button">Load</button>
+                <input type="file" id="loadFileDialog" style="display:none;">
 
-                    <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
-
-                    <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="10" id="topicDescTextBox"></textarea><br />
-
-                    <input type="button" id="addTopicButton" value="Add Topic" />
-                </fieldset>
-            </form>
-        </div>
-        <div id="cheeses" class="tab">
-            <input type="file" id="chooseFile" />
-            <input type="button" id="readFileButton" value="Read File" />
-            <input type="button" id="writeFileButton" value="Write File" />
-            
-            <button id="save" type="button">Save</button>
-            <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
-
-            <button id="load" type="button">Load</button>
-            <input type="file" id="loadFileDialog" style="display:none;">
-            
-            <div id="fileedit">
-                <textarea name="fileText" cols="50" rows="50" id="fileTextBox"> </textarea>
+                <div id="fileedit">
+                    <textarea name="fileText" cols="50" rows="50" id="fileTextBox"> </textarea>
+                </div>
             </div>
-        </div>
-        <div id="impactedRights" class="tab">
-            <div id="impactedRightsMonitorTabs">
-                <table id="impactedRightsTable" border="1">
-                </table>
+            <div id="impactedRights" class="tab">
+                <div id="impactedRightsMonitorTabs">
+                    <table id="impactedRightsTable" border="1"></table>
+                </div>
+
             </div>
-            
         </div>
     </div>
 
@@ -99,7 +103,45 @@
     <script type="text/javascript">
         $("#tabs").tabs();
     </script>
-    <style type="text/css" src="Test.css"></style>
+    <style type="text/css">
+        #sideBar {
+            width: 250px;
+            float: left;
+        }
+
+        #main {
+            margin-left: 250px;
+            height: 100%;
+            width: calc(100% - 180px)
+        }
+
+        html {
+            height: 90%;
+            width: 98%;
+        }
+
+        body {
+            height: 100%;
+        }
+
+        #tabs {
+            height: 100%;
+        }
+
+        #tabsBar {
+            height: 50px;
+        }
+
+        #tabs {
+            height: 100%;
+            width: 100%;
+        }
+
+        #beans, #clocks, #cheeses, #impactedRights {
+            height: calc(100% - 100px);
+            overflow: scroll;
+        }
+    </style>
     <style type="text/css">
         .ui-tabs-vertical {
             width: 55em;
