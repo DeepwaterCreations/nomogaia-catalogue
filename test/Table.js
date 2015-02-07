@@ -64,5 +64,8 @@ function Table(categoryHierarchy) {
 function createTableFromJSON(objFromFile) {
     var newTable = new Table;
     newTable.tableData = createTableDataFromJSON(objFromFile);
+    newTable.tableData.rows.forEach(function (row) {
+        newTable.tableUI.rows.push(new RowUI(newTable, row));
+    });
     return newTable;
 }
