@@ -88,39 +88,39 @@ function RowUI(table,rowData) {
     this.table.body.append(this.genHTMLString());
 
     this.getRow = function () {
-        return table.getTable().find('#' + myRow.id);
+        return table.getTable().find('#' + this.id);
     };
 
     //Gets the html elements for the row
     this.get = function (column) {
-        return myRow.getRow().find('.' +this.toColumnName(column));
+        return this.getRow().find('.' +this.toColumnName(column));
     };
     
     // private
     this.getUIValue = function (column) {
         //return myRow.get(column).val();
         if (column == "Catalog") {
-            return myRow.get(column).select2("val");
+            return this.get(column).select2("val");
         } else if (column == "Category") {
-            return myRow.get(column).select2("val");
+            return this.get(column).select2("val");
         } else if (column == "Sub-Category") {
-            return myRow.get(column).select2("val");
+            return this.get(column).select2("val");
         } else if (column == "Topic") {
-            return myRow.get(column).select2("val");
+            return this.get(column).select2("val");
         } else if (column == "Input") {
-            return myRow.get(column).val();
+            return this.get(column).val();
         } else if (column == "Module") {
-            return myRow.get(column).select2("val");
+            return this.get(column).select2("val");
         } else if (column == "Source") {
-            return myRow.get(column).val();
+            return this.get(column).val();
         } else if (column == "Impacted Rights") {
-            return myRow.get(column).select2("val");
+            return this.get(column).select2("val");
         } else if (column == "Impacted Rights-Holders") {
-            return myRow.get(column).select2("val");
+            return this.get(column).select2("val");
         } else if (column == "Score") {
-            return myRow.get(column).val();
+            return this.get(column).val();
         } else if (column == "Monitor") {
-            return myRow.get(column).text();
+            return this.get(column).text();
         } else{
             console.log("column: " + column + " not found");
             return '';
@@ -130,37 +130,37 @@ function RowUI(table,rowData) {
     this.setUIValue = function (column, value) {
         //myRow.get(column).val(value);
         if (column == "Catalog") {
-            myRow.get(column).select2("val", value);
+            this.get(column).select2("val", value);
         } else if (column == "Category") {
-            myRow.get(column).select2("val", value);
+            this.get(column).select2("val", value);
         } else if (column == "Sub-Category") {
-            myRow.get(column).select2("val", value);
+            this.get(column).select2("val", value);
         } else if (column == "Topic") {
-            myRow.get(column).select2("val", value);
+            this.get(column).select2("val", value);
         } else if (column == "Input") {
-            myRow.get(column).val(value);
+            this.get(column).val(value);
         } else if (column == "Module") {
-            myRow.get(column).select2("val", value);
+            this.get(column).select2("val", value);
         } else if (column == "Source") {
-            myRow.get(column).val(value);
+            this.get(column).val(value);
         } else if (column == "Impacted Rights") {
-            myRow.get(column).select2("val", value);
+            this.get(column).select2("val", value);
         } else if (column == "Impacted Rights-Holders") {
-            myRow.get(column).select2("val", value);
+            this.get(column).select2("val", value);
         } else if (column == "Score") {
-            myRow.get(column).val(value);
+            this.get(column).val(value);
         } else if (column == "Monitor") {
             console.log("Colin - tried to set Monitor to: " + value);
-            myRow.get(column).text(value);
+            this.get(column).text(value);
         } else {
             console.log("column: " + column + " not found");
         }
     };
     this.getValue = function (column) {
-        return myRow.data.getData(column);
+        return this.data.getData(column);
     };
     this.setValue = function (column, value) {
-        return myRow.data.setData(column, value);
+        return this.data.setData(column, value);
     };
 
     // makes a select a select2
@@ -221,7 +221,7 @@ function RowUI(table,rowData) {
 
     this.updateColumnOptions = function (column, list) {
         //remember the old value
-        var oldValue = myRow.get(column).val();
+        var oldValue = this.get(column).val();
         // unselect what they had selected
         //myRow.get(column).find("option[value='oldValue']").select2("val", "");
 
@@ -231,12 +231,12 @@ function RowUI(table,rowData) {
         }
 
         //remove everything
-        myRow.get(column)
+        this.get(column)
         .find('option')
         .remove()
         .end();
         
-        myRow.get(column).append('<option value="-">-</option>');
+        this.get(column).append('<option value="-">-</option>');
         // now add back what we need
         list.forEach(function (ele) {
             myRow.get(column).append('<option value="' + ele + '">' + ele + '</option>');
@@ -248,7 +248,7 @@ function RowUI(table,rowData) {
             // select the new option
             //myRow.get(column).find("option[value='" + oldValue + "']").attr("selected", "selected");
             console.log("setting value")
-            myRow.get(column).select2("val", oldValue);
+            this.get(column).select2("val", oldValue);
         } else {
             // select the new option
             //myRow.get(column).find("option[value='-']").attr("selected", "selected");
@@ -260,18 +260,18 @@ function RowUI(table,rowData) {
         console.log("catalog updated");
 
         // everyone one is "-" 
-        console.log(myRow.getValue('Category') + " , " + myRow.getValue('Sub-Category') + " , " + myRow.getValue('Topic'));
-        if ((myRow.getValue('Category') == '-') && (myRow.getValue('Sub-Category')) == '-' && (myRow.getValue('Topic') == '-')) {
+        console.log(this.getValue('Category') + " , " + this.getValue('Sub-Category') + " , " + this.getValue('Topic'));
+        if ((this.getValue('Category') == '-') && (this.getValue('Sub-Category')) == '-' && (this.getValue('Topic') == '-')) {
             console.log("updating other columns");
 
             // first let's update category 
-            myRow.updateColumnOptions('Category', myRow.table.categoryHierarchy.getCategories(myRow.getValue('Catalog')));
+            this.updateColumnOptions('Category', this.table.categoryHierarchy.getCategories(this.getValue('Catalog')));
 
             // let's update subCategory
-            myRow.updateColumnOptions('Sub-Category', myRow.table.categoryHierarchy.getSubCategories(myRow.getValue('Catalog')));
+            this.updateColumnOptions('Sub-Category', this.table.categoryHierarchy.getSubCategories(this.getValue('Catalog')));
 
             // let's update topic
-            myRow.updateColumnOptions('Topic', myRow.table.categoryHierarchy.getTopics(myRow.getValue('Catalog')));
+            this.updateColumnOptions('Topic', this.table.categoryHierarchy.getTopics(this.getValue('Catalog')));
         }
     };
 
@@ -280,16 +280,16 @@ function RowUI(table,rowData) {
         console.log("Category updated");
 
         // everyone more detailed one is "-" 
-        if (myRow.getValue('Sub-Category') == '-' && myRow.getValue('Topic') == '-') {
+        if (this.getValue('Sub-Category') == '-' && this.getValue('Topic') == '-') {
 
             // first let's update catalog 
-            myRow.updateColumnOptions('Catalog', myRow.table.categoryHierarchy.getCategoryCatalogs(myRow.getValue('Category')));
+            this.updateColumnOptions('Catalog', this.table.categoryHierarchy.getCategoryCatalogs(this.getValue('Category')));
 
             // let's update subCategory
-            myRow.updateColumnOptions('Sub-Category', myRow.table.categoryHierarchy.getSubCategories(myRow.getValue('Catalog'), myRow.getValue('Category')));
+            this.updateColumnOptions('Sub-Category', this.table.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
 
             // let's update topic
-            myRow.updateColumnOptions('Topic', myRow.table.categoryHierarchy.getTopics(myRow.getValue('Catalog'), myRow.getValue('Category')));
+            this.updateColumnOptions('Topic', this.table.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category')));
         }
 
     }
@@ -299,31 +299,31 @@ function RowUI(table,rowData) {
         console.log("Colin - Sub-Category updated");
 
         // everyone more detailed one is "-" 
-        if (myRow.getValue('Topic') == '-') {
+        if (this.getValue('Topic') == '-') {
 
             // first let's update catalog 
-            myRow.updateColumnOptions('Catalog', myRow.table.categoryHierarchy.getSubCategoryCatalogs(myRow.getValue("Sub-Category")));
+            this.updateColumnOptions('Catalog', this.table.categoryHierarchy.getSubCategoryCatalogs(this.getValue("Sub-Category")));
 
             // let's update subCategory
-            myRow.updateColumnOptions('Category', myRow.table.categoryHierarchy.getSubCategoryCategories(myRow.getValue("Sub-Category")));
+            this.updateColumnOptions('Category', this.table.categoryHierarchy.getSubCategoryCategories(this.getValue("Sub-Category")));
 
             // let's update topic
-            myRow.updateColumnOptions('Topic', myRow.table.categoryHierarchy.getTopics(myRow.getValue('Catalog'), myRow.getValue('Category'), myRow.getValue("Sub-Category")));
+            this.updateColumnOptions('Topic', this.table.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
         }
     }
 
     // when subcategory updates we need to update the other columns
     var updateTopic = function () {
-        console.log("Topic updated, new value: " + myRow.getValue("Topic"));
+        console.log("Topic updated, new value: " + this.getValue("Topic"));
 
         // first let's update catalog 
-        myRow.updateColumnOptions('Catalog', myRow.table.categoryHierarchy.getTopicCatalogs(myRow.getValue("Topic")));
+        this.updateColumnOptions('Catalog', this.table.categoryHierarchy.getTopicCatalogs(this.getValue("Topic")));
 
         // let's update Category
-        myRow.updateColumnOptions('Category', myRow.table.categoryHierarchy.getTopicCategories(myRow.getValue("Topic")));
+        this.updateColumnOptions('Category', this.table.categoryHierarchy.getTopicCategories(this.getValue("Topic")));
 
         // let's update Sub-Category
-        myRow.updateColumnOptions('Sub-Category', myRow.table.categoryHierarchy.getTopicSubCategories(myRow.getValue("Topic")));
+        this.updateColumnOptions('Sub-Category', this.table.categoryHierarchy.getTopicSubCategories(this.getValue("Topic")));
     }
 
     //add our listeners
