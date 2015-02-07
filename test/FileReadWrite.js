@@ -17,26 +17,21 @@ $('#save').click(function () {
 $('#load').click(function () {
     var fileDialog = $("#loadFileDialog");
     fileDialog.on("change", function (event) {
-        console.log("Nalyd - toOut " + $(this).val());
+        if (!($(this).val())) return; //Maybe the user didn't specify a value.
 
         var filer = fs.createReadStream($(this).val());
         filer.setEncoding('utf8');
         filer.on('data', function (chunk) {
-            console.log("Nalyd - chunk", chunk);
-            $('#fileTextBox').val(chunk);
-            //What we really need to do here instead of putting the chunks into the text box,
-            //is to parse them and make a RowData. Right?
+            $('#fileTextBox').val(chunk); //Puts the data in the text box. //TODO: We'll want to get rid of this eventually, but it's useful for testing.
+
             var obj = jQuery.parseJSON(chunk);
-            console.log("Nalyd - JSON ", obj);
-            //Do I need to modify addTable in MonitorTables?
-            //Do I want to clear the existing data?
-            //Just call addTable directly and give it a new Table.
-            //Also, the Table needs its TableData set properly.
+            monitorTables.clear().addTable(createTableFromJSON(obj));
         })
+
+        $(this).val(""); //Reset the filepath so that the event will be called again.
     });
 
     fileDialog.trigger("click");
-    //console.log("Colin - row1", monitorTables);//JSON.stringify()
 });
 
 //-----

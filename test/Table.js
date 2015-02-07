@@ -48,6 +48,10 @@ function Table(categoryHierarchy) {
         return this.tableData.toOut();
     }
 
+    this.removeTable = function () {
+        this.getTable().remove();
+    }
+
     this.tableUI = new TableUI();
     this.tableData = new TableData(categoryHierarchy);
     this.addRow = function(data){
@@ -55,4 +59,10 @@ function Table(categoryHierarchy) {
         this.tableUI.rows.push(myRow);
         return myRow;
     }
+}
+
+function createTableFromJSON(objFromFile) {
+    var newTable = new Table;
+    newTable.tableData = createTableDataFromJSON(objFromFile);
+    return newTable;
 }

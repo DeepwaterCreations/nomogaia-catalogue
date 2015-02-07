@@ -37,21 +37,6 @@ RowData = function (rowData) {
         return out;
     }
 
-    this.populateFromJason = function (objRow) {
-        this.id = objRow.id;
-
-        if ("pointsTo" in objRow) {
-            //TODO: Figure this the heck out.
-        }
-        else{
-            var that = this;
-            columnList.forEach(function (columnName) {
-                that[columnName] = objRow[columnName];
-            });
-        }
-        return this;
-    }
-
     // generates a function that calls our listeners
     this.callMyListeners = function (myRowData, columnName) {
         return function (caller) {
@@ -147,3 +132,22 @@ RowData = function (rowData) {
         });
     };
 };
+
+
+//Returns a new RowData from the properties of objRow,
+//presumed to be a JSON object from a loaded file.
+function createRowDataFromJSON(objRow) {
+    var newRowData = new RowData;
+    newRowData.id = objRow.id;
+    rowDataId = Math.max(rowDataId, objRow.id + 1); //rowDataId will have incremented by 1 upon the new RowData's creation. 
+
+    if ("pointsTo" in objRow) {
+        //TODO: Figure this the heck out.
+    }
+    else {
+        columnList.forEach(function (columnName) {
+            newRowData[columnName] = objRow[columnName];
+        });
+    }
+    return newRowData;
+}

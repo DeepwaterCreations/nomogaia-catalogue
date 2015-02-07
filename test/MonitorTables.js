@@ -31,11 +31,12 @@
         return out;
     }
 
-    this.makeFromFile = function (JSONstring) {
-        //First, clear the existing data.
+    this.clear = function () {
+        this.backingData.forEach(function (table) {
+            table.removeTable();
+        });
         this.backingData = [];
-
-
+        return this;
     }
 
     //this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
