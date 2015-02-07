@@ -69,7 +69,7 @@ function RowUI(table,rowData) {
         } else if (column == "Score") {
             return '<td><input class="' + this.toColumnName(column) + '" type="number" value=""></td>';
         } else if (column == "Monitor") {
-            return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
+            return '<td><div  class="' + this.toColumnName(column) + '"></div></td>';
         } else {
             console.log("column: "+ column +" not found");
             return '';
@@ -119,7 +119,9 @@ function RowUI(table,rowData) {
             return myRow.get(column).select2("val");
         } else if (column == "Score") {
             return myRow.get(column).val();
-        } else {
+        } else if (column == "Monitor") {
+            return myRow.get(column).text();
+        } else{
             console.log("column: " + column + " not found");
             return '';
         }
@@ -147,6 +149,9 @@ function RowUI(table,rowData) {
             myRow.get(column).select2("val", value);
         } else if (column == "Score") {
             myRow.get(column).val(value);
+        } else if (column == "Monitor") {
+            console.log("Colin - tried to set Monitor to: " + value);
+            myRow.get(column).text(value);
         } else {
             console.log("column: " + column + " not found");
         }
@@ -331,7 +336,7 @@ function RowUI(table,rowData) {
     columnList.forEach(function (columnName) {
         if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
             that.data.addListener(columnName, function () {
-                console.log("data changed, name: " + columnName + " value; " + that.data.getData(columnName));
+                console.log("Colin - data changed, name: " + columnName + " value; " + that.data.getData(columnName));
                 that.setUIValue(columnName,that.data.getData(columnName))
             })
         }

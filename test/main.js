@@ -1,6 +1,6 @@
 //This is the list of column names. Populate the html table from here.
 //TODO: This is a stupid place for this. Colin thinks maybe it belongs in TableData. 
-var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score"];
+var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];
 
 var fs = require("fs");
 var filename = "TopicInfoTest.txt";
@@ -71,7 +71,7 @@ $(document).ready(function () {
             //if (data.newTab === $("#matrixTab")){ //TODO: This really shouldn't be a hard-coded string. //BUG: It never gets into this condition, and I don't know what data.newTab should be compared to.
             matrix.rebuild(monitorTabs.getActiveMonitor());
             //}
-            rebuildImpactedRights(monitorTables, 0);
+            rebuildImpactedRights(monitorTables, monitorTabs.getActiveMonitor());
         }
     });
 

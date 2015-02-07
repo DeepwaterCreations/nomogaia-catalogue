@@ -44,7 +44,7 @@ function getAverage(rows) {
     var sum = 0;
     rows.forEach(function (row) {
         count++;
-        sum += parseInt(row["Score"]);
+        sum += parseInt(row.getData("Score"));
     });
     var average = 0;
     if (count != 0) {
@@ -63,9 +63,9 @@ function getToolTip(rows) {
     var tooltipContent = "";
     rows.forEach(function (row) {
 
-        tooltipContent += '<b>' + row["Topic"] + ': ' + row["Score"] + '</b>';
-        if (row["Input"] != undefined) {
-            tooltipContent += '<p>' + row["Input"] + '</p>';
+        tooltipContent += '<b>' + row.getData("Topic") + ': ' + row.getData("Score") + '</b>';
+        if (row.getData("Input") != undefined) {
+            tooltipContent += '<p>' + row.getData("Input") + '</p>';
         } else {
             tooltipContent += '<br>';
         }
@@ -159,6 +159,7 @@ function rebuildImpactedRights(monitorTable, index) {
 
     //sort the rows by most impacted
     //TODO we are currently using the first table, would it be better to use the newest?
+    //TODO we should abs?
     impactedRights.sort(function (rightA, rightB) {
         var rightARows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightA), "", false);
         var rightBRows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightB), "", false);

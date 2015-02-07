@@ -51,7 +51,7 @@ function Matrix() {
             console.log("Monitor is " + monitor);
             if (monitor) {
                 rows = rows.filter(function (row) {
-                    return ("Monitor" in row) && (row["Monitor"] === monitor);
+                    return ("Monitor" in row) && (row.getData("Monitor") === monitor);
                 });
             }
             //If a row doesn't have rights-holders associated with it, we don't have a use for it, so filter them out.
@@ -63,11 +63,11 @@ function Matrix() {
                 var scoreSum = 0;
                 var tooltipContent = "";
                 rows.forEach(function (row) {
-                    if (row["Impacted Rights-Holders"].indexOf(rightsholderName) > -1) {
+                    if (row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
                         scoreCount++;
-                        scoreSum += parseInt(row["Score"]);
+                        scoreSum += parseInt(row.getData("Score"));
                         //Generate tooltip text displaying a title and the issue.
-                        tooltipContent += '<b>' + row["Topic"] + ': '+ row["Score"]+ '</b>';
+                        tooltipContent += '<b>' + row.getData("Topic") + ': '+ row.getData("Score")+ '</b>';
                         tooltipContent += '<p>' + row["Input"] + '</p>';
                         //TODO: Also put in the individual score values, and maybe color-coding?
                     }

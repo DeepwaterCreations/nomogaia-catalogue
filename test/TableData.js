@@ -42,12 +42,13 @@ function TableData(categoryHierarchy) {
         if (columnName && data) {
             var matchingRows = [];
             this.rows.forEach(function (row) {
-                if (!(columnName in row)) return;
-                if (row[columnName].constructor === Array) {
-                    if (row[columnName].indexOf(data) >= 0)
+                var rowValue = row.getData(columnName);
+                if (rowValue=="UNINITIALIZED" || rowValue == undefined) return;
+                if (rowValue.constructor === Array) {
+                    if (rowValue.indexOf(data) >= 0)
                         matchingRows.push(row);
                 }
-                else if (row[columnName] === data)
+                else if (rowValue === data)
                     matchingRows.push(row);
             });
             return matchingRows;

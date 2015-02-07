@@ -64,22 +64,20 @@ RowData = function (rowData) {
         }
     }
 
-    if (rowData == undefined) {
-        this.rowData = null;
-        //add empty data
-        var that = this;
-        columnList.forEach(function (columnName) {
-            that[columnName] = "UNINITIALIZED";
-        });
-    } else {
-        this.rowData = rowData;
-        var that = this;
-        // we want to listen to the changes to the row we are rapping so we pass it listeners that call our listeners
-        columnList.forEach(function (columnName) {
-            var listner = that.callMyListeners(that, columnName);
-            that.listeningWith.push(listner);
-            that.rowData.addListener(columnName, listner);
-        });
+    this.setMonitor = function () {
+        var monitor = 0;
+        var at = this;
+        while (at.rowData != null) {
+            at = at.rowData;
+            monitor++;
+        }
+        if (at != this) {
+            monitor += at.getData("Monitor");
+        }
+
+        this.rowData = undefined;
+
+        this.setData("Monitor",monitor);
     }
 
     this.addListener = function (columnName, listenerFunction) {
@@ -109,10 +107,23 @@ RowData = function (rowData) {
     };
 
     this.setData = function (columnName, data) {
+        var oldData = this.getData(columnName)
+        
+        // we need to know if the data is different
+        var changed;
+
+        // if the data is an array we use a different comparision
+        if (Array.isArray(data) && Array.isArray(oldData)) {
+            changed = !arraysEqual(data, oldData)
+        } else {
+            changed = data != oldData
+        }
+
         // we only need to do something if the new value is different that the old value
-        if (!arraysEqual(data, this[columnName])) {
+        if (changed) {
 
             if (this.rowData != undefined) {
+                console.log("Colin - breaking link", data, this.getData(columnName));
                 // since a change has been made we no long are going to look to rowData
                 // we are now our own independent grown-up data point!
 
@@ -127,8 +138,9 @@ RowData = function (rowData) {
                     that.rowData.removeListener(listener);
                 });
 
-                // stop wrapping rowData
-                this.rowData = undefined;
+                //now update Monitor
+                //this will stop wrapping rowData for us
+                this.setMonitor();
             }
             this[columnName] = data;
             // call the listeners
@@ -140,10 +152,25 @@ RowData = function (rowData) {
         }
     };
 
-    //Prints the data to the console for debugging purposes
-    this.log = function () {
+    if (rowData == undefined) {
+        this.rowData = null;
+        //add empty data
+        var that = this;
         columnList.forEach(function (columnName) {
-            console.log(this[columnName]);
+            that[columnName] = "UNINITIALIZED";
         });
-    };
+        // set Monitor
+        this.setMonitor();
+    } else {
+        this.rowData = rowData;
+        var that = this;
+        // we want to listen to the changes to the row we are rapping so we pass it listeners that call our listeners
+        columnList.forEach(function (columnName) {
+            var listner = that.callMyListeners(that, columnName);
+            that.listeningWith.push(listner);
+            that.rowData.addListener(columnName, listner);
+        });
+    }
+
+
 };
