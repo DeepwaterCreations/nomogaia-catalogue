@@ -1,6 +1,28 @@
-﻿.tab {
-    overflow-y: scroll;
-    overflow-x: scroll;
-    width: 200px;
-    height: 100px;
+﻿html {
+    height: 90%;
+    width: 100%;
+}
+
+body {
+    height:100%;
+}
+
+#tabs {
+    height:100%;
+}
+
+#tabsBar {
+    height:42px;
+}
+
+#tabs {
+    height: 100%;
+    width: 100%;
+}
+
+
+#beans {
+    height: calc(100%-50px);
+    width: 100%;
+    overflow: scroll;
 }

@@ -116,6 +116,10 @@
 
         this.tabsDivList.push(newTabsDiv);
     }
+
+    this.addFunctions = function (functionObj) {
+        //TODO
+    }
 };
 
 var monitorTabs = new MonitorTabs();
