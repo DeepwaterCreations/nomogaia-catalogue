@@ -24,7 +24,32 @@ function DataOptions(categoryHierarchy) {
         "Impacted Rights-Holders": that.loadFromFile("Rightsholders.csv"),
         "Module": that.loadFromFile("Module.csv")
     }
-    console.log("Colin", this);
+
+    this.update = function (column, data) {
+        if (Array.isArray(data)) {
+            var that = this;
+            data.forEach(function (dat) {
+                that.updateSingle(column, dat);
+            });
+        } else {
+            this.updateSingle(column, data);
+        }
+    }
+
+    this.updateSingle = function (column, data) {
+        if (this.columnOptions[column].indexOf(data) == -1) {
+            this.columnOptions[column].push(data);
+        }
+
+        // add it to the other rights holders lists
+        var rightsHoldersSelectList = $('.' + toColumnName(column));
+        for (var i = 0; i < rightsHoldersSelectList.length; i++) {
+            var rightsHoldersSelect = rightsHoldersSelectList[i];
+            if ( $(rightsHoldersSelect).find('[value="' + data + '"]').length == 0) {
+                $(rightsHoldersSelect).append('<option value="' + data + '">' + data + '</option>');
+            }
+        }
+    }
 
     // a getter for ColumnOptions
     this.getColumnOptions = function (column) {

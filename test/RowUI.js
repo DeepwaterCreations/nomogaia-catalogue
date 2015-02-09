@@ -2,6 +2,10 @@
     return (typeof n == 'number' && n % 1 === 0);
 }
 
+var toColumnName = function (column) {
+    return column.replace(/ /g, '_');
+}
+
 
 function RowUI(table,rowData) {
     this.table = table;
@@ -16,9 +20,7 @@ function RowUI(table,rowData) {
     
     var myRow = this;
 
-    this.toColumnName = function(column){
-        return column.replace(/ /g, '_');
-    }
+
 
     function generateOnSelect(className, backingList) {
         return function () {
@@ -34,7 +36,7 @@ function RowUI(table,rowData) {
                         $(this).find("option[value='" + value + "']").removeAttr('data-select2-tag');
 
                         // add it to the other rights holders lists
-                        var rightsHoldersSelectList = $('.' + myRow.toColumnName(className));
+                        var rightsHoldersSelectList = $('.' + toColumnName(className));
                         for (var i = 0; i < rightsHoldersSelectList.length; i++) {
                             var rightsHoldersSelect = rightsHoldersSelectList[i];
                             if (rightsHoldersSelect != $(this)[0]) {
@@ -49,27 +51,27 @@ function RowUI(table,rowData) {
     
     this.genHTMLStringElement = function (column) {
         if (column == "Catalog") {
-            return '<td><select class="' + this.toColumnName(column) + '" style="width:100px"></select></td>';
+            return '<td><select class="' + toColumnName(column) + '" style="width:100px"></select></td>';
         } else if (column == "Category") {
-            return '<td><select  class="' + this.toColumnName(column) + '" style="width:200px"/></td>';
+            return '<td><select  class="' + toColumnName(column) + '" style="width:200px"/></td>';
         } else if (column == "Sub-Category") {
-            return '<td><select  class="' + this.toColumnName(column) + '" style="width:200px"/></td>';
+            return '<td><select  class="' + toColumnName(column) + '" style="width:200px"/></td>';
         } else if (column == "Topic") {
-            return '<td><select  class="' + this.toColumnName(column) + '" style="width:400px"/></td>';
+            return '<td><select  class="' + toColumnName(column) + '" style="width:400px"/></td>';
         } else if (column == "Input") {
-            return '<td><input class="' + this.toColumnName(column) + '" type="text" value=""></td>';
+            return '<td><input class="' + toColumnName(column) + '" type="text" value=""></td>';
         } else if (column == "Module") {
-            return '<td><select  class="' + this.toColumnName(column) + '"/></td>';
+            return '<td><select  class="' + toColumnName(column) + '"/></td>';
         } else if (column == "Source") {
-            return '<td><input class="' + this.toColumnName(column) + '" type="text" value=""></td>';
+            return '<td><input class="' + toColumnName(column) + '" type="text" value=""></td>';
         } else if (column == "Impacted Rights") {
-            return '<td><select  class="' + this.toColumnName(column) + '" multiple="multiple" style="width:100px"/></td>';
+            return '<td><select  class="' + toColumnName(column) + '" multiple="multiple" style="width:100px"/></td>';
         } else if (column == "Impacted Rights-Holders") {
-            return '<td><select  class="' + this.toColumnName(column) + '" multiple="multiple" style="width:100px"/></td>';
+            return '<td><select  class="' + toColumnName(column) + '" multiple="multiple" style="width:100px"/></td>';
         } else if (column == "Score") {
-            return '<td><input class="' + this.toColumnName(column) + '" type="number" value=""></td>';
+            return '<td><input class="' + toColumnName(column) + '" type="number" value=""></td>';
         } else if (column == "Monitor") {
-            return '<td><div  class="' + this.toColumnName(column) + '"></div></td>';
+            return '<td><div  class="' + toColumnName(column) + '"></div></td>';
         } else {
             console.log("column: "+ column +" not found");
             return '';
@@ -93,7 +95,7 @@ function RowUI(table,rowData) {
 
     //Gets the html elements for the row
     this.get = function (column) {
-        return myRow.getRow().find('.' +this.toColumnName(column));
+        return myRow.getRow().find('.' +toColumnName(column));
     };
     
     // private
@@ -200,9 +202,18 @@ function RowUI(table,rowData) {
 
     // if we have data update the UI to match
     if (rowData != undefined) {
+        // if there are new values in rights/rights holders/module we want to add them
         var that = this;
+        ["Impacted Rights-Holders", "Impacted Rights", "Module"].forEach(function (column) {
+            if (rowData.getData(column) != "UNINITIALIZED") {
+                that.table.owner.dataOptions.update(column, rowData.getData(column));
+            }
+        });
+
         columnList.forEach(function (columnName) {
-            that.setUIValue(columnName, rowData.getData(columnName));
+            if (rowData.getData(column) != "UNINITIALIZED") {
+                that.setUIValue(columnName, rowData.getData(columnName));
+            }
         });
     }
     
