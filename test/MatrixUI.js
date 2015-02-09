@@ -15,11 +15,14 @@ function Matrix() {
 
     this.matrixTablePrefix = "matrixTable";
 
+    var tableTemplate = '<table id="' + this.matrixTablePrefix + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
+    $("#" + this.divID).append(tableTemplate);
+
     //We need to know which table we're rebuilding in the function.
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
-        var matrixTableID = this.matrixTablePrefix + monitor;
+        var matrixTableID = this.matrixTablePrefix; //TODO: Clean this up by directly replacing the former variable with the latter.
 
         if (!monitorTables.backingData[monitor]) {
             console.log("ERROR: Monitor " + monitor + " is undefined.");
@@ -78,8 +81,8 @@ function Matrix() {
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
         return function (id, count) {
-            var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
-            $("#" + that.divID).find('#' + id, 'div').append(tableTemplate);
+            //var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
+            //$("#" + that.divID).append(tableTemplate);
             that.rebuild(monitorTabs.getActiveMonitor());
         };
     }(this);

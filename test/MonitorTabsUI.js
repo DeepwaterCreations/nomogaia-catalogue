@@ -88,11 +88,12 @@
         this.tabsDiv.find('.' + this.addTabClass).before(liString);
         this.tabsDiv.append('<div id="' + id + '"></div>');
         this.tabsDiv.tabs("refresh");
-        this.tabsDiv.tabs("option", "active", count); //Switch to the newly-created tab.
 
         this.addTabFuncList.forEach(function (func) {
             func(id, count);
         });
+
+        this.tabsDiv.tabs("option", "active", count); //Switch to the newly-created tab.
 
         //this.init();
     }
