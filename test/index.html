@@ -105,57 +105,72 @@
         $("#tabs").tabs();
     </script>
     <style type="text/css">
+        .ui-tabs {
+            padding: 0px;
+        }
+
         #sideBar {
             position: relative;
-            width: 250px;
+            width: 240px;
             height: 100%;
             float: left;
+            border-right: 1px solid #808080;
+            border-bottom-right-radius: 0px;
+            border-top-right-radius: 0px;
         }
 
             #sideBar .ui-tabs-nav {
                 position: absolute;
-                left: 0.25em;
-                top: 0.25em;
-                bottom: 0.25em;
-                width: 6em;
-                padding: 0.2em 0 0.2em 0.2em;
+                width: 220px;
+                padding: 10px;
             }
 
                 #sideBar .ui-tabs-nav li {
-                    right: 1px;
                     width: 100%;
-                    border-right: none;
                     border-bottom-width: 1px !important;
-                    -moz-border-radius: 4px 0px 0px 4px;
-                    -webkit-border-radius: 4px 0px 0px 4px;
-                    border-radius: 4px 0px 0px 4px;
+                    border-right-width: 1px !important;
+                    -moz-border-radius: 4px 4px 4px 4px;
+                    -webkit-border-radius: 4px 4px 4px 4px;
+                    border-radius: 4px 4px 4px 4px;
                     overflow: hidden;
                 }
 
-                    #sideBar .ui-tabs-nav li.ui-tabs-selected,
-                    #sideBar .ui-tabs-nav li.ui-state-active {
-                        border-right: 1px solid transparent;
-                    }
-
                     #sideBar .ui-tabs-nav li a {
-                        float: right;
+                        float: left;
                         width: 100%;
-                        text-align: right;
+                        text-align: left;
                     }
 
         #main {
             margin-left: 250px;
             height: 100%;
-            width: calc(100% - 180px);
+            width: calc(100% - 250px);
         }
 
+            #main #tabsBar {
+                border-bottom: 1px solid #808080;
+                border-bottom-right-radius: 0px;
+                border-bottom-left-radius: 0px;
+            }
+
+                #main #tabsBar li {
+                    border-bottom: 1px solid #808080;
+                    border-bottom-right-radius: 0px;
+                    border-bottom-left-radius: 0px;
+                }
+
+                #main #tabsBar .ui-tabs-active {
+                    border-bottom: 0px solid #808080;
+                }
+
         html {
-            height: 90%;
-            width: 98%;
+            height: 100%;
+            width: 100%;
         }
 
         body {
             height: 100%;
+            margin: 0px;
         }
 
         #tabs {
@@ -163,7 +178,8 @@
         }
 
         #tabsBar {
-            height: 50px;
+            height: 41px;
+            margin-bottom: 10px;
         }
 
         #tabs {
@@ -172,45 +188,11 @@
         }
 
         #beans, #clocks, #cheeses, #impactedRights {
-            height: calc(100% - 100px);
+            height: calc(100% - 60px);
             overflow: scroll;
         }
     </style>
     <style type="text/css">
-        .ui-tabs-vertical {
-            width: 55em;
-        }
-
-            .ui-tabs-vertical .ui-tabs-nav {
-                padding: .2em .1em .2em .2em;
-                float: left;
-                width: 12em;
-            }
-
-                .ui-tabs-vertical .ui-tabs-nav li {
-                    clear: left;
-                    width: 100%;
-                    border-bottom-width: 1px !important;
-                    border-right-width: 0 !important;
-                    margin: 0 -1px .2em 0;
-                }
-
-                    .ui-tabs-vertical .ui-tabs-nav li a {
-                        display: block;
-                    }
-
-                    .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
-                        padding-bottom: 0;
-                        padding-right: .1em;
-                        border-right-width: 1px;
-                        border-right-width: 1px;
-                    }
-
-            .ui-tabs-vertical .ui-tabs-panel {
-                padding: 1em;
-                float: right;
-                width: 40em;
-            }
     </style>
 </body>
 </html>

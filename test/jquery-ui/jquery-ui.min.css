@@ -843,7 +843,6 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
 
     .ui-tabs .ui-tabs-nav {
         margin: 0;
-        padding: .2em .2em 0;
     }
 
         .ui-tabs .ui-tabs-nav li {
@@ -874,7 +873,6 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
 .ui-tabs .ui-tabs-panel {
     display: block;
     border-width: 0;
-    padding: 1em 1.4em;
     background: none;
 }
 
@@ -906,7 +904,6 @@ body .ui-tooltip {
     }
 
 .ui-widget-content {
-    border: 1px solid #ddd;
     background: #fff;
     color: #333;
 }
