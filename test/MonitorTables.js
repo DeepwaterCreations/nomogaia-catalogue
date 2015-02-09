@@ -1,13 +1,16 @@
-﻿function MonitorTables() {
+﻿function MonitorTables(categoryHierarchy) {
     // a list of tables 
     this.backingData = [];
+
+    // dataOptions hold what values a drop can can hold
+    this.dataOptions = new DataOptions(categoryHierarchy);
 
     this.push = function (table) {
         this.backingData.push(table);
     }
 
     this.addTable = function (copyFrom) {
-        var newTable = new Table();
+        var newTable = new Table(this);
 
         console.log("Colin - copying form:", copyFrom);
 

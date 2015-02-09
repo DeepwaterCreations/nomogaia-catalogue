@@ -2,8 +2,8 @@
 
 // this class hold a TableData and a TableUI
 // it is passed in to RowUI on create so that RowUI can access TableData
-function Table(categoryHierarchy) {
-    this.categoryHierarchy = categoryHierarchy;
+function Table(monitorTables) {
+    this.owner = monitorTables;
     console.log("Colin, table id increased")
     this.idCounter = 0;
     this.id = tableId++;
@@ -53,7 +53,7 @@ function Table(categoryHierarchy) {
     }
 
     this.tableUI = new TableUI();
-    this.tableData = new TableData(categoryHierarchy);
+    this.tableData = new TableData();
     this.addRow = function(data){
         var myRow=new RowUI(this,data);
         this.tableUI.rows.push(myRow);
@@ -61,8 +61,8 @@ function Table(categoryHierarchy) {
     }
 }
 
-function createTableFromJSON(objFromFile) {
-    var newTable = new Table;
+function createTableFromJSON(objFromFile, monitorTable) {
+    var newTable = new Table(monitorTable);
     newTable.tableData = createTableDataFromJSON(objFromFile);
     newTable.tableData.rows.forEach(function (row) {
         newTable.tableUI.rows.push(new RowUI(newTable, row));

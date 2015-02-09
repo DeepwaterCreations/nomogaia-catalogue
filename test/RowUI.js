@@ -166,7 +166,7 @@ function RowUI(table,rowData) {
     // makes a select a select2
     this.toSelect2 = function (className) {
         if (rowData == undefined) {
-            var backingList = this.table.tableData.getColumnOptions(className);
+            var backingList = this.table.owner.dataOptions.getColumnOptions(className);
         } else {
             var backingList = [rowData.getData(className)];
         }
@@ -184,7 +184,7 @@ function RowUI(table,rowData) {
 
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
-        var backingList = this.table.tableData.getColumnOptions(className);
+        var backingList = this.table.owner.dataOptions.getColumnOptions(className);
         // make classname a select2
         this.get(className).select2({
             data: backingList,
