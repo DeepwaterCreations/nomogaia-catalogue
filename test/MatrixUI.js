@@ -94,7 +94,7 @@ function Matrix() {
         addTab: this.addMonitorTabEvent,
         changeTab: this.changeMonitorTabEvent
     });
-
+        
     //Bind the monitor tab activate event so that the table can be repopulated appropriately.
     //TODO: Implement this. Make sure we don't repopulate when we don't need to.
 }

@@ -105,14 +105,47 @@
     </script>
     <style type="text/css">
         #sideBar {
+            position: relative;
             width: 250px;
+            height: 100%;
             float: left;
         }
+
+            #sideBar .ui-tabs-nav {
+                position: absolute;
+                left: 0.25em;
+                top: 0.25em;
+                bottom: 0.25em;
+                width: 6em;
+                padding: 0.2em 0 0.2em 0.2em;
+            }
+
+                #sideBar .ui-tabs-nav li {
+                    right: 1px;
+                    width: 100%;
+                    border-right: none;
+                    border-bottom-width: 1px !important;
+                    -moz-border-radius: 4px 0px 0px 4px;
+                    -webkit-border-radius: 4px 0px 0px 4px;
+                    border-radius: 4px 0px 0px 4px;
+                    overflow: hidden;
+                }
+
+                    #sideBar .ui-tabs-nav li.ui-tabs-selected,
+                    #sideBar .ui-tabs-nav li.ui-state-active {
+                        border-right: 1px solid transparent;
+                    }
+
+                    #sideBar .ui-tabs-nav li a {
+                        float: right;
+                        width: 100%;
+                        text-align: right;
+                    }
 
         #main {
             margin-left: 250px;
             height: 100%;
-            width: calc(100% - 180px)
+            width: calc(100% - 180px);
         }
 
         html {
