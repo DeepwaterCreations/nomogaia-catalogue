@@ -4,8 +4,10 @@
     //    addTab: function (id, count) { }, //id is the HTML id, count is the index of the new tab.
     //    changeTab: function (newlyActiveTab) { } //newlyActiveTab is the index of the activated tab.
     //};
-    this.tabsDivList = []; //Stores tabDivs.
-
+    //this.tabsDivList = []; //Stores tabDivs.
+    this.addTabFuncList = [];
+    this.changeTabFuncList = [];
+    this.tabsDiv = "";
 
     this.addTabLabel = "Add";
     this.newTabLabel = "Monitor #";
@@ -30,13 +32,18 @@
         if (newlyActiveTab === this.tabCount) return; //I *think* this is the case where it's the "add tab" tab? 
         this.activeTab = newlyActiveTab;
 
-        this.tabsDivList.forEach(function (tabsDiv) {
-            //if (tabsDiv.tabsObj.tabs("option", "active") !== newlyActiveTab){ //This if is being false when it shouldn't. I think the tabs("option", "active") is already up to date by the time we get here...? 
-                tabsDiv.tabsObj.tabs("option", "active", newlyActiveTab);
-                if("changeTab" in tabsDiv) tabsDiv.changeTab(newlyActiveTab);
-            //}   
+        this.changeTabFuncList.forEach(function (func) {
+            func(newlyActiveTab);
         });
+
+        //this.tabsDivList.forEach(function (tabsDiv) {
+        //    //if (tabsDiv.tabsObj.tabs("option", "active") !== newlyActiveTab){ //This if is being false when it shouldn't. I think the tabs("option", "active") is already up to date by the time we get here...? 
+        //        tabsDiv.tabsObj.tabs("option", "active", newlyActiveTab);
+        //        if("changeTab" in tabsDiv) tabsDiv.changeTab(newlyActiveTab);
+        //    //}   
+        //});
     };
+
 
     //Defines the dialog that appears when the add tab is clicked.
     $("#addMonitorDialog").dialog({
@@ -52,43 +59,54 @@
         ],
     });
 
-    this.init= function(){
+    //
+    //this.init = function(){
+    //    var count = this.tabCount++;
+    //    var id = "monitorTab" + count;
+    //    var liString = '<li><a href="#' + id + '">' + (count === 0 ? "Initial": this.newTabLabel + count) + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
+        
+    //    //Update the tabDivs so they display the new tab.
+    //    var that = this; //Seriously, though, Javascript? SERIOUSLY?
+    //    this.tabsDivList.forEach(function (tabsDiv) {
+    //        tabsDiv.tabsObj.find('.' + that.addTabClass).before(liString);
+    //        tabsDiv.tabsObj.append('<div id="' + id + '"></div>');
+
+    //        tabsDiv.tabsObj.tabs("refresh");
+    //        tabsDiv.tabsObj.tabs("option", "active", count);
+    //        if("addTab" in tabsDiv) tabsDiv.addTab(id, count);
+    //    });
+    //}
+
+    //Add a new tab, for when the add tab button is clicked. This function is called by the add monitor dialog
+    //when it closes.
+    this.addTab = function (event) {         
+
         var count = this.tabCount++;
         var id = "monitorTab" + count;
-        var liString = '<li><a href="#' + id + '">' + (count === 0 ? "Initial": this.newTabLabel + count) + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
-        
-        //Update the tabDivs so they display the new tab.
-        var that = this; //Seriously, though, Javascript? SERIOUSLY?
-        this.tabsDivList.forEach(function (tabsDiv) {
-            tabsDiv.tabsObj.find('.' + that.addTabClass).before(liString);
-            tabsDiv.tabsObj.append('<div id="' + id + '"></div>');
+        var liString = '<li><a href="#' + id + '">' + (count === 0 ? "Initial" : this.newTabLabel + count) + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
 
-            tabsDiv.tabsObj.tabs("refresh");
-            tabsDiv.tabsObj.tabs("option", "active", count);
-            if("addTab" in tabsDiv) tabsDiv.addTab(id, count);
+        this.tabsDiv.find('.' + this.addTabClass).before(liString);
+        this.tabsDiv.append('<div id="' + id + '"></div>');
+        this.tabsDiv.tabs("refresh");
+        this.tabsDiv.tabs("option", "active", count); //Switch to the newly-created tab.
+
+        this.addTabFuncList.forEach(function (func) {
+            func(id, count);
         });
-    }
 
-    //Add a new tab, for when the add tab button is clicked. This function is called by the add monitor dialog,
-    //when it closes.
-    this.addTab = function (event) {
-           
-        //Tell MonitorTables to create a new table.
-        monitorTables.addTable(monitorTables.backingData[monitorTables.backingData.length - 1]);
-
-        this.init();
+        //this.init();
     }
     var that = this;
     $("#addMonitorDialog").on("dialogclose", function () {
+        monitorTables.addTable(monitorTables.backingData[monitorTables.backingData.length - 1]);
         that.addTab.apply(that);
     });
 
-    //Makes the div a JqueryUI tabs widget, styles it as vertical, and adds it to the list.
-    //tabsDivFunc will be called whenever a new tab is added so that each tabDiv can populate the tab appropriately.
+    //Makes the div a JqueryUI tabs widget and styles it as vertical.
     this.addTabsDiv = function (tabsDivID, functionObj) {
-        var newTabsDiv = {};
+        //var newTabsDiv = {};
         $("#" + tabsDivID).append("<ul></ul>");
-        newTabsDiv.tabsObj = $("#" + tabsDivID).tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+        this.tabsDiv = $("#" + tabsDivID).tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
         $("#" + tabsDivID + " li").removeClass("ui-corner-top").addClass("ui-corner-left");
         
         //Bind the activate event to a method for making sure all the tabsDivs are linked.
@@ -111,14 +129,18 @@
         $("#" + tabsDivID).tabs("refresh");
 
         //Add the functions.
-        newTabsDiv.addTab = (functionObj.addTab || function () { });
-        newTabsDiv.changeTab = (functionObj.changeTab || function () { });
+        //newTabsDiv.addTab = (functionObj.addTab || function () { });
+        //newTabsDiv.changeTab = (functionObj.changeTab || function () { });
+        this.addFunctions(functionObj);
 
-        this.tabsDivList.push(newTabsDiv);
+        //this.tabsDivList.push(newTabsDiv);
     }
 
     this.addFunctions = function (functionObj) {
-        //TODO
+        if ("addTab" in functionObj)
+            this.addTabFuncList.push(functionObj.addTab);
+        if ("changeTab" in functionObj)
+            this.changeTabFuncList.push(functionObj.changeTab);
     }
 };
 

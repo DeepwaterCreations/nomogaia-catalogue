@@ -84,5 +84,6 @@ $(document).ready(function () {
     $('#category').selectmenu();
     $('#subcategory').selectmenu();
 
-    monitorTabs.init();
+    monitorTabs.addTab();
+    //monitorTabs.init();
 });

@@ -90,12 +90,13 @@ function Matrix() {
         }
     }(this);
 
-    monitorTabs.addTabsDiv(this.divID, {
+    //monitorTabs.addTabsDiv(this.divID, {
+    //    addTab: this.addMonitorTabEvent,
+    //    changeTab: this.changeMonitorTabEvent
+    //});
+    monitorTabs.addFunctions({
         addTab: this.addMonitorTabEvent,
         changeTab: this.changeMonitorTabEvent
-    });
-        
-    //Bind the monitor tab activate event so that the table can be repopulated appropriately.
-    //TODO: Implement this. Make sure we don't repopulate when we don't need to.
+    });    
 }
 var matrix = new Matrix();
