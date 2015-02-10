@@ -6,12 +6,14 @@
     border-width:0px;
     border-bottom-width: 3px;
     border-bottom-color: #356C28;
+    padding: 3px;
 }
 
 #matrixTableDiv th.rowHeader {
     border-width:0px;
     border-right-width: 3px;
     border-right-color: #356C28;
+    padding: 3px;
 }
 
 
@@ -19,6 +21,7 @@
     background-color:#efefef;
     border-radius: 10px;
     border-width: 0px;
+    padding: 3px;
 }
 
 #matrixTableDiv td:hover {
@@ -27,39 +30,45 @@
 
 #matrixTableDiv tr:hover th.rowHeader {
     border-style:solid;
+    padding-right: 0px;
 }
 
-
 #matrixTableDiv th.hoveredColumn {
-    border-style:solid; 
+    border-style:solid;
+    padding-bottom: 0px; 
 }
 
 #matrixTableDiv td.terrible {
     border-width:3px;
+    padding: 0px;
     border-color:#FF0000;
     background-color:#FAC8C8;
 }
 
 #matrixTableDiv td.bad{
     border-width:3px;
+    padding: 0px;
     border-color:#FF9933;
     background-color:#FFE6CC;
 }
 
 #matrixTableDiv td.okay{
     border-width:3px;
+    padding: 0px;
     border-color:#FFFF33;
     background-color:#FFFFCC;
 }
 
 #matrixTableDiv td.good{
     border-width:3px;
+    padding: 0px;
     border-color:#66FF99;
     background-color:#CCFFDD;
 }
 
 #matrixTableDiv td.great{
     border-width:3px;
+    padding: 0px;
     border-color:#52A4FF;
     background-color:#CCE4FF;
 }
