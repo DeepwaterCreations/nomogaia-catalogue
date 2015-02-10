@@ -506,9 +506,9 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
         border-width: 1px 0 0 0;
     }
 
-    .ui-menu .ui-state-focus, .ui-menu .ui-state-active {
+    /*.ui-menu .ui-state-focus, .ui-menu .ui-state-active {
         margin: -1px;
-    }
+    }*/
 
 .ui-menu-icons {
     position: relative;
@@ -1018,9 +1018,9 @@ body .ui-tooltip {
     background-image: url("images/ui-icons_ef8c08_256x240.png");
 }
 
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
+/*.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
     background-image: url("images/ui-icons_ef8c08_256x240.png");
-}
+}*/
 
 .ui-state-active .ui-icon {
     background-image: url("images/ui-icons_ef8c08_256x240.png");
