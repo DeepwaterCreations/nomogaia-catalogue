@@ -112,5 +112,6 @@ var matrix = new Matrix();
 
 
 function getColumnHeadID(rightsholderName) {
-    return "column" + rightsholderName.replace(" ", "-");
+    var idString = "column" + rightsholderName.replace(/\W/g, ""); //Makes non-alphanumeric into nothing.
+    return idString;
 }
