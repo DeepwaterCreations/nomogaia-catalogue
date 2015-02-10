@@ -91,14 +91,9 @@ function addMonitorTabsToImpactedRights(monitorTables) {
 
     this.divID = "impactedRightsMonitorTabs"
 
-    //monitorTabs.addTabsDiv(this.divID, {
-        //addTab: this.addMonitorTabEvent,
-        //changeTab: changeIRMonitorTabEvent
-    //});
-   // monitorTabs.addFunctions({
-        //addTab: this.addMonitorTabEvent,
-        //changeTab: this.changeMonitorTabEvent
-    //});
+   monitorTabs.addFunctions({
+       changeTab: changeIRMonitorTabEvent
+   });
 }
 
 function rebuildImpactedRights(monitorTable, index) {
