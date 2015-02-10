@@ -7,18 +7,34 @@
     return false;
 }
 
-function getBackGroundColor(score) {
+//function getBackGroundColor(score) {
+//    if (score <= -12) {
+//        return "#FF0000"; //Red
+//    } else if (score <= -.5) {
+//        return "#FF9933"; //Orange
+//    } else if (score < .5) {
+//        return "#FFFF33"; //Yellow
+//    } else if (score < 12) {
+//        return "#66FF99"; //Green
+//    } else {
+//        return "#52A4FF"; //Blue
+//    }
+//}
+
+//TODO: Someone will need to style the Impacted Rights cells to use these classes. I'll leave the function above in for color references. Also look at MatrixTable.css.  
+function addScoreCategoryClass(element, score) {
     if (score <= -12) {
-        return "#FF0000"; //Red
+        element.addClass("terrible");
     } else if (score <= -.5) {
-        return "#FF9933"; //Orange
+        element.addClass("bad");
     } else if (score < .5) {
-        return "#FFFF33"; //Yellow
+        element.addClass("okay");
     } else if (score < 12) {
-        return "#66FF99"; //Green
-    } else {
-        return "#52A4FF"; //Blue
+        element.addClass("good");
+    } else if (score >= 12) {
+        element.addClass("great");
     }
+    return element;
 }
 
 // context is true or false
@@ -187,7 +203,8 @@ function rebuildImpactedRights(monitorTable, index) {
         console.log("Colin", rowBeingAdded.find("." + toClassName(rightName) + ".Context"));
         var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
         cell.tooltip({ content: getToolTip(contextRows) });
-        cell.css("background-color", getBackGroundColor(getAverage(contextRows)));
+        //cell.css("background-color", getBackGroundColor(getAverage(contextRows)));
+        addScoreCategoryClass(cell,getAverage(contextRows));
 
         //Add the cells
         modules.forEach(function (myModule) {
@@ -196,7 +213,8 @@ function rebuildImpactedRights(monitorTable, index) {
             rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
             var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + myModule);
             cell.tooltip({ content: getToolTip(moduleRows) });
-            cell.css("background-color", getBackGroundColor(getAverage(moduleRows)));
+            //cell.css("background-color", getBackGroundColor(getAverage(moduleRows)));
+            addScoreCategoryClass(cell, getAverage(moduleRows));
         });
     });
 }
