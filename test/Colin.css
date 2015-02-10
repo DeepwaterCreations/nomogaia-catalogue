@@ -1,0 +1,119 @@
+﻿.ui-state-active, .ui-state-hover, .ui-state-visited, .ui-state-focus {
+            outline: none !important;
+        }
+
+            .ui-state-active a, .ui-state-hover a, .ui-state-visited a, .ui-state-focus a {
+                outline: none !important;
+            }
+
+        .ui-tabs {
+            padding: 0px;
+        }
+
+        #sideBar {
+            z-index: 1;
+            position: relative;
+            width: 240px;
+            height: 100%;
+            float: left;
+            border-right: 1px solid #808080;
+            -webkit-box-shadow: 4px 0 4px -2px #888;
+            border-bottom-right-radius: 0px;
+            border-top-right-radius: 0px;
+        }
+
+        .ui-tabs-nav li {
+            border: 2px solid #fff;
+            margin: 2px;
+        }
+
+            .ui-tabs-nav li:hover {
+                border: 2px solid #356C28;
+            }
+
+                .ui-tabs-nav li:hover a {
+                    color: black !important;
+                }
+
+        .ui-tabs-nav .ui-tabs-active:hover a {
+            color: white;
+        }
+
+        ui-tabs-nav li a {
+            -webkit-transition: all 0.3s ease;
+        }
+
+        .ui-tabs-nav .ui-tabs-active {
+            background: #356C28;
+            border: 2px solid #356C28;
+        }
+
+            .ui-tabs-nav .ui-tabs-active a {
+                color: white;
+            }
+
+        .ui-tabs-nav li {
+            -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+        }
+
+            .ui-tabs-nav li a {
+                color: #1c1b39;
+            }
+
+        #sideBar .ui-tabs-nav {
+            position: absolute;
+            width: 220px;
+            padding: 10px;
+        }
+
+            #sideBar .ui-tabs-nav li {
+                width: 100%;
+                overflow: hidden;
+            }
+
+        .ui-tabs-nav li {
+            /*border-bottom-width: 1px !important;
+                border-right-width: 1px !important;*/
+            -moz-border-radius: 4px 4px 4px 4px;
+            -webkit-border-radius: 4px 4px 4px 4px;
+            border-radius: 4px 4px 4px 4px;
+        }
+
+
+        #main {
+            margin-left: 240px;
+            height: 100%;
+            width: calc(100% - 250px);
+        }
+
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0px;
+        }
+
+        #tabsBar {
+            height: 45px;
+            padding-top: 2px;
+            padding-bottom: 5px;
+            padding-left: 15px;
+            border-bottom: 2px solid #356C28;
+            -webkit-border-radius: 0px;
+        }
+
+        #tabs {
+            height: 100%;
+            width: 100%;
+        }
+
+        #beans, #clocks, #cheeses, #impactedRights {
+            height: calc(100% - 70px);
+            overflow: scroll;
+            padding-left: 15px;
+            padding-top: 15px;
+        }
