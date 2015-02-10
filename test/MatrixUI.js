@@ -29,6 +29,7 @@ function Matrix() {
             return undefined;
         }
         var data = monitorTables.backingData[monitor].tableData;
+        var options = monitorTables.dataOptions;
 
         //First clear what's already there.
         $("#" + matrixTableID).empty();
@@ -37,20 +38,20 @@ function Matrix() {
         $("#" + matrixTableID).append("<thead><tr><th></th></tr></thead>"); //Contains a blank <th> so there's space for a column of row names.
         $("#" + matrixTableID).append("<tbody></tbody>");
         //Add the column headings
-        data.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+        options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
             $("#" + matrixTableID).find("thead").find("tr").append('<th title="">' + rightsholderName + '</th>');
         });
 
         //Add the rows
         //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
         //Then put the averages in the table.
-        data.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+        options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
             $("#" + matrixTableID).find("tbody").append('<tr class="' + rightName + '"></tr>');
             $("#" + matrixTableID).find("tbody").find('tr').last().append('<th title="">' + rightName + '</th>');
 
             //Generate the scores and push them into the htmlString.
             var rows = data.getRows("Impacted Rights", rightName);
-            data.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+            options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
                 var scoreCount = 0;
                 var scoreSum = 0;
                 var tooltipContent = "";

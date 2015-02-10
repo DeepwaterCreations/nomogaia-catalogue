@@ -9,8 +9,8 @@ console.log(buf);
 
 var categoryHierarchy = new CategoryHierarchy(buf);
 
-var monitorTables = new MonitorTables();
-var table = new Table(categoryHierarchy);
+var monitorTables = new MonitorTables(categoryHierarchy);
+var table = new Table(monitorTables);
 monitorTables.push(table);
 
 addMonitorTabsToImpactedRights(monitorTables)
