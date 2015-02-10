@@ -36,10 +36,7 @@ var onClickAdd = function () {
     table.addRow();
 };
 
-monitorTabs.addTabsDiv("sideBar", {
-    //addTab: this.addMonitorTabEvent,
-    //changeTab: changeIRMonitorTabEvent
-});
+monitorTabs.addTabsDiv("sideBar", {});
 
 $(document).ready(function () {
     // we need to add all the rows with module =None to the table
@@ -85,5 +82,4 @@ $(document).ready(function () {
     $('#subcategory').selectmenu();
 
     monitorTabs.addTab();
-    //monitorTabs.init();
 });

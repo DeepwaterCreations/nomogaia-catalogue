@@ -82,8 +82,6 @@ function Matrix() {
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
         return function (id, count) {
-            //var tableTemplate = '<table id="matrixTable' + count + '" border="1"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
-            //$("#" + that.divID).append(tableTemplate);
             that.rebuild(monitorTabs.getActiveMonitor());
         };
     }(this);
@@ -94,10 +92,6 @@ function Matrix() {
         }
     }(this);
 
-    //monitorTabs.addTabsDiv(this.divID, {
-    //    addTab: this.addMonitorTabEvent,
-    //    changeTab: this.changeMonitorTabEvent
-    //});
     monitorTabs.addFunctions({
         addTab: this.addMonitorTabEvent,
         changeTab: this.changeMonitorTabEvent
