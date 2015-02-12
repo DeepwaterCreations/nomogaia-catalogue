@@ -10,7 +10,7 @@ function Table(monitorTables) {
 
     // TODO add a new tables to tables
 
-    $("#tables").append('<table id="table'+this.id+'"><thead><tr></tr></thead><tbody></tbody></table>')
+    $("#tables").append('<table class="dataTable pure-table pure-table-bordered" id="table' + this.id + '"><thead><tr></tr></thead><tbody></tbody></table>')
 
     this.getTable = function () {
         return $("#table" + this.id);
@@ -36,9 +36,10 @@ function Table(monitorTables) {
     //code should live, or what function it ought to be a part of, but for now, it's right here:
     var that = this;
     columnList.forEach(function (columnName) {
-        that.getTable().find("tr").append("<th class='CatalogHeader' title=''>" + columnName + "</th>");
+        that.getTable().find("tr").append("<th class='CatalogHeader' title=''><textarea class='" + toColumnName(columnName) + " resizable'>" + columnName + "</textarea></th>");
         that.getTable().find("tr").children().last().tooltip({ content: columnListTooltips[columnName] });
     });
+
 
     this.nextId = function () {
         return this.idCounter++;

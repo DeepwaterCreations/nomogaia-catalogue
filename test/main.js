@@ -54,10 +54,10 @@ $(document).ready(function () {
             //myRow.setUIValue("Sub-Category", topicInstance.subCategory);
 
             //myRow.setUIValue("Topic", topicInstance.topic);
-            myRow.get("Topic").prop("disabled", true);
-            myRow.get("Sub-Category").prop("disabled", true);
-            myRow.get("Category").prop("disabled", true);
-            myRow.get("Catalog").prop("disabled", true);
+            //myRow.get("Topic").prop("disabled", true);
+            //myRow.get("Sub-Category").prop("disabled", true);
+            //myRow.get("Category").prop("disabled", true);
+            //myRow.get("Catalog").prop("disabled", true);
             //myRow.setUIValue("Module", topicInstance.module);
             //myRow.setUIValue("Source", topicInstance.source);
         }

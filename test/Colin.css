@@ -5,6 +5,10 @@
     .ui-state-active a, .ui-state-hover a, .ui-state-visited a, .ui-state-focus a {
         outline: none !important;
     }
+.ui-widget * {
+     outline: none; 
+
+}​
 
 .ui-tabs {
     padding: 0px;
@@ -124,6 +128,56 @@ body {
     border: none;
 }
 
-.catalog-dropDown {
+.select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple {
     border: none;
 }
+
+.Score {
+    border: none;
+}
+
+.pure-table td, .pure-table th {
+    padding: 0px;/*1px 2px 1px 2px*/
+}
+.pure-table td {
+    padding-left:4px;
+    vertical-align: top;
+}
+.pure-table td {
+    padding-left:4px;
+    vertical-align: top;
+    width:100%;
+    height:100%
+}
+.pure-table th{
+    padding-bottom: 4px;
+    text-align: center;
+    border-left: 0; 
+}
+
+textarea.catalog-text {
+    resize:vertical;
+}
+
+.catalog-input {
+    width:100%;
+    height:100%
+}
+
+.resizable {
+    resize:horizontal;
+    /*width:150px;*/
+    height:100%
+}
+
+/*textarea.Sub-Category , textarea.Topic , textarea.Source , textarea.Input {
+    width:200px;
+}
+
+textarea.Module ,textarea.Score, textarea.Monitor {
+    width:100px;
+}*/
+
+.select2-container.select2-dropdown-open {
+    width: 200px;
+  }
