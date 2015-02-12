@@ -1,4 +1,4 @@
-﻿#matrixTableDiv th.columnHeader, th.rowHeader {
+﻿th.columnHeader, th.rowHeader {
     background-color:#DCF0D8;      
 }
 
@@ -16,15 +16,14 @@
     padding: 3px;
 }
 
-
-#matrixTableDiv td {
+#matrixTableDiv td, #impactedRightsTable td {
     background-color:#efefef;
     border-radius: 10px;
     border-width: 0px;
     padding: 3px;
 }
 
-#matrixTableDiv td:hover {
+#matrixTableDiv td:hover, #impactedRightsTable td:hover {
     border-style:solid;
 }
 
@@ -38,35 +37,35 @@
     padding-bottom: 0px; 
 }
 
-#matrixTableDiv td.terrible {
+#matrixTableDiv td.terrible, #impactedRightsTable td.terrible {
     border-width:3px;
     padding: 0px;
     border-color:#FF0000;
     background-color:#FAC8C8;
 }
 
-#matrixTableDiv td.bad{
+#matrixTableDiv td.bad, #impactedRightsTable td.bad{
     border-width:3px;
     padding: 0px;
     border-color:#FF9933;
     background-color:#FFE6CC;
 }
 
-#matrixTableDiv td.okay{
+#matrixTableDiv td.okay, #impactedRightsTable td.okay{
     border-width:3px;
     padding: 0px;
     border-color:#FFFF33;
     background-color:#FFFFCC;
 }
 
-#matrixTableDiv td.good{
+#matrixTableDiv td.good, #impactedRightsTable td.good{
     border-width:3px;
     padding: 0px;
     border-color:#66FF99;
     background-color:#CCFFDD;
 }
 
-#matrixTableDiv td.great{
+#matrixTableDiv td.great, #impactedRightsTable td.great{
     border-width:3px;
     padding: 0px;
     border-color:#52A4FF;
