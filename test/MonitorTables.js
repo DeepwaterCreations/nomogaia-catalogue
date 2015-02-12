@@ -39,6 +39,7 @@
             table.removeTable();
         });
         this.backingData = [];
+        tableID = 0;
         return this;
     }
 
