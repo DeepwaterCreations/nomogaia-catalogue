@@ -39,7 +39,8 @@
             table.removeTable();
         });
         this.backingData = [];
-        tableID = 0;
+        tableId = 0;
+        monitorTabs.clear();
         return this;
     }
 

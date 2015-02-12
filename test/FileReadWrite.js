@@ -26,6 +26,7 @@ $('#load').click(function () {
 
             var obj = jQuery.parseJSON(chunk);
             monitorTables.clear().push(createTableFromJSON(obj, monitorTables));
+            monitorTabs.addTab(); //TODO: Should this happen more than once? Might we be adding multiple tables? 
         })
 
         $(this).val(""); //Reset the filepath so that the event will be called again.

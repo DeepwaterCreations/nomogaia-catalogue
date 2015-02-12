@@ -5,20 +5,28 @@
     this.changeTabFuncList = [];
     this.tabsDiv = "";
 
+
     this.addTabLabel = "Add";
     this.newTabLabel = "Monitor #";
-    this.addTabClass = "addTab"; //Should go in the list item that holds the "Add" tab.
-    
-    this.addTabDivLabel = "AddTabDiv";
+    this.addTabClass = "addTab"; //Should go in the list item that holds the "Add" tab.    
+    this.addTabDivID = "AddTabDiv";
 
     this.tabCount = 0;
 
     //Returns the index of the active monitor.
     //TODO: In practice, each monitor tab might not have its own monitor.
     //I need a dictionary of tabs to monitors. 
-    this.activeTab = 0;
+    this.activeTab = 0; //TODO: Should this actually live in MonitorTables?
     this.getActiveMonitor = function () {
         return this.activeTab;
+    };
+
+    //Removes all the tabs.
+    this.clear = function () {
+        this.tabsDiv.find("li").not("." + this.addTabClass).remove(); //We want to keep the "Add" tab, of course.
+        this.tabsDiv.find("div").not("#" + this.addTabDivID).remove();
+        this.tabCount = 0;
+        this.activeTab = 0;
     };
 
     //When a tabDiv changes tabs, this is called to coordinate between all tabDivs.
@@ -35,6 +43,7 @@
 
 
     //Defines the dialog that appears when the add tab is clicked.
+    //TODO: The user should be able to cancel this and not add a monitor.
     $("#addMonitorDialog").dialog({
         autoOpen: false,
         modal: true,
@@ -87,13 +96,13 @@
         })
 
         //Add the "add tab" tab and binds its click event to open the add monitor dialog.
-        $("#" + tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#' + tabsDivID + this.addTabDivLabel + '">' + this.addTabLabel + '</a></li>');
+        $("#" + tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#' + this.addTabDivID + '">' + this.addTabLabel + '</a></li>');
         $("#" + tabsDivID).find('.' + this.addTabClass).on("click", function () {
             $("#addMonitorDialog :input").val("");
             $("#addMonitorDialog").dialog("open");
         });
         //Also give the add tab a div.
-        $("#" + tabsDivID + " ul").after('<div id="' + tabsDivID + this.addTabDivLabel + '"></div>');
+        $("#" + tabsDivID + " ul").after('<div id="' + this.addTabDivID + '"></div>');
 
         $("#" + tabsDivID).tabs("refresh");
 
