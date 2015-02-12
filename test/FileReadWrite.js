@@ -25,7 +25,7 @@ $('#load').click(function () {
             $('#fileTextBox').val(chunk); //Puts the data in the text box. //TODO: We'll want to get rid of this eventually, but it's useful for testing.
 
             var obj = jQuery.parseJSON(chunk);
-            monitorTables.clear().push(createTableFromJSON(obj), monitorTables);
+            monitorTables.clear().push(createTableFromJSON(obj, monitorTables));
         })
 
         $(this).val(""); //Reset the filepath so that the event will be called again.
