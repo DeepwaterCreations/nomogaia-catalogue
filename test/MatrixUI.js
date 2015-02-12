@@ -22,6 +22,8 @@ function Matrix() {
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
+        var matrixTableID = this.matrixTablePrefix;
+
         if (!monitorTables.backingData[monitor]) {
             console.log("ERROR: Monitor " + monitor + " is undefined.");
             return undefined;
@@ -30,22 +32,22 @@ function Matrix() {
         var options = monitorTables.dataOptions;
 
         //First clear what's already there.
-        $("#" + this.matrixTablePrefix).empty();
+        $("#" + matrixTableID).empty();
 
         //Then, rebuild it.
-        $("#" + this.matrixTablePrefix).append("<thead><tr><th></th></tr></thead>"); //Contains a blank <th> so there's space for a column of row names.
-        $("#" + this.matrixTablePrefix).append("<tbody></tbody>");
+        $("#" + matrixTableID).append("<thead><tr><th></th></tr></thead>"); //Contains a blank <th> so there's space for a column of row names.
+        $("#" + matrixTableID).append("<tbody></tbody>");
         //Add the column headings
         options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
-            $("#" + this.matrixTablePrefix).find("thead").find("tr").append('<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>');
+            $("#" + matrixTableID).find("thead").find("tr").append('<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>');
         });
 
         //Add the rows
         //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
         //Then put the averages in the table.
         options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
-            $("#" + this.matrixTablePrefix).find("tbody").append('<tr></tr>');
-            $("#" + this.matrixTablePrefix).find("tbody").find('tr').last().append('<th title="" class="rowHeader">' + rightName + '</th>');
+            $("#" + matrixTableID).find("tbody").append('<tr></tr>');
+            $("#" + matrixTableID).find("tbody").find('tr').last().append('<th title="" class="rowHeader">' + rightName + '</th>');
 
             //Generate the scores and push them into the htmlString.
             var rows = data.getRows("Impacted Rights", rightName);
@@ -64,18 +66,18 @@ function Matrix() {
                 });
                 if (scoreCount > 0) {
                     var avg = scoreSum / scoreCount;
-                    $("#" + this.matrixTablePrefix).find("tbody").find('tr').last().append('<td title="">' + avg + '</td>');
+                    $("#" + matrixTableID).find("tbody").find('tr').last().append('<td title="">' + avg + '</td>');
                     //Also add a tooltip.
-                    var cell = $("#" + this.matrixTablePrefix).find("tbody").find('tr').last().children().last();
+                    var cell = $("#" + matrixTableID).find("tbody").find('tr').last().children().last();
                     cell.tooltip({ content: tooltipContent });
                     addScoreCategoryClass(cell, avg);
                 }
                 else
-                    $("#" + this.matrixTablePrefix).find("tbody").find('tr').last().append('<td>-</td>');
+                    $("#" + matrixTableID).find("tbody").find('tr').last().append('<td>-</td>');
                 //When the user mouses over a cell, this makes the cell's column header become highlighted.
                 //Row headers already do this via pure CSS. (You can put a hover selector on the <tr> to find the appropriate row head, but the column heads aren't exclusively enclosed
                 //in an element with the cells below them, so we have to resort to javascript.) 
-                $("#" + this.matrixTablePrefix).find("tbody").find('tr').last().children().last().hover(function (event) {
+                $("#" + matrixTableID).find("tbody").find('tr').last().children().last().hover(function (event) {
                     //On mouse hover, give the column header a class.
                     $('#' + getColumnHeadID(rightsholderName)).addClass("hoveredColumn");
                 },
@@ -86,7 +88,7 @@ function Matrix() {
             });
         });
 
-        return $("#" + this.matrixTablePrefix); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
+        return $("#" + matrixTableID); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
     };
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
