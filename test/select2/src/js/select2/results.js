@@ -281,9 +281,13 @@ define([
       var data = $highlighted.data('data');
 
       if ($highlighted.attr('aria-selected') == 'true') {
-        self.trigger('unselect', {
-          data: data
-        });
+        if (self.options.get('multiple')) {
+          self.trigger('unselect', {
+            data: data
+          });
+        } else {
+          self.trigger('close');
+        }
       } else {
         self.trigger('select', {
           data: data
@@ -399,10 +403,14 @@ define([
       var data = $this.data('data');
 
       if ($this.attr('aria-selected') === 'true') {
-        self.trigger('unselect', {
-          originalEvent: evt,
-          data: data
-        });
+        if (self.options.get('multiple')) {
+          self.trigger('unselect', {
+            originalEvent: evt,
+            data: data
+          });
+        } else {
+          self.trigger('close');
+        }
 
         return;
       }
@@ -466,7 +474,13 @@ define([
   Results.prototype.template = function (result, container) {
     var template = this.options.get('templateResult');
 
-    container.innerHTML = template(result);
+    var content = template(result);
+
+    if (content == null) {
+      container.style.display = 'none';
+    } else {
+      container.innerHTML = content;
+    }
   };
 
   return Results;

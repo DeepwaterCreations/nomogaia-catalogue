@@ -92,6 +92,24 @@ define([
           Tokenizer
         );
       }
+
+      if (options.query != null) {
+        var Query = require(options.amdBase + 'compat/query');
+
+        options.dataAdapter = Utils.Decorate(
+          options.dataAdapter,
+          Query
+        );
+      }
+
+      if (options.initSelection != null) {
+        var InitSelection = require(options.amdBase + 'compat/initSelection');
+
+        options.dataAdapter = Utils.Decorate(
+          options.dataAdapter,
+          InitSelection
+        );
+      }
     }
 
     if (options.resultsAdapter == null) {
@@ -110,6 +128,13 @@ define([
           HidePlaceholder
         );
       }
+
+      if (options.selectOnClose) {
+        options.resultsAdapter = Utils.Decorate(
+          options.resultsAdapter,
+          SelectOnClose
+        );
+      }
     }
 
     if (options.dropdownAdapter == null) {
@@ -125,13 +150,6 @@ define([
         options.dropdownAdapter = Utils.Decorate(
           options.dropdownAdapter,
           MinimumResultsForSearch
-        );
-      }
-
-      if (options.selectOnClose) {
-        options.dropdownAdapter = Utils.Decorate(
-          options.dropdownAdapter,
-          SelectOnClose
         );
       }
 
@@ -177,7 +195,16 @@ define([
     }
 
     if (typeof options.language === 'string') {
-      options.language = [options.language];
+      // Check if the lanugage is specified with a region
+      if (options.language.indexOf('-') > 0) {
+        // Extract the region information if it is included
+        var languageParts = options.language.split('-');
+        var baseLanguage = languageParts[0];
+
+        options.language = [options.language, baseLanguage];
+      } else {
+        options.language = [options.language];
+      }
     }
 
     if ($.isArray(options.language)) {
@@ -194,9 +221,23 @@ define([
           // Try to load it with the original name
           language = Translation.loadPath(name);
         } catch (e) {
-          // If we couldn't load it, check if it wasn't the full path
-          name = this.defaults.amdLanguageBase + name;
-          language = Translation.loadPath(name);
+          try {
+            // If we couldn't load it, check if it wasn't the full path
+            name = this.defaults.amdLanguageBase + name;
+            language = Translation.loadPath(name);
+          } catch (ex) {
+            // The translation could not be loaded at all. Sometimes this is
+            // because of a configuration problem, other times this can be
+            // because of how Select2 helps load all possible translation files.
+            if (console && console.warn) {
+              console.warn(
+                'Select2: The lanugage file for "' + name + '" could not be ' +
+                'automatically loaded. A fallback will be used instead.'
+              );
+            }
+
+            continue;
+          }
         }
 
         languages.extend(language);
@@ -287,6 +328,17 @@ define([
       theme: 'default',
       width: 'resolve'
     };
+  };
+
+  Defaults.prototype.set = function (key, value) {
+    var camelKey = $.camelCase(key);
+
+    var data = {};
+    data[camelKey] = value;
+
+    var convertedData = Utils._convertData(data);
+
+    $.extend(this.defaults, convertedData);
   };
 
   var defaults = new Defaults();

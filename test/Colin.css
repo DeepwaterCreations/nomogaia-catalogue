@@ -157,10 +157,16 @@ body {
 
 textarea.catalog-text {
     resize:vertical;
+    overflow:hidden;
 }
 
 .catalog-input {
     width:100%;
+    height:100%
+}
+
+.catalog-input.catalog-dropDown {
+    overflow: hidden;
     height:100%
 }
 
@@ -178,6 +184,4 @@ textarea.Module ,textarea.Score, textarea.Monitor {
     width:100px;
 }*/
 
-.select2-container.select2-dropdown-open {
-    width: 200px;
-  }
+

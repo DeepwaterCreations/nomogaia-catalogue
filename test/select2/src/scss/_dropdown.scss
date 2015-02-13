@@ -13,7 +13,7 @@
 
   width: 100%;
 
-  z-index: 100;
+  z-index: 1051;
 }
 
 .select2-results {
@@ -60,6 +60,7 @@
   .select2-search__field {
     padding: 4px;
     width: 100%;
+    box-sizing: border-box;
   }
 
   &.select2-search--hide {
