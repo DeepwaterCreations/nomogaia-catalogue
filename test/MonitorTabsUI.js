@@ -51,6 +51,7 @@
             {
                 text: "Ok",
                 click: function () {
+                    monitorTabs.addTabCallback();
                     $(this).dialog("close");
                 }
             }
@@ -60,7 +61,6 @@
     //Add a new tab, for when the add tab button is clicked. This function is called by the add monitor dialog
     //when it closes.
     this.addTab = function (event) {         
-
         var count = this.tabCount++;
         var id = "monitorTab" + count;
 
@@ -78,11 +78,12 @@
 
         this.tabsDiv.tabs("option", "active", count); //Switch to the newly-created tab.
     }
-    var that = this;
-    $("#addMonitorDialog").on("dialogclose", function () {
-        monitorTables.addTable(monitorTables.backingData[monitorTables.backingData.length - 1]);
-        that.addTab.apply(that);
-    });
+    this.addTabCallback = function (that) {
+        return function () {
+            monitorTables.addTable(monitorTables.backingData[monitorTables.backingData.length - 1]);
+            that.addTab.apply(that);
+        }
+    }(this);
 
     //Makes the div a JqueryUI tabs widget and styles it as vertical.
     this.addTabsDiv = function (tabsDivID, functionObj) {
