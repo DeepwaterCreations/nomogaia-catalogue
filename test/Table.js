@@ -37,6 +37,7 @@ function Table(monitorTables) {
     var that = this;
     columnList.forEach(function (columnName) {
         that.getTable().find("tr").append("<th class='CatalogHeader' title=''><textarea class='" + toColumnName(columnName) + " resizable'>" + columnName + "</textarea></th>");
+        that.getTable().find("tr").children().last().find("textarea").attr("disabled", "disabled");
         that.getTable().find("tr").children().last().tooltip({ content: columnListTooltips[columnName] });
     });
 

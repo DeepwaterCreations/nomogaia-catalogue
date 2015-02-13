@@ -1,7 +1,8 @@
 define([
+  'jquery',
   '../utils',
   '../keys'
-], function (Utils, KEYS) {
+], function ($, Utils, KEYS) {
   function BaseSelection ($element, options) {
     this.$element = $element;
     this.options = options;
@@ -12,7 +13,17 @@ define([
   Utils.Extend(BaseSelection, Utils.Observable);
 
   BaseSelection.prototype.render = function () {
-    throw new Error('The `render` method must be defined in child classes.');
+    var $selection = $(
+      '<span class="select2-selection" tabindex="0" role="combobox" ' +
+      'aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">' +
+      '</span>'
+    );
+
+    $selection.attr('title', this.$element.attr('title'));
+
+    this.$selection = $selection;
+
+    return $selection;
   };
 
   BaseSelection.prototype.bind = function (container, $container) {
@@ -57,6 +68,14 @@ define([
 
       self._detachCloseHandler(container);
     });
+
+    container.on('enable', function () {
+      self.$selection.attr('tabindex', '0');
+    });
+
+    container.on('disable', function () {
+      self.$selection.attr('tabindex', '-1');
+    });
   };
 
   BaseSelection.prototype._attachCloseHandler = function (container) {
@@ -81,15 +100,10 @@ define([
         $element.select2('close');
       });
     });
-
-    $(window).on('scroll.select2.' + container.id, function (e) {
-      self.trigger('close');
-    });
   };
 
   BaseSelection.prototype._detachCloseHandler = function (container) {
     $(document.body).off('mousedown.select2.' + container.id);
-    $(window).off('scroll.select2.' + container.id);
   };
 
   BaseSelection.prototype.position = function ($selection, $container) {

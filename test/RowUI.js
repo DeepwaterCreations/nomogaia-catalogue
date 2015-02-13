@@ -175,7 +175,7 @@ function RowUI(table,rowData) {
         // make the className a awesome multiselect
         this.get(className).select2({
             data: backingList,
-            dropdownAutoWidth: true
+            width: 'resolve'
         });
     }
 
@@ -190,9 +190,8 @@ function RowUI(table,rowData) {
         // make classname a select2
         this.get(className).select2({
             data: backingList,
-            tags: true,
-            dropdownAutoWidth: true
-        });
+            tags: true
+    });
 
         this.get(className).on("select2:select", generateOnSelect(className, backingList));
     }
