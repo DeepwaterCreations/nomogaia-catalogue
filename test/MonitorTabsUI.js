@@ -63,7 +63,10 @@
 
         var count = this.tabCount++;
         var id = "monitorTab" + count;
-        var liString = '<li><a href="#' + id + '">' + (count === 0 ? "Initial" : this.newTabLabel + count) + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
+
+        //Label gets the value provided in the dialog, or else makes a default value based on whether this is the first tab.
+        var label = ($("#monitorNameField").val() || (count === 0 ? "Initial" : this.newTabLabel + count));
+        var liString = '<li><a href="#' + id + '">' + label + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
 
         this.tabsDiv.find('.' + this.addTabClass).before(liString);
         this.tabsDiv.append('<div id="' + id + '"></div>');
