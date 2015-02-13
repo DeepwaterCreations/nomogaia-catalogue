@@ -1,4 +1,8 @@
-﻿th.columnHeader, th.rowHeader {
+﻿#matrixTableDiv table {
+    border-collapse: separate;
+}
+
+th.columnHeader, th.rowHeader {
     background-color:#DCF0D8;      
 }
 
