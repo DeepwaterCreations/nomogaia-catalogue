@@ -5,12 +5,12 @@
     .ui-state-active a, .ui-state-hover a, .ui-state-visited a, .ui-state-focus a {
         outline: none !important;
     }
+
 .ui-widget * {
-     outline: none; 
+    outline: none;
+}
 
-}​
-
-.ui-tabs {
+#tabs {
     padding: 0px;
 }
 
@@ -37,6 +37,7 @@
 
         .ui-tabs-nav li:hover a {
             color: black !important;
+            -webkit-transition: all 0.3s ease;
         }
 
 .ui-tabs-nav .ui-tabs-active:hover a {
@@ -76,6 +77,11 @@ ui-tabs-nav li a {
         overflow: hidden;
     }
 
+        #sideBar .ui-tabs-nav li a {
+            width: 100%;
+            overflow: hidden;
+        }
+
 .ui-tabs-nav li {
     /*border-bottom-width: 1px !important;
                 border-right-width: 1px !important;*/
@@ -88,7 +94,7 @@ ui-tabs-nav li a {
 #main {
     margin-left: 240px;
     height: 100%;
-    width: calc(100% - 250px);
+    width: calc(100% - 240px);
 }
 
 html {
@@ -116,7 +122,7 @@ body {
     width: 100%;
 }
 
-#beans, #clocks, #cheeses, #impactedRights {
+#Catalogs, #impactedRatings, #rightsMatrix {
     height: calc(100% - 70px);
     overflow: scroll;
     padding-left: 15px;
@@ -137,51 +143,63 @@ body {
 }
 
 .pure-table td, .pure-table th {
-    padding: 0px;/*1px 2px 1px 2px*/
+    padding: 0px; /*1px 2px 1px 2px*/
 }
+
 .pure-table td {
-    padding-left:4px;
+    padding-left: 4px;
     vertical-align: top;
 }
+
+    .pure-table td:hover {
+        border-color: #888;
+    }
+
 .pure-table td {
-    padding-left:4px;
+    padding-left: 4px;
     vertical-align: top;
-    width:100%;
-    height:100%
+    width: 100%;
+    height: 100%;
 }
-.pure-table th{
+
+.pure-table th {
     padding-bottom: 4px;
     text-align: center;
-    border-left: 0; 
+    border-left: 0;
 }
 
 textarea.catalog-text {
-    resize:vertical;
-    overflow:hidden;
+    resize: vertical;
+    overflow: hidden;
 }
 
 .catalog-input {
-    width:100%;
-    height:100%
+    width: 100%;
+    height: 100%;
 }
 
-.catalog-input.catalog-dropDown {
-    overflow: hidden;
-    height:100%
-}
 
 .resizable {
-    resize:horizontal;
-    /*width:150px;*/
-    height:100%
+    resize: horizontal;
+    width: 150px;
+    height: 100%;
 }
 
-/*textarea.Sub-Category , textarea.Topic , textarea.Source , textarea.Input {
-    width:200px;
+.select2-container {
+    overflow: hidden;
+    height: 100%;
 }
 
-textarea.Module ,textarea.Score, textarea.Monitor {
-    width:100px;
-}*/
+    /*we need to show the overflow when they are selecting otherwise we don't get a drop down*/
+    .select2-container.select2-container--open {
+        overflow: visible;
+        border: 1px solid #fff;
+    }
 
+textarea.Sub-Category, textarea.Topic, textarea.Source, textarea.Input {
+    width: 200px;
+}
 
+textarea.Module, textarea.Score, textarea.Monitor {
+    width: 100px;
+}

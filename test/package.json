@@ -3,6 +3,10 @@
     "main": "index.html",
     "window": {
         "title": "does anything here work?",
-        "width": 1000
+        "width": 1000,
+		"toolbar": true,
+		"frame": true,
+		"title": "node-webkit demo",
+		"min_width": 450px
     }
 }

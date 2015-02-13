@@ -838,7 +838,7 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
 
 .ui-tabs {
     position: relative;
-    padding: .2em;
+    /*padding: .2em;*/
 }
 
     .ui-tabs .ui-tabs-nav {

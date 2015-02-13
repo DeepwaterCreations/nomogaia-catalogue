@@ -61,7 +61,7 @@ function RowUI(table,rowData) {
         } else if (column == "Input") {
             return '<td><textarea class="' + toColumnName(column) + ' catalog-text catalog-input" type="text" value=""></textarea></td>';
         } else if (column == "Module") {
-            return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input"/></td>';
+            return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
         } else if (column == "Source") {
             return '<td><textarea class="' + toColumnName(column) + ' catalog-text catalog-input" type="text" value=""></textarea></td>';
         } else if (column == "Impacted Rights") {

@@ -13,50 +13,56 @@
     <div id="main">
         <div id="tabs">
             <ul id="tabsBar">
+                <li>
+                    <a href="#Catalogs">Catalogs</a>
+                </li>
+                <li>
+                    <a href="#impactedRatings">Impact Ratings</a>
+                </li>
                 <li id="matrixTab">
-                    <a href="#beans">Beans</a>
+                    <a href="#rightsMatrix">Rights Matrix</a>
                 </li>
-                <li>
-                    <a href="#clocks">Lovely Timepieces</a>
-                </li>
-                <li>
+                <!--<li>
                     <a href="#cheeses">Havarti etc.</a>
-                </li>
-                <li>
-                    <a href="#impactedRights">Impacted Rights</a>
-                </li>
+                </li>-->
             </ul>
-            <div id="beans" class="tab">
-                <div id="matrixTableDiv">
-                </div>
-            </div>
-            <div id="clocks" class="tab">
+            <div id="Catalogs" class="tab">
                 <div id="catalogMonitorTabs">
                     <div id="tables"></div>
                 </div>
-                <input type="text" id="searchInput" />
+
 
                 <input type="button" id="addRow" value="Add" />
-                <form action="#">
-                    <fieldset>
-                        <label for="catalogSelect">Catalog:</label>
-                        <select name="catalog" id="catalogSelect"></select><br />
+                <!--<input type="text" id="searchInput" />
+        <form action="#">
+            <fieldset>
+                <label for="catalogSelect">Catalog:</label>
+                <select name="catalog" id="catalogSelect"></select><br />
 
-                        <label for="categorySelect">Category:</label>
-                        <select name="category" id="categorySelect"></select><br />
+                <label for="categorySelect">Category:</label>
+                <select name="category" id="categorySelect"></select><br />
 
-                        <label for="subcategorySelect">Subcategory:</label>
-                        <select name="subcategory" id="subcategorySelect"></select><br />
+                <label for="subcategorySelect">Subcategory:</label>
+                <select name="subcategory" id="subcategorySelect"></select><br />
 
-                        <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
+                <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
 
-                        <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="10" id="topicDescTextBox"></textarea><br />
+                <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="10" id="topicDescTextBox"></textarea><br />
 
-                        <input type="button" id="addTopicButton" value="Add Topic" />
-                    </fieldset>
-                </form>
+                <input type="button" id="addTopicButton" value="Add Topic" />
+            </fieldset>
+        </form>-->
             </div>
-            <div id="cheeses" class="tab">
+            <div id="impactedRatings" class="tab">
+                <div id="impactedRightsMonitorTabs">
+                    <table id="impactedRightsTable"></table>
+                </div>
+            </div>
+            <div id="rightsMatrix" class="tab">
+                <div id="matrixTableDiv">
+                </div>
+            </div>
+            <!--<div id="cheeses" class="tab">
                 <input type="file" id="chooseFile" />
                 <input type="button" id="readFileButton" value="Read File" />
                 <input type="button" id="writeFileButton" value="Write File" />
@@ -70,13 +76,7 @@
                 <div id="fileedit">
                     <textarea name="fileText" cols="50" rows="50" id="fileTextBox"> </textarea>
                 </div>
-            </div>
-            <div id="impactedRights" class="tab">
-                <div id="impactedRightsMonitorTabs">
-                    <table id="impactedRightsTable"></table>
-                </div>
-
-            </div>
+            </div>-->
         </div>
     </div>
 
