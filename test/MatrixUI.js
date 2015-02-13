@@ -46,7 +46,7 @@ function Matrix() {
         //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
         //Then put the averages in the table.
         options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
-            $("#" + matrixTableID).find("tbody").append('<tr></tr>');
+            $("#" + matrixTableID).find("tbody").append('<tr id="' + getRowID(rightName) + '"></tr>');
             $("#" + matrixTableID).find("tbody").find('tr').last().append('<th title="" class="rowHeader">' + rightName + '</th>');
 
             //Generate the scores and push them into the htmlString.
@@ -55,6 +55,7 @@ function Matrix() {
                 var scoreCount = 0;
                 var scoreSum = 0;
                 var tooltipContent = "";
+                var cellClass = getDataCellClass(rightName, rightsholderName);
                 rows.forEach(function (row) {
                     if (row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
                         scoreCount++;
@@ -66,14 +67,14 @@ function Matrix() {
                 });
                 if (scoreCount > 0) {
                     var avg = scoreSum / scoreCount;
-                    $("#" + matrixTableID).find("tbody").find('tr').last().append('<td title="">' + avg + '</td>');
+                    $("#" + matrixTableID).find("tbody").find('tr').last().append('<td title="" class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">' + avg + '</td>');
                     //Also add a tooltip.
                     var cell = $("#" + matrixTableID).find("tbody").find('tr').last().children().last();
                     cell.tooltip({ content: tooltipContent });
                     addScoreCategoryClass(cell, avg);
                 }
                 else
-                    $("#" + matrixTableID).find("tbody").find('tr').last().append('<td>-</td>');
+                    $("#" + matrixTableID).find("tbody").find('tr').last().append('<td class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">-</td>');
                 //When the user mouses over a cell, this makes the cell's column header become highlighted.
                 //Row headers already do this via pure CSS. (You can put a hover selector on the <tr> to find the appropriate row head, but the column heads aren't exclusively enclosed
                 //in an element with the cells below them, so we have to resort to javascript.) 
@@ -88,7 +89,43 @@ function Matrix() {
             });
         });
 
+        this.filter(monitorTables.backingData.length - 1);
+
         return $("#" + matrixTableID); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
+    };
+
+    this.filter = function (monitor) {
+        var keptColumns = {};
+        var keptRows = {};
+        
+        var data = monitorTables.backingData[monitor].tableData;
+        var options = monitorTables.dataOptions;
+                
+        //We're going to iterate over all the rows and columns to see which have scores. Each row/column that has at least one score in it, we'll keep. 
+        options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+            var rows = data.getRows("Impacted Rights", rightName);
+            options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+                rows.forEach(function (row) {
+                    if (row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
+                        keptRows[rightName] = true;
+                        keptColumns[rightsholderName] = true;
+                    }
+                });
+            });
+        });
+
+        //Now, delete all the rows and columns that never made it onto the list.
+        options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+            if (!(rightName in keptRows))
+                $("#" + getRowID(rightName)).remove();
+        });
+
+        options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+            if (!(rightsholderName in keptColumns)) {
+                $("td." + getDataCellClass("", rightsholderName).colClass).remove();
+                $("#" + getColumnHeadID(rightsholderName)).remove();
+            }
+        });
     };
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
@@ -114,4 +151,16 @@ var matrix = new Matrix();
 function getColumnHeadID(rightsholderName) {
     var idString = "column" + rightsholderName.replace(/\W/g, ""); //Makes non-alphanumeric into nothing.
     return idString;
+}
+
+function getRowID(rightName) {
+    var idString = "row" + rightName.replace(/\W/g, ""); //Makes non-alphanumeric into nothing.
+    return idString;
+}
+
+function getDataCellClass(rightName, rightsHolderName) {
+    var returnVal = {};
+    returnVal.rowClass = "row" + rightName.replace(/\W/g, "") + "Data";
+    returnVal.colClass = "column" + rightsHolderName.replace(/\W/g, "") + "Data";
+    return returnVal;
 }
