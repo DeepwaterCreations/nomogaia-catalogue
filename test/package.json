@@ -7,6 +7,6 @@
 		"toolbar": true,
 		"frame": true,
 		"title": "node-webkit demo",
-		"min_width": 450px
+		"min_width": 450
     }
 }
