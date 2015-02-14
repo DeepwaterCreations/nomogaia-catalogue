@@ -173,7 +173,9 @@ function createRowDataFromJSON(objRow) {
     }
     else {
         columnList.forEach(function (columnName) {
-            newRowData[columnName] = objRow[columnName];
+            if (columnName in objRow) {
+                newRowData[columnName] = objRow[columnName];
+            }
         });
     }
     return newRowData;
