@@ -16,13 +16,21 @@ monitorTables.push(table);
 addMonitorTabsToImpactedRights(monitorTables)
 
 var searchColumn = 'Category';
+var currentSearch = null;
 
 var updateSearchColumn = function () {
-    searchColumn = $(this).text();
+    $(".searchInput").height(0)
+    if (currentSearch!=null && currentSearch[0] == $(".searchInput-" + toColumnName($(this).text()))[0]) {
+        currentSearch = null;
+    } else {
+        currentSearch = $(".searchInput-" + toColumnName($(this).text()));
+        currentSearch.height("25px");
+        searchColumn = $(this).text();
+    }
 }
 
 var searchTable = function () {
-    var searchString = $('#searchInput').val();
+    var searchString = $('.searchInput').val();
     table.tableUI.rows.forEach(function (row) {
         if (row.getValue(searchColumn).indexOf(searchString) > -1) {
             row.getRow().show();
@@ -33,7 +41,16 @@ var searchTable = function () {
 };
 
 var onClickAdd = function () {
-    table.addRow();
+    var rowAt = null;
+    monitorTables.backingData.forEach(function (myTable) {
+        if (rowAt == null) {
+            rowAt = myTable.addRow();
+        } else {
+            var dataAt = rowAt.data;
+            var newData = new RowData(dataAt);
+            rowAt = myTable.addRow(newData);
+        }
+    });
 };
 
 monitorTabs.addTabsDiv("sideBar", {});
