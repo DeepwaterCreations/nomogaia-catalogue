@@ -53,14 +53,3 @@ function TableData() {
 
 
 }
-
-function createTableDataFromJSON(objFromFile) {
-    var newTableData = new TableData;
-
-    rowDataId = 0;
-    objFromFile[0].forEach(function (objRow) {
-        newTableData.addRow(createRowDataFromJSON(objRow));
-    });
-
-    return newTableData;
-}

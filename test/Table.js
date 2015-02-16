@@ -65,9 +65,20 @@ function Table(monitorTables) {
 
 function createTableFromJSON(objFromFile, monitorTable) {
     var newTable = new Table(monitorTable);
-    newTable.tableData = createTableDataFromJSON(objFromFile);
-    newTable.tableData.rows.forEach(function (row) {
-        newTable.tableUI.rows.push(new RowUI(newTable, row));
+    objFromFile[0].forEach(function (objRow) {
+        if ("pointsTo" in objRow) {
+            //TODO: newTable.addRow(???);
+        }
+        else {
+            var newData = new RowData();
+            columnList.forEach(function (columnName) {
+                newData.setData(columnName, objRow[columnName]);
+            });
+            newData.id = objRow.id;
+            rowDataID = Math.max(rowDataId, objRow.id+1);
+
+            var newRowUI = newTable.addRow(newData);
+        }
     });
     return newTable;
 }

@@ -159,24 +159,3 @@ RowData = function (rowData) {
 
 
 };
-
-
-//Returns a new RowData from the properties of objRow,
-//presumed to be a JSON object from a loaded file.
-function createRowDataFromJSON(objRow) {
-    var newRowData = new RowData;
-    newRowData.id = objRow.id;
-    rowDataId = Math.max(rowDataId, objRow.id + 1); //rowDataId will have incremented by 1 upon the new RowData's creation. 
-
-    if ("pointsTo" in objRow) {
-        //TODO: Figure this the heck out.
-    }
-    else {
-        columnList.forEach(function (columnName) {
-            if (columnName in objRow) {
-                newRowData[columnName] = objRow[columnName];
-            }
-        });
-    }
-    return newRowData;
-}
