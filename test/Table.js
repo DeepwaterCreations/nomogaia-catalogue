@@ -72,7 +72,8 @@ function createTableFromJSON(objFromFile, monitorTable) {
         else {
             var newData = new RowData();
             columnList.forEach(function (columnName) {
-                newData.setData(columnName, objRow[columnName]);
+                if(columnName in objRow)
+                    newData.setData(columnName, objRow[columnName]);
             });
             newData.id = objRow.id;
             rowDataID = Math.max(rowDataId, objRow.id+1);
