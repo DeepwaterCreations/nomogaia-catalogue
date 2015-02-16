@@ -18,16 +18,18 @@ addMonitorTabsToImpactedRights(monitorTables)
 var searchColumn = 'Category';
 var currentSearch = null;
 
-var updateSearchColumn = function () {
-    $(".searchInput").height(0)
-    if (currentSearch!=null && currentSearch[0] == $(".searchInput-" + toColumnName($(this).text()))[0]) {
-        currentSearch = null;
-    } else {
-        currentSearch = $(".searchInput-" + toColumnName($(this).text()));
-        currentSearch.height("25px");
-        searchColumn = $(this).text();
-    }
-}
+//var updateSearchColumn = function () {
+//    $(".searchInput").height(0)
+//    //$(".resizable").height("100%");
+//    if (currentSearch!=null && currentSearch[0] == $(".searchInput-" + toColumnName($(this).text()))[0]) {
+//        currentSearch = null;
+//    } else {
+//        currentSearch = $(".searchInput-" + toColumnName($(this).text()));
+//        $(".resizable."+toColumnName($(this).text())).height("calc(100% - 25px)");
+//        currentSearch.height("25px");
+//        searchColumn = $(this).text();
+//    }
+//}
 
 var searchTable = function () {
     var searchString = $('.searchInput').val();
@@ -82,7 +84,7 @@ $(document).ready(function () {
 
     $('#addRow').click(onClickAdd);
     $('#searchInput').keyup(searchTable);
-    $('.CatalogHeader').click(updateSearchColumn);
+    //$('.CatalogHeader').click(updateSearchColumn);
 
     //TODO: Check event.target or ui.newTab or whatever to make sure the tab being activated is the relevant one.
     $('#tabs').on('tabsactivate', function (event, data) {
