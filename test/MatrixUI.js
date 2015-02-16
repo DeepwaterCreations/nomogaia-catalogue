@@ -35,7 +35,7 @@ function Matrix() {
         $("#" + matrixTableID).empty();
 
         //Then, rebuild it.
-        $("#" + matrixTableID).append("<thead><tr><th></th></tr></thead>"); //Contains a blank <th> so there's space for a column of row names.
+        $("#" + matrixTableID).append('<thead><tr><th class="columnHeader"></th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
         $("#" + matrixTableID).append("<tbody></tbody>");
         //Add the column headings
         options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
@@ -148,8 +148,8 @@ function Matrix() {
 var matrix = new Matrix();
 
 
-function getColumnHeadID(rightsholderName) {
-    var idString = "column" + rightsholderName.replace(/\W/g, ""); //Makes non-alphanumeric into nothing.
+function getColumnHeadID(columnName) {
+    var idString = "column" + columnName.replace(/\W/g, ""); //Makes non-alphanumeric into nothing.
     return idString;
 }
 

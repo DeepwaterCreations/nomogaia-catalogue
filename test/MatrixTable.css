@@ -3,21 +3,19 @@
 }
 
 th.columnHeader, th.rowHeader {
-    background-color:#DCF0D8;      
+    background-color:#DCF0D8;
+    padding: 3px;
+    border-width:0px;      
 }
 
-#matrixTableDiv th.columnHeader {
-    border-width:0px;
+th.columnHeader {
     border-bottom-width: 3px;
     border-bottom-color: #356C28;
-    padding: 3px;
 }
 
-#matrixTableDiv th.rowHeader {
-    border-width:0px;
+th.rowHeader {
     border-right-width: 3px;
     border-right-color: #356C28;
-    padding: 3px;
 }
 
 #matrixTableDiv td, #impactedRightsTable td {
@@ -31,12 +29,12 @@ th.columnHeader, th.rowHeader {
     border-style:solid;
 }
 
-#matrixTableDiv tr:hover th.rowHeader {
+tr:hover th.rowHeader {
     border-style:solid;
     padding-right: 0px;
 }
 
-#matrixTableDiv th.hoveredColumn {
+th.hoveredColumn {
     border-style:solid;
     padding-bottom: 0px; 
 }

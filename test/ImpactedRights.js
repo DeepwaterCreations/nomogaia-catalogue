@@ -110,7 +110,7 @@ function rebuildImpactedRights(monitorTable, index) {
     impactedRightsTable.append("<tbody></tbody>");
     //Add the column headings
 
-    var headersList = ["Right", "Context"];
+    var headersList = ["", "Context"];
 
 
     var moduleIsUsed = function (module) {
@@ -139,7 +139,10 @@ function rebuildImpactedRights(monitorTable, index) {
     //Add the first row of headers
     var headerString = "<tr>"
     headersList.forEach(function (header) {
-        headerString += '<th title="" class="columnHeader">' + header + '</th>';
+        var columnID = "";
+        if (header)
+            columnID = 'id = "' + getColumnHeadID(header) + '"';
+        headerString += '<th title="" ' + columnID + ' class="columnHeader">' + header + '</th>';
     });
     headerString += "</tr>";
     impactedRightsTable.find("thead").append(headerString);
@@ -180,7 +183,7 @@ function rebuildImpactedRights(monitorTable, index) {
         var rowBeingAdded = impactedRightsTable.find("." + toClassName(rightName));
 
         // add the title row
-        rowBeingAdded.append('<td class="Right">' + rightName + '</td>')
+        rowBeingAdded.append('<th class="Right, rowHeader">' + rightName + '</th>')
 
         // add the context
         var contextRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), "None", true);
@@ -189,6 +192,15 @@ function rebuildImpactedRights(monitorTable, index) {
         var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
         cell.tooltip({ content: getToolTip(contextRows) });
         addScoreCategoryClass(cell, getAverage(contextRows));
+        cell.hover(function (event) {
+                //On mouse hover, give the column header a class.
+                $('#' + getColumnHeadID("Context")).addClass("hoveredColumn"); //TODO: Maybe "Context" shouldn't be hard-coded.
+            },
+            function (event) {
+                //On mouse hover end, remove the class.
+                $('#' + getColumnHeadID("Context")).removeClass("hoveredColumn");
+            }
+        );
 
         //Add the cells
         modules.forEach(function (myModule) {
@@ -198,6 +210,15 @@ function rebuildImpactedRights(monitorTable, index) {
             var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + myModule);
             cell.tooltip({ content: getToolTip(moduleRows) });
             addScoreCategoryClass(cell, getAverage(moduleRows));
+            cell.hover(function (event) {
+                    //On mouse hover, give the column header a class.
+                    $('#' + getColumnHeadID(myModule)).addClass("hoveredColumn");
+                },
+                function (event) {
+                    //On mouse hover end, remove the class.
+                    $('#' + getColumnHeadID(myModule)).removeClass("hoveredColumn");
+                }
+            );
         });
     });
 }
