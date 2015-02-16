@@ -150,9 +150,9 @@ body {
     /*vertical-align: top;*/
 }
 
-    .pure-table td:hover {
+    /*.pure-table td:hover {
         border-color: #888;
-    }
+    }*/
 
 .pure-table td {
     /*vertical-align: top;*/
@@ -183,7 +183,7 @@ textarea.catalog-text {
     overflow: hidden;
     height: 100%;
     width:100%;
-    -webkit-transition: all 0.3s ease;
+    -webkit-transition: border  0.3s ease;
 }
 
     /*we need to show the overflow when they are selecting otherwise we don't get a drop down*/
@@ -211,25 +211,30 @@ textarea.Module, textarea.Score, textarea.Monitor {
 .catalog-input {
     padding: 4px;
     border: 1px solid #ffffff;
-    -webkit-transition: all 0.3s ease;
+    -webkit-transition: border 0.3s ease;
     width: calc(100% - 10px);
     height: 100%;
 }
 
+    .catalog-input:hover {
+        border: 1px solid #888;
+        -webkit-transition: border 0.3s ease;
+    }
+
     .catalog-input:focus {
         border: 1px solid #000000;
-        -webkit-transition: all 0.3s ease;
+        -webkit-transition: border 0.3s ease;
     }
 
 .select2-container .select2-selection--single {
     padding: 4px;
     border: 1px solid #ffffff;
-    -webkit-transition: all 0.3s ease;
+    -webkit-transition: border  0.3s ease;
 }
 
 .select2-container--open.select2 .select2-selection--single {
     border: 1px solid #000;
-    -webkit-transition: all 0.3s ease;
+    -webkit-transition: border  0.3s ease;
 }
 
 .select2-container--default .select2-selection--single {
@@ -253,12 +258,20 @@ textarea.Module, textarea.Score, textarea.Monitor {
 .select2-container .select2-selection--single {
     padding: 4px;
     border: 1px solid #ffffff;
-    -webkit-transition: all 0.3s ease;
+    -webkit-transition: border 0.3s ease;
 }
 
-.select2-container--open.select2 .select2-selection--multiple {
+.select2-container .select2-selection--single:hover {
+    border: 1px solid #888;
+}
+
+.select2-container--open .select2-selection--single:hover {
     border: 1px solid #000;
-    -webkit-transition: all 0.3s ease;
+}
+
+.select2-container.select2-container--open.select2 .select2-selection--multiple {
+    border: 1px solid #000;
+    -webkit-transition: border 0.3s ease;
 }
 
 .select2-container--default .select2-selection--multiple {
@@ -277,4 +290,13 @@ textarea.Module, textarea.Score, textarea.Monitor {
 
 .select2-container .select2-selection--multiple {
     height:100%;
+    border: 1px solid #fff;
+}
+
+.select2-container .select2-selection--multiple:hover {
+    border: 1px solid #888;
+}
+
+.select2-container.select2-container--open .select2-selection--multiple:hover {
+    border: 1px solid #000;
 }
