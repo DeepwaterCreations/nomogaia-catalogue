@@ -147,8 +147,7 @@ body {
 }
 
 .pure-table td {
-    padding-left: 4px;
-    vertical-align: top;
+    /*vertical-align: top;*/
 }
 
     .pure-table td:hover {
@@ -156,8 +155,7 @@ body {
     }
 
 .pure-table td {
-    padding-left: 4px;
-    vertical-align: top;
+    /*vertical-align: top;*/
     width: 100%;
     height: 100%;
 }
@@ -173,10 +171,6 @@ textarea.catalog-text {
     overflow: hidden;
 }
 
-.catalog-input {
-    width: 100%;
-    height: 100%;
-}
 
 
 .resizable {
@@ -188,12 +182,14 @@ textarea.catalog-text {
 .select2-container {
     overflow: hidden;
     height: 100%;
+    width:100%;
+    -webkit-transition: all 0.3s ease;
 }
 
     /*we need to show the overflow when they are selecting otherwise we don't get a drop down*/
     .select2-container.select2-container--open {
         overflow: visible;
-        border: 1px solid #fff;
+        /*border: 1px solid #000;*/
     }
 
 /*textarea.Sub-Category, textarea.Topic, textarea.Source, textarea.Input {
@@ -205,9 +201,80 @@ textarea.Module, textarea.Score, textarea.Monitor {
 }*/
 
 .searchInput {
-    width:100%;
-    height:0px;
-    border:0;
-    padding:0;
+    width: 100%;
+    height: 0px;
+    border: 0;
+    padding: 0;
     -webkit-transition: all 0.3s ease;
+}
+
+.catalog-input {
+    padding: 4px;
+    border: 1px solid #ffffff;
+    -webkit-transition: all 0.3s ease;
+    width: calc(100% - 10px);
+    height: 100%;
+}
+
+    .catalog-input:focus {
+        border: 1px solid #000000;
+        -webkit-transition: all 0.3s ease;
+    }
+
+.select2-container .select2-selection--single {
+    padding: 4px;
+    border: 1px solid #ffffff;
+    -webkit-transition: all 0.3s ease;
+}
+
+.select2-container--open.select2 .select2-selection--single {
+    border: 1px solid #000;
+    -webkit-transition: all 0.3s ease;
+}
+
+.select2-container--default .select2-selection--single {
+    border-radius:0;
+}
+
+.selection {
+    width:100%;
+    height:100%;
+}
+
+.select2-selection {
+    width:100%;
+    height:100%;
+}
+
+.select2-container .select2-selection--single {
+    height:100%;
+}
+
+.select2-container .select2-selection--single {
+    padding: 4px;
+    border: 1px solid #ffffff;
+    -webkit-transition: all 0.3s ease;
+}
+
+.select2-container--open.select2 .select2-selection--multiple {
+    border: 1px solid #000;
+    -webkit-transition: all 0.3s ease;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border-radius:0;
+}
+
+.selection {
+    width:100%;
+    height:100%;
+}
+
+.select2-selection {
+    width:100%;
+    height:100%;
+}
+
+.select2-container .select2-selection--multiple {
+    height:100%;
 }
