@@ -36,7 +36,7 @@ function Table(monitorTables) {
     //code should live, or what function it ought to be a part of, but for now, it's right here:
     var that = this;
     columnList.forEach(function (columnName) {
-        that.getTable().find("tr").append("<th class='CatalogHeader' title=''><textarea class='" + toColumnName(columnName) + " resizable'>" + columnName + "</textarea><input type='text' class='searchInput searchInput-" + toColumnName(columnName) + "' style='height:0px;' /></th>");
+        that.getTable().find("tr").append("<th class='CatalogHeader' title=''><textarea class='" + toColumnName(columnName) + " resizable'>" + columnName + "</textarea><input type='search' placeholder='filter " +columnName+"' class='searchInput searchInput-" + toColumnName(columnName) + "' /></th>");
         that.getTable().find("tr").children().last().find("textarea").attr("disabled", "disabled");
         that.getTable().find("tr").children().last().tooltip({ content: columnListTooltips[columnName] });
     });

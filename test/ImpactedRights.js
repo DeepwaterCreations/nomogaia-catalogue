@@ -188,7 +188,6 @@ function rebuildImpactedRights(monitorTable, index) {
         // add the context
         var contextRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), "None", true);
         rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
-        console.log("Colin", rowBeingAdded.find("." + toClassName(rightName) + ".Context"));
         var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
         cell.tooltip({ content: getToolTip(contextRows) });
         addScoreCategoryClass(cell, getAverage(contextRows));
