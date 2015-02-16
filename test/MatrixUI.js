@@ -18,6 +18,9 @@ function Matrix() {
     var tableTemplate = '<table id="' + this.matrixTablePrefix + '"><thead><tr><th></th></tr></thead><tbody></tbody></table>';
     $("#" + this.divID).append(tableTemplate);
 
+    var undefinedRightNameFiller = "Right to Nothing Whatsoever";
+    var undefinedRightsHolderNameFiller = "Nobody In Particular";
+
     //We need to know which table we're rebuilding in the function.
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
@@ -39,6 +42,8 @@ function Matrix() {
         $("#" + matrixTableID).append("<tbody></tbody>");
         //Add the column headings
         options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+            rightsholderName = rightsholderName || undefinedRightsHolderNameFiller; //This is a bit goofy, but in practice, I think we shouldn't have this ever. If we see it, it's an error. 
+
             $("#" + matrixTableID).find("thead").find("tr").append('<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>');
         });
 
@@ -46,12 +51,16 @@ function Matrix() {
         //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
         //Then put the averages in the table.
         options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+            rightName = rightName || undefinedRightNameFiller;
+
             $("#" + matrixTableID).find("tbody").append('<tr id="' + getRowID(rightName) + '"></tr>');
             $("#" + matrixTableID).find("tbody").find('tr').last().append('<th title="" class="rowHeader">' + rightName + '</th>');
 
             //Generate the scores and push them into the htmlString.
             var rows = data.getRows("Impacted Rights", rightName);
             options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+                rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
+
                 var scoreCount = 0;
                 var scoreSum = 0;
                 var tooltipContent = "";
@@ -103,8 +112,12 @@ function Matrix() {
                 
         //We're going to iterate over all the rows and columns to see which have scores. Each row/column that has at least one score in it, we'll keep. 
         options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+            rightName = rightName || undefinedRightNameFiller;
+
             var rows = data.getRows("Impacted Rights", rightName);
             options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+                rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
+
                 rows.forEach(function (row) {
                     if (row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
                         keptRows[rightName] = true;
@@ -116,11 +129,15 @@ function Matrix() {
 
         //Now, delete all the rows and columns that never made it onto the list.
         options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+            rightName = rightName || undefinedRightNameFiller;
+
             if (!(rightName in keptRows))
                 $("#" + getRowID(rightName)).remove();
         });
 
         options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+            rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
+
             if (!(rightsholderName in keptColumns)) {
                 $("td." + getDataCellClass("", rightsholderName).colClass).remove();
                 $("#" + getColumnHeadID(rightsholderName)).remove();
