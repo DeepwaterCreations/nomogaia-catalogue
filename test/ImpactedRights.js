@@ -50,6 +50,8 @@ function getAverage(rows) {
     var average = 0;
     if (count != 0) {
         average = sum / count;
+    } else {
+        average="-"
     }
 
     return average;

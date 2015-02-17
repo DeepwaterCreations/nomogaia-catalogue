@@ -24,27 +24,31 @@ var searchTable = function () {
             searchString = (searchString == undefined ? "" : (searchString + "").toUpperCase());
             var columnValue = row.getValue(columnList[columnIndex]);
             if (Array.isArray(columnValue)) {
-                var brk = false;
+                var hasMatch = false;
                 for (var index in columnValue) {
                     var currentColumnValue = columnValue[index];
                     currentColumnValue = (currentColumnValue == undefined ? "" : (currentColumnValue + "").toUpperCase());
                     if (currentColumnValue.indexOf(searchString) != -1) {
-                        brk = true;
+                        hasMatch = true;
                         break;
                     }
                 }
-                if (brk) {
-                    break;
+                if (!hasMatch) {
+                    show = false;
+                }
+            } else {
+                if (searchString != "" && columnValue == "UNINITIALIZED") {
+                    show = false;
                 } else {
-                    show = false;
+                    columnValue = (columnValue == undefined ? "" : (columnValue + "").toUpperCase());
+                    console.log("Colin ss: " + searchString + " cv: " + columnValue, row);
+                    if (columnValue.indexOf(searchString) == -1) {
+                        show = false;
+                    }
                 }
-            }else{
-                columnValue = (columnValue == undefined ? "" : (columnValue+"").toUpperCase());
-                console.log("Colin ss: " + searchString + " cv: " + columnValue, row);
-                if (columnValue.indexOf(searchString) == -1) {
-                    show = false;
-                    break;
-                }
+            }
+            if (!show){
+                break;
             }
         }
         if (show) {
@@ -52,7 +56,6 @@ var searchTable = function () {
         } else {
             row.getRow().hide();
         }
-    
     });
 };
 
