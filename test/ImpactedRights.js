@@ -56,7 +56,9 @@ function getAverage(rows) {
 }
 
 function toClassName(column) {
-    return column.replace(/ /g, '_');
+    var str = column.replace(/ /g, '_');
+    str = str.replace(/\W/g, ""); //Takes care of non-whitespace, non-alphanumeric characters.
+    return str;
 }
 
 function getToolTip(rows) {
