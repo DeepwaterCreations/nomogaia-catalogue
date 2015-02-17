@@ -15,26 +15,43 @@ monitorTables.push(table);
 
 addMonitorTabsToImpactedRights(monitorTables)
 
-var searchColumn = 'Category';
-var currentSearch = null;
-
-//var updateSearchColumn = function () {
-//    $(".searchInput").height(0)
-//    //$(".resizable").height("100%");
-//    if (currentSearch!=null && currentSearch[0] == $(".searchInput-" + toColumnName($(this).text()))[0]) {
-//        currentSearch = null;
-//    } else {
-//        currentSearch = $(".searchInput-" + toColumnName($(this).text()));
-//        $(".resizable."+toColumnName($(this).text())).height("calc(100% - 25px)");
-//        currentSearch.height("25px");
-//        searchColumn = $(this).text();
-//    }
-//}
-
 var searchTable = function () {
-    var searchString = $('.searchInput').val();
     table.tableUI.rows.forEach(function (row) {
-        if (row.getValue(searchColumn).indexOf(searchString) > -1) {
+        var show = true;
+        for (var columnIndex in columnList) {
+            var column = toColumnName(columnList[columnIndex]);
+            var searchString = $(".searchInput-" + column).val();
+            searchString = (searchString == undefined ? "" : (searchString + "").toUpperCase());
+            var columnValue = row.getValue(columnList[columnIndex]);
+            if (Array.isArray(columnValue)) {
+                var hasMatch = false;
+                for (var index in columnValue) {
+                    var currentColumnValue = columnValue[index];
+                    currentColumnValue = (currentColumnValue == undefined ? "" : (currentColumnValue + "").toUpperCase());
+                    if (currentColumnValue.indexOf(searchString) != -1) {
+                        hasMatch = true;
+                        break;
+                    }
+                }
+                if (!hasMatch) {
+                    show = false;
+                }
+            } else {
+                if (searchString != "" && columnValue == "UNINITIALIZED") {
+                    show = false;
+                } else {
+                    columnValue = (columnValue == undefined ? "" : (columnValue + "").toUpperCase());
+                    console.log("Colin ss: " + searchString + " cv: " + columnValue, row);
+                    if (columnValue.indexOf(searchString) == -1) {
+                        show = false;
+                    }
+                }
+            }
+            if (!show){
+                break;
+            }
+        }
+        if (show) {
             row.getRow().show();
         } else {
             row.getRow().hide();
@@ -83,7 +100,10 @@ $(document).ready(function () {
     });
 
     $('#addRow').click(onClickAdd);
-    $('#searchInput').keyup(searchTable);
+    $('.searchInput').keyup(searchTable);
+    $('.searchInputForm').on('reset', function (e) {
+        setTimeout(searchTable);
+    });
     //$('.CatalogHeader').click(updateSearchColumn);
 
     //TODO: Check event.target or ui.newTab or whatever to make sure the tab being activated is the relevant one.
