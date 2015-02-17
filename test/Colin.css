@@ -303,7 +303,6 @@ textarea.Module, textarea.Score, textarea.Monitor {
 }
 
 .close-icon {
-    /*float: right;*/
     border: 1px solid transparent;
     background-color: transparent;
     display: inline-block;
@@ -318,15 +317,11 @@ textarea.Module, textarea.Score, textarea.Monitor {
         width: 15px;
         height: 15px;
         -webkit-appearance: none;
-        /*position: absolute;*/
         background-color: #FA9595;
         z-index: 1;
         top: 0;
         bottom: 0;
-        /*margin: auto;*/
         padding: 2px;
-        /*border-radius: 50%;*/
-        /*text-align: center;*/
         color: white;
         font-weight: normal;
         font-size: 12px;
@@ -344,7 +339,6 @@ textarea.Module, textarea.Score, textarea.Monitor {
 }
 
 .searchInput:valid {
-    
     width: calc(100% - 40px);
     padding-right: 35px;
 }

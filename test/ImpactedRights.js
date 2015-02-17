@@ -165,6 +165,7 @@ function rebuildImpactedRights(monitorTable, index) {
     //sort the rows by most impacted
     //TODO we are currently using the first table, would it be better to use the newest?
     //TODO we should abs?
+    //TODO this is really slow
     impactedRights.sort(function (rightA, rightB) {
         var rightARows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightA), "", false);
         var rightBRows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightB), "", false);
