@@ -24,9 +24,13 @@ $('#load').click(function () {
         filer.on('data', function (chunk) {
             $('#fileTextBox').val(chunk); //Puts the data in the text box. //TODO: We'll want to get rid of this eventually, but it's useful for testing.
 
+            //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
             var obj = jQuery.parseJSON(chunk);
-            monitorTables.clear().push(createTableFromJSON(obj, monitorTables));
-            monitorTabs.addTab(); //TODO: Should this happen more than once? Might we be adding multiple tables? 
+            monitorTables.clear();
+            for (var i = 0; i < obj.length; i++) {
+                monitorTables.push(createTableFromJSON(obj, i, monitorTables));
+                monitorTabs.addTab();
+            }
         })
 
         $(this).val(""); //Reset the filepath so that the event will be called again.

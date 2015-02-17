@@ -64,11 +64,25 @@ function Table(monitorTables) {
     }
 }
 
-function createTableFromJSON(objFromFile, monitorTable) {
-    var newTable = new Table(monitorTable);
-    objFromFile[0].forEach(function (objRow) {
+function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
+    var newTable = new Table(monitorTables);
+    objFromFile[tableIndex].forEach(function (objRow) {
         if ("pointsTo" in objRow) {
-            //TODO: newTable.addRow(???);
+            var refRow = undefined;
+            monitorTables.backingData.forEach(function (table) {
+                var target = table.tableData.getRows("id", objRow["pointsTo"]);
+                if (target.length === 1){
+                    refRow = target[0];
+                    return;
+                }
+            });
+            if (refRow) {
+                var newRowUI = newTable.addRow(refRow);
+                newRowUI.setValue("id", objRow.id);
+                rowDataID = Math.max(rowDataId, objRow.id + 1);
+            }
+            else
+                console.log("WARNING: couldn't find a row with id " + objRow["pointsTo"]);
         }
         else {
             var newData = new RowData();
