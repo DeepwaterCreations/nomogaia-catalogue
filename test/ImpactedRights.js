@@ -108,6 +108,7 @@ function rebuildImpactedRights(monitorTable, index) {
     var impactedRightsTable = $("#impactedRightsTable");
     //First clear what's already there.
     impactedRightsTable.empty();
+    $("#" + this.divID + " .nodata").remove();
 
     //Then, rebuild it.
     impactedRightsTable.append("<thead></thead>");
@@ -140,17 +141,6 @@ function rebuildImpactedRights(monitorTable, index) {
         }
     })
 
-    //Add the first row of headers
-    var headerString = "<tr>"
-    headersList.forEach(function (header) {
-        var columnID = "";
-        if (header)
-            columnID = 'id = "' + getColumnHeadID(header) + '"';
-        headerString += '<th title="" ' + columnID + ' class="columnHeader">' + header + '</th>';
-    });
-    headerString += "</tr>";
-    impactedRightsTable.find("thead").append(headerString);
-
     //Sort the right from most to least impacted
 
     var allRights = table.owner.dataOptions.getColumnOptions("Impacted Rights");
@@ -163,6 +153,24 @@ function rebuildImpactedRights(monitorTable, index) {
             impactedRights.push(rightName);
         }
     });
+
+    //If there aren't any impacted rights, display "NO DATA"
+    if (impactedRights.length === 0) {
+        $("#" + this.divID).append('<div class="nodata"><span>NO DATA</span></div>');
+
+        return;
+    }
+
+    //Add the first row of headers
+    var headerString = "<tr>"
+    headersList.forEach(function (header) {
+        var columnID = "";
+        if (header)
+            columnID = 'id = "' + getColumnHeadID(header) + '"';
+        headerString += '<th title="" ' + columnID + ' class="columnHeader">' + header + '</th>';
+    });
+    headerString += "</tr>";
+    impactedRightsTable.find("thead").append(headerString);
 
     //sort the rows by most impacted
     //TODO we are currently using the first table, would it be better to use the newest?

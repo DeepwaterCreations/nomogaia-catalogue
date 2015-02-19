@@ -70,3 +70,11 @@ th.hoveredColumn {
     border-color:#52A4FF;
     background-color:#CCE4FF;
 }
+
+div.nodata {
+    width:100%;
+    height:100%;
+    text-align:center;
+    font-size:48px;
+    color:rgba(0,0,0,0.25);
+}

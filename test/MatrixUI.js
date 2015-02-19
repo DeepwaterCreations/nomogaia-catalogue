@@ -25,6 +25,8 @@ function Matrix() {
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
+        var nodata = true;
+
         var matrixTableID = this.matrixTablePrefix;
 
         if (!monitorTables.backingData[monitor]) {
@@ -36,17 +38,12 @@ function Matrix() {
 
         //First clear what's already there.
         $("#" + matrixTableID).empty();
+        $("#" + this.divID + " .nodata").remove();
 
         //Then, rebuild it.
         $("#" + matrixTableID).append('<thead><tr><th class="columnHeader"></th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
         $("#" + matrixTableID).append("<tbody></tbody>");
-        //Add the column headings
-        options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
-            rightsholderName = rightsholderName || undefinedRightsHolderNameFiller; //This is a bit goofy, but in practice, I think we shouldn't have this ever. If we see it, it's an error. 
-
-            $("#" + matrixTableID).find("thead").find("tr").append('<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>');
-        });
-
+        
         //Add the rows
         //For each right, get the list of table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
         //Then put the averages in the table.
@@ -58,6 +55,8 @@ function Matrix() {
 
             //Generate the scores and push them into the htmlString.
             var rows = data.getRows("Impacted Rights", rightName);
+            if (rows.length > 0)
+                nodata = false;
             options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
                 rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
 
@@ -97,8 +96,21 @@ function Matrix() {
                 });
             });
         });
+        if (nodata) {
+            $("#" + matrixTableID).empty();
+            $("#" + this.divID).append('<div class="nodata"><span>NO DATA</span></div>');
+        }
+        else {
 
-        this.filter(monitorTables.backingData.length - 1);
+            //Add the column headings
+            options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+                rightsholderName = rightsholderName || undefinedRightsHolderNameFiller; //This is a bit goofy, but in practice, I think we shouldn't have this ever. If we see it, it's an error. 
+
+                $("#" + matrixTableID).find("thead").find("tr").append('<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>');
+            });
+
+            this.filter(monitorTables.backingData.length - 1);
+        }
 
         return $("#" + matrixTableID); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
     };
