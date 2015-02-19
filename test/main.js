@@ -99,6 +99,8 @@ $(document).ready(function () {
         }
     });
 
+    initFields(monitorTables.dataOptions);
+
     $('#addRow').click(onClickAdd);
     $('.searchInput').keyup(searchTable);
     $('.searchInputForm').on('reset', function (e) {
