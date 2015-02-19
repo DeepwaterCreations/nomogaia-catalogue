@@ -17,6 +17,17 @@ AddTopic.addTopic = function () {
     categoryHierarchy.addTopic(myTopic);
     //TODO push this change to the approprate lists
     // oh boy that is going to suck
+
+    //reset the values
+    // we have to subcategory/category/catalog in this order
+    $("#subcategorySelect").select2("val", "-");
+    $("#categorySelect").select2("val", "-");
+    $("#catalogSelect").select2("val", "-");
+    
+    $("#moduleSelect").val("None"); 
+    $("#topicName").val("");
+    $("#topicDescTextBox").val(""); 
+    $("#topicSourceTextBox").val("");
 }
 
 AddTopic.makeSelect2 = function (select, backingList) {
@@ -140,9 +151,9 @@ AddTopic.initFields = function (dataOptions) {
         AddTopic.canAdd();
     })
 
-    $("#topicName").change(function () { AddTopic.canAdd(); });
-    $("#topicDescTextBox").change(function () { AddTopic.canAdd(); });
-    $("#topicSourceTextBox").change(function () { AddTopic.canAdd(); });
+    $("#topicName").keyup(function () { AddTopic.canAdd(); });
+    $("#topicDescTextBox").keyup(function () { AddTopic.canAdd(); });
+    $("#topicSourceTextBox").keyup(function () { AddTopic.canAdd(); });
 
     $("#addTopicButton").click(function () {
         if (AddTopic.canAdd()) {

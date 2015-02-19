@@ -343,6 +343,9 @@ textarea.Module, textarea.Score, textarea.Monitor {
     padding-right: 35px;
 }
 
+#addTopicButton {
+    -webkit-transition: all 0.3s ease;
+}
 
 .off {
     background-color:red;

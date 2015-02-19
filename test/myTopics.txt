@@ -1,1 +1,4 @@
 Health	Underlying Determinants	Underlying Determinants	asdf	asdf	None	asdf
+Water	Groundwater	Groundwater	adsf	adfs	Land	adsf
+Social/ Economic	Land the Project Occupies	Land the Project Occupies	Colin	a	Land	df
+Political/ Legal	Security	Security	yolo	asdf	HIV	df
