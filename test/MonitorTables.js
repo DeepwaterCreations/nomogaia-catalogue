@@ -2,6 +2,10 @@
     // a list of tables 
     this.backingData = [];
 
+    this.getNewestMonitorData = function () {
+        return this.backingData[this.backingData.length - 1];
+    }
+
     // dataOptions hold what values a drop can can hold
     this.dataOptions = new DataOptions(categoryHierarchy);
 

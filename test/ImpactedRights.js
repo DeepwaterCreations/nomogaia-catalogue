@@ -173,18 +173,17 @@ function rebuildImpactedRights(monitorTable, index) {
     impactedRightsTable.find("thead").append(headerString);
 
     //sort the rows by most impacted
-    //TODO we are currently using the first table, would it be better to use the newest?
     //TODO we should abs?
     //TODO this is really slow
     impactedRights.sort(function (rightA, rightB) {
-        var rightARows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightA), "", false);
-        var rightBRows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightB), "", false);
+        var rightARows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightA), "", false);
+        var rightBRows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightB), "", false);
         var diff = getAverage(rightBRows) - getAverage(rightARows);
         if (diff != 0) {
             return diff;
         } else {
-            var innerRightARows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightA), "", true);
-            var innerRightBRows = filterRows(monitorTable.backingData[0].tableData.getRows("Impacted Rights", rightB), "", true);
+            var innerRightARows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightA), "", true);
+            var innerRightBRows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightB), "", true);
             return getAverage(innerRightBRows) - getAverage(innerRightARows);
         }
     });
