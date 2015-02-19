@@ -3,7 +3,7 @@
     this.category = category;
     this.subCategory = subCategory;
     this.topic = topic;
-    this.desctiption = description;
+    this.description = description;
     this.module = module;
     this.source = source;
 
@@ -15,6 +15,25 @@
         result.setData("Topic", this.topic);
         result.setData("Module", this.module);
         result.setData("Source", this.source);
+        return result;
+    }
+
+    this.toString = function () {
+        var result = "";
+        result += catalog;
+        result += '\t';
+        result += category;
+        result += '\t';
+        result += subCategory;
+        result += '\t';
+        result += topic;
+        result += '\t';
+        result += description;
+        result += '\t';
+        result += module;
+        result += '\t';
+        result += source;
+        result += '\n';
         return result;
     }
 }

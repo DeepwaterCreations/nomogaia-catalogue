@@ -25,38 +25,15 @@
                 <li>
                     <a href="#cheeses">Havarti etc.</a>
                 </li>
+                <li>
+                    <a href="#addTopic">Add Topic</a>
+                </li>
             </ul>
             <div id="Catalogs" class="tab">
                 <div id="catalogMonitorTabs">
                     <div id="tables"></div>
                 </div>
-
-
                 <input type="button" id="addRow" value="Add" />
-
-                <form action="#">
-                    <fieldset>
-                        <label for="catalogSelect">Catalog:</label>
-                        <select name="catalog" id="catalogSelect"></select><br />
-
-                        <label for="categorySelect">Category:</label>
-                        <select name="category" id="categorySelect"></select><br />
-
-                        <label for="subcategorySelect">Subcategory:</label>
-                        <select name="subcategory" id="subcategorySelect"></select><br />
-
-                        <label for="moduleSelect">Module:</label>
-                        <select name="module" id="moduleSelect"></select><br />
-
-                        <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
-
-                        <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="10" id="topicDescTextBox"></textarea><br />
-
-                        <h4>Topic Source:</h4><textarea name="topicSourceText" cols="50" rows="10" id="topicSourceTextBox"></textarea><br />
-
-                        <input type="button" id="addTopicButton" value="Add Topic" />
-                    </fieldset>
-                </form>
             </div>
             <div id="impactedRatings" class="tab">
                 <div id="impactedRightsMonitorTabs">
@@ -82,7 +59,31 @@
                     <textarea name="fileText" cols="50" rows="50" id="fileTextBox"> </textarea>
                 </div>
             </div>
-        </div>
+            <div id="addTopic" class="tab">
+                <form action="#">
+                    <fieldset>
+                        <label for="catalogSelect">Catalog:</label>
+                        <select name="catalog" id="catalogSelect"></select><br />
+
+                        <label for="categorySelect">Category:</label>
+                        <select name="category" id="categorySelect"></select><br />
+
+                        <label for="subcategorySelect">Subcategory:</label>
+                        <select name="subcategory" id="subcategorySelect"></select><br />
+
+                        <label for="moduleSelect">Module:</label>
+                        <select name="module" id="moduleSelect"></select><br />
+
+                        <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
+
+                        <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="10" id="topicDescTextBox"></textarea><br />
+
+                        <h4>Topic Source:</h4><textarea name="topicSourceText" cols="50" rows="10" id="topicSourceTextBox"></textarea><br />
+
+                        <input type="button" id="addTopicButton" value="Add Topic" />
+                    </fieldset>
+                </form>
+            </div>
     </div>
 
     <div id="addMonitorDialog">

@@ -231,48 +231,14 @@ function RowUI(table,rowData) {
     }
 
     this.updateColumnOptions = function (column, list) {
-        //remember the old value
-        var oldValue = this.get(column).val();
-        // unselect what they had selected
-        //myRow.get(column).find("option[value='oldValue']").select2("val", "");
-
-
-        if (list.length == 1) {
-            oldValue = list[0];
-        }
-
-        //remove everything
-        this.get(column)
-        .find('option')
-        .remove()
-        .end();
-        
-        this.get(column).append('<option value="-">-</option>');
-        // now add back what we need
-        list.forEach(function (ele) {
-            myRow.get(column).append('<option value="' + ele + '">' + ele + '</option>');
-        });
-        // see if the old value is still around:
-        //console.log(myRow.get(column));
-        //console.log(myRow.get(column).find("option[value='" + oldValue + "']"));
-        if (list.indexOf(oldValue)!= -1 ) {
-            // select the new option
-            //myRow.get(column).find("option[value='" + oldValue + "']").attr("selected", "selected");
-            console.log("setting value")
-            this.get(column).select2("val", oldValue);
-        } else {
-            // select the new option
-            //myRow.get(column).find("option[value='-']").attr("selected", "selected");
-        }
+        AddTopic.updateSelectColumnOptions(this.get(column), list);
     }
 
     var that = this;
     // when catalog updates we need to update everything
     var updateCatalog = function () {
-        console.log("catalog updated");
 
         // everyone one is "-" 
-        console.log(that.getValue('Category') + " , " + that.getValue('Sub-Category') + " , " + that.getValue('Topic'));
         if ((that.getValue('Category') == '-') && (that.getValue('Sub-Category')) == '-' && (that.getValue('Topic') == '-')) {
             console.log("updating other columns");
 
@@ -289,7 +255,6 @@ function RowUI(table,rowData) {
 
     // when category updates we need to update catalog too 
     var updateCategory = function () {
-        console.log("Category updated");
 
         // everyone more detailed one is "-" 
         if (that.getValue('Sub-Category') == '-' && that.getValue('Topic') == '-') {
@@ -308,7 +273,6 @@ function RowUI(table,rowData) {
 
     // when subcategory updates we need to update the other columns
     var updateSubCategory = function () {
-        console.log("Colin - Sub-Category updated");
 
         // everyone more detailed one is "-" 
         if (that.getValue('Topic') == '-') {
@@ -326,7 +290,6 @@ function RowUI(table,rowData) {
 
     // when subcategory updates we need to update the other columns
     var updateTopic = function () {
-        console.log("Topic updated, new value: " + that.getValue("Topic"));
 
         // first let's update catalog 
         that.updateColumnOptions('Catalog', that.table.owner.dataOptions.categoryHierarchy.getTopicCatalogs(that.getValue("Topic")));
