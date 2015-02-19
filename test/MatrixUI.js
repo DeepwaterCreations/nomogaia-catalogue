@@ -25,6 +25,10 @@ function Matrix() {
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
+        //TODO: Figure out where these values ought to live, and where they come from.
+        var sortByMostImpactedRight = true;
+        var sortByMostImpactedRightsholder = false;
+
         var matrixTableID = this.matrixTablePrefix;
 
         if (!monitorTables.backingData[monitor]) {
@@ -113,18 +117,29 @@ function Matrix() {
         else {
 
             //Add the column headings
-            //TODO: Here is where we sort columns. (Also make sure it's the same sorted list in the forEach inside the row adding.)
-            options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+            var sortedRightsholders = options.getColumnOptions("Impacted Rights-Holders");
+            //TODO: How do I filter this list?
+            if (sortByMostImpactedRightsholder) {
+                sortedRightsholders.sort(function (a, b) {
+                    //TODO: Implement me!
+                });
+            }
+            sortedRightsholders.forEach(function(rightsholderName){
                 rightsholderName = rightsholderName || undefinedRightsHolderNameFiller; //This is a bit goofy, but in practice, I think we shouldn't have this ever. If we see it, it's an error. 
 
                 $("#" + matrixTableID).find("thead").find("tr").append('<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>');
             });
 
             //Add the cells
-            //TODO: Here is where we sort rows.
+            if (sortByMostImpactedRight) {
+                //TODO: Currently sorts by the sum of all the scores in the row. Is this correct?
+                rowHTMLList.sort(function (a, b) {
+                    return b.rowScore - a.rowScore;
+                });
+            }
             rowHTMLList.forEach(function (rowHTML) {
                 $("#" + matrixTableID).find("tbody").append(rowHTML.rowTag + rowHTML.header + rowHTML.rowCloseTag);
-                options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+                sortedRightsholders.forEach(function (rightsholderName) {
                     //Add the cell
                     $("#" + matrixTableID).find("tbody").find('tr').last().append(rowHTML[rightsholderName].HTML);
                     var cell = $("#" + matrixTableID).find("tbody").find('tr').last().children().last(); //This is ugly. Unfortunately, append returns the thing receiving the appendage, not the thing being appended.
