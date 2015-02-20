@@ -36,6 +36,7 @@ function Matrix() {
             return undefined;
         }
         var data = monitorTables.backingData[monitor].tableData;
+        var newestMonitorData = monitorTables.getNewestMonitorData().tableData;
         var options = monitorTables.dataOptions;
 
         //First clear what's already there.
@@ -66,11 +67,14 @@ function Matrix() {
 
             //Generate the scores and push them into the htmlString.
             var rows = data.getRows("Impacted Rights", rightName);
+            var newestMonitorRows = newestMonitorData.getRows("Impacted Rights", rightName);
             options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
                 rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
 
                 var scoreCount = 0;
                 var scoreSum = 0;
+                var sortScoreCount = 0;
+                var sortScoreSum = 0;
                 var tooltipContent = "";
                 var cellClass = getDataCellClass(rightName, rightsholderName);
                 rows.forEach(function (row) {
@@ -82,25 +86,33 @@ function Matrix() {
                         tooltipContent += '<p>' + row["Input"] + '</p>';
                     }
                 });
+                //We also need data from the newest monitor, for the sake of sorting.
+                newestMonitorRows.forEach(function (row) {
+                    if (row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
+                        sortScoreCount++;
+                        sortScoreSum += parseInt(row.getData("Score"));
+                    }
+                });
                 var cell = {
                     HTML: "",
                     score: "-"
                 };
                 if (scoreCount > 0) {
-                    rowHTML.rowScore = (rowHTML.rowScore ? rowHTML.rowScore + scoreSum : scoreSum);
                     var avg = scoreSum / scoreCount;
-                    //$("#" + matrixTableID).find("tbody").find('tr').last().append('<td title="" class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">' + avg + '</td>');
                     cell.HTML = '<td title="" class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">' + avg + '</td>';
                     //Also add a tooltip.
-                    //var cell = $("#" + matrixTableID).find("tbody").find('tr').last().children().last();
-                    //cell.tooltip({ content: tooltipContent });
                     cell.tooltipContent = tooltipContent; //Leave this undefined to have no tooltip.
-                    //addScoreCategoryClass(cell.HTML, avg); //TODO: I'm not sure if this works. Can I change that function to return a bit of HTML I can stick into the string?
                     cell.score = avg;
                 }
                 else {
-                    //$("#" + matrixTableID).find("tbody").find('tr').last().append('<td class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">-</td>');
                     cell.HTML = '<td class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">-</td>';
+                }
+                //Get the newest monitor data, not the current monitor data, for sorting.
+                //The row's score will be the sum of the cell data scores for that Right in the newest matrix.
+                //The average is only to get the score for a single cell, which might have multiple underlying catalogue rows contributing.
+                if (sortScoreCount > 0) {
+                    var avg = sortScoreSum / sortScoreCount;
+                    rowHTML.rowScore = (rowHTML.rowScore ? rowHTML.rowScore + Math.abs(avg) : Math.abs(avg));
                 }
                 rowHTML[rightsholderName] = cell;
 
