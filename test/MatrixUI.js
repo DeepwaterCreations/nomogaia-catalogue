@@ -21,13 +21,17 @@ function Matrix() {
     var undefinedRightNameFiller = "Right to Nothing Whatsoever";
     var undefinedRightsHolderNameFiller = "Nobody In Particular";
 
+    $("#matrixSortOptionsButtons").buttonset().on("change", function () {
+        matrix.rebuild(monitorTabs.getActiveMonitor());
+    });
+
     //We need to know which table we're rebuilding in the function.
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
         //TODO: Figure out where these values ought to live, and where they come from.
-        var sortByMostImpactedRight = false;
-        var sortByMostImpactedRightsholder = true;
+        var sortByMostImpactedRight = $("#sortByRightsImpact:checked").val();
+        var sortByMostImpactedRightsholder = $("#sortByRightsholdersImpact:checked").val();
 
         var matrixTableID = this.matrixTablePrefix;
 
