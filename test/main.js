@@ -3,11 +3,17 @@
 var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];
 
 var fs = require("fs");
-var filename = "TopicInfoTest.txt";
-var buf = fs.readFileSync(filename, "utf8");//
-console.log(buf);
 
+// load in the topic info
+var filename = "TopicInfoTest.txt";
+var buf = fs.readFileSync(filename, "utf8");
+// use it to create a categoryHierarchy
 var categoryHierarchy = new CategoryHierarchy(buf);
+
+// add the users own topics
+var myTopics = "myTopics.txt";
+var myTopicsBuf = fs.readFileSync(myTopics, "utf8");
+categoryHierarchy.addSet(myTopicsBuf);
 
 var monitorTables = new MonitorTables(categoryHierarchy);
 var table = new Table(monitorTables);
@@ -99,7 +105,7 @@ $(document).ready(function () {
         }
     });
 
-    initFields(monitorTables.dataOptions);
+    AddTopic.initFields(monitorTables.dataOptions);
 
     $('#addRow').click(onClickAdd);
     $('.searchInput').keyup(searchTable);

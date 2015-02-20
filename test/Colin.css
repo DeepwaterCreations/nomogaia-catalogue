@@ -122,7 +122,7 @@ body {
     width: 100%;
 }
 
-#Catalogs, #impactedRatings, #rightsMatrix {
+#Catalogs, #impactedRatings, #rightsMatrix, #cheeses, #addTopic {
     height: calc(100% - 70px);
     overflow: scroll;
     padding-left: 15px;
@@ -294,11 +294,11 @@ textarea.Module, textarea.Score, textarea.Monitor {
     border: 1px solid #fff;
 }
 
-    .select2-container .select2-selection--multiple:hover {
+    .select2-container .select2-selection--multiple:hover, .addTopic input:hover, .addTopic textarea:hover {
         border: 1px solid #888;
     }
 
-.select2-container.select2-container--open .select2-selection--multiple:hover {
+.select2-container.select2-container--open .select2-selection--multiple:hover, .addTopic input:focus, .addTopic textarea:focus {
     border: 1px solid #000;
 }
 
@@ -342,3 +342,48 @@ textarea.Module, textarea.Score, textarea.Monitor {
     width: calc(100% - 40px);
     padding-right: 35px;
 }
+
+#addTopicButton {
+    -webkit-transition: all 0.3s ease;
+}
+
+.off {
+    background-color: red;
+}
+
+/*.addTopic label {
+    width:200px;
+    text-align:right;
+    padding-right:25px;
+}*/
+
+#addTopic {
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+.addTopic {
+    width: 100%;
+    /*margin: 0 auto;*/
+}
+
+    .addTopic select, .addTopic input, .addTopic textarea {
+        padding: 5px;
+        width: calc(100% - 14px);
+    }
+
+    .addTopic select {
+        width: 200px;
+    }
+
+    .addTopic span.select2-selection.select2-selection--single {
+        border: 1px solid #c0c0c0;
+    }
+
+    .addTopic textarea {
+        resize: vertical;
+    }
+
+    .addTopic input, .addTopic textarea {
+        border: 1px solid #c0c0c0;
+    }
