@@ -21,7 +21,7 @@ function RowUI(table,rowData) {
     var myRow = this;
 
 
-
+    //adds a new right or right holder to the existing rights and rights holders list
     function generateOnSelect(className, backingList) {
         return function () {
             //todo remove the old one
@@ -69,7 +69,7 @@ function RowUI(table,rowData) {
         } else if (column == "Impacted Rights-Holders") {
             return '<td><select  class="' + toColumnName(column) + ' catalog-multi catalog-input" multiple="multiple" style="width: 100%;"/></td>';
         } else if (column == "Score") {
-            return '<td><input class="' + toColumnName(column) + ' catalog-number catalog-input" type="number" value=""></td>';
+            return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
         } else if (column == "Monitor") {
             return '<td><div  class="' + toColumnName(column) + ' catalog-readonly catalog-input"></div></td>';
         } else {
@@ -89,6 +89,7 @@ function RowUI(table,rowData) {
 
     this.table.body.append(this.genHTMLString());
 
+    //get the jquery $() object assocated with this row
     this.getRow = function () {
         return table.getTable().find('#' + this.id);
     };
@@ -98,7 +99,7 @@ function RowUI(table,rowData) {
         return this.getRow().find('.' +toColumnName(column));
     };
     
-    // private
+    // private - get data values throught RowData or getValue
     this.getUIValue = function (column) {
         //return myRow.get(column).val();
         if (column == "Catalog") {
@@ -120,7 +121,7 @@ function RowUI(table,rowData) {
         } else if (column == "Impacted Rights-Holders") {
             return this.get(column).select2("val");
         } else if (column == "Score") {
-            return this.get(column).val();
+            return this.get(column).select2("val");
         } else if (column == "Monitor") {
             return this.get(column).text();
         } else{
@@ -128,7 +129,7 @@ function RowUI(table,rowData) {
             return '';
         }
     };
-    // private
+    // private - set data values throught RowData or setValue
     this.setUIValue = function (column, value) {
         //myRow.get(column).val(value);
         if (column == "Catalog") {
@@ -150,7 +151,7 @@ function RowUI(table,rowData) {
         } else if (column == "Impacted Rights-Holders") {
             this.get(column).select2("val", value);
         } else if (column == "Score") {
-            this.get(column).val(value);
+            this.get(column).select2("val",value);
         } else if (column == "Monitor") {
             this.get(column).text(value);
         } else {
@@ -165,24 +166,43 @@ function RowUI(table,rowData) {
     };
 
     // makes a select a select2
-    this.toSelect2 = function (className) {
+    // if a value is selected don't 
+    this.toSelect2final = function (className) {
         if (rowData == undefined) {
             var backingList = this.table.owner.dataOptions.getColumnOptions(className);
         } else {
             var backingList = [rowData.getData(className)];
         }
-
-        // make the className a awesome multiselect
+        // make the className a awesome select
         this.get(className).select2({
             data: backingList,
             width: 'resolve'
         });
     }
 
-    this.toSelect2("Catalog");
-    this.toSelect2("Category");
-    this.toSelect2("Sub-Category");
-    this.toSelect2("Topic");
+    this.toSelect2final("Catalog");
+    this.toSelect2final("Category");
+    this.toSelect2final("Sub-Category");
+    this.toSelect2final("Topic");
+
+    // makes a select a select2
+    this.toSelect2AllOptions = function (className) {
+        var backingList = this.table.owner.dataOptions.getColumnOptions(className);
+        
+        // make the className a awesome select
+        this.get(className).select2({
+            data: backingList,
+            width: 'resolve'
+        });
+
+        if (rowData != undefined) {
+            this.setUIValue(className, rowData.getData(className));
+        } else {
+            this.setUIValue(className,this.table.owner.dataOptions.getDefaultValue(className));
+        }
+    }
+
+    this.toSelect2AllOptions("Score");
 
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
@@ -191,9 +211,15 @@ function RowUI(table,rowData) {
         this.get(className).select2({
             data: backingList,
             tags: true
-    });
+        });
 
         this.get(className).on("select2:select", generateOnSelect(className, backingList));
+
+        if (rowData != undefined) {
+            this.setUIValue(className, rowData.getData(className));
+        } else {
+            this.setUIValue(className, this.table.owner.dataOptions.getDefaultValue(className));
+        }
     }
 
     this.toSelect2WithAdd("Impacted Rights-Holders");
@@ -223,7 +249,6 @@ function RowUI(table,rowData) {
         
         this.get(column).change(function(columnName){
             return function () {
-                console.log("column changed, name: " + columnName + " value; " + myRow.getUIValue(columnName));
                 myRow.data.setData(columnName, myRow.getUIValue(columnName))
             };
         }(column));
