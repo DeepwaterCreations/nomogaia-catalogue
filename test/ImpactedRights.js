@@ -40,7 +40,6 @@ function filterRows(rows, module, context) {
 }
 
 function getAverage(rows) {
-
     var count = 0;
     var sum = 0;
     rows.forEach(function (row) {
@@ -55,6 +54,15 @@ function getAverage(rows) {
     }
 
     return average;
+}
+
+// return zero for rows with no impact
+function getAbsSumSort(rows) {
+    var sum = 0;
+    rows.forEach(function (row) {
+        sum += Math.abs(row.getData("Score"));
+    });
+    return sum;
 }
 
 function toClassName(column) {
@@ -178,13 +186,13 @@ function rebuildImpactedRights(monitorTable, index) {
     impactedRights.sort(function (rightA, rightB) {
         var rightARows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightA), "", false);
         var rightBRows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightB), "", false);
-        var diff = getAverage(rightBRows) - getAverage(rightARows);
+        var diff = getAbsSumSort(rightBRows) - getAbsSumSort(rightARows);
         if (diff != 0) {
             return diff;
         } else {
             var innerRightARows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightA), "", true);
             var innerRightBRows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightB), "", true);
-            return getAverage(innerRightBRows) - getAverage(innerRightARows);
+            return getAbsSumSort(innerRightBRows) - getAbsSumSort(innerRightARows);
         }
     });
 

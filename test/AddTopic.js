@@ -2,8 +2,8 @@
 
 AddTopic.addTopic = function () {
     console.log("Colin - I would add a topic")
-    var catalog = AddTopic.categorySelectValue().replace(/\t/g, "    ").trim();
-    var category = AddTopic.subcategorySelectValue().replace(/\t/g, "    ").trim();
+    var catalog = AddTopic.catalogSelectValue().replace(/\t/g, "    ").trim();
+    var category = AddTopic.categorySelectValue().replace(/\t/g, "    ").trim();
     var subCategory = AddTopic.subcategorySelectValue().replace(/\t/g, "    ").trim();
     var topic = AddTopic.topicNameValue().replace(/\t/g,"    ").trim();
     var description = AddTopic.topicDescTextValue().replace(/\t/g, "    ").trim();
