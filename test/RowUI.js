@@ -71,7 +71,7 @@ function RowUI(table,rowData) {
         } else if (column == "Score") {
             return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
         } else if (column == "Monitor") {
-            return '<td><div  class="' + toColumnName(column) + ' catalog-readonly catalog-input"></div></td>';
+            return '<td><textarea disabled class="' + toColumnName(column) + ' catalog-readonly catalog-input"></div></td>';
         } else {
             console.log("column: "+ column +" not found");
             return '';
@@ -348,5 +348,8 @@ function RowUI(table,rowData) {
         columnList.forEach(function (columnName) {
             that.data.setData(columnName, that.getUIValue(columnName));
         });
+
+        // even if row data is undefined we need to set the monitor
+        this.setUIValue("Monitor", this.data.getData("Monitor"));
     }
 }
