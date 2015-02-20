@@ -21,7 +21,8 @@ function Matrix() {
     var undefinedRightNameFiller = "Right to Nothing Whatsoever";
     var undefinedRightsHolderNameFiller = "Nobody In Particular";
 
-    $("#matrixSortOptionsButtons").buttonset().on("change", function () {
+    var sortOptionsButtons = $("#matrixSortOptionsButtons").buttonset();
+    sortOptionsButtons.on("change", function () {
         matrix.rebuild(monitorTabs.getActiveMonitor());
     });
 
@@ -46,6 +47,8 @@ function Matrix() {
         //First clear what's already there.
         $("#" + matrixTableID).empty();
         $("#" + this.divID + " .nodata").remove();
+        $("#matrixSortOptions").removeClass("hidden");
+
 
         //Then, rebuild it.
         $("#" + matrixTableID).append('<thead><tr><th class="columnHeader"></th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
@@ -127,10 +130,11 @@ function Matrix() {
                 rowHTMLList.push(rowHTML); 
         });
         
-
+        //Display a message and disable the radio buttons if there is no data.
         if (!rowHTMLList.length) {
             $("#" + matrixTableID).empty();
             $("#" + this.divID).append('<div class="nodata"><span>NO DATA</span></div>');
+            $("#matrixSortOptions").addClass("hidden");
         }
         else {
 

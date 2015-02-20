@@ -78,3 +78,7 @@ div.nodata {
     font-size:48px;
     color:rgba(0,0,0,0.25);
 }
+
+.hidden {
+    display: none;
+}
