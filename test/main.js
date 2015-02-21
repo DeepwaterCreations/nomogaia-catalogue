@@ -15,6 +15,8 @@ var myTopics = "myTopics.txt";
 var myTopicsBuf = fs.readFileSync(myTopics, "utf8");
 categoryHierarchy.addSet(myTopicsBuf);
 
+
+
 var monitorTables = new MonitorTables(categoryHierarchy);
 var table = new Table(monitorTables);
 monitorTables.push(table);
@@ -43,7 +45,7 @@ var searchTable = function () {
                     show = false;
                 }
             } else {
-                if (searchString != "" && columnValue == "UNINITIALIZED") {
+                if (searchString != "" && columnValue == monitorTables.dataOptions.getDefaultValue(columnList[columnIndex])) {
                     show = false;
                 } else {
                     columnValue = (columnValue == undefined ? "" : (columnValue + "").toUpperCase());

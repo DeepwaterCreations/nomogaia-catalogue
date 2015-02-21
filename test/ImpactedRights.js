@@ -125,13 +125,12 @@ function rebuildImpactedRights(monitorTable, index) {
 
     var headersList = ["", "Context"];
 
-
     var moduleIsUsed = function (module) {
         for (var j = 0; j < monitorTable.backingData.length; j++) {
             var myTable = monitorTable.backingData[j];
             for (var i = 0; i < myTable.tableData.rows.length; i++) {
                 var row = myTable.tableData.rows[i];
-                if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Score") != "UNINITIALIZED") {
+                if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Impacted Rights") != monitorTables.dataOptions.getDefaultValue("Impacted Rights")) {
                     console.log("Colin - passed! ", row);
                     return true;
                 }
