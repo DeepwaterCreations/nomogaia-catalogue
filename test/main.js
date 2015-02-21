@@ -69,20 +69,32 @@ var searchTable = function () {
 
 var onClickAdd = function () {
     var rowAt = null;
-    monitorTables.backingData.forEach(function (myTable) {
-        if (rowAt == null) {
-            rowAt = myTable.addRow();
-        } else {
-            var dataAt = rowAt.data;
-            var newData = new RowData(dataAt);
-            rowAt = myTable.addRow(newData);
+
+    for (var tabIndex in monitorTables.backingData) {
+        if (tabIndex >=monitorTabs.getActiveMonitor()) {
+            var myTable = monitorTables.backingData[tabIndex];
+            if (rowAt == null) {
+                rowAt = myTable.addRow();
+                rowAt.data.setMonitor(monitorTables.getActiveMonitorAsString());
+            } else {
+                var dataAt = rowAt.data;
+                var newData = new RowData(dataAt);
+                rowAt = myTable.addRow(newData);
+            }
         }
-    });
+
+    }
 };
+
+
 
 monitorTabs.addTabsDiv("sideBar", {});
 
 $(document).ready(function () {
+    // we need to add a tab b/f we add any rows
+    // when we add rows the look to the tabs for their monitor
+    monitorTabs.addTab();
+
     // we need to add all the rows with module =None to the table
     var topicList = categoryHierarchy.getTopics();
     topicList.forEach(function (topicString) {
@@ -131,6 +143,4 @@ $(document).ready(function () {
     $('#catalog').selectmenu();
     $('#category').selectmenu();
     $('#subcategory').selectmenu();
-
-    monitorTabs.addTab();
 });

@@ -49,20 +49,24 @@ RowData = function (rowData) {
         }
     }
 
-    this.setMonitor = function () {
-        var monitor = 0;
-        var at = this;
-        while (at.rowData != null) {
-            at = at.rowData;
-            monitor++;
-        }
-        if (at != this) {
-            monitor += at.getData("Monitor");
-        }
+    this.setMonitor = function (val) {
+        if (val == undefined) {
+            var monitor = 0;
+            var at = this;
+            while (at.rowData != null) {
+                at = at.rowData;
+                monitor++;
+            }
+            if (at != this) {
+                monitor += monitorTabs.monitorStringToInt(at.getData("Monitor"));
+            }
 
-        this.rowData = undefined;
+            this.rowData = undefined;
 
-        this.setData("Monitor",monitor);
+            this.setData("Monitor", monitorTabs.monitorIntToString(monitor));
+        } else {
+            this.setData("Monitor", val);
+        }
     }
 
     this.addListener = function (columnName, listenerFunction) {
@@ -93,7 +97,7 @@ RowData = function (rowData) {
 
     this.setData = function (columnName, data) {
         var oldData = this.getData(columnName)
-        
+
         // we need to know if the data is different
         var changed;
 
