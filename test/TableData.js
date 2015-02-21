@@ -32,7 +32,7 @@ function TableData() {
         if (columnName && data) {
             this.rows.forEach(function (row) {
                 var rowValue = row.getData(columnName);
-                if (rowValue=="UNINITIALIZED" || rowValue == undefined) return;
+                if (rowValue == monitorTables.dataOptions.getDefaultValue(columnName) || rowValue == undefined) return;
                 if (rowValue.constructor === Array) {
                     if (rowValue.indexOf(data) >= 0)
                         matchingRows.push(row);

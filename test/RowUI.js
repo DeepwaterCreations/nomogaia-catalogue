@@ -231,13 +231,13 @@ function RowUI(table,rowData) {
         // if there are new values in rights/rights holders/module we want to add them
         var that = this;
         ["Impacted Rights-Holders", "Impacted Rights", "Module"].forEach(function (column) {
-            if (rowData.getData(column) != "UNINITIALIZED") {
+            if (rowData.getData(column) != monitorTables.dataOptions.getDefaultValue(column)) {
                 that.table.owner.dataOptions.update(column, rowData.getData(column));
             }
         });
 
         columnList.forEach(function (columnName) {
-            if (rowData.getData(columnName) != "UNINITIALIZED") {
+            if (rowData.getData(columnName) != monitorTables.dataOptions.getDefaultValue(columnName)) {
                 that.setUIValue(columnName, rowData.getData(columnName));
             }
         });
