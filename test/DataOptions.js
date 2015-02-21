@@ -22,7 +22,8 @@ function DataOptions(categoryHierarchy) {
     this.columnOptions = {
         "Impacted Rights": that.loadFromFile("Impacted Rights.csv"),
         "Impacted Rights-Holders": that.loadFromFile("Rightsholders.csv"),
-        "Module": that.loadFromFile("Module.csv")
+        "Module": that.loadFromFile("Module.csv"),
+        "Score": that.loadFromFile("Score.csv")
     }
 
     this.update = function (column, data) {
@@ -77,5 +78,14 @@ function DataOptions(categoryHierarchy) {
                 return [];
             }
         }
+    }
+
+    this.getDefaultValue = function (className) {
+        if (className == "Score") {
+            return 0;
+        } else if (className == "Module") {
+            return "None";
+        }
+        return "UNINITIALIZED";
     }
 }

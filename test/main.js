@@ -105,6 +105,8 @@ $(document).ready(function () {
         }
     });
 
+    console.log("Colin", table);
+
     AddTopic.initFields(monitorTables.dataOptions);
 
     $('#addRow').click(onClickAdd);

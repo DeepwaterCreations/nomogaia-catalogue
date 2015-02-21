@@ -209,6 +209,12 @@ textarea.Module, textarea.Score, textarea.Monitor {
     outline: 0;
 }
 
+.catalog-readonly {
+    border: none;
+    resize: none;
+    width: 150px;
+}
+
 .catalog-input {
     padding: 4px;
     border: 1px solid #ffffff;
