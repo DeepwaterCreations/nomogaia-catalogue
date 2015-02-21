@@ -255,25 +255,3 @@ function Matrix() {
 }
 var matrix = new Matrix();
 
-//TODO: These are ugly. Also, why are they in this file when ImpactedRights uses them too?
-//TODO: It would be neat to put stripNonAlphanumeric into the String prototype.
-function stripNonAlphanumeric(string) {
-    return string.replace(/\W/g, "");
-}
-
-function getColumnHeadID(columnName) {
-    var idString = "column" + stripNonAlphanumeric(columnName); //Makes non-alphanumeric into nothing.
-    return idString;
-}
-
-function getRowID(rightName) {
-    var idString = "row" + stripNonAlphanumeric(rightName); //Makes non-alphanumeric into nothing.
-    return idString;
-}
-
-function getDataCellClass(rightName, rightsHolderName) {
-    var returnVal = {};
-    returnVal.rowClass = "row" + stripNonAlphanumeric(rightName) + "Data";
-    returnVal.colClass = "column" + stripNonAlphanumeric(rightsHolderName) + "Data";
-    return returnVal;
-}

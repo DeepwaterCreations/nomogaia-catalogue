@@ -7,21 +7,6 @@
     return false;
 }
 
-function addScoreCategoryClass(element, score) {
-    if (score <= -12) {
-        element.addClass("terrible");
-    } else if (score <= -.5) {
-        element.addClass("bad");
-    } else if (score < .5) {
-        element.addClass("okay");
-    } else if (score < 12) {
-        element.addClass("good");
-    } else if (score >= 12) {
-        element.addClass("great");
-    }
-    return element;
-}
-
 // context is true or false
 function filterRows(rows, module, context) {
     // if we are looking at a specific module
@@ -65,18 +50,11 @@ function getAbsSumSort(rows) {
     return sum;
 }
 
-function toClassName(column) {
-    var str = column.replace(/ /g, '_');
-    str = str.replace(/\W/g, ""); //Takes care of non-whitespace, non-alphanumeric characters.
-    return str;
-}
-
-function getToolTip(rows) {
+function getFullToolTip(rows) {
 
     var tooltipContent = "";
     rows.forEach(function (row) {
-        tooltipContent += '<b>Topic "' + row.getData("Topic") + '" contributes score: ' + row.getData("Score") + '</b>';
-        tooltipContent += '<p>' + (row["Input"] || "<i>No input</i>") + '</p>';
+        tooltipContent += getTooltipForRow(row);
     });
 
     if (tooltipContent == "") {
@@ -203,7 +181,7 @@ function rebuildImpactedRights(monitorTable, index) {
         var contextRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), "None", true);
         rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
         var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
-        cell.tooltip({ content: getToolTip(contextRows) });
+        cell.tooltip({ content: getFullToolTip(contextRows) });
         addScoreCategoryClass(cell, getAverage(contextRows));
         cell.hover(function (event) {
                 //On mouse hover, give the column header a class.
@@ -221,7 +199,7 @@ function rebuildImpactedRights(monitorTable, index) {
             var moduleRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), myModule, false);
             rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
             var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + myModule);
-            cell.tooltip({ content: getToolTip(moduleRows) });
+            cell.tooltip({ content: getFullToolTip(moduleRows) });
             addScoreCategoryClass(cell, getAverage(moduleRows));
             cell.hover(function (event) {
                     //On mouse hover, give the column header a class.
