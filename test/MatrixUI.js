@@ -84,7 +84,7 @@ function Matrix() {
                 var tooltipContent = "";
                 var cellClass = getDataCellClass(rightName, rightsholderName);
                 rows.forEach(function (row) {
-                    if (row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
+                    if (row.getData("Impacted Rights-Holders") && row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
                         scoreCount++;
                         scoreSum += parseInt(row.getData("Score"));
                         //Generate tooltip text displaying a title and the issue.
@@ -94,7 +94,7 @@ function Matrix() {
                 });
                 //We also need data from the newest monitor, for the sake of sorting.
                 newestMonitorRows.forEach(function (row) {
-                    if (row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
+                    if (row.getData("Impacted Rights-Holders") && row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
                         sortScoreCount++;
                         sortScoreSum += parseInt(row.getData("Score"));
                     }
@@ -210,7 +210,7 @@ function Matrix() {
                 rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
 
                 rows.forEach(function (row) {
-                    if (row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
+                    if (row.getData("Impacted Rights-Holders") && row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
                         keptRows[rightName] = true;
                         keptColumns[rightsholderName] = true;
                     }
