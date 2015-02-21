@@ -71,7 +71,7 @@ function RowUI(table,rowData) {
         } else if (column == "Score") {
             return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
         } else if (column == "Monitor") {
-            return '<td><textarea disabled class="' + toColumnName(column) + ' catalog-readonly catalog-input"></div></td>';
+            return '<td><textarea disabled class="' + toColumnName(column) + ' catalog-readonly catalog-input"></textarea></td>';
         } else {
             console.log("column: "+ column +" not found");
             return '';
@@ -123,7 +123,7 @@ function RowUI(table,rowData) {
         } else if (column == "Score") {
             return this.get(column).select2("val");
         } else if (column == "Monitor") {
-            return this.get(column).text();
+            return this.get(column).val();
         } else{
             console.log("column: " + column + " not found");
             return '';
@@ -153,7 +153,7 @@ function RowUI(table,rowData) {
         } else if (column == "Score") {
             this.get(column).select2("val",value);
         } else if (column == "Monitor") {
-            this.get(column).text(value);
+            this.get(column).val(value);
         } else {
             console.log("column: " + column + " not found");
         }

@@ -17,7 +17,7 @@
 #sideBar {
     z-index: 1;
     position: relative;
-    width: 240px;
+    width: 140px;
     height: 100%;
     float: left;
     border-right: 1px solid #808080;
@@ -35,7 +35,7 @@
         border: 2px solid #356C28;
     }
 
-        .ui-tabs-nav li:hover a {
+        .ui-tabs-nav li:hover:not(.ui-tabs-active) a {
             color: black !important;
             -webkit-transition: all 0.3s ease;
         }
@@ -57,6 +57,12 @@ ui-tabs-nav li a {
         color: white;
     }
 
+    .ui-tabs-nav .ui-tabs-active:hover a {
+        background: #255C18;
+    }
+
+
+
 .ui-tabs-nav li {
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -68,7 +74,7 @@ ui-tabs-nav li a {
 
 #sideBar .ui-tabs-nav {
     position: absolute;
-    width: 220px;
+    width: 120px;
     padding: 10px;
 }
 
@@ -92,9 +98,9 @@ ui-tabs-nav li a {
 
 
 #main {
-    margin-left: 240px;
+    margin-left: 140px;
     height: 100%;
-    width: calc(100% - 240px);
+    width: calc(100% - 140px);
 }
 
 html {
@@ -418,12 +424,11 @@ button.close-icon {
         border-color: #888;
     }
 
-    .blueButton.off:hover {
-        background: #666;
-        border-color: #666;
-    }
+        .blueButton.off:hover {
+            background: #666;
+            border-color: #666;
+        }
 
 #saveLoad {
-    float: right; 
+    float: right;
 }
-
