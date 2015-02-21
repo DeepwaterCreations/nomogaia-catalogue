@@ -75,7 +75,7 @@ var onClickAdd = function () {
             var myTable = monitorTables.backingData[tabIndex];
             if (rowAt == null) {
                 rowAt = myTable.addRow();
-                rowAt.data.setMonitor(monitorTables.getActiveMonitorAsString());
+                rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
             } else {
                 var dataAt = rowAt.data;
                 var newData = new RowData(dataAt);

@@ -84,7 +84,7 @@ ui-tabs-nav li a {
     }
 
         #sideBar .ui-tabs-nav li a {
-            width: 100%;
+            width: calc(100% - 2em);
             overflow: hidden;
         }
 

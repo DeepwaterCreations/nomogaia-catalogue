@@ -333,5 +333,25 @@
         return this.hierarchy[catalog[0]][category[0]][subCategory[0]][topicString];
     }
 
+    this.getTopic= function(topic){
+        if (topic == '-') {
+            return null;
+        } else {
+            for (var catalog in this.hierarchy) {
+                var categories = this.hierarchy[catalog];
+                for (var category in categories) {
+                    var subCategories = categories[category];
+                    for (var subCategory in subCategories) {
+                        var topics = subCategories[subCategory];
+                        if (topic in topics) {
+                            return topics[topic];
+                        }
+                    }
+                }
+            }
+            console("Colin - this is bad ");
+        }
+    }
+
     console.log("colin", this);
 }

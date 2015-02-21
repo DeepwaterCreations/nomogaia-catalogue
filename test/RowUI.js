@@ -7,7 +7,7 @@ var toColumnName = function (column) {
 }
 
 
-function RowUI(table,rowData) {
+function RowUI(table, rowData) {
     this.table = table;
     this.id = table.nextId();
     if (rowData == undefined) {
@@ -17,7 +17,7 @@ function RowUI(table,rowData) {
         this.data = rowData;
         this.table.tableData.addRow(rowData)
     }
-    
+
     var myRow = this;
 
 
@@ -48,7 +48,7 @@ function RowUI(table,rowData) {
             }
         }
     }
-    
+
     this.genHTMLStringElement = function (column) {
         if (column == "Catalog") {
             return '<td><select class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
@@ -73,7 +73,7 @@ function RowUI(table,rowData) {
         } else if (column == "Monitor") {
             return '<td><textarea disabled class="' + toColumnName(column) + ' catalog-readonly catalog-input"></textarea></td>';
         } else {
-            console.log("column: "+ column +" not found");
+            console.log("column: " + column + " not found");
             return '';
         }
     }
@@ -96,9 +96,9 @@ function RowUI(table,rowData) {
 
     //Gets the html elements for the row
     this.get = function (column) {
-        return this.getRow().find('.' +toColumnName(column));
+        return this.getRow().find('.' + toColumnName(column));
     };
-    
+
     // private - get data values throught RowData or getValue
     this.getUIValue = function (column) {
         //return myRow.get(column).val();
@@ -124,7 +124,7 @@ function RowUI(table,rowData) {
             return this.get(column).select2("val");
         } else if (column == "Monitor") {
             return this.get(column).val();
-        } else{
+        } else {
             console.log("column: " + column + " not found");
             return '';
         }
@@ -151,7 +151,7 @@ function RowUI(table,rowData) {
         } else if (column == "Impacted Rights-Holders") {
             this.get(column).select2("val", value);
         } else if (column == "Score") {
-            this.get(column).select2("val",value);
+            this.get(column).select2("val", value);
         } else if (column == "Monitor") {
             this.get(column).val(value);
         } else {
@@ -188,7 +188,7 @@ function RowUI(table,rowData) {
     // makes a select a select2
     this.toSelect2AllOptions = function (className) {
         var backingList = this.table.owner.dataOptions.getColumnOptions(className);
-        
+
         // make the className a awesome select
         this.get(className).select2({
             data: backingList,
@@ -198,7 +198,7 @@ function RowUI(table,rowData) {
         if (rowData != undefined) {
             this.setUIValue(className, rowData.getData(className));
         } else {
-            this.setUIValue(className,this.table.owner.dataOptions.getDefaultValue(className));
+            this.setUIValue(className, this.table.owner.dataOptions.getDefaultValue(className));
         }
     }
 
@@ -242,17 +242,17 @@ function RowUI(table,rowData) {
             }
         });
     }
-    
+
     // pass UI changes on to the dataRow
     for (var i in columnList) {
         var column = columnList[i];
-        
-        this.get(column).change(function(columnName){
+
+        this.get(column).change(function (columnName) {
             return function () {
                 myRow.data.setData(columnName, myRow.getUIValue(columnName))
             };
         }(column));
-            
+
     }
 
     this.updateColumnOptions = function (column, list) {
@@ -316,6 +316,11 @@ function RowUI(table,rowData) {
     // when subcategory updates we need to update the other columns
     var updateTopic = function () {
 
+        var topicInstance = that.table.owner.dataOptions.categoryHierarchy.getTopic(that.getValue("Topic"));
+        if (topicInstance != null) {
+            that.get("Topic").tooltip({ content: topicInstance.description });
+        }
+
         // first let's update catalog 
         that.updateColumnOptions('Catalog', that.table.owner.dataOptions.categoryHierarchy.getTopicCatalogs(that.getValue("Topic")));
 
@@ -337,7 +342,7 @@ function RowUI(table,rowData) {
         if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
             that.data.addListener(columnName, function () {
                 console.log("Colin - data changed, name: " + columnName + " value; " + that.data.getData(columnName));
-                that.setUIValue(columnName,that.data.getData(columnName))
+                that.setUIValue(columnName, that.data.getData(columnName))
             })
         }
     });
