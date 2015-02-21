@@ -133,7 +133,7 @@ function Matrix() {
         //Display a message and disable the radio buttons if there is no data.
         if (!rowHTMLList.length) {
             $("#" + matrixTableID).empty();
-            $("#" + this.divID).append('<div class="nodata"><span>No Data</span><h6>Add rights, rightsholders and scores to the rows in the catalogue</h4></div>');
+            $("#" + this.divID).append(noDataHTML);
             $("#matrixSortOptions").addClass("hidden");
         }
         else {

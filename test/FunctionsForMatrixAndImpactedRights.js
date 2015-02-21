@@ -1,4 +1,6 @@
-﻿function getTooltipForRow(row) {
+﻿var noDataHTML = '<div class="nodata"><span>No Data</span><h6>Add rights, rightsholders and scores to the rows in the catalogue</h4></div>';
+
+function getTooltipForRow(row) {
     var tooltipContent = "";
     tooltipContent += '<b>Topic "' + row.getData("Topic") + '" contributes score: ' + row.getData("Score") + '</b>';
     tooltipContent += '<p>' + (row["Input"] || "<i>No input</i>") + '</p>';

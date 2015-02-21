@@ -136,8 +136,7 @@ function rebuildImpactedRights(monitorTable, index) {
 
     //If there aren't any impacted rights, display "NO DATA"
     if (impactedRights.length === 0) {
-        $("#" + this.divID).append('<div class="nodata"><span>No Data</span><h6>Add rights, rightsholders and scores to the rows in the catalogue</h4></div>');
-
+        $("#" + this.divID).append(noDataHTML);
         return;
     }
 
