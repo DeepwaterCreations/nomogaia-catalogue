@@ -88,8 +88,8 @@ function Matrix() {
                         scoreCount++;
                         scoreSum += parseInt(row.getData("Score"));
                         //Generate tooltip text displaying a title and the issue.
-                        tooltipContent += '<b>' + row.getData("Topic") + ': '+ row.getData("Score")+ '</b>';
-                        tooltipContent += '<p>' + row["Input"] + '</p>';
+                        tooltipContent += '<b>Topic "' + row.getData("Topic") + '" contributes score: '+ row.getData("Score")+ '</b>';
+                        tooltipContent += '<p>' + (row["Input"] || "<i>No input</i>") + '</p>';
                     }
                 });
                 //We also need data from the newest monitor, for the sake of sorting.

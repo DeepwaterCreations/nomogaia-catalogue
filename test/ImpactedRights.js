@@ -75,13 +75,8 @@ function getToolTip(rows) {
 
     var tooltipContent = "";
     rows.forEach(function (row) {
-
-        tooltipContent += '<b>' + row.getData("Topic") + ': ' + row.getData("Score") + '</b>';
-        if (row.getData("Input") != undefined) {
-            tooltipContent += '<p>' + row.getData("Input") + '</p>';
-        } else {
-            tooltipContent += '<br>';
-        }
+        tooltipContent += '<b>Topic "' + row.getData("Topic") + '" contributes score: ' + row.getData("Score") + '</b>';
+        tooltipContent += '<p>' + (row["Input"] || "<i>No input</i>") + '</p>';
     });
 
     if (tooltipContent == "") {
