@@ -123,11 +123,14 @@ body {
 }
 
 #Catalogs, #impactedRatings, #rightsMatrix, #cheeses, #addTopic {
-    height: calc(100% - 70px);
+    height: calc(100% - 85px);
     overflow: scroll;
     padding-left: 15px;
     padding-top: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
 }
+
 
 
 .catalog-text {
@@ -363,10 +366,7 @@ textarea.Module, textarea.Score, textarea.Monitor {
     padding-right:25px;
 }*/
 
-#addTopic {
-    padding-right: 15px;
-    padding-bottom: 15px;
-}
+
 
 .addTopic {
     width: 100%;
