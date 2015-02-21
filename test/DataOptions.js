@@ -86,6 +86,6 @@ function DataOptions(categoryHierarchy) {
         } else if (className == "Module") {
             return "None";
         }
-        return "UNINITIALIZED";
+        return undefined;
     }
 }
