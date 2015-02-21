@@ -311,7 +311,7 @@ textarea.Module, textarea.Score, textarea.Monitor {
     border: 1px solid #000;
 }
 
-.close-icon {
+button.close-icon {
     border: 1px solid transparent;
     background-color: transparent;
     display: inline-block;
@@ -321,7 +321,7 @@ textarea.Module, textarea.Score, textarea.Monitor {
     cursor: pointer;
 }
 
-    .close-icon:after {
+    button.close-icon:after {
         content: "X";
         width: 15px;
         height: 15px;
@@ -338,7 +338,7 @@ textarea.Module, textarea.Score, textarea.Monitor {
         cursor: pointer;
     }
 
-.searchInput:not(:valid) ~ .close-icon {
+.searchInput:not(:valid) ~ button.close-icon {
     display: none;
 }
 
@@ -395,7 +395,7 @@ textarea.Module, textarea.Score, textarea.Monitor {
     }
 
 
-button, input[type=button] {
+.blueButton {
     -webkit-transition: all 0.3s ease;
     background: #2F2D69;
     border: 2px solid #2F2D69;
@@ -408,17 +408,17 @@ button, input[type=button] {
     margin: 5px;
 }
 
-    button:hover, input[type=button]:hover {
+    .blueButton:hover {
         background: #1c1b39;
         border: 2px solid #1c1b39;
     }
 
-    input[type=button].off {
+    .blueButton.off {
         background: #888;
         border-color: #888;
     }
 
-    input[type=button].off:hover {
+    .blueButton.off:hover {
         background: #666;
         border-color: #666;
     }
@@ -426,3 +426,4 @@ button, input[type=button] {
 #saveLoad {
     float: right; 
 }
+
