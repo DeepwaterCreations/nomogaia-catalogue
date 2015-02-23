@@ -21,7 +21,7 @@ th.rowHeader {
 
 #matrixTableDiv td, #impactedRightsTable td {
     background-color:#efefef;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     border-width: 0px;
     padding: 3px;
 }
