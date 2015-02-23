@@ -5,7 +5,7 @@ AddTopic.addTopic = function () {
     var catalog = AddTopic.catalogSelectValue().replace(/\t/g, "    ").trim();
     var category = AddTopic.categorySelectValue().replace(/\t/g, "    ").trim();
     var subCategory = AddTopic.subcategorySelectValue().replace(/\t/g, "    ").trim();
-    var topic = AddTopic.topicNameValue().replace(/\t/g,"    ").trim();
+    var topic = AddTopic.topicNameValue().replace(/\t/g, "    ").trim();
     var description = AddTopic.topicDescTextValue().replace(/\t/g, "    ").trim();
     var module = AddTopic.moduleSelectValue().replace(/\t/g, "    ").trim();
     var source = AddTopic.topicSourceTextValue().replace(/\t/g, "    ").trim();
@@ -23,10 +23,10 @@ AddTopic.addTopic = function () {
     $("#subcategorySelect").select2("val", "-");
     $("#categorySelect").select2("val", "-");
     $("#catalogSelect").select2("val", "-");
-    
-    $("#moduleSelect").val("None"); 
+
+    $("#moduleSelect").val("None");
     $("#topicName").val("");
-    $("#topicDescTextBox").val(""); 
+    $("#topicDescTextBox").val("");
     $("#topicSourceTextBox").val("");
 }
 
@@ -102,11 +102,21 @@ AddTopic.updateSelectColumnOptions = function (target, list) {
     });
     // see if the old value is still around:
     if (list.indexOf(oldValue) != -1) {
-        console.log("setting value")
         target.select2("val", oldValue);
     } else {
+        target.select2("val", "-");
     }
 }
+
+AddTopic.setColumnSelect = function (target, value) {
+    if (Array.isArray(value) && value.length == 1) {
+        value = value[0];
+        target.select2("val", value);
+    } else if (!Array.isArray(value)) {
+        target.select2("val", value);
+    }
+}
+
 
 AddTopic.initFields = function (dataOptions) {
     AddTopic.makeSelect2($("#catalogSelect"), dataOptions.getColumnOptions("Catalog"));
@@ -117,10 +127,13 @@ AddTopic.initFields = function (dataOptions) {
     AddTopic.canAdd();
 
     $("#catalogSelect").change(function () {
+        //we need to check if the we changed to something new
+        $(this).data("old", $(this).data("new") || "");
+        $(this).data("new", $(this).val());
+        console.log($(this).data("old"));
 
-        // everyone one is "-" 
-        if ((AddTopic.categorySelectValue() == '-') && AddTopic.subcategorySelectValue() == '-') {
-
+        console.log("colin-2 , catalog newV: " + $(this).data("new") + " oldV: " + $(this).data("old"));
+        if ($(this).data("old") != $(this).data("new")) {
             // first let's update category 
             AddTopic.updateSelectColumnOptions($("#categorySelect"), categoryHierarchy.getCategories(AddTopic.catalogSelectValue()));
 
@@ -130,24 +143,44 @@ AddTopic.initFields = function (dataOptions) {
         AddTopic.canAdd();
     })
     $("#categorySelect").change(function () {
-        // everyone more detailed one is "-" 
-        if (AddTopic.subcategorySelectValue() == '-') {
+        //we need to check if the we changed to something new
+        $(this).data("old", $(this).data("new") || "");
+        $(this).data("new", $(this).val());
+        console.log($(this).data("old"));
 
-            // first let's update catalog 
-            AddTopic.updateSelectColumnOptions($("#catalogSelect"), categoryHierarchy.getCategoryCatalogs(AddTopic.categorySelectValue()));
+        console.log("colin-2 , cate: " + $(this).data("new") + " oldV: " + $(this).data("old"));
+        if ($(this).data("old") != $(this).data("new")) {
 
+            if (AddTopic.categorySelectValue() != "-") {
+                // first let's update catalog 
+                AddTopic.setColumnSelect($("#catalogSelect"), categoryHierarchy.getCategoryCatalogs(AddTopic.categorySelectValue()));
+
+            }
             // let's update subCategory
             AddTopic.updateSelectColumnOptions($("#subcategorySelect"), categoryHierarchy.getSubCategories(AddTopic.catalogSelectValue(), AddTopic.categorySelectValue()));
         }
         AddTopic.canAdd();
     })
     $("#subcategorySelect").change(function () {
+        //we need to check if the we changed to something new
+        $(this).data("old", $(this).data("new") || "");
+        $(this).data("new", $(this).val());
+        console.log($(this).data("old"));
 
-        // first let's update catalog 
-        AddTopic.updateSelectColumnOptions($("#catalogSelect"), categoryHierarchy.getSubCategoryCatalogs(AddTopic.subcategorySelectValue()));
+        console.log("colin-2 , subcate newV: " + $(this).data("new") + " oldV: " + $(this).data("old"));
+        if ($(this).data("old") != $(this).data("new")) {
 
-        // let's update subCategory
-        AddTopic.updateSelectColumnOptions($("#categorySelect"), categoryHierarchy.getSubCategoryCategories(AddTopic.subcategorySelectValue()));
+            if (AddTopic.subcategorySelectValue() != "-") {
+
+                // first let's update catalog 
+                AddTopic.setColumnSelect($("#catalogSelect"), categoryHierarchy.getSubCategoryCatalogs(AddTopic.subcategorySelectValue()));
+
+                // let's update subCategory
+                AddTopic.setColumnSelect($("#categorySelect"), categoryHierarchy.getSubCategoryCategories(AddTopic.subcategorySelectValue()));
+
+            }
+        }
+
         AddTopic.canAdd();
     })
 
