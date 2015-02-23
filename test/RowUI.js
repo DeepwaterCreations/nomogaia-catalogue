@@ -326,8 +326,10 @@ function RowUI(table, rowData) {
 
         //TODO work in progress
         var topicInstance = that.table.owner.dataOptions.categoryHierarchy.getTopic(that.getValue("Topic"));
+        console.log("Colin - toolTip: ", topicInstance);
         if (topicInstance != null) {
-            that.get("Topic").tooltip({ content: topicInstance.description });
+            that.get("Topic").prop('tooltipText', topicInstance.description);
+                //.tooltip({ content: topicInstance.description });
         }
 
         if (that.getValue('Topic') != "-") {

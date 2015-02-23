@@ -91,6 +91,8 @@ var onClickAdd = function () {
 monitorTabs.addTabsDiv("sideBar", {});
 
 $(document).ready(function () {
+
+
     // we need to add a tab b/f we add any rows
     // when we add rows the look to the tabs for their monitor
     monitorTabs.addTab();
