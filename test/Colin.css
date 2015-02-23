@@ -112,6 +112,7 @@ html {
 body {
     height: 100%;
     margin: 0px;
+    overflow: hidden;
 }
 
 #tabsBar {
@@ -185,6 +186,8 @@ textarea.catalog-text {
 .resizable {
     resize: horizontal;
     width: 150px;
+    background-color:#DCF0D8;
+    color:black;
     /*height: 100%;*/
 }
 
@@ -246,6 +249,10 @@ textarea.Module, textarea.Score, textarea.Monitor {
     padding: 4px;
     border: 1px solid #ffffff;
     -webkit-transition: border 0.3s ease;
+}
+
+.select2-container .select2-selection--single:focus {
+    border: 1px solid #000;
 }
 
 .select2-container--open.select2 .select2-selection--single {
@@ -314,6 +321,9 @@ textarea.Module, textarea.Score, textarea.Monitor {
     }
 
 .select2-container.select2-container--open .select2-selection--multiple:hover, .addTopic input:focus, .addTopic textarea:focus {
+    border: 1px solid #000;
+}
+.select2-container .select2-selection--multiple:focus {
     border: 1px solid #000;
 }
 

@@ -1,6 +1,7 @@
 ﻿function MonitorTables(categoryHierarchy) {
     // a list of tables 
     this.backingData = [];
+    this.labels = []
 
     this.getNewestMonitorData = function () {
         return this.backingData[this.backingData.length - 1];
@@ -47,6 +48,14 @@
         monitorTabs.clear();
         return this;
     }
+
+    this.monitorStringToInt = function (string) {
+        return monitorTables.labels.indexOf(string);
+    };
+
+    this.monitorIntToString = function (int) {
+        return monitorTables.labels[int];
+    };
 
     var that = this;
     //this.addMonitorTabEvent = function (that) {

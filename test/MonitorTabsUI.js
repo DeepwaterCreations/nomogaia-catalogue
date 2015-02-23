@@ -4,7 +4,6 @@
     this.addTabFuncList = [];
     this.changeTabFuncList = [];
     this.tabsDiv = "";
-    this.lables = [];
 
 
     this.addTabLabel = "Add";
@@ -23,15 +22,7 @@
     };
 
     this.getActiveMonitorAsString = function () {
-        return this.lables[this.getActiveMonitor()];
-    };
-
-    this.monitorStringToInt = function (string) {
-        return this.lables.indexOf(string);
-    };
-
-    this.monitorIntToString = function (int) {
-        return this.lables[int];
+        return monitorTables.labels[this.getActiveMonitor()];
     };
 
     //Removes all the tabs.
@@ -80,7 +71,7 @@
         //Label gets the value provided in the dialog, or else makes a default value based on whether this is the first tab.
         var label = ($("#monitorNameField").val() || (count === 0 ? "Initial" : this.newTabLabel + count));
         var liString = '<li><a href="#' + id + '">' + label + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
-        this.lables.push(label);
+        monitorTables.labels.push(label);
 
         this.tabsDiv.find('.' + this.addTabClass).before(liString);
         this.tabsDiv.append('<div id="' + id + '"></div>');

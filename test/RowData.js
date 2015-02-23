@@ -58,12 +58,12 @@ RowData = function (rowData) {
                 monitor++;
             }
             if (at != this) {
-                monitor += monitorTabs.monitorStringToInt(at.getData("Monitor"));
+                monitor += monitorTables.monitorStringToInt(at.getData("Monitor"));
             }
 
             this.rowData = undefined;
 
-            this.setData("Monitor", monitorTabs.monitorIntToString(monitor));
+            this.setData("Monitor", monitorTables.monitorIntToString(monitor));
         } else {
             this.setData("Monitor", val);
         }
