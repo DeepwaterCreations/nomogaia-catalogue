@@ -21,7 +21,7 @@ th.rowHeader {
 
 #matrixTableDiv td, #impactedRightsTable td {
     background-color:#efefef;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     border-width: 0px;
     padding: 3px;
 }
@@ -41,36 +41,88 @@ th.hoveredColumn {
     padding-bottom: 0px; 
 }
 
-#matrixTableDiv td.terrible, #impactedRightsTable td.terrible {
+/*IMPACT SCORE COLORING*/
+#matrixTableDiv td.terrible, #impactedRightsTable td.terrible, .ui-tooltip-content .terrible {
     border-width:3px;
     border-color:#FF0000;
     background-color:#FAC8C8;
 }
 
-#matrixTableDiv td.bad, #impactedRightsTable td.bad{
+#matrixTableDiv td.bad, #impactedRightsTable td.bad, .ui-tooltip-content .bad{
     border-width:3px;
     border-color:#FF9933;
     background-color:#FFE6CC;
 }
 
-#matrixTableDiv td.okay, #impactedRightsTable td.okay{
+#matrixTableDiv td.okay, #impactedRightsTable td.okay, .ui-tooltip-content .okay{
     border-width:3px;
     border-color:#FFFF33;
     background-color:#FFFFCC;
 }
 
-#matrixTableDiv td.good, #impactedRightsTable td.good{
+#matrixTableDiv td.good, #impactedRightsTable td.good, .ui-tooltip-content .good{
     border-width:3px;
     border-color:#66FF99;
     background-color:#CCFFDD;
 }
 
-#matrixTableDiv td.great, #impactedRightsTable td.great{
+#matrixTableDiv td.great, #impactedRightsTable td.great, .ui-tooltip-content .great{
     border-width:3px;
     border-color:#52A4FF;
     background-color:#CCE4FF;
 }
 
+/*TOOLTIPS*/
+.ui-tooltip-content p.head {
+    font-size:18px;
+}
+
+.ui-tooltip-content .score {
+    border-style:solid;
+    padding-left:3px;
+    padding-right:3px;
+}
+
+div.terrible {
+    border-width:3px;
+    border-color:#FF0000;
+    border-style:solid;
+}
+
+div.bad {
+    border-width:3px;
+    border-color:#FF9933;
+    border-style:solid;
+}
+
+div.okay {
+    border-width:3px;
+    border-color:#FFFF33;
+    border-style:solid;
+}
+
+div.good {
+    border-width:3px;
+    border-color:#66FF99;
+    border-style:solid;
+}
+
+div.great {
+    border-width:3px;
+    border-color:#52A4FF;
+    border-style:solid;
+}
+    /*
+GRADIENTS:
+div.okay{
+    border-width:2px;
+    border-style:solid;
+    border-color: #FFFF33;
+    background:linear-gradient(to top right, white, white, white, white, #FFFFCC, #FFFF33);
+}
+*/
+
+/*NO DATA MESSAGE*/
 div.nodata {
     width:100%;
     height:100%;

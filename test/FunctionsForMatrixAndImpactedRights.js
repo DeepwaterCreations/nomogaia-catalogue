@@ -2,26 +2,24 @@
 
 function getTooltipForRow(row) {
     var tooltipContent = "";
-    tooltipContent += '<b>Topic "' + row.getData("Topic") + '" contributes score: ' + row.getData("Score") + '</b>';
-    tooltipContent += '<p>' + (row["Input"] || "<i>No input</i>") + '</p>';
+    tooltipContent += '<p class="head"><b>Topic</b> "' + row.getData("Topic") + '" <b>contributes score:</b> <span class="score ' + getScoreCategoryClass(row.getData("Score")) +'">' + row.getData("Score") + '</p>';
+    tooltipContent += '<p class="body">' + (row["Input"] || "<i>No input</i>") + '</p>';
     return tooltipContent;
 }
 
-function addScoreCategoryClass(element, score) {
+function getScoreCategoryClass(score) {
     if (score <= -12) {
-        element.addClass("terrible");
+        return "terrible";
     } else if (score <= -.5) {
-        element.addClass("bad");
+        return "bad";
     } else if (score < .5) {
-        element.addClass("okay");
+        return "okay";
     } else if (score < 12) {
-        element.addClass("good");
+        return "good";
     } else if (score >= 12) {
-        element.addClass("great");
+        return "great";
     }
-    return element;
 }
-
 
 //Adds a function to ALL STRINGS EVERYWHERE ALWAYS that returns a copy stripped of all non-alphanumeric characters. 
 String.prototype.stripNonAlphanumeric = function () {

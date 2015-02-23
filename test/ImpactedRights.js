@@ -181,7 +181,7 @@ function rebuildImpactedRights(monitorTable, index) {
         rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
         var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
         cell.tooltip({ content: getFullToolTip(contextRows) });
-        addScoreCategoryClass(cell, getAverage(contextRows));
+        cell.addClass(getScoreCategoryClass(getAverage(contextRows)));
         cell.hover(function (event) {
                 //On mouse hover, give the column header a class.
                 $('#' + getColumnHeadID("Context")).addClass("hoveredColumn"); //TODO: Maybe "Context" shouldn't be hard-coded.
@@ -199,7 +199,7 @@ function rebuildImpactedRights(monitorTable, index) {
             rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
             var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + myModule);
             cell.tooltip({ content: getFullToolTip(moduleRows) });
-            addScoreCategoryClass(cell, getAverage(moduleRows));
+            cell.addClass(getScoreCategoryClass(getAverage(moduleRows)));
             cell.hover(function (event) {
                     //On mouse hover, give the column header a class.
                     $('#' + getColumnHeadID(myModule)).addClass("hoveredColumn");

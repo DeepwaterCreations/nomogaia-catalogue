@@ -88,8 +88,7 @@ function Matrix() {
                         scoreCount++;
                         scoreSum += parseInt(row.getData("Score"));
                         //Generate tooltip text displaying a title and the issue.
-                        tooltipContent += '<b>Topic "' + row.getData("Topic") + '" contributes score: '+ row.getData("Score")+ '</b>';
-                        tooltipContent += '<p>' + (row["Input"] || "<i>No input</i>") + '</p>';
+                        tooltipContent += getTooltipForRow(row);
                     }
                 });
                 //We also need data from the newest monitor, for the sake of sorting.
@@ -169,11 +168,19 @@ function Matrix() {
                     $("#" + matrixTableID).find("tbody").find('tr').last().append(rowHTML[rightsholderName].HTML);
                     var cell = $("#" + matrixTableID).find("tbody").find('tr').last().children().last(); //This is ugly. Unfortunately, append returns the thing receiving the appendage, not the thing being appended.
                     //Give it a tooltip
-                    if(rowHTML[rightsholderName].tooltipContent)
+                    if (rowHTML[rightsholderName].tooltipContent) {
                         cell.tooltip({ content: rowHTML[rightsholderName].tooltipContent });
+                    }
                     //Style it if it has a score
-                    if(rowHTML[rightsholderName].score !== "-")
-                        addScoreCategoryClass(cell, parseInt(rowHTML[rightsholderName].score));
+                    if (rowHTML[rightsholderName].score !== "-") {
+                        cell.addClass(getScoreCategoryClass(parseInt(rowHTML[rightsholderName].score)));
+                        //Tooltips need to get their score category class when they open, because they don't exist until then. 
+                        cell.on("tooltipopen", function (scoreCategoryClass) {
+                            return function (event, ui) {
+                                ui.tooltip.addClass(scoreCategoryClass);
+                            }
+                        }(getScoreCategoryClass(parseInt(rowHTML[rightsholderName].score))));
+                    }
                     //When the user mouses over a cell, this makes the cell's column header become highlighted.
                     //Row headers already do this via pure CSS. (You can put a hover selector on the <tr> to find the appropriate row head, but the column heads aren't exclusively enclosed
                     //in an element with the cells below them, so we have to resort to javascript.) 
