@@ -181,6 +181,11 @@ function rebuildImpactedRights(monitorTable, index) {
         rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
         var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
         cell.tooltip({ content: getFullToolTip(contextRows) });
+        cell.on("tooltipopen", function (scoreCategoryClass) {
+            return function (event, ui) {
+                ui.tooltip.addClass(scoreCategoryClass);
+            }
+        }(getScoreCategoryClass(getAverage(contextRows))));
         cell.addClass(getScoreCategoryClass(getAverage(contextRows)));
         cell.hover(function (event) {
                 //On mouse hover, give the column header a class.
@@ -199,6 +204,11 @@ function rebuildImpactedRights(monitorTable, index) {
             rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
             var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + myModule);
             cell.tooltip({ content: getFullToolTip(moduleRows) });
+            cell.on("tooltipopen", function (scoreCategoryClass) {
+                return function (event, ui) {
+                    ui.tooltip.addClass(scoreCategoryClass);
+                }
+            }(getScoreCategoryClass(getAverage(moduleRows))));
             cell.addClass(getScoreCategoryClass(getAverage(moduleRows)));
             cell.hover(function (event) {
                     //On mouse hover, give the column header a class.
