@@ -125,8 +125,9 @@ body {
     overflow-x: hidden;
 }
 
-.ui-tabs-nav li {
-    margin:0px;
+#tabsBar .ui-tabs-nav li {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 #tabs {
