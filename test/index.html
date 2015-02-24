@@ -65,25 +65,31 @@
             <div id="addTopic" class="tab">
                 <form class="addTopic" action="#">
                     <fieldset>
-                        <h4>Catalog:</h4>
-                        <select name="catalog" id="catalogSelect" style="width:100%"></select>
-
-                        <h4>Category:</h4>
-                        <select name="category" id="categorySelect" style="width:100%"></select>
+                        <input class="blueButton" type="button" id="addTopicButton" value="Add Topic" />
                         
+                        <h4>Topic:</h4><input type="text" id="topicName" /></br>
+                        <p class="warning" id="warning-topic">! topic already exists</p>
+
+                        <h4>Catalog:</h4>
+                        <select name="catalog" id="catalogSelect" style="width:calc(100% - 206px);"></select>
+                        </br>
+                        <h4>Category:</h4>
+                        <select name="category" id="categorySelect" style="width:calc(100% - 206px);"></select>
+                        </br>
                         <h4>Subcategory:</h4>
-                        <select name="subcategory" id="subcategorySelect" style="width:100%"></select>
-
+                        <select name="subcategory" id="subcategorySelect" style="width:calc(100% - 206px);"></select>
+                        </br>
                         <h4>Module:</h4>
-                        <select name="module" id="moduleSelect" style="width:100%"></select>
+                        <select name="module" id="moduleSelect" style="width:calc(100% - 206px);"></select>
+                        </br>
 
-                        <h4>Topic Name:</h4><input type="text" id="topicName" /></br>
+                        
 
                         <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="2" id="topicDescTextBox"></textarea><br />
 
                         <h4>Topic Source:</h4><textarea name="topicSourceText" cols="50" rows="2" id="topicSourceTextBox"></textarea><br />
 
-                        <input class="blueButton" type="button" id="addTopicButton" value="Add Topic" />
+                        
                     </fieldset>
                 </form>
             </div>

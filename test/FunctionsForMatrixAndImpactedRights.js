@@ -3,7 +3,7 @@
 function getTooltipForRow(row) {
     var tooltipContent = "";
     tooltipContent += '<p class="head"><b>Topic</b> "' + row.getData("Topic") + '" <b>contributes score:</b> <span class="score ' + getScoreCategoryClass(row.getData("Score")) +'">' + row.getData("Score") + '</p>';
-    tooltipContent += '<p class="body">' + (row["Input"] || "<i>No input</i>") + '</p>';
+    tooltipContent += '<p class="body">' + (row.getData("Input") || "<i>No input</i>") + '</p>';
     return tooltipContent;
 }
 

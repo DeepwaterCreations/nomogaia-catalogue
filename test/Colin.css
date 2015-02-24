@@ -125,10 +125,10 @@ body {
     overflow-x: hidden;
 }
 
-#tabsBar .ui-tabs-nav li {
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
+    #tabsBar li {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
 
 #tabs {
     height: 100%;
@@ -187,13 +187,11 @@ textarea.catalog-text {
     overflow: hidden;
 }
 
-
-
 .resizable {
     resize: horizontal;
-    width: 150px;
-    background-color:#DCF0D8;
-    color:black;
+    width: 175px;
+    background-color: #DCF0D8;
+    color: black;
     /*height: 100%;*/
 }
 
@@ -257,9 +255,9 @@ textarea.Module, textarea.Score, textarea.Monitor {
     -webkit-transition: border 0.3s ease;
 }
 
-.select2-container .select2-selection--single:focus {
-    border: 1px solid #000;
-}
+    .select2-container .select2-selection--single:focus {
+        border: 1px solid #000;
+    }
 
 .select2-container--open.select2 .select2-selection--single {
     border: 1px solid #000;
@@ -322,13 +320,14 @@ textarea.Module, textarea.Score, textarea.Monitor {
     border: 1px solid #fff;
 }
 
-    .select2-container .select2-selection--multiple:hover, .addTopic input:hover, .addTopic textarea:hover {
-        border: 1px solid #888;
-    }
+.addTopic .select2-container:hover, .select2-selection--multiple:hover, .addTopic input:hover, .addTopic textarea:hover {
+    border: 1px solid #888;
+}
 
 .select2-container.select2-container--open .select2-selection--multiple:hover, .addTopic input:focus, .addTopic textarea:focus {
     border: 1px solid #000;
 }
+
 .select2-container .select2-selection--multiple:focus {
     border: 1px solid #000;
 }
@@ -395,10 +394,21 @@ button.close-icon {
     /*margin: 0 auto;*/
 }
 
+    .addTopic h4 {
+        width: 200px;
+        text-align: right;
+        display: inline-block;
+    }
+
     .addTopic select, .addTopic input, .addTopic textarea {
         padding: 5px;
-        width: calc(100% - 14px);
+        width: calc(100% - 214px);
+        -webkit-transition: all 0.3s ease;
     }
+
+        .addTopic input#addTopicButton {
+            width: calc(100% - 14px);
+        }
 
     .addTopic select {
         width: 200px;
@@ -412,9 +422,17 @@ button.close-icon {
         resize: vertical;
     }
 
-    .addTopic input, .addTopic textarea {
+    .addTopic input, .addTopic textarea, .addTopic .select2-container {
         border: 1px solid #c0c0c0;
     }
+
+#addTopicButton:active ~ input.incomplete, #addTopicButton:active ~ textarea.incomplete, #addTopicButton:active ~ select.incomplete + .select2-container {
+    border-color: red;
+}
+
+.addTopic .select2-container {
+    width: calc(100% - 206px);
+}
 
 
 .blueButton {
@@ -447,4 +465,10 @@ button.close-icon {
 
 #saveLoad {
     float: right;
+}
+
+
+.warning {
+    color: red;
+    display: none;
 }

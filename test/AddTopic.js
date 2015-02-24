@@ -53,23 +53,59 @@ AddTopic.hasValue = function (string) {
     return true;
 }
 
+AddTopic.isNewTopic = function (string) {
+    return categoryHierarchy.getTopic(string) == null
+}
+
+AddTopic.isLegalTopicName = function (string) {
+    if (string == null) {
+        // seem we don't want to tell the user null is not allowed they know that
+        return true;
+    }
+    return string.replace(/\t/g, "    ").trim() != "-";
+}
+
 AddTopic.canAdd = function () {
-    var list = [AddTopic.catalogSelectValue(),
-                AddTopic.categorySelectValue(),
-                AddTopic.subcategorySelectValue(),
-                AddTopic.moduleSelectValue(),
-                AddTopic.topicNameValue(),
-                AddTopic.topicDescTextValue(),
-                AddTopic.topicSourceTextValue()]
+    var willReturn = true;
+
+    var list = [$("#catalogSelect"),
+                $("#categorySelect"),
+                $("#subcategorySelect"),
+                $("#moduleSelect"),
+                $("#topicName"),
+                $("#topicDescTextBox"),
+                $("#topicSourceTextBox")]
     for (var i in list) {
         v = list[i];
-        if (!AddTopic.hasValue(v)) {
+        if (!AddTopic.hasValue(v.val())) {
             $('#addTopicButton').addClass("off");
-            return false;
+            v.addClass("incomplete");
+            willReturn= false;
+        } else {
+            v.removeClass("incomplete");
         }
     }
-    $('#addTopicButton').removeClass("off");
-    return true;
+
+    if (!AddTopic.isNewTopic(AddTopic.topicNameValue())) {
+        $("#topicName").addClass("incomplete")
+        $('#warning-topic').css('display', 'block');
+        $('#warning-topic').text("! topic already exists");
+        willReturn = false;
+    } else if (!AddTopic.isLegalTopicName(AddTopic.topicNameValue())) {
+        $("#topicName").addClass("incomplete")
+        $('#warning-topic').css('display', 'block');
+        $('#warning-topic').text("! '" + AddTopic.topicNameValue() + "' is not a legal topic name");
+        willReturn = false;
+    } else {
+        $('#warning-topic').css('display', 'none');
+    }
+
+    if (willReturn) {
+        $('#addTopicButton').removeClass("off");
+    } else {
+        $('#addTopicButton').addClass("off");
+    }
+    return willReturn;
 }
 
 AddTopic.catalogSelectValue = function () { return $("#catalogSelect").val(); };

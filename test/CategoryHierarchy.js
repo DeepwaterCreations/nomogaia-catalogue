@@ -349,7 +349,7 @@
                     }
                 }
             }
-            console("Colin - this is bad ");
+            return null;
         }
     }
 
