@@ -22,7 +22,7 @@
                 <li id="matrixTab">
                     <a href="#rightsMatrix">Rights Matrix</a>
                 </li>
-                <li >
+                <li>
                     <a href="#addTopic">Add Topic</a>
                 </li>
                 <li id="saveLoad">
@@ -59,75 +59,80 @@
                 <button class="blueButton" id="save" type="button">Save</button>
                 <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
 
-                <button class="blueButton"  id="load" type="button">Load</button>
+                <button class="blueButton" id="load" type="button">Load</button>
                 <input type="file" id="loadFileDialog" style="display:none;">
             </div>
             <div id="addTopic" class="tab">
                 <form class="addTopic" action="#">
                     <fieldset>
                         <input class="blueButton" type="button" id="addTopicButton" value="Add Topic" />
-                        
+
                         <h4>Topic:</h4><input type="text" id="topicName" /></br>
                         <p class="warning" id="warning-topic">! topic already exists</p>
 
                         <h4>Catalog:</h4>
-                        <select name="catalog" id="catalogSelect" style="width:calc(100% - 206px);"></select>
-                        </br>
+                        <div class="holder">
+                            <select name="catalog" id="catalogSelect" style="width:100%;"></select>
+                        </div></br>
                         <h4>Category:</h4>
-                        <select name="category" id="categorySelect" style="width:calc(100% - 206px);"></select>
-                        </br>
-                        <h4>Subcategory:</h4>
-                        <select name="subcategory" id="subcategorySelect" style="width:calc(100% - 206px);"></select>
-                        </br>
-                        <h4>Module:</h4>
-                        <select name="module" id="moduleSelect" style="width:calc(100% - 206px);"></select>
-                        </br>
 
-                        
+                        <div class="holder">
+                            <select name="category" id="categorySelect" style="width:100%;"></select>
+                        </div>
+                        <h4>Subcategory:</h4>
+                        <div class="holder">
+                            <select name="subcategory" id="subcategorySelect" style="width:100%;"></select>
+                        </div></br>
+                        <h4>Module:</h4>
+                        <div class="holder">
+                            <select name="module" id="moduleSelect" style="width:100%;"></select>
+                        </div></br>
+
+
 
                         <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="2" id="topicDescTextBox"></textarea><br />
 
                         <h4>Topic Source:</h4><textarea name="topicSourceText" cols="50" rows="2" id="topicSourceTextBox"></textarea><br />
 
-                        
+
                     </fieldset>
                 </form>
             </div>
-    </div>
-
-    <div id="addMonitorDialog">
-        <div>
-            <span>Enter a Label:</span>
-            <input type="text" id="monitorNameField">
         </div>
-    </div>
-    <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
-    <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
-    <script type="text/javascript" src="JSON/json2.js"></script>
-    <script type="text/javascript" src="RowData.js"></script>
-    <script type="text/javascript" src="DataOptions.js"></script>
-    <script type="text/javascript" src="TableData.js"></script>
-    <script type="text/javascript" src="TableUI.js"></script>
-    <script type="text/javascript" src="RowUI.js"></script>
-    <script type="text/javascript" src="Table.js"></script>
-    <script type="text/javascript" src="CategoryHierarchy.js"></script>
-    <script type="text/javascript" src="FileReadWrite.js"></script>
-    <script type="text/javascript" src="MonitorTables.js"></script>
-    <script type="text/javascript" src="Topic.js"></script>
-    <script type="text/javascript" src="MonitorTabsUI.js"></script>
-    <script type="text/javascript" src="FunctionsForMatrixAndImpactedRights.js"></script>
-    <script type="text/javascript" src="ImpactedRights.js"></script>
-    <script src="AddTopic.js"></script>
-    <script type="text/javascript" src="main.js"></script>
-    <script type="text/javascript" src="MatrixUI.js"></script>
-    <script type="text/javascript" src="TopicAddUI.js"></script>
-    <script type="text/javascript">
-        $("#tabs").tabs();
-    </script>
-    <link href="pure-release-0.5.0/pure.css" rel="stylesheet" />
-    <link href="Colin.css" rel="stylesheet" />
-    <style type="text/css">
-    </style>
+
+        <div id="addMonitorDialog">
+            <div>
+                <span>Enter a Label:</span>
+                <input type="text" id="monitorNameField">
+            </div>
+        </div>
+        <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
+        <script type="text/javascript" src="JSON/json2.js"></script>
+        <script type="text/javascript" src="RowData.js"></script>
+        <script type="text/javascript" src="DataOptions.js"></script>
+        <script type="text/javascript" src="TableData.js"></script>
+        <script type="text/javascript" src="TableUI.js"></script>
+        <script type="text/javascript" src="RowUI.js"></script>
+        <script type="text/javascript" src="Table.js"></script>
+        <script type="text/javascript" src="CategoryHierarchy.js"></script>
+        <script type="text/javascript" src="FileReadWrite.js"></script>
+        <script type="text/javascript" src="MonitorTables.js"></script>
+        <script type="text/javascript" src="Topic.js"></script>
+        <script type="text/javascript" src="MonitorTabsUI.js"></script>
+        <script type="text/javascript" src="FunctionsForMatrixAndImpactedRights.js"></script>
+        <script type="text/javascript" src="ImpactedRights.js"></script>
+        <script src="AddTopic.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+        <script type="text/javascript" src="MatrixUI.js"></script>
+        <script type="text/javascript" src="TopicAddUI.js"></script>
+        <script type="text/javascript">
+            $("#tabs").tabs();
+        </script>
+        <link href="pure-release-0.5.0/pure.css" rel="stylesheet" />
+        <link href="Colin.css" rel="stylesheet" />
+        <style type="text/css">
+        </style>
 </body>
 </html>

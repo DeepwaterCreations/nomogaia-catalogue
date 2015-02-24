@@ -397,17 +397,19 @@ button.close-icon {
     .addTopic h4 {
         width: 200px;
         text-align: right;
+        vertical-align: top;
         display: inline-block;
+        margin: 0;
     }
 
     .addTopic select, .addTopic input, .addTopic textarea {
         padding: 5px;
-        width: calc(100% - 214px);
+        width: calc(100% - 218px);
         -webkit-transition: all 0.3s ease;
     }
 
         .addTopic input#addTopicButton {
-            width: calc(100% - 14px);
+            width: 100%;
         }
 
     .addTopic select {
@@ -415,18 +417,25 @@ button.close-icon {
     }
 
     .addTopic span.select2-selection.select2-selection--single {
-        border: 1px solid #c0c0c0;
+        /*border: 1px solid #c0c0c0;*/
     }
 
     .addTopic textarea {
         resize: vertical;
+        margin-left: 5px;
+    }
+
+    .addTopic #topicName {
+        margin-left: 5px;
     }
 
     .addTopic input, .addTopic textarea, .addTopic .select2-container {
         border: 1px solid #c0c0c0;
+        margin-top: 3px;
+        margin-bottom: 3px;
     }
 
-#addTopicButton:active ~ input.incomplete, #addTopicButton:active ~ textarea.incomplete, #addTopicButton:active ~ select.incomplete + .select2-container {
+#addTopicButton:active ~ input.incomplete, #addTopicButton:active ~ textarea.incomplete, #addTopicButton:active ~ .holder select.incomplete + .select2-container {
     border-color: red;
 }
 
@@ -471,4 +480,19 @@ button.close-icon {
 .warning {
     color: red;
     display: none;
+    padding-left: 200px;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+}
+
+
+/*the internet says this should change the height of select2 dropdowns does not seem to work*/
+.select2-results {
+    max-height: 400px;
+}
+
+
+.addTopic .holder {
+    width: calc(100% - 206px);
+    display: inline-block;
 }
