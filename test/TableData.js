@@ -28,22 +28,18 @@ function TableData() {
     //If "columnName" holds an array, includes the row in the return values if that array contains "data".
     this.getRows = function (columnName, data) {
         var matchingRows = [];
-
-        if (columnName && data) {
-            this.rows.forEach(function (row) {
-                var rowValue = row.getData(columnName);
-                if (rowValue == monitorTables.dataOptions.getDefaultValue(columnName) || rowValue == undefined) return;
-                if (rowValue.constructor === Array) {
-                    if (rowValue.indexOf(data) >= 0)
-                        matchingRows.push(row);
-                }
-                else if (rowValue === data)
+                
+        this.rows.forEach(function (row) {
+            var rowValue = row.getData(columnName);
+            if (rowValue == monitorTables.dataOptions.getDefaultValue(columnName) || rowValue == undefined) return;
+            if (rowValue.constructor === Array) {
+                if (rowValue.indexOf(data) >= 0)
                     matchingRows.push(row);
-            });
-        }
-        else
-            console.log("WARNING: Tried to find columns with either undefined column name, or undefined data.");
-
+            }
+            else if (rowValue === data)
+                matchingRows.push(row);
+        });
+        
         return matchingRows;
     };
 

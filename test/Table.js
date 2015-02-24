@@ -50,7 +50,7 @@ function Table(monitorTables) {
 
 function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
     var newTable = new Table(monitorTables);
-    objFromFile[tableIndex].forEach(function (objRow) {
+    objFromFile[tableIndex].backingData.forEach(function (objRow) {
         if ("pointsTo" in objRow) {
             var refRow = undefined;
             monitorTables.backingData.forEach(function (table) {

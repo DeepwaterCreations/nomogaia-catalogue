@@ -72,6 +72,7 @@
         var label = ($("#monitorNameField").val() || (count === 0 ? "Initial" : this.newTabLabel + count));
         var liString = '<li><a href="#' + id + '">' + label + '</a></li>'; //TODO: Would it be cool to label monitors with dates?
         monitorTables.labels.push(label);
+        $("#monitorNameField").val("");
 
         this.tabsDiv.find('.' + this.addTabClass).before(liString);
         this.tabsDiv.append('<div id="' + id + '"></div>');

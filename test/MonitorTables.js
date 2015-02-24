@@ -33,9 +33,12 @@
 
     this.toOut = function () {
         var out = [];
-        this.backingData.forEach(function (table) {
-            out.push(table.toOut());
-        });
+        for (var i = 0; i < this.backingData.length; i++) {
+            var monitorObj = {};
+            monitorObj.label = this.monitorIntToString(i);
+            monitorObj.backingData = this.backingData[i].toOut();
+            out.push(monitorObj);
+        }
         return out;
     }
 
@@ -44,6 +47,7 @@
             table.removeTable();
         });
         this.backingData = [];
+        this.labels = [];
         tableId = 0;
         monitorTabs.clear();
         return this;

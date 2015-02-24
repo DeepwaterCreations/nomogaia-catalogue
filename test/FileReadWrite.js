@@ -5,13 +5,10 @@
 $('#save').click(function () {
     var fileDialog = $("#saveFileDialog");
     fileDialog.on("change", function (event) {
-        console.log("Nalyd - toOut " + $(this).val());
-
         var filew = fs.createWriteStream($(this).val());
         filew.write(JSON.stringify(monitorTables.toOut()));
     });
     fileDialog.trigger("click");
-    //console.log("Colin - toOut", monitorTables.toOut());//JSON.stringify()
 });
 
 $('#load').click(function () {
@@ -22,13 +19,12 @@ $('#load').click(function () {
         var filer = fs.createReadStream($(this).val());
         filer.setEncoding('utf8');
         filer.on('data', function (chunk) {
-            $('#fileTextBox').val(chunk); //Puts the data in the text box. //TODO: We'll want to get rid of this eventually, but it's useful for testing.
-
             //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
             var obj = jQuery.parseJSON(chunk);
             monitorTables.clear();
             for (var i = 0; i < obj.length; i++) {
                 monitorTables.push(createTableFromJSON(obj, i, monitorTables));
+                $("#monitorNameField").val(obj[i].label) //Ensures the new tab gets the proper label.
                 monitorTabs.addTab();
             }
         })
@@ -38,39 +34,3 @@ $('#load').click(function () {
 
     fileDialog.trigger("click");
 });
-
-//-----
-var filepath = "";
-
-//When a file is selected, get the filepath and set 'filepath' to it.
-$('#chooseFile').change(function (event) {
-    filepath = $('#chooseFile').prop("value");
-    console.log(filepath);
-});
-
-//When the read file button is clicked, read the file and put its contents in the div. 
-$('#readFileButton').click(function () {
-    if (filepath === "") {
-        console.log("Error: No file selected");
-        return;
-    }
-
-    var filer = fs.createReadStream(filepath);
-    filer.setEncoding('utf8');
-    filer.on('data', function (chunk) {
-        console.log(chunk);
-        $('#fileTextBox').val(chunk);
-    })
-});
-
-//When the write file button is clicked, write the contents of the div's text box to
-//the file specified by 'filepath'.
-$('#writeFileButton').click(function () {
-    if (filepath === "") {
-        console.log("Error: No file selected");
-        return;
-    }
-
-    var filew = fs.createWriteStream(filepath);
-    filew.write($('#fileTextBox').val());
-})
