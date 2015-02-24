@@ -60,6 +60,9 @@
                 }
             }
         ],
+        close: function (event, ui) {
+            monitorTabs.tabsDiv.tabs("option", "active", monitorTabs.getActiveMonitor());
+        }
     });
 
     //Add a new tab, for when the add tab button is clicked. This function is called by the add monitor dialog
