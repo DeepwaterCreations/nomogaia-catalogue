@@ -62,8 +62,10 @@
         ],
         close: function (event, ui) {
             monitorTabs.tabsDiv.tabs("option", "active", monitorTabs.getActiveMonitor());
-        }
+        },
+        title: "Add New Monitor"
     });
+    $(".ui-dialog").find("button").addClass("blueButton");
 
     //Add a new tab, for when the add tab button is clicked. This function is called by the add monitor dialog
     //when it closes.
