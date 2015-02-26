@@ -110,7 +110,7 @@ RowData = function (rowData) {
 
         // we only need to do something if the new value is different that the old value
         if (changed) {
-
+            setVisualizationsDirty();
             if (this.rowData != undefined) {
                 console.log("Colin - breaking link", data, this.getData(columnName));
                 // since a change has been made we no long are going to look to rowData

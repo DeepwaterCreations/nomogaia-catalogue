@@ -48,3 +48,9 @@ function getDataCellClass(rightName, rightsholderName) {
 function toClassName(column) {
     return column.stripNonAlphanumeric();
 }
+
+//Call this when data has changed or when a new monitor is made visible.
+function setVisualizationsDirty() {
+    impactedRights_dirty = true;
+    matrix.dirty = true;
+}

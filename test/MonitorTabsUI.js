@@ -39,7 +39,7 @@
         var newlyActiveTab = $(source).tabs("option", "active");
         if (newlyActiveTab === this.tabCount) return; //I *think* this is the case where it's the "add tab" tab? 
         this.activeTab = newlyActiveTab;
-
+        setVisualizationsDirty();
         this.changeTabFuncList.forEach(function (func) {
             func(newlyActiveTab);
         });

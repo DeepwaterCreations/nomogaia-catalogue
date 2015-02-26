@@ -1,4 +1,6 @@
-﻿function rightHasEntries(rightName, monitorTables) {
+﻿var impactedRights_dirty = true; //Should be true whenever visible data has been changed and the table hasn't been rebuilt yet. //Colin, is there a better place for this to live?  
+
+function rightHasEntries(rightName, monitorTables) {
     for (var i = 0; i < monitorTables.backingData.length; i++) {
         if (monitorTables.backingData[i].tableData.getRows("Impacted Rights", rightName).length != 0) {
             return true;
@@ -83,6 +85,9 @@ function addMonitorTabsToImpactedRights(monitorTables) {
 }
 
 function rebuildImpactedRights(monitorTable, index) {
+
+    if (!impactedRights_dirty)
+        return;
 
     var table = monitorTable.backingData[index];
 
@@ -221,5 +226,6 @@ function rebuildImpactedRights(monitorTable, index) {
             );
         });
     });
+    impactedRights_dirty = false;
 }
 

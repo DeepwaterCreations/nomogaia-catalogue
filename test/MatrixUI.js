@@ -11,6 +11,8 @@
 
 function Matrix() {
 
+    this.dirty = true;
+
     this.divID = "matrixTableDiv";
 
     this.matrixTablePrefix = "matrixTable";
@@ -23,6 +25,7 @@ function Matrix() {
 
     var sortOptionsButtons = $("#matrixSortOptionsButtons").buttonset();
     sortOptionsButtons.on("change", function () {
+        matrix.dirty = true;
         matrix.rebuild(monitorTabs.getActiveMonitor());
     });
 
@@ -30,6 +33,9 @@ function Matrix() {
     //We also don't want to do this unless something has legitimately changed.
     //Maybe I want a monitor data structure lurking behind the UI that can keep track of such things?
     this.rebuild = function (monitor) {
+        if (!this.dirty)
+            return;
+
         //TODO: Figure out where these values ought to live, and where they come from.
         var sortByMostImpactedRight = $("#sortByRightsImpact:checked").val();
         var sortByMostImpactedRightsholder = $("#sortByRightsholdersImpact:checked").val();
@@ -198,6 +204,7 @@ function Matrix() {
             this.filter(monitorTables.backingData.length - 1);
         }
 
+        this.dirty = false;
         return $("#" + matrixTableID); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
     };
 
@@ -245,13 +252,12 @@ function Matrix() {
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
         return function (id, count) {
-            that.rebuild(monitorTabs.getActiveMonitor());
         };
     }(this);
 
     this.changeMonitorTabEvent = function (that) {
         return function (newlyActiveTab) {
-            that.rebuild(newlyActiveTab); //The index of the tab is currently the same as the monitor. This might change, though. 
+             that.rebuild(newlyActiveTab); //The index of the tab is currently the same as the monitor. This might change, though. 
         }
     }(this);
 
