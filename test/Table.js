@@ -66,80 +66,51 @@ function Table(monitorTables) {
         console.log("Colin - RunTime - addingHTML:" + (finishedGettingString - startedGettingString));
 
         this.body.append(HTMLstring);
-        // none async
-        //rowList.forEach(function (myRow) {
-        //    myRow.init();
-        //    that.tableUI.rows.push(myRow);
-        //});
-
-    //    var Parallel = require('paralleljs');
-    //    var p2 = new Parallel([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]);
-
-    //    var p = new Parallel([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50],
-    //log = function () { console.log("Colin - Async", arguments); });
-
-        //p.map(function (num) {
-        //    for (var i = 0; i < 100000; i++) { }
-        //    console.log("Colin - Async: num " + num);
-        //    return num*num;
-        //}).then(log);
-
-        //p2.map(function (num) {
-        //    console.log("colin - async: started " + dataList[num].id);
-        //    dataList[num].init();
-        //    console.log("colin - async: finished " + dataList[num].id);
-        //    return num;
-        //});
-
-
-        //console.log("Colin - Async: data", p);
-
-
-        //function async(myrow, callback) {
-        //    settimeout(function () {
-        //        console.log("colin - async: started " + myrow.id);
-        //        myrow.init();
-        //        console.log("colin - async: finished " + myrow.id);
-        //    }, 0);
-        //}
-        //function final() { console.log('done', results); }
-
-
-        //rowlist.foreach(function (myrow) {
-        //    async(myrow)
-        //});
-
+ 
         var async = require('async');
 
-        //function async(arg, callback) {
-        //    console.log('do something with \'' + arg + '\', return 1 sec later');
-        //    setTimeout(function () { callback(arg * 2); }, 1000);
-        //}
-        var pb = $("#progressbar");
         async.forEach(rowList, function (myRow, callback) {
-            //setTimeout(function () {
-            
-            pb.progressbar("value", (100*rowList.indexOf(myRow))/(rowList.length+0.0));
+            setTimeout(function () {
             myRow.init(myRow.data);
             var val = $("#loadingBar").progressbar("value") || 0;
             $("#loadingBar").progressbar("value", val + 1);
-            //}, 1000);
+            if ($("#loadingBar").progressbar("value") >  $("#loadingBar").progressbar("option", "max")-1) {
+                $("#loadingBarDialog").dialog("destroy");
+            }
             callback();
+            }, 0);
         }, function (err) {
-            // do i need to do anything?
-            //console.log("Colin - Async: all done");
         });
         console.log("Colin - Async: after all done");
-
-        //rowList.forEach(function (myRow) {
-        //    //myRow.init();
-        //    that.tableUI.rows.push(myRow);
-        //});
 
         d = new Date();
         var finishedInitingRows = d.getTime();
         console.log("Colin - RunTime - initingRows:" + (finishedInitingRows - finishedGettingString));
     }
+
+    this.addRowsWrapped = function(dataList){
+        //Make a loading bar dialog
+        $("#loadingBarDialog").dialog({
+            dialogClass: "no-close",
+            closeOnEscape: false,
+            draggable: false,
+            modal: true,
+            resizable: false
+        });
+        // and the loading bar
+        $("#loadingBar").progressbar({
+            value: 0
+        });
+
+        var barMax = dataList.length;
+        $("#loadingBar").progressbar("option", "max", barMax);
+
+        //setTimeout(function () {
+            this.addRows(dataList);
+        //}, 0);
+           // $("#loadingBarDialog").dialog("destroy");
+    }
+
 }
 
 function createTableFromJSON(objFromFile, tableIndex, monitorTables) {

@@ -3,10 +3,10 @@
     display:none;
 }
 
-/*.ui-progressbar .ui-progressbar-value {
+.ui-progressbar .ui-progressbar-value {
     background-color: #000;
 }
 
-.ui-progressbar .ui-progressbar-indeterminate .ui-progressbar-value {
+/*.ui-progressbar .ui-progressbar-indeterminate .ui-progressbar-value {
     background-color: none;
 }*/
