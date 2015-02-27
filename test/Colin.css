@@ -494,7 +494,7 @@ button.close-icon {
 }
 
 
-.addTopic .holder {
+/*.addTopic .holder {
     width: calc(100% - 206px);
     display: inline-block;
 }
@@ -508,4 +508,4 @@ button.close-icon {
     z-index:10;
     opacity: 0.4;
     background-color:#356C28;
-}
+}*/
