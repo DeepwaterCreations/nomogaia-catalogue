@@ -6,6 +6,11 @@ var toColumnName = function (column) {
     return column.replace(/ /g, '_');
 }
 
+function format(item) {
+    var originalText = item.text;
+    return "<div title ='" + originalText + "'>" + originalText + "</div>";
+}
+
 
 function RowUI(table, rowData) {
     this.table = table;
@@ -176,7 +181,9 @@ function RowUI(table, rowData) {
         // make the className a awesome select
         this.get(className).select2({
             data: backingList,
-            width: 'resolve'
+            width: 'resolve',
+            formatResult: format,
+            formatSelection: format
         });
         if (rowData != undefined) {
             this.setUIValue(className, rowData.getData(className));
@@ -324,15 +331,7 @@ function RowUI(table, rowData) {
 
         console.log("Colin-1 updateTopic", that.getValue('Topic'));
 
-        //TODO work in progress
-        var topicInstance = that.table.owner.dataOptions.categoryHierarchy.getTopic(that.getValue("Topic"));
-        console.log("Colin - toolTip: ", topicInstance);
-        if (topicInstance != null) {
-            that.get("Topic").prop('tooltipText', topicInstance.description);
-                //.tooltip({ content: topicInstance.description });
-        }
-
-        if (that.getValue('Topic') != "-") {
+        if (that.getValue('Topic') != "-"){
 
             // first let's update catalog 
             that.setColumnSelect('Catalog', that.table.owner.dataOptions.categoryHierarchy.getTopicCatalogs(that.getValue("Topic")));
@@ -342,6 +341,17 @@ function RowUI(table, rowData) {
 
             // let's update Sub-Category
             that.setColumnSelect('Sub-Category', that.table.owner.dataOptions.categoryHierarchy.getTopicSubCategories(that.getValue("Topic")));
+
+            // we need to set the module to the topics default module 
+            var topicInstance = categoryHierarchy.getTopic(that.getValue('Topic'));
+            that.data.setData("Module", topicInstance.module);
+            that.data.setData("Source", topicInstance.source);
+
+            console.log("Colin - toolTip: " + topicInstance.description, topicInstance);
+            if (topicInstance != null) {
+                that.get("Topic").prop('tooltipText', topicInstance.description);
+                //.tooltip({ content: topicInstance.description });
+            }
         }
     }
 
