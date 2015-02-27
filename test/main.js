@@ -108,8 +108,24 @@ $(document).ready(function () {
         }
     });
 
-
-    setTimeout(function () { table.addRows(dataList); }, 0);
+    setTimeout(function () {
+        //Make a loading bar dialog
+        $("#loadingBarDialog").dialog({
+            dialogClass: "no-close",
+            closeOnEscape: false,
+            draggable: false,
+            modal: true,
+            resizable: false
+        });
+        // and the loading bar
+        $("#loadingBar").progressbar({
+            value: 0
+        });
+        var barMax = dataList.length; 
+        $("#loadingBar").progressbar("option", "max", barMax);
+        table.addRows(dataList);
+        $("#loadingBarDialog").dialog("destroy");
+    }, 0);
 
     console.log("Colin", table);
 

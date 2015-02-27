@@ -120,7 +120,9 @@ function Table(monitorTables) {
             //setTimeout(function () {
             
             pb.progressbar("value", (100*rowList.indexOf(myRow))/(rowList.length+0.0));
-                myRow.init(myRow.data);
+            myRow.init(myRow.data);
+            var val = $("#loadingBar").progressbar("value") || 0;
+            $("#loadingBar").progressbar("value", val + 1);
             //}, 1000);
             callback();
         }, function (err) {
