@@ -12,11 +12,15 @@ th.columnHeader, th.rowHeader {
 th.columnHeader {
     border-bottom-width: 3px;
     border-bottom-color: #356C28;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 th.rowHeader {
     border-right-width: 3px;
     border-right-color: #356C28;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 #matrixTableDiv td, #impactedRightsTable td {
