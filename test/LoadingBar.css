@@ -1,0 +1,12 @@
+﻿/*Hides the dialog's close button.*/
+.no-close .ui-dialog-titlebar-close {
+    display:none;
+}
+
+/*.ui-progressbar .ui-progressbar-value {
+    background-color: #000;
+}
+
+.ui-progressbar .ui-progressbar-indeterminate .ui-progressbar-value {
+    background-color: none;
+}*/

@@ -79,6 +79,9 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
 
             var newRowUI = newTable.addRow(newData);
         }
+        //Increment the loading bar's progress
+        var loadValue = $("#loadingBar").progressbar("value");
+        $("#loadingBar").progressbar("value", ++loadValue);
     });
     return newTable;
 }
