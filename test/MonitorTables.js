@@ -20,10 +20,11 @@
         console.log("Colin - copying form:", copyFrom);
 
         if (copyFrom != undefined) {
+            var dataList = []
             copyFrom.tableData.rows.forEach(function (row) {
-                var newRowData = new RowData(row);
-                newTable.tableUI.rows.push(new RowUI(newTable, newRowData));
+                dataList.push( new RowData(row));
             });
+            newTable.addRows(dataList);
         }
 
         this.push(newTable);
