@@ -82,7 +82,7 @@ function DataOptions(categoryHierarchy) {
 
     this.getDefaultValue = function (className) {
         if (className == "Score") {
-            return 0;
+            return "-";
         } else if (className == "Module") {
             return "None";
         }

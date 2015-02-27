@@ -5,7 +5,7 @@ var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Modu
 var fs = require("fs");
 
 // load in the topic info
-var filename = "TopicInfoTest.txt";
+var filename = "TopicInfo.txt";
 var buf = fs.readFileSync(filename, "utf8");
 // use it to create a categoryHierarchy
 var categoryHierarchy = new CategoryHierarchy(buf);
@@ -99,27 +99,17 @@ $(document).ready(function () {
 
     // we need to add all the rows with module =None to the table
     var topicList = categoryHierarchy.getTopics();
+    var dataList = []
     topicList.forEach(function (topicString) {
         var topicInstance = categoryHierarchy.getTopicInstance(topicString);
         if (topicInstance.module == "None") {
-            //console.log("Colin", topicInstance);
             var data = topicInstance.toData();
-            var myRow = table.addRow(data);
-            //myRow.setUIValue("Catalog", topicInstance.catalog);
-
-            //myRow.setUIValue("Category", topicInstance.category);
-
-            //myRow.setUIValue("Sub-Category", topicInstance.subCategory);
-
-            //myRow.setUIValue("Topic", topicInstance.topic);
-            //myRow.get("Topic").prop("disabled", true);
-            //myRow.get("Sub-Category").prop("disabled", true);
-            //myRow.get("Category").prop("disabled", true);
-            //myRow.get("Catalog").prop("disabled", true);
-            //myRow.setUIValue("Module", topicInstance.module);
-            //myRow.setUIValue("Source", topicInstance.source);
+            dataList.push(data);
         }
     });
+
+
+    setTimeout(function () { table.addRows(dataList); }, 0);
 
     console.log("Colin", table);
 
@@ -143,7 +133,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#catalog').selectmenu();
-    $('#category').selectmenu();
-    $('#subcategory').selectmenu();
+    //$('#catalog').selectmenu();
+    //$('#category').selectmenu();
+    //$('#subcategory').selectmenu();
 });

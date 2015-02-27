@@ -27,7 +27,7 @@ function RowUI(table, rowData) {
 
 
     //adds a new right or right holder to the existing rights and rights holders list
-    function generateOnSelect(className, backingList) {
+    this.generateOnSelect = function (className, backingList) {
         return function () {
             //todo remove the old one
             var list = $(this).find('Option');
@@ -92,7 +92,9 @@ function RowUI(table, rowData) {
         return HTMLstring;
     };
 
-    this.table.body.append(this.genHTMLString());
+    this.addHTML = function () {
+        this.table.body.append(this.genHTMLString());
+    }
 
     //get the jquery $() object assocated with this row
     this.getRow = function () {
@@ -108,25 +110,25 @@ function RowUI(table, rowData) {
     this.getUIValue = function (column) {
         //return myRow.get(column).val();
         if (column == "Catalog") {
-            return this.get(column).select2("val");
+            return this.get(column).val();
         } else if (column == "Category") {
-            return this.get(column).select2("val");
+            return this.get(column).val();
         } else if (column == "Sub-Category") {
-            return this.get(column).select2("val");
+            return this.get(column).val();
         } else if (column == "Topic") {
-            return this.get(column).select2("val");
+            return this.get(column).val();
         } else if (column == "Input") {
             return this.get(column).val();
         } else if (column == "Module") {
-            return this.get(column).select2("val");
+            return this.get(column).val();
         } else if (column == "Source") {
             return this.get(column).val();
         } else if (column == "Impacted Rights") {
-            return this.get(column).select2("val");
+            return this.get(column).val();
         } else if (column == "Impacted Rights-Holders") {
-            return this.get(column).select2("val");
+            return this.get(column).val();
         } else if (column == "Score") {
-            return this.get(column).select2("val");
+            return this.get(column).val();
         } else if (column == "Monitor") {
             return this.get(column).val();
         } else {
@@ -174,7 +176,7 @@ function RowUI(table, rowData) {
     // if a value is selected don't 
     this.toSelect2final = function (className) {
         //if (rowData == undefined) {
-            var backingList = this.table.owner.dataOptions.getColumnOptions(className);
+        var backingList = []//this.table.owner.dataOptions.getColumnOptions(className);
         //} else {
         //    var backingList = [rowData.getData(className)];
         //
@@ -190,10 +192,6 @@ function RowUI(table, rowData) {
         }
     }
 
-    this.toSelect2final("Catalog");
-    this.toSelect2final("Category");
-    this.toSelect2final("Sub-Category");
-    this.toSelect2final("Topic");
 
     // makes a select a select2
     this.toSelect2AllOptions = function (className) {
@@ -212,7 +210,7 @@ function RowUI(table, rowData) {
         }
     }
 
-    this.toSelect2AllOptions("Score");
+
 
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
@@ -223,46 +221,13 @@ function RowUI(table, rowData) {
             tags: true
         });
 
-        this.get(className).on("select2:select", generateOnSelect(className, backingList));
+        this.get(className).on("select2:select", this.generateOnSelect(className, backingList));
 
         if (rowData != undefined) {
             this.setUIValue(className, rowData.getData(className));
         } else {
             this.setUIValue(className, this.table.owner.dataOptions.getDefaultValue(className));
         }
-    }
-
-    this.toSelect2WithAdd("Impacted Rights-Holders");
-    this.toSelect2WithAdd("Impacted Rights");
-    this.toSelect2WithAdd("Module");
-
-    // if we have data update the UI to match
-    if (rowData != undefined) {
-        // if there are new values in rights/rights holders/module we want to add them
-        var that = this;
-        ["Impacted Rights-Holders", "Impacted Rights", "Module"].forEach(function (column) {
-            if (rowData.getData(column) != monitorTables.dataOptions.getDefaultValue(column)) {
-                that.table.owner.dataOptions.update(column, rowData.getData(column));
-            }
-        });
-
-        columnList.forEach(function (columnName) {
-            if (rowData.getData(columnName) != monitorTables.dataOptions.getDefaultValue(columnName)) {
-                that.setUIValue(columnName, rowData.getData(columnName));
-            }
-        });
-    }
-
-    // pass UI changes on to the dataRow
-    for (var i in columnList) {
-        var column = columnList[i];
-
-        this.get(column).change(function (columnName) {
-            return function () {
-                myRow.data.setData(columnName, myRow.getUIValue(columnName))
-            };
-        }(column));
-
     }
 
     this.updateColumnOptions = function (column, list) {
@@ -276,7 +241,7 @@ function RowUI(table, rowData) {
 
     var that = this;
     // when catalog updates we need to update everything
-    var updateCatalog = function () {
+    this.updateCatalog = function () {
         console.log("Colin-1 updateCatalog", that.getValue('Catalog'));
 
         // first let's update category 
@@ -291,10 +256,10 @@ function RowUI(table, rowData) {
     };
 
     // when category updates we need to update catalog too 
-    var updateCategory = function () {
+    this.updateCategory = function () {
         console.log("Colin-1 updateCategory", that.getValue('Category'));
 
-        if (that.getValue('Category')!= "-"){
+        if (that.getValue('Category') != "-") {
             // first let's update catalog 
             that.setColumnSelect('Catalog', that.table.owner.dataOptions.categoryHierarchy.getCategoryCatalogs(that.getValue('Category')));
         }
@@ -308,7 +273,7 @@ function RowUI(table, rowData) {
     }
 
     // when subcategory updates we need to update the other columns
-    var updateSubCategory = function () {
+    this.updateSubCategory = function () {
         console.log("Colin-1 updateSubCategory", that.getValue('Sub-Category'));
 
         // everyone more detailed one is "-" 
@@ -327,11 +292,11 @@ function RowUI(table, rowData) {
     }
 
     // when subcategory updates we need to update the other columns
-    var updateTopic = function () {
+    this.updateTopic = function () {
 
-        console.log("Colin-1 updateTopic", that.getValue('Topic'));
+        //console.log("Colin-1 updateTopic", that.getValue('Topic'));
 
-        if (that.getValue('Topic') != "-"){
+        if (that.getValue('Topic') != "-") {
 
             // first let's update catalog 
             that.setColumnSelect('Catalog', that.table.owner.dataOptions.categoryHierarchy.getTopicCatalogs(that.getValue("Topic")));
@@ -347,7 +312,7 @@ function RowUI(table, rowData) {
             that.data.setData("Module", topicInstance.module);
             that.data.setData("Source", topicInstance.source);
 
-            console.log("Colin - toolTip: " + topicInstance.description, topicInstance);
+            //console.log("Colin - toolTip: " + topicInstance.description, topicInstance);
             if (topicInstance != null) {
                 that.get("Topic").prop('tooltipText', topicInstance.description);
                 //.tooltip({ content: topicInstance.description });
@@ -355,30 +320,81 @@ function RowUI(table, rowData) {
         }
     }
 
-    //add our listeners
-    this.data.addListener('Catalog', updateCatalog);
-    this.data.addListener('Category', updateCategory);
-    this.data.addListener('Sub-Category', updateSubCategory);
-    this.data.addListener('Topic', updateTopic);
-    //for the rest we loop
-    var that = this;
-    columnList.forEach(function (columnName) {
-        if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
-            that.data.addListener(columnName, function () {
-                console.log("Colin - data changed, name: " + columnName + " value; " + that.data.getData(columnName));
-                that.setUIValue(columnName, that.data.getData(columnName))
-            })
-        }
-    });
 
-    // if we do not have data update the data to match our UI
-    if (rowData == undefined) {
+    this.init = function (rowData) {
+
+        this.toSelect2final("Catalog");
+        this.toSelect2final("Category");
+        this.toSelect2final("Sub-Category");
+        this.toSelect2final("Topic");
+
+        this.toSelect2AllOptions("Score");
+
+        this.toSelect2WithAdd("Impacted Rights-Holders");
+        this.toSelect2WithAdd("Impacted Rights");
+        this.toSelect2WithAdd("Module");
+
+        // add options to drop downs:
+        this.updateColumnOptions('Catalog', this.table.owner.dataOptions.categoryHierarchy.getCatalogs());
+        this.updateColumnOptions('Category', this.table.owner.dataOptions.categoryHierarchy.getCategories(this.getValue('Catalog')));
+        this.updateColumnOptions('Sub-Category', this.table.owner.dataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
+        this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
+
+
+        // if we have data update the UI to match
+        if (rowData != undefined) {
+            // if there are new values in rights/rights holders/module we want to add them
+            var that = this;
+            ["Impacted Rights-Holders", "Impacted Rights", "Module"].forEach(function (column) {
+                if (rowData.getData(column) != monitorTables.dataOptions.getDefaultValue(column)) {
+                    that.table.owner.dataOptions.update(column, rowData.getData(column));
+                }
+            });
+
+            // push set UI values
+            columnList.forEach(function (columnName) {
+                if (rowData.getData(columnName) != monitorTables.dataOptions.getDefaultValue(columnName)) {
+                    that.setUIValue(columnName, rowData.getData(columnName));
+                }
+            });
+        }
+
+        // pass UI changes on to the dataRow
+        for (var i in columnList) {
+            var column = columnList[i];
+
+            this.get(column).change(function (columnName) {
+                return function () {
+                    myRow.data.setData(columnName, myRow.getUIValue(columnName))
+                };
+            }(column));
+
+        }
+
+        //add our listeners
+        this.data.addListener('Catalog', this.updateCatalog);
+        this.data.addListener('Category', this.updateCategory);
+        this.data.addListener('Sub-Category', this.updateSubCategory);
+        this.data.addListener('Topic', this.updateTopic);
+        //for the rest we loop
         var that = this;
         columnList.forEach(function (columnName) {
-            that.data.setData(columnName, that.getUIValue(columnName));
+            if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
+                that.data.addListener(columnName, function () {
+                    that.setUIValue(columnName, that.data.getData(columnName))
+                })
+            }
         });
 
-        // even if row data is undefined we need to set the monitor
-        this.setUIValue("Monitor", this.data.getData("Monitor"));
+        // if we do not have data update the data to match our UI
+        if (rowData == undefined) {
+            var that = this;
+            columnList.forEach(function (columnName) {
+                that.data.setData(columnName, that.getUIValue(columnName));
+            });
+
+            // even if row data is undefined we need to set the monitor
+            this.setUIValue("Monitor", this.data.getData("Monitor"));
+        }
     }
 }
