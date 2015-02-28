@@ -141,6 +141,11 @@ RowData = function (rowData) {
         }
     };
 
+    this.setId = function (newId) {
+        this.id = newId;
+        rowDataId = Math.max(rowDataId, newId + 1);
+    }
+
     if (rowData == undefined) {
         this.rowData = null;
         //add empty data

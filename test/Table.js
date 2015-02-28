@@ -118,6 +118,7 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
     objFromFile[tableIndex].backingData.forEach(function (objRow) {
         if ("pointsTo" in objRow) {
             var refRow = undefined;
+            //Search through the existing data and find the row with the id the new data points to.
             monitorTables.backingData.forEach(function (table) {
                 var target = table.tableData.getRows("id", objRow["pointsTo"]);
                 if (target.length === 1) {
@@ -125,11 +126,11 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
                     return;
                 }
             });
+            //Once we've found the row being pointed to, make a new row that references it. 
             if (refRow) {
                 var newRowData = new RowData(refRow);
-                newRowData.setValue("id", objRow.id);
+                newRowData.setId("id", objRow.id);
                 dataList.push(newRowData);
-                rowDataID = Math.max(rowDataId, objRow.id + 1);
             }
             else
                 console.log("WARNING: couldn't find a row with id " + objRow["pointsTo"]);
@@ -140,8 +141,7 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
                 if (columnName in objRow)
                     newRowData.setData(columnName, objRow[columnName]);
             });
-            newRowData.id = objRow.id;
-            rowDataID = Math.max(rowDataId, objRow.id + 1);
+            newRowData.setId(objRow.id);
             dataList.push(newRowData);
         }
         //Increment the loading bar's progress
