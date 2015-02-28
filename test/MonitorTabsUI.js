@@ -47,7 +47,6 @@
 
 
     //Defines the dialog that appears when the add tab is clicked.
-    //TODO: The user should be able to cancel this and not add a monitor.
     $("#addMonitorDialog").dialog({
         autoOpen: false,
         modal: true,
