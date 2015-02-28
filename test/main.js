@@ -1,6 +1,6 @@
 //This is the list of column names. Populate the html table from here.
 //TODO: This is a stupid place for this. Colin thinks maybe it belongs in TableData. 
-var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];
+var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Description", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor", "Delete"];
 
 var fs = require("fs");
 

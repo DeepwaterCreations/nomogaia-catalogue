@@ -13,6 +13,7 @@
         result.setData("Category", this.category);
         result.setData("Sub-Category", this.subCategory);
         result.setData("Topic", this.topic);
+        result.setData("Description", this.description);
         result.setData("Module", this.module);
         result.setData("Source", this.source);
         return result;

@@ -23,7 +23,7 @@ function RowUI(table, rowData) {
         this.table.tableData.addRow(rowData)
     }
 
-    
+
     this.table.tableUI.rows.push(this);
 
 
@@ -64,6 +64,8 @@ function RowUI(table, rowData) {
             return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
         } else if (column == "Topic") {
             return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
+        } else if (column == "Description") {
+            return '<td><textarea disabled class="' + toColumnName(column) + ' catalog-readonly catalog-info catalog-input"></textarea></td>';
         } else if (column == "Input") {
             return '<td><textarea class="' + toColumnName(column) + ' catalog-text catalog-input" type="text" value=""></textarea></td>';
         } else if (column == "Module") {
@@ -78,6 +80,8 @@ function RowUI(table, rowData) {
             return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
         } else if (column == "Monitor") {
             return '<td><textarea disabled class="' + toColumnName(column) + ' catalog-readonly catalog-input"></textarea></td>';
+        } else if (column == "Delete") {
+            return '<td><input class="blueButton ' + toColumnName(column) + '" type="button" value="Delete" /></td>';
         } else {
             console.log("column: " + column + " not found");
             return '';
@@ -117,6 +121,8 @@ function RowUI(table, rowData) {
             return this.get(column).val();
         } else if (column == "Topic") {
             return this.get(column).val();
+        } else if (column == "Description") {
+            return this.get(column).val();
         } else if (column == "Input") {
             return this.get(column).val();
         } else if (column == "Module") {
@@ -146,6 +152,8 @@ function RowUI(table, rowData) {
             this.get(column).select2("val", value);
         } else if (column == "Topic") {
             this.get(column).select2("val", value);
+        } else if (column == "Description") {
+            this.get(column).val(value);
         } else if (column == "Input") {
             this.get(column).val(value);
         } else if (column == "Module") {
@@ -229,6 +237,31 @@ function RowUI(table, rowData) {
         }
     }
 
+    var that = this;
+
+    this.canDelete = function () {
+        return true;
+    }
+
+    this.delete = function () {
+        if (that.canDelete()) {
+            console.log("Colin - how could you be so cruel " + that.id);
+            // remove it from the DOM
+            that.getRow().remove();
+            // remove this from the tab
+            var at = table.tableUI.rows.indexOf(that);
+            if (at != -1) {
+                table.tableUI.rows.splice(at, 1);
+            }
+            // remove data form 
+            var at = table.tableData.rows.indexOf(that.data);
+            if (at != -1) {
+                table.tableData.rows.splice(at, 1);
+            }
+            console.log("Colin - is it done? ", monitorTables);
+        }
+    }
+
     this.updateColumnOptions = function (column, list) {
         AddTopic.updateSelectColumnOptions(this.get(column), list);
     }
@@ -238,7 +271,7 @@ function RowUI(table, rowData) {
         AddTopic.setColumnSelect(this.get(column), value);
     }
 
-    var that = this;
+
     // when catalog updates we need to update everything
     this.updateCatalog = function () {
         console.log("Colin-1 updateCatalog", that.getValue('Catalog'));
@@ -308,14 +341,15 @@ function RowUI(table, rowData) {
 
             // we need to set the module to the topics default module 
             var topicInstance = categoryHierarchy.getTopic(that.getValue('Topic'));
+            that.data.setData("Description", topicInstance.description);
             that.data.setData("Module", topicInstance.module);
             that.data.setData("Source", topicInstance.source);
 
             //console.log("Colin - toolTip: " + topicInstance.description, topicInstance);
-            if (topicInstance != null) {
-                that.get("Topic").prop('tooltipText', topicInstance.description);
-                //.tooltip({ content: topicInstance.description });
-            }
+            //if (topicInstance != null) {
+            //    that.get("Topic").prop('tooltipText', topicInstance.description);
+            //.tooltip({ content: topicInstance.description });
+            //}
         }
     }
 
@@ -379,7 +413,7 @@ function RowUI(table, rowData) {
         this.data.addListener('Sub-Category', this.updateSubCategory);
         this.data.addListener('Topic', this.updateTopic);
         //for the rest we loop
-        
+
         columnList.forEach(function (columnName) {
             if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
                 that.data.addListener(columnName, function () {
@@ -398,5 +432,7 @@ function RowUI(table, rowData) {
             // even if row data is undefined we need to set the monitor
             this.setUIValue("Monitor", this.data.getData("Monitor"));
         }
+
+        this.get('Delete').click(this.delete);
     }
 }
