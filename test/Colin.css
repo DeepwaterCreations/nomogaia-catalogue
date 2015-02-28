@@ -191,7 +191,8 @@ textarea.catalog-text {
 
 .resizable {
     resize: horizontal;
-    width: 175px;
+    width: calc(100% - 4px);
+    min-width: 150px;
     background-color: #DCF0D8;
     color: black;
     /*height: 100%;*/
