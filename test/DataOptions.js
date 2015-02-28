@@ -79,13 +79,13 @@ function DataOptions(categoryHierarchy) {
             }
         }
     }
+}
 
-    this.getDefaultValue = function (className) {
-        if (className == "Score") {
-            return "-";
-        } else if (className == "Module") {
-            return "None";
-        }
-        return undefined;
+DataOptions.getDefaultValue = function (className) {
+    if (className == "Score") {
+        return "-";
+    } else if (className == "Module") {
+        return "None";
     }
+    return undefined;
 }

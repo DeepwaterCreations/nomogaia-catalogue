@@ -205,7 +205,7 @@ function RowUI(table, rowData) {
         if (rowData != undefined) {
             this.setUIValue(className, rowData.getData(className));
         } else {
-            this.setUIValue(className, this.table.owner.dataOptions.getDefaultValue(className));
+            this.setUIValue(className, DataOptions.getDefaultValue(className));
         }
     }
 
@@ -225,7 +225,7 @@ function RowUI(table, rowData) {
         if (rowData != undefined) {
             this.setUIValue(className, rowData.getData(className));
         } else {
-            this.setUIValue(className, this.table.owner.dataOptions.getDefaultValue(className));
+            this.setUIValue(className, DataOptions.getDefaultValue(className));
         }
     }
 
@@ -345,14 +345,14 @@ function RowUI(table, rowData) {
             // if there are new values in rights/rights holders/module we want to add them
             var that = this;
             ["Impacted Rights-Holders", "Impacted Rights", "Module"].forEach(function (column) {
-                if (rowData.getData(column) != monitorTables.dataOptions.getDefaultValue(column)) {
+                if (rowData.getData(column) != DataOptions.getDefaultValue(column)) {
                     that.table.owner.dataOptions.update(column, rowData.getData(column));
                 }
             });
 
             // push set UI values
             columnList.forEach(function (columnName) {
-                if (rowData.getData(columnName) != monitorTables.dataOptions.getDefaultValue(columnName)) {
+                if (rowData.getData(columnName) != DataOptions.getDefaultValue(columnName)) {
                     that.setUIValue(columnName, rowData.getData(columnName));
                 }
             });
