@@ -31,7 +31,7 @@ function TableData() {
                 
         this.rows.forEach(function (row) {
             var rowValue = row.getData(columnName);
-            if (rowValue == monitorTables.dataOptions.getDefaultValue(columnName) || rowValue == undefined) return;
+            if (rowValue == DataOptions.getDefaultValue(columnName) || rowValue == undefined) return;
             if (rowValue.constructor === Array) {
                 if (rowValue.indexOf(data) >= 0)
                     matchingRows.push(row);
@@ -41,6 +41,20 @@ function TableData() {
         });
         
         return matchingRows;
+    };
+
+    //wraps getRows and only returns rows with a none default score
+    this.getRowsWithScore = function (columnName, data) {
+        var matchingRows = this.getRows(columnName, data);
+        var withScore = [];
+
+        matchingRows.forEach(function (row) { 
+            if (row.getData("Score") != DataOptions.getDefaultValue("Score")) {
+                withScore.push(row);
+            }
+        });
+
+        return withScore;
     };
 
     this.log = function () {

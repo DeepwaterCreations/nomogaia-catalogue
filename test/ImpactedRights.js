@@ -21,8 +21,10 @@ function getAverage(rows) {
     var count = 0;
     var sum = 0;
     rows.forEach(function (row) {
+        if (row.getData("Score") != DataOptions.getDefaultValue("Score")) {
         count++;
         sum += parseInt(row.getData("Score"));
+        }
     });
     var average = 0;
     if (count != 0) {
@@ -38,7 +40,9 @@ function getAverage(rows) {
 function getAbsSumSort(rows) {
     var sum = 0;
     rows.forEach(function (row) {
+        if (row.getData("Score") != DataOptions.getDefaultValue("Score")) {
         sum += Math.abs(row.getData("Score"));
+        }
     });
     return sum;
 }
@@ -99,7 +103,7 @@ function rebuildImpactedRights(monitorTable, index) {
             var myTable = monitorTable.backingData[j];
             for (var i = 0; i < myTable.tableData.rows.length; i++) {
                 var row = myTable.tableData.rows[i];
-                if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Impacted Rights") != monitorTables.dataOptions.getDefaultValue("Impacted Rights")) {
+                if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Impacted Rights") != DataOptions.getDefaultValue("Impacted Rights")) {
                     console.log("Colin - passed! ", row);
                     return true;
                 }
@@ -151,14 +155,14 @@ function rebuildImpactedRights(monitorTable, index) {
     //TODO we should abs?
     //TODO this is really slow
     impactedRights.sort(function (rightA, rightB) {
-        var rightARows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightA), "", false);
-        var rightBRows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightB), "", false);
+        var rightARows = filterRows(monitorTable.getNewestMonitorData().tableData.getRowsWithScore("Impacted Rights", rightA), "", false);
+        var rightBRows = filterRows(monitorTable.getNewestMonitorData().tableData.getRowsWithScore("Impacted Rights", rightB), "", false);
         var diff = getAbsSumSort(rightBRows) - getAbsSumSort(rightARows);
         if (diff != 0) {
             return diff;
         } else {
-            var innerRightARows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightA), "", true);
-            var innerRightBRows = filterRows(monitorTable.getNewestMonitorData().tableData.getRows("Impacted Rights", rightB), "", true);
+            var innerRightARows = filterRows(monitorTable.getNewestMonitorData().tableData.getRowsWithScore("Impacted Rights", rightA), "", true);
+            var innerRightBRows = filterRows(monitorTable.getNewestMonitorData().tableData.getRowsWithScore("Impacted Rights", rightB), "", true);
             return getAbsSumSort(innerRightBRows) - getAbsSumSort(innerRightARows);
         }
     });
@@ -173,7 +177,7 @@ function rebuildImpactedRights(monitorTable, index) {
         rowBeingAdded.append('<th class="Right, rowHeader">' + rightName + '</th>')
 
         // add the context
-        var contextRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), "None", true);
+        var contextRows = filterRows(table.tableData.getRowsWithScore("Impacted Rights", rightName), "None", true);
         rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
         var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
         cell.tooltip({ content: getFullToolTip(contextRows) });
@@ -196,7 +200,7 @@ function rebuildImpactedRights(monitorTable, index) {
         //Add the cells
         modules.forEach(function (myModule) {
             // find the average score for the rows
-            var moduleRows = filterRows(table.tableData.getRows("Impacted Rights", rightName), myModule, false);
+            var moduleRows = filterRows(table.tableData.getRowsWithScore("Impacted Rights", rightName), myModule, false);
             rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
             var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + myModule);
             cell.tooltip({ content: getFullToolTip(moduleRows) });

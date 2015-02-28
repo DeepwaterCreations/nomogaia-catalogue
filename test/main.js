@@ -45,7 +45,7 @@ var searchTable = function () {
                     show = false;
                 }
             } else {
-                if (searchString != "" && columnValue == monitorTables.dataOptions.getDefaultValue(columnList[columnIndex])) {
+                if (searchString != "" && columnValue == DataOptions.getDefaultValue(columnList[columnIndex])) {
                     show = false;
                 } else {
                     columnValue = (columnValue == undefined ? "" : (columnValue + "").toUpperCase());

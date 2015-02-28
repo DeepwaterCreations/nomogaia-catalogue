@@ -151,7 +151,7 @@ RowData = function (rowData) {
         //add empty data
         var that = this;
         columnList.forEach(function (columnName) {
-            that[columnName] = monitorTables.dataOptions.getDefaultValue(columnName);
+            that[columnName] = DataOptions.getDefaultValue(columnName);
         });
         // set Monitor
         this.setMonitor();
