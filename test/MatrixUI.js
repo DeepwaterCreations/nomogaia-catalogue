@@ -66,11 +66,11 @@
             }
             
             //Generate the scores and push them into the htmlString.
-            var rows = data.getRowsWithScore("Impacted Rights", rightName);
+            var rows = data.getRows("Impacted Rights", rightName);
             rows = rows.filter(function (element, index, array) {
                 return element.getData("Catalog") !== "Context";
             });
-            var newestMonitorRows = newestMonitorData.getRowsWithScore("Impacted Rights", rightName);
+            var newestMonitorRows = newestMonitorData.getRows("Impacted Rights", rightName);
             newestMonitorRows = newestMonitorRows.filter(function (element, index, array) {
                 return element.getData("Catalog") !== "Context";
             });
