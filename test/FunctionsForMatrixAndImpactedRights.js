@@ -54,3 +54,22 @@ function setVisualizationsDirty() {
     impactedRights_dirty = true;
     matrix.dirty = true;
 }
+
+//Returns true if there is a row for which the specified right/rightsholder is one of the data items.  
+function rightHasEntries(rightName) {
+    for (var i = 0; i < monitorTables.backingData.length; i++) {
+        if (monitorTables.backingData[i].tableData.getRows("Impacted Rights", rightName).length != 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function rightsholderHasEntries(rightsholderName) {
+    for (var i = 0; i < monitorTables.backingData.length; i++) {
+        if (monitorTables.backingData[i].tableData.getRows("Impacted Rights-Holders", rightsholderName).length != 0) {
+            return true;
+        }
+    }
+    return false;
+}

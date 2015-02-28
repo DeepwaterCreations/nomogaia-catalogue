@@ -1,14 +1,5 @@
 ﻿var impactedRights_dirty = true; //Should be true whenever visible data has been changed and the table hasn't been rebuilt yet. //Colin, is there a better place for this to live?  
 
-function rightHasEntries(rightName, monitorTables) {
-    for (var i = 0; i < monitorTables.backingData.length; i++) {
-        if (monitorTables.backingData[i].tableData.getRows("Impacted Rights", rightName).length != 0) {
-            return true;
-        }
-    }
-    return false;
-}
-
 // context is true or false
 function filterRows(rows, module, context) {
     // if we are looking at a specific module

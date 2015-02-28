@@ -125,7 +125,9 @@
 
             });
             //This filters out the rows with no scoring cells.
-            if(rowHTML.rowScore !== undefined)
+            //if(rowHTML.rowScore !== undefined)
+            //...but I guess we actually only want to filter out the rows with no data in any monitor at all.
+            if (rightHasEntries(rightName))
                 rowHTMLList.push(rowHTML); 
         });
         
@@ -139,9 +141,10 @@
 
             //Add the column headings
             var sortedRightsholders = options.getColumnOptions("Impacted Rights-Holders");
-            //Weed out the rightsHolders with no scores in their columns.
+            //Weed out the rightsHolders with no data in any monitor
             sortedRightsholders = sortedRightsholders.filter(function (value, index, array) {
-                return (value in columnSortScores);
+                //return value in columnSortScores
+                return rightsholderHasEntries(value);
             });
             //Do the sorting.
             if (sortByMostImpactedRightsholder) {
@@ -195,54 +198,54 @@
                 });
             });
 
-            this.filter(monitorTables.backingData.length - 1);
+            //this.filter(monitorTables.backingData.length - 1);
         }
 
         this.dirty = false;
         return $("#" + matrixTableID); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
     };
 
-    this.filter = function (monitor) {
-        var keptColumns = {};
-        var keptRows = {};
+    //this.filter = function (monitor) {
+    //    var keptColumns = {};
+    //    var keptRows = {};
         
-        var data = monitorTables.backingData[monitor].tableData;
-        var options = monitorTables.dataOptions;
+    //    var data = monitorTables.backingData[monitor].tableData;
+    //    var options = monitorTables.dataOptions;
                 
-        //We're going to iterate over all the rows and columns to see which have scores. Each row/column that has at least one score in it, we'll keep. 
-        options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
-            rightName = rightName || undefinedRightNameFiller;
+    //    //We're going to iterate over all the rows and columns to see which have scores. Each row/column that has at least one score in it, we'll keep. 
+    //    options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+    //        rightName = rightName || undefinedRightNameFiller;
 
-            var rows = data.getRows("Impacted Rights", rightName);
-            options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
-                rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
+    //        var rows = data.getRows("Impacted Rights", rightName);
+    //        options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+    //            rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
 
-                rows.forEach(function (row) {
-                    if (row.getData("Impacted Rights-Holders") && row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
-                        keptRows[rightName] = true;
-                        keptColumns[rightsholderName] = true;
-                    }
-                });
-            });
-        });
+    //            rows.forEach(function (row) {
+    //                if (row.getData("Impacted Rights-Holders") && row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
+    //                    keptRows[rightName] = true;
+    //                    keptColumns[rightsholderName] = true;
+    //                }
+    //            });
+    //        });
+    //    });
 
-        //Now, delete all the rows and columns that never made it onto the list.
-        options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
-            rightName = rightName || undefinedRightNameFiller;
+    //    //Now, delete all the rows and columns that never made it onto the list.
+    //    options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+    //        rightName = rightName || undefinedRightNameFiller;
 
-            if (!(rightName in keptRows))
-                $("#" + getRowID(rightName)).remove();
-        });
+    //        if (!(rightName in keptRows))
+    //            $("#" + getRowID(rightName)).remove();
+    //    });
 
-        options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
-            rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
+    //    options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+    //        rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
 
-            if (!(rightsholderName in keptColumns)) {
-                $("td." + getDataCellClass("", rightsholderName).colClass).remove();
-                $("#" + getColumnHeadID(rightsholderName)).remove();
-            }
-        });
-    };
+    //        if (!(rightsholderName in keptColumns)) {
+    //            $("td." + getDataCellClass("", rightsholderName).colClass).remove();
+    //            $("#" + getColumnHeadID(rightsholderName)).remove();
+    //        }
+    //    });
+    //};
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
         return function (id, count) {
