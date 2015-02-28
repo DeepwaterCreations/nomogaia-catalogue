@@ -495,12 +495,12 @@ button.close-icon {
 }
 
 
-/*.addTopic .holder {
+.addTopic .holder {
     width: calc(100% - 206px);
     display: inline-block;
 }
 
-#loading{
+/*#loading{
     width: 100%;
     height: 100%;
     position: absolute;

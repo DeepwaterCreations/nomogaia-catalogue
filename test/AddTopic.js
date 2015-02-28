@@ -72,9 +72,7 @@ AddTopic.canAdd = function () {
                 $("#categorySelect"),
                 $("#subcategorySelect"),
                 $("#moduleSelect"),
-                $("#topicName"),
-                $("#topicDescTextBox"),
-                $("#topicSourceTextBox")]
+                $("#topicName")]
     for (var i in list) {
         v = list[i];
         if (!AddTopic.hasValue(v.val())) {
