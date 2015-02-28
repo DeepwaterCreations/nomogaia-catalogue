@@ -72,10 +72,12 @@ function Table(monitorTables) {
         async.forEach(rowList, function (myRow, callback) {
             setTimeout(function () {
             myRow.init(myRow.data);
-            var val = $("#loadingBar").progressbar("value") || 0;
-            $("#loadingBar").progressbar("value", val + 1);
-            if ($("#loadingBar").progressbar("value") >  $("#loadingBar").progressbar("option", "max")-1) {
-                $("#loadingBarDialog").dialog("destroy");
+            if ($("#loadingBarDialog").hasClass('ui-dialog-content')) {
+                var val = $("#loadingBar").progressbar("value") || 0;
+                $("#loadingBar").progressbar("value", val + 1);
+                if ($("#loadingBar").progressbar("value") > $("#loadingBar").progressbar("option", "max") - 1) {
+                    $("#loadingBarDialog").dialog("destroy");
+                }
             }
             callback();
             }, 0);
@@ -105,10 +107,7 @@ function Table(monitorTables) {
         var barMax = dataList.length;
         $("#loadingBar").progressbar("option", "max", barMax);
 
-        //setTimeout(function () {
-            this.addRows(dataList);
-        //}, 0);
-           // $("#loadingBarDialog").dialog("destroy");
+       this.addRows(dataList);
     }
 
 }
