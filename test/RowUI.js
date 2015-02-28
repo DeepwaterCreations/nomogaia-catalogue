@@ -23,7 +23,8 @@ function RowUI(table, rowData) {
         this.table.tableData.addRow(rowData)
     }
 
-    var myRow = this;
+    
+    this.table.tableUI.rows.push(this);
 
 
     //adds a new right or right holder to the existing rights and rights holders list
@@ -108,7 +109,6 @@ function RowUI(table, rowData) {
 
     // private - get data values throught RowData or getValue
     this.getUIValue = function (column) {
-        //return myRow.get(column).val();
         if (column == "Catalog") {
             return this.get(column).val();
         } else if (column == "Category") {
@@ -138,7 +138,6 @@ function RowUI(table, rowData) {
     };
     // private - set data values throught RowData or setValue
     this.setUIValue = function (column, value) {
-        //myRow.get(column).val(value);
         if (column == "Catalog") {
             this.get(column).select2("val", value);
         } else if (column == "Category") {
@@ -359,13 +358,16 @@ function RowUI(table, rowData) {
             });
         }
 
+        var that = this;
+
         // pass UI changes on to the dataRow
+
         for (var i in columnList) {
             var column = columnList[i];
 
             this.get(column).change(function (columnName) {
                 return function () {
-                    myRow.data.setData(columnName, myRow.getUIValue(columnName))
+                    that.data.setData(columnName, that.getUIValue(columnName))
                 };
             }(column));
 
@@ -377,7 +379,7 @@ function RowUI(table, rowData) {
         this.data.addListener('Sub-Category', this.updateSubCategory);
         this.data.addListener('Topic', this.updateTopic);
         //for the rest we loop
-        var that = this;
+        
         columnList.forEach(function (columnName) {
             if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
                 that.data.addListener(columnName, function () {

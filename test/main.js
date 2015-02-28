@@ -110,9 +110,6 @@ $(document).ready(function () {
 
     table.addRowsWrapped(dataList);
 
-
-    console.log("Colin", table);
-
     AddTopic.initFields(monitorTables.dataOptions);
 
     $('#addRow').click(onClickAdd);
