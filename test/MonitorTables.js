@@ -24,7 +24,7 @@
             copyFrom.tableData.rows.forEach(function (row) {
                 dataList.push( new RowData(row));
             });
-            newTable.addRows(dataList);
+            newTable.addRowsWrapped(dataList);
         }
 
         this.push(newTable);

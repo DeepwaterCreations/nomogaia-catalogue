@@ -34,7 +34,11 @@ $('#load').click(function () {
             
             //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
             var obj = jQuery.parseJSON(chunk);
-            var barMax = obj.length * obj[obj.length - 1].backingData.length; //The number of monitors times the number of rows in the last monitor. 
+            var barMax = 0;//obj.length * obj[obj.length - 1].backingData.length; //The number of monitors times the number of rows in the last monitor.
+            for (var i = 0; i < obj.length; i++) {
+                barMax += obj[i].backingData.length;
+            }
+
             $("#loadingBar").progressbar("option", "max", barMax);
             $("#loadingBar").progressbar("value", 0);
             monitorTables.clear();
@@ -43,7 +47,7 @@ $('#load').click(function () {
                 $("#monitorNameField").val(obj[i].label) //Ensures the new tab gets the proper label.
                 monitorTabs.addTab();
             }
-            $("#loadingBarDialog").dialog("destroy");
+            //$("#loadingBarDialog").dialog("destroy");
         })
 
         $(this).val(""); //Reset the filepath so that the event will be called again.

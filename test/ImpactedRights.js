@@ -151,7 +151,7 @@ function rebuildImpactedRights(monitorTable, index) {
         var columnID = "";
         if (header)
             columnID = 'id = "' + getColumnHeadID(header) + '"';
-        headerString += '<th title="" ' + columnID + ' class="columnHeader">' + header + '</th>';
+        headerString += '<th title="" ' + columnID + ' class="columnHeader">' + (header == "None" ? "Impact" : header) + '</th>';
     });
     headerString += "</tr>";
     impactedRightsTable.find("thead").append(headerString);
@@ -174,7 +174,7 @@ function rebuildImpactedRights(monitorTable, index) {
 
     impactedRights.forEach(function (rightName) {
 
-        //add an empty row
+        // add an empty row
         impactedRightsTable.find("tbody").append('<tr class="' + toClassName(rightName) + '"></tr>');
         var rowBeingAdded = impactedRightsTable.find("." + toClassName(rightName));
 
