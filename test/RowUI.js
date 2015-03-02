@@ -368,10 +368,10 @@ function RowUI(table, rowData) {
         this.toSelect2WithAdd("Module");
 
         // add options to drop downs:
-        //this.updateColumnOptions('Catalog', this.table.owner.dataOptions.categoryHierarchy.getCatalogs());
-        //this.updateColumnOptions('Category', this.table.owner.dataOptions.categoryHierarchy.getCategories(this.getValue('Catalog')));
-        //this.updateColumnOptions('Sub-Category', this.table.owner.dataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
-        //this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
+        this.updateColumnOptions('Catalog', this.table.owner.dataOptions.categoryHierarchy.getCatalogs());
+        this.updateColumnOptions('Category', this.table.owner.dataOptions.categoryHierarchy.getCategories(this.getValue('Catalog')));
+        this.updateColumnOptions('Sub-Category', this.table.owner.dataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
+        this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
 
 
         // if we have data update the UI to match
