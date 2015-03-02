@@ -133,4 +133,6 @@ $(document).ready(function () {
     //$('#catalog').selectmenu();
     //$('#category').selectmenu();
     //$('#subcategory').selectmenu();
+
+    autosave(5 * 60 * 1000); //Minutes * sec/min * ms/sec.
 });
