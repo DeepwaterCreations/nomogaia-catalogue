@@ -248,12 +248,12 @@ function RowUI(table, rowData) {
             console.log("Colin - how could you be so cruel " + that.id);
             // remove it from the DOM
             that.getRow().remove();
-            // remove this from the tab
+            // remove this from the tableUI
             var at = table.tableUI.rows.indexOf(that);
             if (at != -1) {
                 table.tableUI.rows.splice(at, 1);
             }
-            // remove data form 
+            // remove data form tableData
             var at = table.tableData.rows.indexOf(that.data);
             if (at != -1) {
                 table.tableData.rows.splice(at, 1);
@@ -368,10 +368,10 @@ function RowUI(table, rowData) {
         this.toSelect2WithAdd("Module");
 
         // add options to drop downs:
-        this.updateColumnOptions('Catalog', this.table.owner.dataOptions.categoryHierarchy.getCatalogs());
-        this.updateColumnOptions('Category', this.table.owner.dataOptions.categoryHierarchy.getCategories(this.getValue('Catalog')));
-        this.updateColumnOptions('Sub-Category', this.table.owner.dataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
-        this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
+        //this.updateColumnOptions('Catalog', this.table.owner.dataOptions.categoryHierarchy.getCatalogs());
+        //this.updateColumnOptions('Category', this.table.owner.dataOptions.categoryHierarchy.getCategories(this.getValue('Catalog')));
+        //this.updateColumnOptions('Sub-Category', this.table.owner.dataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
+        //this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
 
 
         // if we have data update the UI to match

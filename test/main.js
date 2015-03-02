@@ -82,7 +82,6 @@ var onClickAdd = function () {
                 rowAt = myTable.addRow(newData);
             }
         }
-
     }
 };
 
