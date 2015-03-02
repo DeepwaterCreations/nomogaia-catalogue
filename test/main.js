@@ -107,7 +107,7 @@ $(document).ready(function () {
         }
     });
 
-    table.addRowsWrapped(dataList);
+    table.addRowsWrapped(dataList, function () { console.log("Colin - added all rows") });
 
     AddTopic.initFields(monitorTables.dataOptions);
 
