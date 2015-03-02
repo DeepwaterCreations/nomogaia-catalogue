@@ -57,6 +57,12 @@
                     monitorTabs.addTabCallback();
                     $(this).dialog("close");
                 }
+            },
+            {
+                text: "Cancel",
+                click: function () {
+                    $(this).dialog("close");
+                }
             }
         ],
         close: function (event, ui) {

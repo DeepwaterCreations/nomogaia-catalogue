@@ -1,0 +1,11 @@
+﻿.ui-dialog button {
+    padding:0px;
+}
+
+.ui-dialog button.ui-state-hover {
+    color: white;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
