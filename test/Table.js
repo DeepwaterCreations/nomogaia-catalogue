@@ -49,7 +49,10 @@ function Table(monitorTables) {
         return myRow;
     }
 
-    this.addRows = function (dataList) {
+    this.addRows = function (dataList, outerCallBack) {
+        console.log("Colin - wtf hide", this.getTable());
+        this.getTable().hide();
+
         var that = this;
         var rowList = [];
         var HTMLstring
@@ -67,30 +70,49 @@ function Table(monitorTables) {
 
         this.body.append(HTMLstring);
  
-        var async = require('async');
+        //var async = require('async');
 
-        async.forEach(rowList, function (myRow, callback) {
+        //async.forEach(rowList, function (myRow, callback) {
+        //    setTimeout(function () {
+        //    myRow.init(myRow.data);
+        //    if ($("#loadingBarDialog").hasClass('ui-dialog-content')) {
+        //        var val = $("#loadingBar").progressbar("value") || 0;
+        //        $("#loadingBar").progressbar("value", val + 1);
+        //        if (outerCallBack != undefined) {
+        //            if ($("#loadingBar").progressbar("value") > $("#loadingBar").progressbar("option", "max") - 1) {
+        //                outerCallBack();
+        //            }
+        //        }
+        //    }
+        //    callback();
+        //    }, 0);
+        //}, function (err) {
+        //});
+        //console.log("Colin - Async: after all done");
+
+        rowList.forEach(function (myRow) {
             setTimeout(function () {
-            myRow.init(myRow.data);
-            if ($("#loadingBarDialog").hasClass('ui-dialog-content')) {
-                var val = $("#loadingBar").progressbar("value") || 0;
-                $("#loadingBar").progressbar("value", val + 1);
-                if ($("#loadingBar").progressbar("value") > $("#loadingBar").progressbar("option", "max") - 1) {
-                    $("#loadingBarDialog").dialog("destroy");
+                myRow.init(myRow.data);
+                console.log("Colin - added row "+ myRow.id + " to table: " +that.id );
+                if ($("#loadingBarDialog").hasClass('ui-dialog-content')) {
+                    var val = $("#loadingBar").progressbar("value") || 0;
+                    $("#loadingBar").progressbar("value", val + 1);
+                    if (outerCallBack != undefined) {
+                        if ($("#loadingBar").progressbar("value") > $("#loadingBar").progressbar("option", "max") - 1) {
+                            outerCallBack();
+                            console.log("Colin - table", that);
+                        }
+                    }
                 }
-            }
-            callback();
             }, 0);
-        }, function (err) {
         });
-        console.log("Colin - Async: after all done");
 
         d = new Date();
         var finishedInitingRows = d.getTime();
         console.log("Colin - RunTime - initingRows:" + (finishedInitingRows - finishedGettingString));
     }
 
-    this.addRowsWrapped = function(dataList){
+    this.addRowsWrapped = function (dataList, callBack) {
         //Make a loading bar dialog
         $("#loadingBarDialog").dialog({
             dialogClass: "no-close",
@@ -107,7 +129,16 @@ function Table(monitorTables) {
         var barMax = dataList.length;
         $("#loadingBar").progressbar("option", "max", barMax);
 
-       this.addRows(dataList);
+        var adjustedCallBack = function () {
+            $("#loadingBarDialog").dialog("destroy");
+            that.getTable().show();
+            if (callBack != undefined) {
+                callBack();
+            }
+            
+        }
+
+        this.addRows(dataList, adjustedCallBack);
     }
 
 }

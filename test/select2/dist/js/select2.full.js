@@ -4881,10 +4881,10 @@ define('select2/core',[
 
   Select2.prototype.val = function (args) {
     if (console && console.warn) {
-      console.warn(
-        'Select2: The `select2("val")` method has been deprecated and will be' +
-        ' removed in later Select2 versions. Use $element.val() instead.'
-      );
+      //console.warn(
+      //  'Select2: The `select2("val")` method has been deprecated and will be' +
+      //  ' removed in later Select2 versions. Use $element.val() instead.'
+      //);
     }
 
     if (args.length === 0) {

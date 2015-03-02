@@ -96,8 +96,10 @@
     }
     this.addTabCallback = function (that) {
         return function () {
-            monitorTables.addTable(monitorTables.backingData[monitorTables.backingData.length - 1]);
-            that.addTab.apply(that);
+            monitorTables.addTable(monitorTables.backingData[monitorTables.backingData.length - 1],
+                function () { that.addTab.apply(that); }
+                );
+            
         }
     }(this);
 

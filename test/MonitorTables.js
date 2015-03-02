@@ -14,7 +14,7 @@
         this.backingData.push(table);
     }
 
-    this.addTable = function (copyFrom) {
+    this.addTable = function (copyFrom,callBack) {
         var newTable = new Table(this);
 
         console.log("Colin - copying form:", copyFrom);
@@ -24,7 +24,7 @@
             copyFrom.tableData.rows.forEach(function (row) {
                 dataList.push( new RowData(row));
             });
-            newTable.addRowsWrapped(dataList);
+            newTable.addRowsWrapped(dataList, callBack);
         }
 
         this.push(newTable);
