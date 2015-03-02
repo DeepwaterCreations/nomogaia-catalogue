@@ -5,7 +5,9 @@
 $('#save').click(function () {
     var fileDialog = $("#saveFileDialog");
     fileDialog.on("change", function (event) {
-        save($(this).val());
+        save($(this).val(), function () {
+            console.log("Finished saving");
+        });
     });
     fileDialog.trigger("click");
 });
@@ -64,7 +66,7 @@ function autosave(interval) {
     }, interval);
 }
 
-function save(filename) {
+function save(filename, callback) {
     var filew = fs.createWriteStream(filename);
-    filew.write(JSON.stringify(monitorTables.toOut()));
+    return filew.write(JSON.stringify(monitorTables.toOut()), callback);
 }
