@@ -104,7 +104,7 @@
                 };
                 if (scoreCount > 0) {
                     var avg = scoreSum / scoreCount;
-                    cell.HTML = '<td title="" class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">' + avg + '</td>';
+                    cell.HTML = '<td title="" class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">' + avg.decRound(2) + '</td>';
                     //Also add a tooltip.
                     cell.tooltipContent = tooltipContent; //Leave this undefined to have no tooltip.
                     cell.score = avg;

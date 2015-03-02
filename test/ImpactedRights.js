@@ -62,7 +62,7 @@ function getFullToolTip(rows) {
 }
 
 function getCell(myRows, classes) {
-    return '<td title="" class="' + classes + '">' + getAverage(myRows) + '</td>';
+    return '<td title="" class="' + classes + '">' + getAverage(myRows).decRound(2) + '</td>';
 }
 
 function addMonitorTabsToImpactedRights(monitorTables) {

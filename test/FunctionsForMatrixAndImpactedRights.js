@@ -26,6 +26,12 @@ String.prototype.stripNonAlphanumeric = function () {
     return this.replace(/\W/g, "");
 }
 
+//Rounding.
+Number.prototype.decRound = function (places) {
+    var dec = 10 * places;
+    return Math.round(this.valueOf() * dec) / dec;
+}
+
 //TODO: These are ugly.
 //I'm not actually sure what, if anything, we can do about that.
 function getColumnHeadID(columnName) {
