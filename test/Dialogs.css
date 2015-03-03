@@ -49,7 +49,7 @@
 }
 
 /*This isn't technically a dialog and probably shouldn't go here, but it has to go somewhere*/
-#aboutDialogButton {
+ul .rightButton {
     float:right;
     margin: 0px;
     margin-right:5px;

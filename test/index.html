@@ -27,10 +27,19 @@
                 <li>
                     <a href="#addTopic">Add Topic</a>
                 </li>
-                <button class="blueButton" id="aboutDialogButton" onclick="openAboutDialog()" type="button">About</button>
-                <li id="saveLoad">
+                
+                <!--<li id="saveLoad">
                     <a href="#loadFile">Load File</a>
-                </li>
+                </li>-->
+                <button class="blueButton rightButton" id="aboutDialogButton" onclick="openAboutDialog()" type="button">About</button>
+
+
+                <button class="blueButton rightButton" id="load" type="button">Load</button>
+                <input type="file" id="loadFileDialog" style="display:none;">
+
+                <button class="blueButton rightButton" id="save" type="button">Save</button>
+                <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
+               
             </ul>
             <div id="Catalogs" class="tab">
                 <div id="catalogMonitorTabs">
@@ -59,11 +68,11 @@
                 </div>
             </div>
             <div id="loadFile" class="tab">
-                <button class="blueButton" id="save" type="button">Save</button>
+                <!--<button class="blueButton" id="save" type="button">Save</button>
                 <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
 
                 <button class="blueButton" id="load" type="button">Load</button>
-                <input type="file" id="loadFileDialog" style="display:none;">
+                <input type="file" id="loadFileDialog" style="display:none;">-->
             </div>
             <div id="addTopic" class="tab">
                 <form class="addTopic" action="#">
@@ -137,6 +146,7 @@
         <script type="text/javascript" src="FunctionsForMatrixAndImpactedRights.js"></script>
         <script type="text/javascript" src="ImpactedRights.js"></script>
         <script src="AddTopic.js"></script>
+        <script src="Hider.js"></script>
         <script type="text/javascript" src="main.js"></script>
         <script src="progress.js"></script>
         <script type="text/javascript" src="MatrixUI.js"></script>

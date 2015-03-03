@@ -21,6 +21,11 @@
         return this.activeTab;
     };
 
+    this.getActiveTable = function () {
+        return monitorTables.backingData[this.getActiveMonitor()];
+    }
+    
+
     this.getActiveMonitorAsString = function () {
         return monitorTables.labels[this.getActiveMonitor()];
     };
