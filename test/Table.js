@@ -51,7 +51,7 @@ function Table(monitorTables) {
 
     this.addRows = function (dataList, outerCallBack) {
         console.log("Colin - wtf hide", this.getTable());
-        this.getTable().hide();
+        this.getTable().parent().hide();
 
         var that = this;
         var rowList = [];
@@ -69,26 +69,7 @@ function Table(monitorTables) {
         console.log("Colin - RunTime - addingHTML:" + (finishedGettingString - startedGettingString));
 
         this.body.append(HTMLstring);
- 
-        //var async = require('async');
 
-        //async.forEach(rowList, function (myRow, callback) {
-        //    setTimeout(function () {
-        //    myRow.init(myRow.data);
-        //    if ($("#loadingBarDialog").hasClass('ui-dialog-content')) {
-        //        var val = $("#loadingBar").progressbar("value") || 0;
-        //        $("#loadingBar").progressbar("value", val + 1);
-        //        if (outerCallBack != undefined) {
-        //            if ($("#loadingBar").progressbar("value") > $("#loadingBar").progressbar("option", "max") - 1) {
-        //                outerCallBack();
-        //            }
-        //        }
-        //    }
-        //    callback();
-        //    }, 0);
-        //}, function (err) {
-        //});
-        //console.log("Colin - Async: after all done");
 
         rowList.forEach(function (myRow) {
             setTimeout(function () {
@@ -98,7 +79,7 @@ function Table(monitorTables) {
                     var val = $("#loadingBar").progressbar("value") || 0;
                     $("#loadingBar").progressbar("value", val + 1);
                     if (outerCallBack != undefined) {
-                        if ($("#loadingBar").progressbar("value") > $("#loadingBar").progressbar("option", "max") - 1) {
+                        if ($("#loadingBar").progressbar("value") >= $("#loadingBar").progressbar("option", "max") - 1) {
                             outerCallBack();
                             console.log("Colin - table", that);
                         }
@@ -131,7 +112,7 @@ function Table(monitorTables) {
 
         var adjustedCallBack = function () {
             $("#loadingBarDialog").dialog("destroy");
-            that.getTable().show();
+            that.getTable().parent().show();
             if (callBack != undefined) {
                 callBack();
             }
@@ -175,9 +156,6 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
             newRowData.setId(objRow.id);
             dataList.push(newRowData);
         }
-        //Increment the loading bar's progress
-        var loadValue = $("#loadingBar").progressbar("value");
-        $("#loadingBar").progressbar("value", ++loadValue);
     });
     newTable.addRows(dataList);
     return newTable;
