@@ -7,3 +7,9 @@ test/c2
 test/c3
 test/ColinTest
 test/c5
+test/autosave.sav
+test/autosave.sav
+test/autosave.sav
+test/autosave.sav
+*.sav
+*.sav

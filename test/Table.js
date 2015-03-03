@@ -56,7 +56,6 @@ function Table(monitorTables) {
         var that = this;
         var rowList = [];
         var HTMLstring
-        var that = this;
         var d = new Date();
         var startedGettingString = d.getTime();
         dataList.forEach(function (data) {
@@ -66,31 +65,58 @@ function Table(monitorTables) {
         })
         d = new Date();
         var finishedGettingString = d.getTime();
+        this.body.append(HTMLstring);
+
         console.log("Colin - RunTime - addingHTML:" + (finishedGettingString - startedGettingString));
 
-        this.body.append(HTMLstring);
+        
+
+
+        var startedBigLoop = window.performance.now();
+        this.timeMakeSelect2 = 0;
+        this.timeUpdateColumnOptions = 0;
+        this.timePassChanges = 0;
+        this.timeListenToData = 0;
+        this.timeUIToData = 0;
+        this.timeDelete = 0
 
 
         rowList.forEach(function (myRow) {
             setTimeout(function () {
-                myRow.init(myRow.data);
-                console.log("Colin - added row "+ myRow.id + " to table: " +that.id );
-                if ($("#loadingBarDialog").hasClass('ui-dialog-content')) {
-                    var val = $("#loadingBar").progressbar("value") || 0;
-                    $("#loadingBar").progressbar("value", val + 1);
-                    if (outerCallBack != undefined) {
-                        if ($("#loadingBar").progressbar("value") == $("#loadingBar").progressbar("option", "max")) {
-                            outerCallBack();
-                            console.log("Colin - table", that);
-                        }
+            myRow.init(myRow.data);
+            console.log("Colin - added row " + myRow.id + " to table: " + that.id);
+            if ($("#loadingBarDialog").hasClass('ui-dialog-content')) {
+                var val = $("#loadingBar").progressbar("value") || 0;
+                $("#loadingBar").progressbar("value", val + 1);
+                if (outerCallBack != undefined) {
+                    if ($("#loadingBar").progressbar("value") == $("#loadingBar").progressbar("option", "max")) {
+                        outerCallBack();
+                        d = new Date();
+                        var finishedInitingRows = d.getTime();
+                        console.log("Colin - RunTime - initingRows:" + (finishedInitingRows - finishedGettingString));
+                        console.log("Colin - makeSelect2: " + that.timeMakeSelect2);
+                        console.log("Colin - update column options: " + that.timeUpdateColumnOptions);
+                        console.log("Colin - pass changes to data: " + that.timePassChanges);
+                        console.log("Colin - listen to data: " + that.timeListenToData);
+                        console.log("Colin - time UI to data: " + that.timeUIToData);
+                        console.log("Colin - table", that);
                     }
                 }
+            }
             }, 0);
         });
+        
+        //console.log("Colin - RunTime - initingRows:" + (window.performance.now() - startedBigLoop));
+        //console.log("Colin - makeSelect2: " + that.timeMakeSelect2);
+        //console.log("Colin - update column options: " + that.timeUpdateColumnOptions);
+        //console.log("Colin - pass changes to data: " + that.timePassChanges);
+        //console.log("Colin - listen to data: " + that.timeListenToData);
+        //console.log("Colin - time UI to data: " + that.timeUIToData);
+        //console.log("Colin - delete: " + that.timeDelete);
+        //console.log("Colin - table", that);
+        //outerCallBack();
 
-        d = new Date();
-        var finishedInitingRows = d.getTime();
-        console.log("Colin - RunTime - initingRows:" + (finishedInitingRows - finishedGettingString));
+
     }
 
     this.addRowsWrapped = function (dataList, callBack) {
@@ -116,7 +142,7 @@ function Table(monitorTables) {
             if (callBack != undefined) {
                 callBack();
             }
-            
+
         }
 
         this.addRows(dataList, adjustedCallBack);
@@ -158,6 +184,7 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
         }
     });
     newTable.addRows(dataList, function () {
+        console.log("Colin - callBack")
         $("#loadingBarDialog").dialog("destroy");
         newTable.getTable().parent().show();
     });

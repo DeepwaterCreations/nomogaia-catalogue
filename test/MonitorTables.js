@@ -20,9 +20,19 @@
         console.log("Colin - copying form:", copyFrom);
 
         if (copyFrom != undefined) {
+            //var dataList = []
+            //copyFrom.tableData.rows.forEach(function (row) {
+            //    dataList.push( new RowData(row));
+            //});
+            var topicList = categoryHierarchy.getTopics();
             var dataList = []
-            copyFrom.tableData.rows.forEach(function (row) {
-                dataList.push( new RowData(row));
+            topicList.forEach(function (topicString) {
+                var topicInstance = categoryHierarchy.getTopicInstance(topicString);
+                if (topicInstance.module == "None") {
+                    var data = topicInstance.toData();
+                    dataList.push(data);
+                    console.log("Colin - don't worry your not crazy");
+                }
             });
             newTable.addRowsWrapped(dataList, callBack);
         }

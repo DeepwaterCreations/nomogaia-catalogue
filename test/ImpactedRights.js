@@ -80,6 +80,7 @@ function addMonitorTabsToImpactedRights(monitorTables) {
 }
 
 function rebuildImpactedRights(monitorTable, index) {
+    console.log("Colin - rebuildImpactedRights");
 
     if (!impactedRights_dirty)
         return;

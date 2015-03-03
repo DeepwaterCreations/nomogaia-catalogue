@@ -102,8 +102,12 @@ function RowUI(table, rowData) {
     }
 
     //get the jquery $() object assocated with this row
+    this.myUI = null;
     this.getRow = function () {
-        return table.getTable().find('#' + this.id);
+        if (this.myUI == null) {
+            this.myUI = table.getTable().find('#' + this.id);
+        }
+        return this.myUI;
     };
 
     //Gets the html elements for the row
@@ -356,6 +360,9 @@ function RowUI(table, rowData) {
 
     this.init = function (rowData) {
 
+
+        var start = window.performance.now();
+
         this.toSelect2final("Catalog");
         this.toSelect2final("Category");
         this.toSelect2final("Sub-Category");
@@ -367,13 +374,20 @@ function RowUI(table, rowData) {
         this.toSelect2WithAdd("Impacted Rights");
         this.toSelect2WithAdd("Module");
 
+        this.table.timeMakeSelect2 = window.performance.now() - start;
+        var start = window.performance.now();
+
         // add options to drop downs:
         this.updateColumnOptions('Catalog', this.table.owner.dataOptions.categoryHierarchy.getCatalogs());
         this.updateColumnOptions('Category', this.table.owner.dataOptions.categoryHierarchy.getCategories(this.getValue('Catalog')));
         this.updateColumnOptions('Sub-Category', this.table.owner.dataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
         this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
 
-        // if we have data update the UI to match
+
+        this.table.timeUpdateColumnOptions += window.performance.now() - start;
+        var start = window.performance.now();
+
+        //  if we have data update the UI to match
         if (rowData != undefined) {
             // if there are new values in rights/rights holders/module we want to add them
             var that = this;
@@ -391,20 +405,22 @@ function RowUI(table, rowData) {
             });
         }
 
+        this.table.timeUpdateUI += window.performance.now() - start;
+        var start = window.performance.now();
+
         var that = this;
 
         // pass UI changes on to the dataRow
+        columnList.forEach(function (column) {
+            var changef = function () {
+                that.data.setData(column, that.getUIValue(column))
+            };
+            that.get(column).change(changef);
+        });
 
-        for (var i in columnList) {
-            var column = columnList[i];
 
-            this.get(column).change(function (columnName) {
-                return function () {
-                    that.data.setData(columnName, that.getUIValue(columnName))
-                };
-            }(column));
-
-        }
+        this.table.timePassChanges += window.performance.now() - start;
+        var start = window.performance.now();
 
         //add our listeners
         this.data.addListener('Catalog', this.updateCatalog);
@@ -412,7 +428,6 @@ function RowUI(table, rowData) {
         this.data.addListener('Sub-Category', this.updateSubCategory);
         this.data.addListener('Topic', this.updateTopic);
         //for the rest we loop
-
         columnList.forEach(function (columnName) {
             if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
                 that.data.addListener(columnName, function () {
@@ -421,7 +436,11 @@ function RowUI(table, rowData) {
             }
         });
 
-        // if we do not have data update the data to match our UI
+
+        this.table.timeListenToData += window.performance.now() - start;
+        var start = window.performance.now();
+
+        //if we do not have data update the data to match our UI
         if (rowData == undefined) {
             var that = this;
             columnList.forEach(function (columnName) {
@@ -432,6 +451,11 @@ function RowUI(table, rowData) {
             this.setUIValue("Monitor", this.data.getData("Monitor"));
         }
 
+
+        this.table.timeUIToData += window.performance.now() - start;
+        var start = window.performance.now();
+
         this.get('Delete').click(this.delete);
-    }
+        this.table.timeDelete += window.performance.now() - start;
+    };
 }
