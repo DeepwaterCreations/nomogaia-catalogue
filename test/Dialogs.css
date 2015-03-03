@@ -1,0 +1,56 @@
+﻿/*Hides the dialog's close button.*/
+.no-close .ui-dialog-titlebar-close {
+    display:none;
+}
+
+.link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;   
+}
+
+/*ALL DIALOGS*/
+.ui-dialog button {
+    padding:0px;
+}
+
+    .ui-dialog button.blueButton:focus {
+        background: #2F2D69;
+        border: 2px solid #1c1b39;
+        color: white;
+    }
+
+.ui-dialog button.ui-state-hover {
+    color: white;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+
+/*LOADING BAR*/
+.ui-progressbar {
+    background-color:#CCC;
+    border-color:#666;
+    border-style:solid;
+    border-width:5px;
+    border-radius: 4px;
+    /*box-shadow: inset 0px 0px 5px 4px*/
+}
+
+.ui-progressbar .ui-progressbar-value {
+    background: linear-gradient(to top, #1c1b39, #2F2D69, #888);
+    /*background-color: #2F2D69;*/
+    border-style:none;
+    border-width:0px;
+    margin:0px;
+    border-radius:0px;
+}
+
+/*This isn't technically a dialog and probably shouldn't go here, but it has to go somewhere*/
+#aboutDialogButton {
+    float:right;
+    margin-top: 0px;
+    margin-bottom:10px;
+}

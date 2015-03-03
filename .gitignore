@@ -1,5 +1,4 @@
 node-webkit-v0.11.5-win-ia32
-
 test/newTest.txt
 /test/testXanadu
 test/c4
@@ -8,8 +7,5 @@ test/c3
 test/ColinTest
 test/c5
 test/autosave.sav
-test/autosave.sav
-test/autosave.sav
-test/autosave.sav
 *.sav
-*.sav
+/test/*.sav

@@ -88,8 +88,32 @@ var onClickAdd = function () {
 
 monitorTabs.addTabsDiv("sideBar", {});
 
+//Opens a dialog with some info about the application and its creators.
+function openAboutDialog() {
+    $("#aboutDialog").dialog("open");
+    $(".ui-dialog").find("button").addClass("blueButton");
+}
+
 $(document).ready(function () {
 
+    //Make the about dialog.
+    $("#aboutDialog").dialog({
+        buttons: [
+            {
+                text: "Okay",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ],
+        autoOpen: false
+    });
+
+    //Any span styled with "link" will act as a hyperlink that opens the website specified in its "dest" attribute in a new browser window.
+    var gui = require('nw.gui');
+    $("span.link").click(function () {
+        gui.Shell.openExternal($(this).attr("dest"));
+    });
 
     // we need to add a tab b/f we add any rows
     // when we add rows the look to the tabs for their monitor
