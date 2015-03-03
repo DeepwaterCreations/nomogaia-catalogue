@@ -5,12 +5,10 @@
     <link href="jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="select2/dist/css/select2.min.css" rel="stylesheet">
     <link href="DataTable.css" rel="stylesheet">
-    <link href="LoadingBar.css" rel="stylesheet">
-    <link href="MonitorTabs.css" rel="stylesheet">
+    <link href="Dialogs.css" rel="stylesheet">
 </head>
 <body>
     <div id="sideBar">
-
     </div>
     <div id="main">
         <!--<div id="loading"><div id="progressbar"></div></div>-->
@@ -29,6 +27,7 @@
                 <li>
                     <a href="#addTopic">Add Topic</a>
                 </li>
+                <button class="blueButton" id="aboutDialogButton" onclick="openAboutDialog()" type="button">About</button>
                 <li id="saveLoad">
                     <a href="#loadFile">Load File</a>
                 </li>
@@ -112,6 +111,14 @@
         <div id="loadingBarDialog">
             <div id="loadingBar"></div>
         </div>
+
+        <div id="aboutDialog">
+            <p><b>NomoGaia Catalog</b></p>
+            <p>Ver. ?, March 2015</p>
+            <p>Created by Dylan Craine and Colin Wielga </p>
+            <p>Visit the <span class="link" dest="http://nomogaia.org">NomoGaia website</span>.</p> 
+        </div>
+
         <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
         <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
