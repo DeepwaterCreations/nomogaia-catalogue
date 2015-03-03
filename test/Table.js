@@ -79,7 +79,7 @@ function Table(monitorTables) {
                     var val = $("#loadingBar").progressbar("value") || 0;
                     $("#loadingBar").progressbar("value", val + 1);
                     if (outerCallBack != undefined) {
-                        if ($("#loadingBar").progressbar("value") >= $("#loadingBar").progressbar("option", "max") - 1) {
+                        if ($("#loadingBar").progressbar("value") == $("#loadingBar").progressbar("option", "max")) {
                             outerCallBack();
                             console.log("Colin - table", that);
                         }
@@ -157,6 +157,9 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
             dataList.push(newRowData);
         }
     });
-    newTable.addRows(dataList);
+    newTable.addRows(dataList, function () {
+        $("#loadingBarDialog").dialog("destroy");
+        newTable.getTable().parent().show();
+    });
     return newTable;
 }
