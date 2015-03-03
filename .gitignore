@@ -7,3 +7,4 @@ test/c2
 test/c3
 test/ColinTest
 test/c5
+/test/*.sav
