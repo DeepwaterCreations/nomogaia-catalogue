@@ -373,7 +373,6 @@ function RowUI(table, rowData) {
         this.updateColumnOptions('Sub-Category', this.table.owner.dataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
         this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
 
-
         // if we have data update the UI to match
         if (rowData != undefined) {
             // if there are new values in rights/rights holders/module we want to add them
