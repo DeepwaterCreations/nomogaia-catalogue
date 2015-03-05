@@ -15,6 +15,8 @@ var rowDataId = 0;
 //Holds the data for a single row.
 RowData = function (rowData) {
     this.id = rowDataId++;
+    this.child = null;
+    this.ui = null;
 
     // is a dictonary columnName: [listeners...]
     this.listenFunctions = {};
@@ -95,6 +97,22 @@ RowData = function (rowData) {
         }
     };
 
+    this.tryUnHook = function(){
+        if (this.rowData != null){
+            this.unHook();
+        }
+    }
+
+    this.unHook = function (columnName) {
+        // now remove our listeners form rowData
+        this.listeningWith.forEach(function (listener) {
+            that.rowData.removeListener(listener);
+        });
+
+        // tell our source that we are no longer it's monitor
+        this.rowData.child = null;
+    }
+
     this.setData = function (columnName, data) {
         var oldData = this.getData(columnName)
 
@@ -117,19 +135,18 @@ RowData = function (rowData) {
                 // we are now our own independent grown-up data point!
 
                 var that = this;
-                //copy the data over from to data we were rapping
+                //copy the data over from to data we were wrapping
                 columnList.forEach(function (columnName) {
                     that[columnName] = that.rowData.getData(columnName);
                 });
 
-                // now remove our listeners form rowData
-                this.listeningWith.forEach(function (listener) {
-                    that.rowData.removeListener(listener);
-                });
+                // remove our referances to us from our source data
+                this.unHook();
 
                 //now update Monitor
                 //this will stop wrapping rowData for us
                 this.setMonitor();
+                
             }
             this[columnName] = data;
             // call the listeners
@@ -157,6 +174,7 @@ RowData = function (rowData) {
         this.setMonitor();
     } else {
         this.rowData = rowData;
+        rowData.child = this;
         var that = this;
         // we want to listen to the changes to the row we are rapping so we pass it listeners that call our listeners
         columnList.forEach(function (columnName) {

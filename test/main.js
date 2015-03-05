@@ -5,7 +5,7 @@ var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Description",
 var fs = require("fs");
 
 // load in the topic info
-var filename = "TopicInfo.txt";
+var filename = "TopicInfoTest.txt";
 var buf = fs.readFileSync(filename, "utf8");
 // use it to create a categoryHierarchy
 var categoryHierarchy = new CategoryHierarchy(buf);

@@ -28,7 +28,7 @@ String.prototype.stripNonAlphanumeric = function () {
 
 //Rounding.
 Number.prototype.decRound = function (places) {
-    var dec = 10 * places;
+    var dec = Math.pow(10,places);
     return Math.round(this.valueOf() * dec) / dec;
 }
 

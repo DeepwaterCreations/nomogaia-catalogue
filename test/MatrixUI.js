@@ -48,7 +48,7 @@
 
 
         //Then, rebuild it.
-        $("#" + matrixTableID).append('<thead><tr><th class="columnHeader"></th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
+        $("#" + matrixTableID).append('<thead><tr><th class="columnHeader">-</th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
         $("#" + matrixTableID).append("<tbody></tbody>");
   
         var rowHTMLList = [];
