@@ -1,7 +1,6 @@
 ﻿function AddTopic() { }
 
 AddTopic.addTopic = function () {
-    console.log("Colin - I would add a topic")
     var catalog = AddTopic.catalogSelectValue().replace(/\t/g, "    ").trim();
     var category = AddTopic.categorySelectValue().replace(/\t/g, "    ").trim();
     var subCategory = AddTopic.subcategorySelectValue().replace(/\t/g, "    ").trim();
@@ -164,9 +163,7 @@ AddTopic.initFields = function (dataOptions) {
         //we need to check if the we changed to something new
         $(this).data("old", $(this).data("new") || "");
         $(this).data("new", $(this).val());
-        console.log($(this).data("old"));
 
-        console.log("colin-2 , catalog newV: " + $(this).data("new") + " oldV: " + $(this).data("old"));
         if ($(this).data("old") != $(this).data("new")) {
             // first let's update category 
             AddTopic.updateSelectColumnOptions($("#categorySelect"), categoryHierarchy.getCategories(AddTopic.catalogSelectValue()));
@@ -180,9 +177,7 @@ AddTopic.initFields = function (dataOptions) {
         //we need to check if the we changed to something new
         $(this).data("old", $(this).data("new") || "");
         $(this).data("new", $(this).val());
-        console.log($(this).data("old"));
 
-        console.log("colin-2 , cate: " + $(this).data("new") + " oldV: " + $(this).data("old"));
         if ($(this).data("old") != $(this).data("new")) {
 
             if (AddTopic.categorySelectValue() != "-") {
@@ -199,9 +194,7 @@ AddTopic.initFields = function (dataOptions) {
         //we need to check if the we changed to something new
         $(this).data("old", $(this).data("new") || "");
         $(this).data("new", $(this).val());
-        console.log($(this).data("old"));
 
-        console.log("colin-2 , subcate newV: " + $(this).data("new") + " oldV: " + $(this).data("old"));
         if ($(this).data("old") != $(this).data("new")) {
 
             if (AddTopic.subcategorySelectValue() != "-") {

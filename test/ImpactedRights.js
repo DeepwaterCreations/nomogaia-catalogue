@@ -71,7 +71,6 @@ function getCell(myRows, classes) {
 function addMonitorTabsToImpactedRights(monitorTables) {
     //var that = this;
     var changeIRMonitorTabEvent = function (index) {
-        console.log("Colin - changeIRMonitorTabEvent index:" + index);
         rebuildImpactedRights(monitorTables, index)
     }
 
@@ -83,7 +82,6 @@ function addMonitorTabsToImpactedRights(monitorTables) {
 }
 
 function rebuildImpactedRights(monitorTable, index) {
-    console.log("Colin - rebuildImpactedRights");
 
     if (!impactedRights_dirty)
         return;
@@ -108,7 +106,6 @@ function rebuildImpactedRights(monitorTable, index) {
             for (var i = 0; i < myTable.tableData.rows.length; i++) {
                 var row = myTable.tableData.rows[i];
                 if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Impacted Rights") != DataOptions.getDefaultValue("Impacted Rights")) {
-                    console.log("Colin - passed! ", row);
                     return true;
                 }
             }

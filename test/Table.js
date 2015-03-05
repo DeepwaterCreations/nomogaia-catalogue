@@ -4,7 +4,6 @@
 // it is passed in to RowUI on create so that RowUI can access TableData
 function Table(monitorTables) {
     this.owner = monitorTables;
-    console.log("Colin, table id increased")
     this.idCounter = 0;
     this.id = tableId++;
 
@@ -50,14 +49,15 @@ function Table(monitorTables) {
     }
 
     this.addRows = function (dataList, outerCallBack) {
-        console.log("Colin - wtf hide", this.getTable());
         this.getTable().parent().hide();
 
         var that = this;
         var rowList = [];
         var HTMLstring
-        var d = new Date();
-        var startedGettingString = d.getTime();
+
+        //var d = new Date();
+        //var startedGettingString = d.getTime();
+
         dataList.forEach(function (data) {
             var myRow = new RowUI(that, data);
             HTMLstring += myRow.genHTMLString();
@@ -67,18 +67,18 @@ function Table(monitorTables) {
         var finishedGettingString = d.getTime();
         this.body.append(HTMLstring);
 
-        console.log("Colin - RunTime - addingHTML:" + (finishedGettingString - startedGettingString));
+        //console.log("Colin - RunTime - addingHTML:" + (finishedGettingString - startedGettingString));
 
         
 
 
-        var startedBigLoop = window.performance.now();
-        this.timeMakeSelect2 = 0;
-        this.timeUpdateColumnOptions = 0;
-        this.timePassChanges = 0;
-        this.timeListenToData = 0;
-        this.timeUIToData = 0;
-        this.timeDelete = 0
+        //var startedBigLoop = window.performance.now();
+        //this.timeMakeSelect2 = 0;
+        //this.timeUpdateColumnOptions = 0;
+        //this.timePassChanges = 0;
+        //this.timeListenToData = 0;
+        //this.timeUIToData = 0;
+        //this.timeDelete = 0
 
 
         rowList.forEach(function (myRow) {
@@ -91,32 +91,20 @@ function Table(monitorTables) {
                 if (outerCallBack != undefined) {
                     if ($("#loadingBar").progressbar("value") == $("#loadingBar").progressbar("option", "max")) {
                         outerCallBack();
-                        d = new Date();
-                        var finishedInitingRows = d.getTime();
-                        console.log("Colin - RunTime - initingRows:" + (finishedInitingRows - finishedGettingString));
-                        console.log("Colin - makeSelect2: " + that.timeMakeSelect2);
-                        console.log("Colin - update column options: " + that.timeUpdateColumnOptions);
-                        console.log("Colin - pass changes to data: " + that.timePassChanges);
-                        console.log("Colin - listen to data: " + that.timeListenToData);
-                        console.log("Colin - time UI to data: " + that.timeUIToData);
-                        console.log("Colin - table", that);
+                        //d = new Date();
+                        //var finishedInitingRows = d.getTime();
+                        //console.log("Colin - RunTime - initingRows:" + (finishedInitingRows - finishedGettingString));
+                        //console.log("Colin - makeSelect2: " + that.timeMakeSelect2);
+                        //console.log("Colin - update column options: " + that.timeUpdateColumnOptions);
+                        //console.log("Colin - pass changes to data: " + that.timePassChanges);
+                        //console.log("Colin - listen to data: " + that.timeListenToData);
+                        //console.log("Colin - time UI to data: " + that.timeUIToData);
+                        //console.log("Colin - table", that);
                     }
                 }
             }
             }, 0);
         });
-        
-        //console.log("Colin - RunTime - initingRows:" + (window.performance.now() - startedBigLoop));
-        //console.log("Colin - makeSelect2: " + that.timeMakeSelect2);
-        //console.log("Colin - update column options: " + that.timeUpdateColumnOptions);
-        //console.log("Colin - pass changes to data: " + that.timePassChanges);
-        //console.log("Colin - listen to data: " + that.timeListenToData);
-        //console.log("Colin - time UI to data: " + that.timeUIToData);
-        //console.log("Colin - delete: " + that.timeDelete);
-        //console.log("Colin - table", that);
-        //outerCallBack();
-
-
     }
 
     this.addRowsWrapped = function (dataList, callBack) {
@@ -184,7 +172,6 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
         }
     });
     newTable.addRows(dataList, function () {
-        console.log("Colin - callBack")
         $("#loadingBarDialog").dialog("destroy");
         newTable.getTable().parent().show();
     });

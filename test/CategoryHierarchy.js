@@ -3,9 +3,6 @@
     this.hierarchy = {};
 
     this.dequote = function (string) {
-        //console.log(string);
-        //console.log(string.slice(0, 1));
-        //console.log(string.slice(-1));
         if (string.slice(0, 1) == "\"" && string.slice(-1) == "\"") {
             return string.substring(1, string.length - 1);
         }
@@ -59,7 +56,6 @@
             var line = lines[i];
             //TODO ignore commas in quotes
             // also handle quotes as in a,b,c,"yo dog"
-            //console.log(line);
             var lineSplit = line.split("\t");
             if (lineSplit[0] != "") {
                 var catalog = this.dequote(lineSplit[0].trim());
@@ -69,8 +65,6 @@
                 var description = this.dequote(lineSplit[4].trim());
                 var module = this.dequote(lineSplit[5].trim());
                 var source = this.dequote(lineSplit[6].trim());
-
-                //console.log(catalog + ", " + category + ", " + subCategory + ", " + topicString + ", " + description + ", " + module + ", " + source);
 
                 var topicInstance = new Topic(catalog, category, subCategory, topicString, description, module, source);
 
@@ -352,6 +346,4 @@
             return null;
         }
     }
-
-    console.log("colin", this);
 }

@@ -12,7 +12,6 @@ function DataOptions(categoryHierarchy) {
                 result.push(line);
             }
         })
-        console.log("Colin", result);
         return result;
     }
 
@@ -74,7 +73,6 @@ function DataOptions(categoryHierarchy) {
             if (this.columnOptions.hasOwnProperty(column)) {
                 return this.columnOptions[column];
             } else {
-                console.log("column: " + column + " not found");
                 return [];
             }
         }

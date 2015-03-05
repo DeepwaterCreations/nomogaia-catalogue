@@ -130,7 +130,6 @@ RowData = function (rowData) {
         if (changed) {
             setVisualizationsDirty();
             if (this.rowData != undefined) {
-                console.log("Colin - breaking link", data, this.getData(columnName));
                 // since a change has been made we no long are going to look to rowData
                 // we are now our own independent grown-up data point!
 

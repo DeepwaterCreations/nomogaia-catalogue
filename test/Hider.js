@@ -32,7 +32,6 @@ Hider.checkNext = function () {
                     show = false;
                 } else {
                     columnValue = (columnValue == undefined ? "" : (columnValue + "").toUpperCase());
-                    console.log("Colin ss: " + searchString + " cv: " + columnValue, row);
                     if (columnValue.indexOf(searchString) == -1) {
                         show = false;
                     }

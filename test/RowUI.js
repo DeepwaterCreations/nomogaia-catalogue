@@ -15,7 +15,6 @@ function RowUI(table, rowData) {
     this.table = table;
     this.id = table.nextId();
     if (rowData == undefined) {
-        console.log("Colin - adding a row", rowData);
         this.data = table.tableData.addRow();
     } else {
         this.data = rowData;
@@ -249,7 +248,6 @@ function RowUI(table, rowData) {
 
     this.delete = function () {
         if (that.canDelete()) {
-            console.log("Colin - how could you be so cruel " + that.id);
             // remove it from the DOM
             that.getRow().remove();
 
@@ -271,7 +269,6 @@ function RowUI(table, rowData) {
             if (that.data.child != null){
                 that.data.child.ui.delete();
             }
-            console.log("Colin - is it done? ", monitorTables);
         }
     }
 
@@ -287,7 +284,6 @@ function RowUI(table, rowData) {
 
     // when catalog updates we need to update everything
     this.updateCatalog = function () {
-        console.log("Colin-1 updateCatalog", that.getValue('Catalog'));
 
         // first let's update category 
         that.updateColumnOptions('Category', that.table.owner.dataOptions.categoryHierarchy.getCategories(that.getValue('Catalog')));
@@ -302,7 +298,6 @@ function RowUI(table, rowData) {
 
     // when category updates we need to update catalog too 
     this.updateCategory = function () {
-        console.log("Colin-1 updateCategory", that.getValue('Category'));
 
         if (that.getValue('Category') != "-") {
             // first let's update catalog 
@@ -319,8 +314,7 @@ function RowUI(table, rowData) {
 
     // when subcategory updates we need to update the other columns
     this.updateSubCategory = function () {
-        console.log("Colin-1 updateSubCategory", that.getValue('Sub-Category'));
-
+        
         // everyone more detailed one is "-" 
         if (that.getValue('Sub-Category') != '-') {
 
@@ -339,8 +333,7 @@ function RowUI(table, rowData) {
     // when subcategory updates we need to update the other columns
     this.updateTopic = function () {
 
-        //console.log("Colin-1 updateTopic", that.getValue('Topic'));
-
+        
         if (that.getValue('Topic') != "-") {
 
             // first let's update catalog 
@@ -358,11 +351,6 @@ function RowUI(table, rowData) {
             that.data.setData("Module", topicInstance.module);
             that.data.setData("Source", topicInstance.source);
 
-            //console.log("Colin - toolTip: " + topicInstance.description, topicInstance);
-            //if (topicInstance != null) {
-            //    that.get("Topic").prop('tooltipText', topicInstance.description);
-            //.tooltip({ content: topicInstance.description });
-            //}
         }
     }
 
@@ -383,8 +371,8 @@ function RowUI(table, rowData) {
         this.toSelect2WithAdd("Impacted Rights");
         this.toSelect2WithAdd("Module");
 
-        this.table.timeMakeSelect2 = window.performance.now() - start;
-        var start = window.performance.now();
+        //this.table.timeMakeSelect2 = window.performance.now() - start;
+        //var start = window.performance.now();
 
         // add options to drop downs:
         this.updateColumnOptions('Catalog', this.table.owner.dataOptions.categoryHierarchy.getCatalogs());
@@ -393,8 +381,8 @@ function RowUI(table, rowData) {
         this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
 
 
-        this.table.timeUpdateColumnOptions += window.performance.now() - start;
-        var start = window.performance.now();
+        //this.table.timeUpdateColumnOptions += window.performance.now() - start;
+        //var start = window.performance.now();
 
         //  if we have data update the UI to match
         if (rowData != undefined) {
@@ -414,8 +402,8 @@ function RowUI(table, rowData) {
             });
         }
 
-        this.table.timeUpdateUI += window.performance.now() - start;
-        var start = window.performance.now();
+        //this.table.timeUpdateUI += window.performance.now() - start;
+        //var start = window.performance.now();
 
         var that = this;
 
@@ -428,8 +416,8 @@ function RowUI(table, rowData) {
         });
 
 
-        this.table.timePassChanges += window.performance.now() - start;
-        var start = window.performance.now();
+        //this.table.timePassChanges += window.performance.now() - start;
+        //var start = window.performance.now();
 
         //add our listeners
         this.data.addListener('Catalog', this.updateCatalog);
@@ -446,8 +434,8 @@ function RowUI(table, rowData) {
         });
 
 
-        this.table.timeListenToData += window.performance.now() - start;
-        var start = window.performance.now();
+        //this.table.timeListenToData += window.performance.now() - start;
+        //var start = window.performance.now();
 
         //if we do not have data update the data to match our UI
         if (rowData == undefined) {
@@ -461,8 +449,8 @@ function RowUI(table, rowData) {
         }
 
 
-        this.table.timeUIToData += window.performance.now() - start;
-        var start = window.performance.now();
+        //this.table.timeUIToData += window.performance.now() - start;
+        //var start = window.performance.now();
 
         this.get('Delete').click(function () {
             $("#deleteDialog").dialog({
@@ -498,6 +486,6 @@ function RowUI(table, rowData) {
             $("#deleteDialogMonitors").text("" + (count != 0 ? " and it's " + (count > 1 ? count + " monitors" : " monitor") : "") + "?");
             $("#deleteDialog").dialog("open");
         });
-        this.table.timeDelete += window.performance.now() - start;
+        //this.table.timeDelete += window.performance.now() - start;
     };
 }

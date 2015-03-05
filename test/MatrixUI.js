@@ -25,8 +25,6 @@
             return;
 
 
-        console.log("Colin - rebuildMatrix");
-
         //TODO: Figure out where these values ought to live, and where they come from.
         var sortByMostImpactedRight = $("#sortByRightsImpact:checked").val();
         var sortByMostImpactedRightsholder = $("#sortByRightsholdersImpact:checked").val();

@@ -17,8 +17,6 @@
     this.addTable = function (copyFrom,callBack) {
         var newTable = new Table(this);
 
-        console.log("Colin - copying form:", copyFrom);
-
         if (copyFrom != undefined) {
             var dataList = []
             copyFrom.tableData.rows.forEach(function (row) {
@@ -72,13 +70,10 @@
     this.changeMonitorTabEvent = function (that) {
         return function (newlyActiveTab) {
             // hide all the tables except the currently active one
-            console.log("Colin - newlyActiveTab:" + newlyActiveTab);
             that.backingData.forEach(function (table) {
                 if (table.id == newlyActiveTab) {
-                    console.log("Colin - show table" + table.id);
                     table.getTable().show();
                 } else {
-                    console.log("Colin - hide table" + table.id);
                     table.getTable().hide();
                 }
             });
