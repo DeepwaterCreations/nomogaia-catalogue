@@ -518,3 +518,9 @@ button.close-icon {
     opacity: 0.4;
     background-color:#356C28;
 }*/
+
+/* a bit ugly, this is the div we hide our pop ups in*/
+#hidy-hole {
+    height:0px;
+    overflow: hidden;
+}
