@@ -126,6 +126,7 @@
         $("#" + tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#' + this.addTabDivID + '">' + this.addTabLabel + '</a></li>');
         $("#" + tabsDivID).find('.' + this.addTabClass).on("click", function () {
             $("#addMonitorDialog :input").val("");
+            $("#monitorNameField").attr("placeholder",  that.newTabLabel + "" + (that.tabCount));
             $("#addMonitorDialog").dialog("open");
         });
         //Also give the add tab a div.

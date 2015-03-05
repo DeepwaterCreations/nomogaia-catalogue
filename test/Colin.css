@@ -24,7 +24,7 @@
     -webkit-box-shadow: 4px 0 4px -2px #888;
     border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
-    overflow-y: scroll;
+    overflow-y: auto;
 overflow-x: hidden;
 }
 

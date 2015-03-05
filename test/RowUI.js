@@ -252,6 +252,10 @@ function RowUI(table, rowData) {
             console.log("Colin - how could you be so cruel " + that.id);
             // remove it from the DOM
             that.getRow().remove();
+
+            // if our data was a monitor tell it to unHook from it source
+            that.data.tryUnHook();
+            
             // remove this from the tableUI
             var at = table.tableUI.rows.indexOf(that);
             if (at != -1) {
@@ -265,7 +269,7 @@ function RowUI(table, rowData) {
             
             // delete monitors looking back to that
             if (that.data.child != null){
-                that.data.child.ui.delete;
+                that.data.child.ui.delete();
             }
             console.log("Colin - is it done? ", monitorTables);
         }
@@ -460,7 +464,40 @@ function RowUI(table, rowData) {
         this.table.timeUIToData += window.performance.now() - start;
         var start = window.performance.now();
 
-        this.get('Delete').click(this.delete);
+        this.get('Delete').click(function () {
+            $("#deleteDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                buttons: [
+                    {
+                        text: "Ok",
+                        click: function () {
+                            that.delete();
+                            $(this).dialog("close");
+                        }
+                    },
+                    {
+                        text: "Cancel",
+                        click: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                ],
+                title: "Delete Topic?"
+            });
+            $(".ui-dialog").find("button").addClass("blueButton");
+            var count = 0;
+            var at = that.data;
+            while (at.child != null) {
+                at = at.child;
+                count++;
+            }
+            $("#deleteDialogText").text("Are you sure you want to delete topic: " );
+            $("#deleteDialogTopic").text(""+that.getValue("Topic") )
+            $("#deleteDialogTopic").css("font-weight", "Bold");
+            $("#deleteDialogMonitors").text("" + (count != 0 ? " and it's " + (count > 1 ? count + " monitors" : " monitor") : "") + "?");
+            $("#deleteDialog").dialog("open");
+        });
         this.table.timeDelete += window.performance.now() - start;
     };
 }

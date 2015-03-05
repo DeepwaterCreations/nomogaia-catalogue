@@ -97,6 +97,22 @@ RowData = function (rowData) {
         }
     };
 
+    this.tryUnHook = function(){
+        if (this.rowData != null){
+            this.unHook();
+        }
+    }
+
+    this.unHook = function (columnName) {
+        // now remove our listeners form rowData
+        this.listeningWith.forEach(function (listener) {
+            that.rowData.removeListener(listener);
+        });
+
+        // tell our source that we are no longer it's monitor
+        this.rowData.child = null;
+    }
+
     this.setData = function (columnName, data) {
         var oldData = this.getData(columnName)
 
@@ -119,18 +135,13 @@ RowData = function (rowData) {
                 // we are now our own independent grown-up data point!
 
                 var that = this;
-                //copy the data over from to data we were rapping
+                //copy the data over from to data we were wrapping
                 columnList.forEach(function (columnName) {
                     that[columnName] = that.rowData.getData(columnName);
                 });
 
-                // now remove our listeners form rowData
-                this.listeningWith.forEach(function (listener) {
-                    that.rowData.removeListener(listener);
-                });
-
-                // tell our source that we are no longer it's monitor
-                that.rowData.child = null;
+                // remove our referances to us from our source data
+                this.unHook();
 
                 //now update Monitor
                 //this will stop wrapping rowData for us
