@@ -15,6 +15,8 @@ var rowDataId = 0;
 //Holds the data for a single row.
 RowData = function (rowData) {
     this.id = rowDataId++;
+    this.child = null;
+    this.ui = null;
 
     // is a dictonary columnName: [listeners...]
     this.listenFunctions = {};
@@ -127,9 +129,13 @@ RowData = function (rowData) {
                     that.rowData.removeListener(listener);
                 });
 
+                // tell our source that we are no longer it's monitor
+                that.rowData.child = null;
+
                 //now update Monitor
                 //this will stop wrapping rowData for us
                 this.setMonitor();
+                
             }
             this[columnName] = data;
             // call the listeners
@@ -157,6 +163,7 @@ RowData = function (rowData) {
         this.setMonitor();
     } else {
         this.rowData = rowData;
+        rowData.child = this;
         var that = this;
         // we want to listen to the changes to the row we are rapping so we pass it listeners that call our listeners
         columnList.forEach(function (columnName) {

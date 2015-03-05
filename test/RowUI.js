@@ -11,7 +11,6 @@ function format(item) {
     return "<div title ='" + originalText + "'>" + originalText + "</div>";
 }
 
-
 function RowUI(table, rowData) {
     this.table = table;
     this.id = table.nextId();
@@ -23,6 +22,7 @@ function RowUI(table, rowData) {
         this.table.tableData.addRow(rowData)
     }
 
+    this.data.ui = this;
 
     this.table.tableUI.rows.push(this);
 
@@ -261,6 +261,11 @@ function RowUI(table, rowData) {
             var at = table.tableData.rows.indexOf(that.data);
             if (at != -1) {
                 table.tableData.rows.splice(at, 1);
+            }
+            
+            // delete monitors looking back to that
+            if (that.data.child != null){
+                that.data.child.ui.delete;
             }
             console.log("Colin - is it done? ", monitorTables);
         }

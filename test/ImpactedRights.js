@@ -28,7 +28,7 @@ function getAverage(rows) {
     });
     var average = 0;
     if (count != 0) {
-        average = sum / count;
+        average = (sum / count).decRound(2);
     } else {
         average="-"
     }
@@ -62,7 +62,7 @@ function getFullToolTip(rows) {
 }
 
 function getCell(myRows, classes) {
-    return '<td title="" class="' + classes + '">' + getAverage(myRows).decRound(2) + '</td>';
+    return '<td title="" class="' + classes + '">' + getAverage(myRows) + '</td>';
 }
 
 function addMonitorTabsToImpactedRights(monitorTables) {
