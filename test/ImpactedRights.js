@@ -97,7 +97,7 @@ function rebuildImpactedRights(monitorTable, index) {
     impactedRightsTable.append("<tbody></tbody>");
     //Add the column headings
 
-    var headersList = ["", "Context"];
+    var headersList = ["-", "Context"];
 
     var moduleIsUsed = function (module) {
         for (var j = 0; j < monitorTable.backingData.length; j++) {

@@ -9,3 +9,4 @@ test/c5
 test/autosave.sav
 *.sav
 /test/*.sav
+test/c7
