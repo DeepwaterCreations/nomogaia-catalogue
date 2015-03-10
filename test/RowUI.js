@@ -70,7 +70,7 @@ function RowUI(table, rowData) {
         } else if (column == "Module") {
             return '<td><select  class="' + toColumnName(column) + ' catalog-dropDown catalog-input" style="width: 100%;"/></td>';
         } else if (column == "Source") {
-            return '<td><div class="' + toColumnName(column) + ' catalog-text catalog-input" type="text" value=""></div></td>';
+            return '<td><textarea class="' + toColumnName(column) + ' catalog-text catalog-input" type="text" value=""></textarea></td>';
         } else if (column == "Impacted Rights") {
             return '<td><select  class="' + toColumnName(column) + ' catalog-multi catalog-input" multiple="multiple" style="width: 100%;"/></td>';
         } else if (column == "Impacted Rights-Holders") {
