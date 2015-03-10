@@ -356,9 +356,8 @@ function RowUI(table, rowData) {
 
 
     this.init = function (rowData) {
+        //var start = window.performance.now();
 
-
-        var start = window.performance.now();
 
         this.toSelect2final("Catalog");
         this.toSelect2final("Category");

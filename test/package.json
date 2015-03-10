@@ -1,12 +1,12 @@
 {
-    "name": "testestestest",
-    "main": "index.html",
-    "window": {
-        "title": "does anything here work?",
-        "width": 1000,
-		"toolbar": true,
+	"name": "NomoGaia Catalog",
+	"main": "index.html",
+	"window": {
+		"title": "NomoGaia Catalog",
+		"icon": "icon.png",
+		"width": 1000,
+		"toolbar": false,
 		"frame": true,
-		"title": "node-webkit demo",
 		"min_width": 450
-    }
+	}
 }
