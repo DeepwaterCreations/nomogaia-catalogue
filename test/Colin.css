@@ -146,6 +146,14 @@ body {
     padding-bottom: 15px;
 }
 
+#addTopic.dialog {
+    overflow: auto;
+    /*height: 90%;
+    width: 90%;
+    top: 5%;
+    left: 5%;*/
+}
+
 
 
 .catalog-text {
@@ -523,4 +531,8 @@ button.close-icon {
 #hidy-hole {
     height:0px;
     overflow: hidden;
+}
+
+.ui-dialog {
+    box-shadow: 0 0 12px #888;
 }

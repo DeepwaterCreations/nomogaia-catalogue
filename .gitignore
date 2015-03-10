@@ -10,3 +10,9 @@ test/autosave.sav
 *.sav
 /test/*.sav
 test/c7
+test/boom
+test/boomtown
+test/boomtown3
+test/cc
+test/evilTopicInfo.txt
+test/hmmm.json

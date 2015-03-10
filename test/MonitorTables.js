@@ -38,6 +38,7 @@
             monitorObj.backingData = this.backingData[i].toOut();
             out.push(monitorObj);
         }
+        console.log("Colin -toOut - monitorTables", out);
         return out;
     }
 

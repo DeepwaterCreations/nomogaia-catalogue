@@ -14,6 +14,23 @@ AddTopic.addTopic = function () {
     var fs = require("fs");
     fs.appendFile("myTopics.txt", myTopic.toString(), function (err) { });
     categoryHierarchy.addTopic(myTopic);
+    // add a row
+    var rowAt = null;
+
+    for (var tabIndex in monitorTables.backingData) {
+        if (tabIndex >= monitorTabs.getActiveMonitor()) {
+            var myTable = monitorTables.backingData[tabIndex];
+            if (rowAt == null) {
+                rowAt = myTable.addRow(myTopic.toData());
+                rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+            } else {
+                var dataAt = rowAt.data;
+                var newData = new RowData(dataAt);
+                rowAt = myTable.addRow(newData);
+            }
+        }
+    }
+
     //TODO push this change to the approprate lists
     // oh boy that is going to suck
 
@@ -27,6 +44,8 @@ AddTopic.addTopic = function () {
     $("#topicName").val("");
     $("#topicDescTextBox").val("");
     $("#topicSourceTextBox").val("");
+
+    $("#addTopic").dialog("close");
 }
 
 AddTopic.makeSelect2 = function (select, backingList) {

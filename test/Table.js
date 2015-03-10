@@ -31,7 +31,9 @@ function Table(monitorTables) {
     }
 
     this.toOut = function () {
-        return this.tableData.toOut();
+        var out = this.tableData.toOut();
+        console.log("Colin -toOut - table", out);
+        return out;
     }
 
     this.removeTable = function () {
@@ -84,7 +86,6 @@ function Table(monitorTables) {
         rowList.forEach(function (myRow) {
             setTimeout(function () {
             myRow.init(myRow.data);
-            console.log("Colin - added row " + myRow.id + " to table: " + that.id);
             if ($("#loadingBarDialog").hasClass('ui-dialog-content')) {
                 var val = $("#loadingBar").progressbar("value") || 0;
                 $("#loadingBar").progressbar("value", val + 1);

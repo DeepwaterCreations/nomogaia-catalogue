@@ -68,5 +68,6 @@ function autosave(interval) {
 
 function save(filename, callback) {
     var filew = fs.createWriteStream(filename);
+    console.log("Colin - trySave" + JSON.stringify(monitorTables.toOut()));
     return filew.write(JSON.stringify(monitorTables.toOut()), callback);
 }
