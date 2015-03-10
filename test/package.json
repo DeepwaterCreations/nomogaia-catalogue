@@ -1,6 +1,6 @@
 {
-	"name": "NomoGaia Catalog",
-	"version": "1",
+	"name": "NomoGaia-Catalog",
+	"version": "1.0.0",
 	"main": "index.html",
 	"window": {
 		"title": "NomoGaia Catalog",
