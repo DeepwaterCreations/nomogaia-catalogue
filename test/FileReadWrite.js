@@ -5,8 +5,11 @@
 $('#save').click(function () {
     var fileDialog = $("#saveFileDialog");
     fileDialog.on("change", function (event) {
-        save($(this).val(), function () {
-            console.log("Finished saving");
+        save($(this).val(), function (error) {
+            if (error)
+                console.log("ERROR: ", error);
+            else
+                console.log("Finished saving");
         });
     });
     fileDialog.trigger("click");
@@ -29,10 +32,12 @@ $('#load').click(function () {
             value: false //It should be an indeterminate progress bar until a file is loaded.
         });
 
-        var filer = fs.createReadStream($(this).val());
-        filer.setEncoding('utf8');
-        filer.on('data', function (chunk) {
-            
+        fs.readFile($(this).val(), function(error, chunk) {  
+            if (error) {
+                console.out("ERROR: ", error);
+                return;
+            }
+
             //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
             var obj = jQuery.parseJSON(chunk);
             var barMax = 0;//obj.length * obj[obj.length - 1].backingData.length; //The number of monitors times the number of rows in the last monitor.
@@ -67,6 +72,5 @@ function autosave(interval) {
 }
 
 function save(filename, callback) {
-    var filew = fs.createWriteStream(filename);
-    return filew.write(JSON.stringify(monitorTables.toOut()), callback);
+    fs.writeFile(filename, JSON.stringify(monitorTables.toOut()), callback);
 }
