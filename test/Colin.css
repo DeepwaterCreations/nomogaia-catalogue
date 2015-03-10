@@ -192,7 +192,8 @@ body {
     border-left: 0;
 }
 
-textarea.catalog-text {
+/*textarea*/
+.catalog-text {
     resize: vertical;
     overflow: hidden;
 }

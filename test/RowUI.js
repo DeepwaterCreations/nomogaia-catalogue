@@ -487,5 +487,7 @@ function RowUI(table, rowData) {
             $("#deleteDialog").dialog("open");
         });
         //this.table.timeDelete += window.performance.now() - start;
+
+
     };
 }
