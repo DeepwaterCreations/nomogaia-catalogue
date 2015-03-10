@@ -1,4 +1,15 @@
 ﻿var fs = require('fs');
+var gui = require('nw.gui');
+
+//Enabling ctrl-s to save
+var keyboardCommand = new gui.Shortcut({
+    key: "Ctrl+S",
+    active: function () {
+        //Save to a new file
+        $('#save').click();
+    }
+});
+gui.App.registerGlobalHotKey(keyboardCommand);
 
 //What we're basically doing with these is using the button's onClick to trigger the (hidden) file input's onClick. That way, we get the dialog but not the
 //standard filepath-and-"choose-file"-button UI element from the file input. See https://github.com/nwjs/nw.js/wiki/File-dialogs
