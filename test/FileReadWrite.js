@@ -40,6 +40,10 @@ var FilenameRememberer = (function () {
                 var newTitle = title + " - " + filename;
                 $("title").append(newTitle);
             }
+        },
+
+        getIsDirty: function () {
+            return dirty;
         }
     };
 }());
@@ -98,7 +102,34 @@ $('#save').click(function () {
     fileDialog.trigger("click");
 });
 
+var forceLoad = false;
 $('#load').click(function () {
+    //First, warn the user about unsaved changes.
+    if (FilenameRememberer.getIsDirty() && !forceLoad) {
+        $("#loadConfirmationDialog").dialog({
+            buttons: [
+                {
+                    text: "Cancel",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Load",
+                    click: function () {
+                        forceLoad = true;
+                        $('#load').click();
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        });
+        $(".ui-dialog").find("button").addClass("blueButton");
+
+        return; //We'll call this function again and bypass this condition if we want to load after all. 
+    }
+
+    forceLoad = false;
     var fileDialog = $("#loadFileDialog");
     fileDialog.on("change", function (event) {
         if (!($(this).val())) return; //Maybe the user didn't specify a value.
