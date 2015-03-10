@@ -14,7 +14,7 @@
         this.backingData.push(table);
     }
 
-    this.addTable = function (copyFrom,callBack) {
+    this.addTable = function (copyFrom, callBack) {
         var newTable = new Table(this);
 
         if (copyFrom != undefined) {
@@ -26,6 +26,8 @@
         }
 
         this.push(newTable);
+
+        FilenameRememberer.setDirty();
 
         return newTable;
     }

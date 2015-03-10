@@ -154,6 +154,9 @@ RowData = function (rowData) {
                     listenerfunction(this);
                 });
             }
+
+            //This puts a * in the titlebar to inform the user that there are changes to save.
+            FilenameRememberer.setDirty();
         }
     };
 

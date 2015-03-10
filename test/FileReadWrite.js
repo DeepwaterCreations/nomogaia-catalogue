@@ -2,12 +2,68 @@
 var gui = require('nw.gui');
 require('events').EventEmitter;
 
+//Keep track of the current file.
+var FilenameRememberer = (function () {
+    var title = "NomoGaia Catalog";
+
+    var filename = "";
+    var dirty = false;
+
+    return {
+        setFilename: function (newFilename) {
+            if (filename !== newFilename) {
+                filename = newFilename;
+                $("title").empty();
+                var newTitle = title + " - " + filename;
+                $("title").append(newTitle);
+            }
+
+        },
+
+        getFilename: function () {
+            return filename;
+        },
+
+        setDirty: function () {
+            if (filename) {
+                dirty = true;
+                $("title").empty();
+                var newTitle = title + " - " + filename + "*";
+                $("title").append(newTitle);
+            }
+        },
+
+        setClean: function () {
+            if (filename) {
+                dirty = false;
+                $("title").empty();
+                var newTitle = title + " - " + filename;
+                $("title").append(newTitle);
+            }
+        }
+    };
+}());
+
 //Enabling ctrl-s to save
 var keyboardCommand = new gui.Shortcut({
     key: "Ctrl+S",
     active: function () {
-        //Save to a new file
-        $('#save').click();
+        filename = FilenameRememberer.getFilename();
+        if (filename) {
+            //If we already have a filename, save to the existing file.
+            save(filename, function (error) {
+                if (error)
+                    console.log("ERROR: ", error);
+                else {
+                    FilenameRememberer.setClean();
+                    console.log("Finished saving");
+                }
+            });
+        }
+        else {
+            //Otherwise, open the dialog to select a new filename.
+            $('#save').click();
+        }
     }
 });
 gui.App.registerGlobalHotKey(keyboardCommand);
@@ -22,19 +78,21 @@ win.on('blur', function () {
     gui.App.unregisterGlobalHotKey(keyboardCommand);
 });
 
-//Remember current filename
-var filename = "";
 
 //What we're basically doing with these is using the button's onClick to trigger the (hidden) file input's onClick. That way, we get the dialog but not the
 //standard filepath-and-"choose-file"-button UI element from the file input. See https://github.com/nwjs/nw.js/wiki/File-dialogs
 $('#save').click(function () {
     var fileDialog = $("#saveFileDialog");
     fileDialog.on("change", function (event) {
-        save($(this).val(), function (error) {
+        var filename = $(this).val();
+        save(filename, function (error) {
             if (error)
                 console.log("ERROR: ", error);
-            else
+            else {
                 console.log("Finished saving");
+                FilenameRememberer.setFilename(filename);
+                FilenameRememberer.setClean();
+            }
         });
     });
     fileDialog.trigger("click");
@@ -57,7 +115,8 @@ $('#load').click(function () {
             value: false //It should be an indeterminate progress bar until a file is loaded.
         });
 
-        fs.readFile($(this).val(), function(error, chunk) {  
+        var filename = $(this).val();
+        fs.readFile(filename, function (error, chunk) {
             if (error) {
                 console.out("ERROR: ", error);
                 return;
@@ -79,7 +138,12 @@ $('#load').click(function () {
                 monitorTabs.addTab();
             }
             //$("#loadingBarDialog").dialog("destroy");
-        })
+
+            //Update the current filename to the loaded file's name.
+            FilenameRememberer.setFilename(filename);
+            FilenameRememberer.setClean();
+
+        });
 
         $(this).val(""); //Reset the filepath so that the event will be called again.
     });

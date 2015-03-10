@@ -14,7 +14,6 @@
     this.tabCount = 0;
 
     //Returns the index of the active monitor.
-    //TODO: In practice, each monitor tab might not have its own monitor.
     //I need a dictionary of tabs to monitors. 
     this.activeTab = 0; //TODO: Should this actually live in MonitorTables?
     this.getActiveMonitor = function () {
