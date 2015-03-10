@@ -18,7 +18,6 @@
     }
 
     this.add = function (catalog, category, subCategory, topicString, topicInstance) {
-        //console.log(catalog + "," + category + "," + subCategory + "," + topicString);
         if (catalog in this.hierarchy) {
             var categoryContains = this.hierarchy[catalog];
             if (category in categoryContains) {

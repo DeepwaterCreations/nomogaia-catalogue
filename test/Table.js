@@ -32,7 +32,6 @@ function Table(monitorTables) {
 
     this.toOut = function () {
         var out = this.tableData.toOut();
-        console.log("Colin -toOut - table", out);
         return out;
     }
 
