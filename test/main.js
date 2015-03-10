@@ -69,6 +69,25 @@ $(document).ready(function () {
         autoOpen: false
     });
 
+    //Make the add topic dialog.
+    $("#addTopic").dialog({
+        buttons: [
+            {
+                text: "Cancel",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ],
+        autoOpen: false,
+        width: "90%"
+    });
+
+    $("#openAddTopic").click(function () {
+        $("#addTopic").dialog("open");
+        $(".ui-dialog").find("button").addClass("blueButton");
+    })
+
     //Any span styled with "link" will act as a hyperlink that opens the website specified in its "dest" attribute in a new browser window.
     var gui = require('nw.gui');
     $("span.link").click(function () {

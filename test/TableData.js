@@ -21,6 +21,8 @@ function TableData() {
         this.rows.forEach(function (row) {
             out.push(row.toOut());
         });
+
+        console.log("Colin -toOut - tableData", out);
         return out;
     }
 

@@ -36,6 +36,8 @@ RowData = function (rowData) {
         } else {
             out["pointsTo"] = this.rowData.id;
         }
+        console.log("Colin -toOut - row - me", this);
+        console.log("Colin -toOut - row", out);
         return out;
     }
 

@@ -24,9 +24,9 @@
                 <li id="matrixTab">
                     <a href="#rightsMatrix">Rights Matrix</a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="#addTopic">Add Topic</a>
-                </li>
+                </li>-->
                 
                 <!--<li id="saveLoad">
                     <a href="#loadFile">Load File</a>
@@ -45,7 +45,8 @@
                 <div id="catalogMonitorTabs">
                     <div id="tables"></div>
                 </div>
-                <input type="button" class="blueButton" id="addRow" value="Add" />
+                <input type="button" class="blueButton" id="addRow" value="Add Row" />
+                <input type="button" class="blueButton" id="openAddTopic" value="Add Topic" />
             </div>
             <div id="impactedRatings" class="tab">
                 <div id="impactedRightsMonitorTabs">
@@ -67,14 +68,32 @@
                 <div id="matrixTableDiv">
                 </div>
             </div>
-            <div id="loadFile" class="tab">
-                <!--<button class="blueButton" id="save" type="button">Save</button>
+            <!--<div id="loadFile" class="tab">
+                <button class="blueButton" id="save" type="button">Save</button>
                 <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
 
                 <button class="blueButton" id="load" type="button">Load</button>
-                <input type="file" id="loadFileDialog" style="display:none;">-->
+                <input type="file" id="loadFileDialog" style="display:none;">
+            </div>-->
+        </div>
+
+        <div id="hidy-hole">
+            <div id="addMonitorDialog" class="dialog">
+                <div>
+                    <span>Enter a Label:</span>
+                    <input type="text" id="monitorNameField">
+                </div>
             </div>
-            <div id="addTopic" class="tab">
+
+            <div id="deleteDialog" class="dialog">
+                <div>
+                    <span id="deleteDialogText">Are you sure you want to delete</span>
+                    <span id="deleteDialogTopic">Are you sure you want to delete</span>
+                    <span id="deleteDialogMonitors">Are you sure you want to delete</span>
+                </div>
+            </div>
+
+            <div id="addTopic" class="dialog">
                 <form class="addTopic" action="#">
                     <fieldset>
                         <input class="blueButton" type="button" id="addTopicButton" value="Add Topic" />
@@ -107,23 +126,6 @@
 
                     </fieldset>
                 </form>
-            </div>
-        </div>
-
-        <div id="hidy-hole">
-            <div id="addMonitorDialog" class="dialog">
-                <div>
-                    <span>Enter a Label:</span>
-                    <input type="text" id="monitorNameField">
-                </div>
-            </div>
-
-            <div id="deleteDialog" class="dialog">
-                <div>
-                    <span id="deleteDialogText">Are you sure you want to delete</span>
-                    <span id="deleteDialogTopic">Are you sure you want to delete</span>
-                    <span id="deleteDialogMonitors">Are you sure you want to delete</span>
-                </div>
             </div>
 
             <div id="loadingBarDialog" class="dialog">
