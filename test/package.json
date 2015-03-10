@@ -1,5 +1,6 @@
 {
 	"name": "NomoGaia Catalog",
+	"version": "1",
 	"main": "index.html",
 	"window": {
 		"title": "NomoGaia Catalog",
