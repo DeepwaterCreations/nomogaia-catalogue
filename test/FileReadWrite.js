@@ -1,5 +1,6 @@
 ﻿var fs = require('fs');
 var gui = require('nw.gui');
+var path = require('path');
 require('events').EventEmitter;
 
 //Keep track of the current file.
@@ -186,7 +187,7 @@ $('#load').click(function () {
 function autosave(interval) {
     window.setTimeout(function () {
         console.log("Autosave Triggered!");
-        save("./autosave.sav");
+        save(path.join(path.dirname(process.execPath), "autosave.sav"));
         autosave(interval);
     }, interval);
 }
