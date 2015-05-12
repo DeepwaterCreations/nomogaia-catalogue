@@ -1,6 +1,7 @@
 ﻿function CategoryHierarchy(string) {
     // string catalog : {string category : {string sub-category : {string topics : string description}}}
     this.hierarchy = {};
+    this.allTopics = []
 
     this.dequote = function (string) {
         if (string.slice(0, 1) == "\"" && string.slice(-1) == "\"") {
@@ -47,6 +48,7 @@
             CategoryDescription[category + ""] = subCategoryDescription;
             this.hierarchy[catalog + ""] = CategoryDescription;
         }
+        this.allTopics.push(topicInstance);
     };
 
     this.addSet = function (inputString) {
@@ -71,6 +73,8 @@
             }
         }
     }
+
+    console.log("catagoryHierararchy", this);
 
     this.addSet(string);
 
@@ -153,6 +157,16 @@
 
         return result;
     };
+
+    this.getAllTopics = function () {
+        var result = [];
+
+        this.allTopics.forEach(function (topic) {
+            result.push(topic);
+        });
+
+        return result;
+    }
 
     // returns a list of topics for a given catalog, category and SubCategories
     this.getTopics = function (catalog, category, subCategory) {

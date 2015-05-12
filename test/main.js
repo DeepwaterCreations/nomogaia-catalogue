@@ -5,7 +5,7 @@ var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Description",
 var fs = require("fs");
 
 // load in the topic info
-var filename = "TopicInfo.txt";
+var filename = "TopicInfo515.txt";
 var buf = fs.readFileSync(filename, "utf8");
 // use it to create a categoryHierarchy
 var categoryHierarchy = new CategoryHierarchy(buf);
@@ -22,9 +22,7 @@ monitorTables.push(table);
 
 addMonitorTabsToImpactedRights(monitorTables)
 
-var searchTable = function () {
-    Hider.hide(monitorTabs.getActiveTable().tableUI.rows);
-};
+
 
 var onClickAdd = function () {
     var rowAt = null;
@@ -100,10 +98,9 @@ $(document).ready(function () {
     monitorTabs.addTab();
 
     // we need to add all the rows with module =None to the table
-    var topicList = categoryHierarchy.getTopics();
+    var topicList = categoryHierarchy.getAllTopics();
     var dataList = []
-    topicList.forEach(function (topicString) {
-        var topicInstance = categoryHierarchy.getTopicInstance(topicString);
+    topicList.forEach(function (topicInstance) {
         if (topicInstance.module == "None") {
             var data = topicInstance.toData();
             dataList.push(data);
@@ -115,10 +112,7 @@ $(document).ready(function () {
     AddTopic.initFields(monitorTables.dataOptions);
 
     $('#addRow').click(onClickAdd);
-    $('.searchInput').keyup(searchTable);
-    $('.searchInputForm').on('reset', function (e) {
-        setTimeout(searchTable);
-    });
+    //Hider.init();
     //$('.CatalogHeader').click(updateSearchColumn);
 
     $('#tabs').on('tabsactivate', function (event, data) {

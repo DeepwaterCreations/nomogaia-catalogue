@@ -25,7 +25,6 @@ function Table(monitorTables) {
         that.getTable().find("tr").children().last().find("textarea").attr("disabled", "disabled");
     });
 
-
     this.nextId = function () {
         return this.idCounter++;
     }
@@ -135,6 +134,8 @@ function Table(monitorTables) {
 
         this.addRows(dataList, adjustedCallBack);
     }
+
+    this.hider = new Hider(this);
 
 }
 

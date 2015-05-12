@@ -71,8 +71,12 @@ AddTopic.hasValue = function (string) {
     return true;
 }
 
-AddTopic.isNewTopic = function (string) {
-    return categoryHierarchy.getTopic(string) == null
+AddTopic.isNewTopic = function (catalog, category, subcat, topic) {
+    if (catalog == "" || category == "" || subcat == "" || topic == "" || catalog == "-" || category == "-" || subcat == "-" || topic == "-") {
+        return true;
+    }
+
+    return categoryHierarchy.getTopics(catalog, category, subcat).indexOf(topic) == -1;
 }
 
 AddTopic.isLegalTopicName = function (string) {
@@ -102,7 +106,7 @@ AddTopic.canAdd = function () {
         }
     }
 
-    if (!AddTopic.isNewTopic(AddTopic.topicNameValue())) {
+    if (!AddTopic.isNewTopic(AddTopic.catalogSelectValue(), AddTopic.categorySelectValue(), AddTopic.subcategorySelectValue(), AddTopic.topicNameValue())) {
         $("#topicName").addClass("incomplete")
         $('#warning-topic').css('display', 'block');
         $('#warning-topic').text("! topic already exists");

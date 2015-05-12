@@ -2,11 +2,12 @@
 	"name": "NomoGaia-Catalog",
 	"version": "1.0.0",
 	"main": "index.html",
+	"single-instance" : false,
 	"window": {
 		"title": "NomoGaia Catalog",
 		"icon": "icon.png",
 		"width": 1000,
-		"toolbar": false,
+		"toolbar": true,
 		"frame": true,
 		"min_width": 450
 	}
