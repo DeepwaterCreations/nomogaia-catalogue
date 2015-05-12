@@ -1,5 +1,5 @@
 {
-	"name": ""Aspen",
+	"name": "Aspen",
 	"version": "1.0.0",
 	"main": "index.html",
 	"single-instance" : false,
@@ -7,7 +7,7 @@
 		"title": "Aspen",
 		"icon": "icon.png",
 		"width": 1000,
-		"toolbar": false
+		"toolbar": false,
 		"frame": true,
 		"min_width": 450
 	}
