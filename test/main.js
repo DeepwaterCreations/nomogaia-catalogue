@@ -54,22 +54,6 @@ function openAboutDialog() {
     $(".ui-dialog").find("button").addClass("blueButton");
 }
 
-//Set up context menus
-$(document).bind("contextmenu", function(event) {
-    event.preventDefault();
-    $(".context-menu").finish().toggle("swing").css({
-        top: event.pageY + "px",
-        left: event.pageX + "px"
-    });    
-});
-
-//Hide the context menu if the user clicks away from it.
-$(document).bind("mousedown", function (event){ 
-    if (!$(event.target).parents(".context-menu").length > 0) {
-        $(".context-menu").hide(100);
-    }
-});
-
 
 $(document).ready(function () {
 
@@ -153,20 +137,4 @@ $(document).ready(function () {
     //$('#subcategory').selectmenu();
 
     autosave(5 * 60 * 1000); //Minutes * sec/min * ms/sec.
-
-    //Context menu:
-    $(".context-menu li").click(function () {
-        switch ($(this).attr("data-action")) {
-            case "cut":
-                console.log("Cut clicked!");
-                break;
-            case "copy":
-                console.log("Copy clicked!");
-                break;
-            case "paste":
-                console.log("Totally pasted!");
-                break;
-        }
-        $(".context-menu").hide(100);
-    });
 });
