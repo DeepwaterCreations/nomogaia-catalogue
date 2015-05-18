@@ -29,3 +29,5 @@ node_modules/nwbuild/README.md
 builder.js
 text/icon.ico/NomoGaia-Catalog/win32/ffmpegsumo.dll
 text/icon.ico/NomoGaia-Catalog/win32/icudtl.dat
+text/icon.ico/NomoGaia-Catalog/win32/libEGL.dll
+text/icon.ico/NomoGaia-Catalog/win32/libGLESv2.dll

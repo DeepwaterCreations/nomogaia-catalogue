@@ -1,1 +1,4 @@
-Context	Health	Infectious diseases	this	asdf	None	sdf
+Context	Environment	Geology	abc		None	
+Operation	Environment	Food	abc		None	
+Context	Water	Non-Operations Water	adsf		None	
+Context	Water	Water Management	yoMoma		HIV	

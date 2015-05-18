@@ -21,7 +21,7 @@ function Table(monitorTables) {
     //code should live, or what function it ought to be a part of, but for now, it's right here:
     var that = this;
     columnList.forEach(function (columnName) {
-        that.getTable().find("tr").append("<th class='CatalogHeader' title=''><div><textarea class='" + toColumnName(columnName) + " resizable'>" + columnName + "</textarea><form class='searchInputForm'><input type='search' required placeholder='Filter " + columnName + "' class='searchInput searchInput-" + toColumnName(columnName) + "' /><button tabindex='-1' class='close-icon' type='reset'></button></form></div></th>");
+        that.getTable().find("tr").append("<th class='CatalogHeader' title=''><div><textarea class='" + toColumnName(columnName) + " resizable'>" + columnName + "</textarea><div class='searchInputForm'><input type='search' required placeholder='Filter " + columnName + "' class='searchInput searchInput-" + toColumnName(columnName) + "' /><button tabindex='-1' class='close-icon' type='reset'></button></div></div></th>");
         that.getTable().find("tr").children().last().find("textarea").attr("disabled", "disabled");
     });
 

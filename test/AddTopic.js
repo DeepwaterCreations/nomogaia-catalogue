@@ -1,6 +1,8 @@
 ﻿function AddTopic() { }
 
 AddTopic.addTopic = function () {
+    console.log("addTopic");
+
     var catalog = AddTopic.catalogSelectValue().replace(/\t/g, "    ").trim();
     var category = AddTopic.categorySelectValue().replace(/\t/g, "    ").trim();
     var subCategory = AddTopic.subcategorySelectValue().replace(/\t/g, "    ").trim();
@@ -12,7 +14,9 @@ AddTopic.addTopic = function () {
     var myTopic = new Topic(catalog, category, subCategory, topic, description, module, source);
 
     var fs = require("fs");
-    fs.appendFile("myTopics.txt", myTopic.toString(), function (err) { });
+    var path = require('path');
+    var filename = path.join(path.dirname(process.execPath), "myTopics.txt");// "myTopics.txt";
+    fs.appendFile(filename, myTopic.toString(), function (err) { });
     categoryHierarchy.addTopic(myTopic);
     // add a row
     var rowAt = null;
@@ -234,8 +238,13 @@ AddTopic.initFields = function (dataOptions) {
         AddTopic.canAdd();
     })
 
-    $("#topicName").keyup(function () { AddTopic.canAdd(); });
-    $("#topicDescTextBox").keyup(function () { AddTopic.canAdd(); });
+
+    $("#topicName").keyup(function () {
+        AddTopic.canAdd();
+    });
+    $("#topicDescTextBox").keyup(function () {
+        AddTopic.canAdd();
+    });
     $("#topicSourceTextBox").keyup(function () { AddTopic.canAdd(); });
 
     $("#addTopicButton").click(function () {

@@ -4,14 +4,17 @@ var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Description",
 
 var fs = require("fs");
 
+var path = require('path');
+
 // load in the topic info
-var filename = "TopicInfo515.txt";
+
+var filename = path.join(path.dirname(process.execPath), "TopicInfo.txt");// "TopicInfo515.txt";
 var buf = fs.readFileSync(filename, "utf8");
 // use it to create a categoryHierarchy
 var categoryHierarchy = new CategoryHierarchy(buf);
 
 // add the users own topics
-var myTopics = "myTopics.txt";
+var myTopics = path.join(path.dirname(process.execPath), "myTopics.txt");//"myTopics.txt";
 var myTopicsBuf = fs.readFileSync(myTopics, "utf8");
 categoryHierarchy.addSet(myTopicsBuf);
 

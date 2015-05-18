@@ -10,15 +10,17 @@
         return string;
     }
 
-    this.addTopic = function(topicInstance){
+    this.addTopic = function (topicInstance) {
+        console.log("added topic",topicInstance)
         var catalog =topicInstance.catalog;
         var category = topicInstance.category;
         var subCategory = topicInstance.subCategory;
-        var topicString = topicInstance.topicString;
+        var topicString = topicInstance.topic;
         this.add(catalog, category, subCategory, topicString, topicInstance);
     }
 
     this.add = function (catalog, category, subCategory, topicString, topicInstance) {
+        console.log("add topic", topicInstance)
         if (catalog in this.hierarchy) {
             var categoryContains = this.hierarchy[catalog];
             if (category in categoryContains) {
