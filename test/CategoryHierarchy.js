@@ -323,7 +323,7 @@
         if (category == '-') {
             return this.getCatalogs();
         }
-        var result = []
+        var result = [];
         for (var catalog in this.hierarchy) {
             var categories = this.hierarchy[catalog];
             if (category in categories) {

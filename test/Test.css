@@ -19,10 +19,3 @@ body {
     height: 100%;
     width: 100%;
 }
-
-
-#beans {
-    height: calc(100%-50px);
-    width: 100%;
-    overflow: scroll;
-}
