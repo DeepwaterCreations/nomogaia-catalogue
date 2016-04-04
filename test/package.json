@@ -7,7 +7,7 @@
 		"title": "Aspen",
 		"icon": "icon.png",
 		"width": 1000,
-		"toolbar": false,
+		"toolbar": true,
 		"frame": true,
 		"min_width": 450
 	}
