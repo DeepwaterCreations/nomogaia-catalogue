@@ -361,4 +361,18 @@
             return null;
         }
     }
+
+    this.itemsForAdress = function (adress) {
+        var list = [];
+        if (adress.catalog === null) {
+            list = this.getCatalogs()
+        } else if (adress.category === null) {
+            list = this.getCategories(adress.catalog);
+        } else if (adress.subCategory === null) {
+            list = this.getSubCategories(adress.catalog, adress.category);
+        } else {
+            list = this.getTopics(adress.catalog, adress.category, adress.subCategory);
+        }
+        return list;
+    }
 }
