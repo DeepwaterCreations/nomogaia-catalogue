@@ -137,9 +137,9 @@ body {
     width: 100%;
 }
 
-#Catalogs, #impactedRatings, #rightsMatrix, #cheeses, #addTopic {
+.tab {
     height: calc(100% - 85px);
-    overflow: scroll;
+    overflow:scroll;
     padding-left: 15px;
     padding-top: 15px;
     padding-right: 15px;
@@ -513,6 +513,7 @@ button.close-icon {
     width: calc(100% - 206px);
     display: inline-block;
 }
+
 
 
 

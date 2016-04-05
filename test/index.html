@@ -7,6 +7,7 @@
     <link href="DataTable.css" rel="stylesheet">
     <link href="Dialogs.css" rel="stylesheet">
     <link href="ContextMenu.css" rel="stylesheet">
+    <link href="TreeView.css" rel="stylesheet">
 </head>
 <body>
     <div id="sideBar">
@@ -25,22 +26,15 @@
                 <li id="matrixTab">
                     <a href="#rightsMatrix">Rights Matrix</a>
                 </li>
-                <!--<li>
-                    <a href="#addTopic">Add Topic</a>
-                </li>-->
-                
-                <!--<li id="saveLoad">
-                    <a href="#loadFile">Load File</a>
-                </li>-->
-                <button class="blueButton rightButton" id="aboutDialogButton" onclick="openAboutDialog()" type="button">About</button>
-
+                <li>
+                    <a href="#outlineTab">Outline</a>
+                </li>
 
                 <button class="blueButton rightButton" id="load" type="button">Load</button>
                 <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
 
                 <button class="blueButton rightButton" id="save" type="button">Save</button>
                 <input type="file" id="saveFileDialog" style="display:none;" accept=".json" nwsaveas />
-               
             </ul>
             <div id="Catalogs" class="tab">
                 <div id="catalogMonitorTabs">
@@ -69,14 +63,19 @@
                 <div id="matrixTableDiv">
                 </div>
             </div>
-            <!--<div id="loadFile" class="tab">
-                <button class="blueButton" id="save" type="button">Save</button>
-                <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
+            <div id="outlineTab" class="tab">
+                <ul id="outline">
 
-                <button class="blueButton" id="load" type="button">Load</button>
-                <input type="file" id="loadFileDialog" style="display:none;">
-            </div>-->
-        </div>
+                </ul>
+            </div>
+                <!--<div id="loadFile" class="tab">
+            <button class="blueButton" id="save" type="button">Save</button>
+            <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
+
+            <button class="blueButton" id="load" type="button">Load</button>
+            <input type="file" id="loadFileDialog" style="display:none;">
+        </div>-->
+            </div>
 
         <div id="hidy-hole">
             <div id="addMonitorDialog" class="dialog">
@@ -123,7 +122,6 @@
                         <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="2" id="topicDescTextBox"></textarea><br />
 
                         <h4>Topic Source:</h4><textarea name="topicSourceText" cols="50" rows="2" id="topicSourceTextBox"></textarea><br />
-
 
                     </fieldset>
                 </div>
@@ -174,6 +172,7 @@
         <script type="text/javascript" src="MonitorTabsUI.js"></script>
         <script type="text/javascript" src="FunctionsForMatrixAndImpactedRights.js"></script>
         <script type="text/javascript" src="ImpactedRights.js"></script>
+        <script type="text/javascript" src="TreeView.js"></script>
         <script src="AddTopic.js"></script>
         <script src="Hider.js"></script>
         <script type="text/javascript" src="main.js"></script>

@@ -23,6 +23,8 @@ var monitorTables = new MonitorTables(categoryHierarchy);
 var table = new Table(monitorTables);
 monitorTables.push(table);
 
+var TreeView = new TreeView(categoryHierarchy);
+
 addMonitorTabsToImpactedRights(monitorTables)
 
 
