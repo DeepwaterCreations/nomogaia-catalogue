@@ -3,7 +3,7 @@ function TreeView(categoryHierarchy) {
     this.address = new Adress();
     var that = this;
     
-    this.updateCurrentItems = function () {
+    this.update = function () {
         var currentItems = this.hierarchy.itemsForAdress(this.address);
 
         var uiList = $("#currentItems");
@@ -19,22 +19,44 @@ function TreeView(categoryHierarchy) {
             var me = $(this);
             var myName = me.text();
             that.address.append(myName);
-            that.updateCurrentItems();
+            that.update();
         });
 
+        var adressBar = $("#adressBar");
+        adressBar.empty();
+
+        adressBar.append('<button id="home">home</button>');
+        $("#home").click(function () {
+            that.address.home();
+            that.update();
+        })
+
+        if (this.address.catalog !== null){
+            adressBar.append('<button id="catalog" class="adressButton">' + this.address.catalog + '</button>');
+        }
+        if (this.address.category !== null) {
+            adressBar.append('<button id="category" class="adressButton">' + this.address.category + '</button>');
+        }
+        if (this.address.subCategory !== null) {
+            adressBar.append('<button id="subCategory" class="adressButton">' + this.address.subCategory + '</button>');
+        }
+        if (this.address.topic !== null) {
+            adressBar.append('<button id="topic" class="adressButton">' + this.address.topic + '</button>');
+        }
+        $(".adressButton").click(function () {
+            that.address.rollBackTo($(this).text());
+            that.update();
+        });
     }
     
-    this.updateCurrentItems();
+    this.update();
 
-    $("#up").click(function () {
-        that.address.up();
-        that.updateCurrentItems();
-    });
+    //$("#up").click(function () {
+    //    that.address.up();
+    //    that.update();
+    //});
 
-    $("#home").click(function () {
-        that.address.home();
-        that.updateCurrentItems();
-    })
+
 
 
     //var outerList = $("#outline");

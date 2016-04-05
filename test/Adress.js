@@ -34,4 +34,36 @@ function Adress() {
         this.subCategory = null;
         this.topic = null;
     }
+
+    this.toString = function () {
+        var res = "";
+        if (this.catalog !== null) {
+            res+=this.catalog;
+        }
+        if (this.category !== null) {
+            res += this.category;
+        }
+        if (this.subCategory !== null) {
+            res += this.subCategory;
+        }
+        if (this.topic !== null) {
+            res += this.topic;
+        }
+        return res;
+    }
+
+    this.rollBackTo = function (str) {
+        if (this.topic !== str) {
+            this.topic = null;
+            if (this.subCategory !== str) {
+                this.subCategory = null;
+                if (this.category !== str) {
+                    this.category = null;
+                    if (this.catalog !== str) {
+                        this.catalog = null;
+                    }
+                }
+            }
+        }
+    }
 }
