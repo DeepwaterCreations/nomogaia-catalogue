@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app>
 <head>
     <title>NomoGaia Catalog</title>
     <link href="jquery-ui/jquery-ui.min.css" rel="stylesheet">
@@ -17,7 +17,7 @@
         <div id="tabs">
             <ul id="tabsBar">
                 <li>
-                    <a href="#Catalogs">Catalogs</a>
+                    <a href="#Catalogs">Catalogs {{"Angular!" + " Yeah!"}}</a>
                 </li>
                 <li id="impactRatingsTab">
                     <a href="#impactedRatings">Impact Ratings</a>
@@ -151,6 +151,7 @@
             </ul>
         </div>
 
+        <script type="text/javascript" src="node_modules/angular/angular.js"></script>
         <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
         <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
