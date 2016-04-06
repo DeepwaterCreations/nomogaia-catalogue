@@ -1,5 +1,7 @@
 g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope, $timeout) {
     $scope.tableData = null;
+    $scope.textAngularOpts = {};
+    $scope.textAngularOpts.textBox = {};
 
     g.onMonitorTablesChange(function (monitorTables) {
         $timeout(function(){
