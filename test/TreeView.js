@@ -4,6 +4,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     g.onMonitorTablesChange(function (monitorTables) {
         $timeout(function(){
             $scope.tableData = monitorTables.backingData[0].tableData;
+            $scope.rightslist = monitorTables.dataOptions.columnOptions["Impacted Rights"];
+            $scope.rightsholderlist = monitorTables.dataOptions.columnOptions["Impacted Rights-Holders"];
             console.log("TableData set!", $scope.tableData);
         });
     })
