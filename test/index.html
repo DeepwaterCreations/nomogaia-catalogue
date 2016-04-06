@@ -69,16 +69,16 @@
                 </div>
                 <div data-ng-if="tableData !== null">
                     <ul>
-                        <li data-ng-repeat="(Catalog,Categories) in tableData.treeView">
-                            <div data-ng-click="toggleExpand(this)" data-ng-init="this.show=false">{{Catalog}}</div>
+                        <li data-ng-repeat="(Catalog,Categories) in tableData.treeView" data-ng-init="this.show=false">
+                            <div data-ng-click="this.show= !this.show" >{{Catalog}}</div>
                             <ul data-ng-show="this.show">
-                                <li data-ng-repeat="(Category,SubDategories) in Categories">
-                                    <div data-ng-click="toggleExpand(this)" data-ng-init="this.show=false">
+                                <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
+                                    <div data-ng-click="this.show= !this.show" >
                                         {{Category}}
                                     </div>
                                     <ul data-ng-show="this.show">
-                                        <li data-ng-repeat="(SubCategory,topics) in SubDategories">
-                                            <div data-ng-click="toggleExpand(this)" data-ng-init="this.show=false">
+                                        <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
+                                            <div data-ng-click="this.show= !this.show" >
                                                 {{SubCategory}}
                                             </div>
                                             <ul data-ng-show="this.show">
