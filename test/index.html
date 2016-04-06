@@ -89,11 +89,12 @@
                                                     <div id="rowInputUI" data-ng-show="this.show">
                                                         <div>
                                                             Input
-                                                            <input type="text" name="input"></input>
+                                                            <input type="text" name="input" data-ng-model="getSetData(Topic, 'Input')" data-ng-model-options="{getterSetter: true}"></input>
+                                                            {{row.input}}
                                                         </div>
                                                         <div>
                                                             Source
-                                                            <input type="text" name="source"></input>
+                                                            <input type="text" name="source" data-ng-model="getSetData(Topic, 'Source')" data-ng-model-options="{getterSetter: true}"></input>
                                                         </div>
                                                         <div>
                                                             Impacted Rights

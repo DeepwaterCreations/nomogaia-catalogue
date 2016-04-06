@@ -14,6 +14,23 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         console.log("that: ",that)
         that.show = !that.show;
     }
+
+    //Row Edit UI
+
+    //A function that returns a function that is a getterSetter for the given topic (RowData).
+    $scope.getSetData = function(rowData, columnName){
+        return function(data){
+            if(arguments.length){
+                //Set
+                rowData.setData(columnName, data);
+            }
+            else{
+                //Get
+                var getval = rowData.getData(columnName);
+                return getval;
+            }
+        };
+    };
 }]);
 
 //function TreeView(categoryHierarchy) {
