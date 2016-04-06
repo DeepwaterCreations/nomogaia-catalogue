@@ -1,7 +1,7 @@
-.show-hide[data-shown="true"] + ul {
+/*.show-hide[data-shown="true"] + ul {
     display: normal;
 }
 
 .show-hide[data-shown="false"] + ul {
     display: none;
-}
+}*/
