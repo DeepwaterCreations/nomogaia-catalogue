@@ -68,19 +68,18 @@
                     <h1>Loading</h1>
                 </div>
                 <div data-ng-if="tableData !== null">
-                    {{tableData.treeView}}
                     <ul>
-                        <li data-ng-repeat="Catalog in tableData.treeView">
-                            {{catalog}}
+                        <li data-ng-repeat="(Catalog,Categories) in tableData.treeView">
+                            {{Catalog}}
                             <ul>
-                                <li data-ng-repeat="Category in tableData.treeView[Catalog]">
-                                    {{category}}
+                                <li data-ng-repeat="(Category,SubDategories) in Categories">
+                                    {{Category}}
                                     <ul>
-                                        <li data-ng-repeat="SubCategory in tableData.treeView[Catalog][Category]">
+                                        <li data-ng-repeat="(SubCategory,topics) in SubDategories">
                                             {{SubCategory}}
                                             <ul>
-                                                <li data-ng-repeat="Topic in tableData.treeView[Catalog][Category][SubCategory]">
-                                                    {{Topic}}
+                                                <li data-ng-repeat="Topic in topics">
+                                                    {{Topic.getData("Topic")}}
                                                 </li>
                                             </ul>
                                         </li>

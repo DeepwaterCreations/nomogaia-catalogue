@@ -4,7 +4,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     g.onMonitorTablesChange(function (monitorTables) {
         $timeout(function(){
             $scope.tableData = monitorTables.backingData[0].tableData;
-            console.log("TableData set!");
+            console.log("TableData set!", $scope.tableData);
         });
     })
 }]);
