@@ -82,9 +82,11 @@
                                                 {{SubCategory}}
                                             </div>
                                             <ul data-ng-show="this.show">
-                                                <li data-ng-repeat="Topic in topics">
-                                                    {{Topic.getData("Topic")}}
-                                                    <div id="rowInputUI">
+                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false">
+                                                    <div data-ng-click="this.show= !this.show" >
+                                                        {{Topic.getData("Topic")}}
+                                                    </div>
+                                                    <div id="rowInputUI" data-ng-show="this.show">
                                                         <div>
                                                             Input
                                                             <input type="text" name="input"></input>
