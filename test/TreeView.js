@@ -7,6 +7,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             console.log("TableData set!", $scope.tableData);
         });
     })
+
+    $scope.toggleExpand = function (that) {
+        console.log("that: ",that)
+        that.show = !that.show;
+    }
 }]);
 
 //function TreeView(categoryHierarchy) {

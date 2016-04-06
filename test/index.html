@@ -70,14 +70,18 @@
                 <div data-ng-if="tableData !== null">
                     <ul>
                         <li data-ng-repeat="(Catalog,Categories) in tableData.treeView">
-                            {{Catalog}}
-                            <ul>
+                            <div data-ng-click="toggleExpand(this)" data-ng-init="this.show=false">{{Catalog}}</div>
+                            <ul data-ng-show="this.show">
                                 <li data-ng-repeat="(Category,SubDategories) in Categories">
-                                    {{Category}}
-                                    <ul>
+                                    <div data-ng-click="toggleExpand(this)" data-ng-init="this.show=false">
+                                        {{Category}}
+                                    </div>
+                                    <ul data-ng-show="this.show">
                                         <li data-ng-repeat="(SubCategory,topics) in SubDategories">
-                                            {{SubCategory}}
-                                            <ul>
+                                            <div data-ng-click="toggleExpand(this)" data-ng-init="this.show=false">
+                                                {{SubCategory}}
+                                            </div>
+                                            <ul data-ng-show="this.show">
                                                 <li data-ng-repeat="Topic in topics">
                                                     {{Topic.getData("Topic")}}
                                                     <div id="rowInputUI">
