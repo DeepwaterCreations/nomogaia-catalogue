@@ -89,8 +89,8 @@ function RowUI(table, rowData) {
 
     this.genHTMLString = function () {
         var HTMLstring = '<tr id=' + this.id + '>';
-        for (var column in columnList) {
-            HTMLstring += this.genHTMLStringElement(columnList[column]);
+        for (var column in g.columnList) {
+            HTMLstring += this.genHTMLStringElement(g.columnList[column]);
         }
         HTMLstring += "</tr>"
         return HTMLstring;
@@ -394,7 +394,7 @@ function RowUI(table, rowData) {
             });
 
             // push set UI values
-            columnList.forEach(function (columnName) {
+            g.columnList.forEach(function (columnName) {
                 if (rowData.getData(columnName) != DataOptions.getDefaultValue(columnName)) {
                     that.setUIValue(columnName, rowData.getData(columnName));
                 }
@@ -407,7 +407,7 @@ function RowUI(table, rowData) {
         var that = this;
 
         // pass UI changes on to the dataRow
-        columnList.forEach(function (column) {
+        g.columnList.forEach(function (column) {
             var changef = function () {
                 that.data.setData(column, that.getUIValue(column))
             };
@@ -424,7 +424,7 @@ function RowUI(table, rowData) {
         this.data.addListener('Sub-Category', this.updateSubCategory);
         this.data.addListener('Topic', this.updateTopic);
         //for the rest we loop
-        columnList.forEach(function (columnName) {
+        g.columnList.forEach(function (columnName) {
             if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
                 that.data.addListener(columnName, function () {
                     that.setUIValue(columnName, that.data.getData(columnName))
@@ -439,7 +439,7 @@ function RowUI(table, rowData) {
         //if we do not have data update the data to match our UI
         if (rowData == undefined) {
             var that = this;
-            columnList.forEach(function (columnName) {
+            g.columnList.forEach(function (columnName) {
                 that.data.setData(columnName, that.getUIValue(columnName));
             });
 

@@ -30,7 +30,7 @@ RowData = function (rowData) {
         out["id"] = this.id;
         if (this.rowData == null) {
             var that = this;
-            columnList.forEach(function (columnName) {
+            g.columnList.forEach(function (columnName) {
                 out[columnName] = that[columnName];
             });
         } else {
@@ -135,7 +135,7 @@ RowData = function (rowData) {
 
                 var that = this;
                 //copy the data over from to data we were wrapping
-                columnList.forEach(function (columnName) {
+                g.columnList.forEach(function (columnName) {
                     that[columnName] = that.rowData.getData(columnName);
                 });
 
@@ -169,7 +169,7 @@ RowData = function (rowData) {
         this.rowData = null;
         //add empty data
         var that = this;
-        columnList.forEach(function (columnName) {
+        g.columnList.forEach(function (columnName) {
             that[columnName] = DataOptions.getDefaultValue(columnName);
         });
         // set Monitor
@@ -179,7 +179,7 @@ RowData = function (rowData) {
         rowData.child = this;
         var that = this;
         // we want to listen to the changes to the row we are rapping so we pass it listeners that call our listeners
-        columnList.forEach(function (columnName) {
+        g.columnList.forEach(function (columnName) {
             var listner = that.callMyListeners(that, columnName);
             that.listeningWith.push(listner);
             that.rowData.addListener(columnName, listner);

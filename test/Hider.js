@@ -8,11 +8,11 @@
         var row = this.rows[this.at]
         if (row != undefined) {
             var show = true;
-            for (var columnIndex in columnList) {
-                var column = toColumnName(columnList[columnIndex]);
+            for (var columnIndex in g.columnList) {
+                var column = toColumnName(g.columnList[columnIndex]);
                 var searchString = this.myTable.getTable().find(".searchInput-" + column).val();
                 searchString = (searchString == undefined ? "" : (searchString + "").toUpperCase());
-                var columnValue = row.getValue(columnList[columnIndex]);
+                var columnValue = row.getValue(g.columnList[columnIndex]);
                 if (Array.isArray(columnValue)) {
                     var hasMatch = false;
                     for (var index in columnValue) {
@@ -27,7 +27,7 @@
                         show = false;
                     }
                 } else {
-                    if (searchString != "" && columnValue == DataOptions.getDefaultValue(columnList[columnIndex])) {
+                    if (searchString != "" && columnValue == DataOptions.getDefaultValue(g.columnList[columnIndex])) {
                         show = false;
                     } else {
                         columnValue = (columnValue == undefined ? "" : (columnValue + "").toUpperCase());

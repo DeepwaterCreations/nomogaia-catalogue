@@ -1,6 +1,3 @@
-//This is the list of column names. Populate the html table from here.
-//TODO: This is a stupid place for this. Colin thinks maybe it belongs in TableData. 
-var columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Description", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor", "Delete"];
 
 var fs = require("fs");
 
@@ -22,8 +19,6 @@ categoryHierarchy.addSet(myTopicsBuf);
 var monitorTables = new MonitorTables(categoryHierarchy);
 var table = new Table(monitorTables);
 monitorTables.push(table);
-
-var TreeView = new TreeView(categoryHierarchy);
 
 addMonitorTabsToImpactedRights(monitorTables)
 
@@ -112,7 +107,7 @@ $(document).ready(function () {
         }
     });
 
-    table.addRowsWrapped(dataList, function () {});
+    table.addRowsWrapped(dataList, function () { g.setMonitorTables(monitorTables); });
 
     AddTopic.initFields(monitorTables.dataOptions);
 

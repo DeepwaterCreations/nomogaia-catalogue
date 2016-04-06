@@ -20,7 +20,7 @@ function Table(monitorTables) {
     //This next bit of code is for populating the HTML table. I have no idea where, ultimately, this
     //code should live, or what function it ought to be a part of, but for now, it's right here:
     var that = this;
-    columnList.forEach(function (columnName) {
+    g.columnList.forEach(function (columnName) {
         that.getTable().find("tr").append("<th class='CatalogHeader' title=''><div><textarea class='" + toColumnName(columnName) + " resizable'>" + columnName + "</textarea><div class='searchInputForm'><input type='search' required placeholder='Filter " + columnName + "' class='searchInput searchInput-" + toColumnName(columnName) + "' /><button tabindex='-1' class='close-icon' type='reset'></button></div></div></th>");
         that.getTable().find("tr").children().last().find("textarea").attr("disabled", "disabled");
     });
@@ -129,7 +129,6 @@ function Table(monitorTables) {
             if (callBack != undefined) {
                 callBack();
             }
-
         }
 
         this.addRows(dataList, adjustedCallBack);
@@ -164,7 +163,7 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
         }
         else {
             var newRowData = new RowData();
-            columnList.forEach(function (columnName) {
+            g.columnList.forEach(function (columnName) {
                 if (columnName in objRow)
                     newRowData.setData(columnName, objRow[columnName]);
             });

@@ -63,8 +63,34 @@
                 <div id="matrixTableDiv">
                 </div>
             </div>
-            <div id="outlineTab" class="tab">
-                <!--<h1>v1</h1>-->
+            <div id="outlineTab" class="tab" data-ng-controller="treeController">
+                <div data-ng-if="tableData === null">
+                    <h1>Loading</h1>
+                </div>
+                <div data-ng-if="tableData !== null">
+                    {{tableData.treeView}}
+                    <ul>
+                        <li data-ng-repeat="Catalog in tableData.treeView">
+                            {{catalog}}
+                            <ul>
+                                <li data-ng-repeat="Category in tableData.treeView[Catalog]">
+                                    {{category}}
+                                    <ul>
+                                        <li data-ng-repeat="SubCategory in tableData.treeView[Catalog][Category]">
+                                            {{SubCategory}}
+                                            <ul>
+                                                <li data-ng-repeat="Topic in tableData.treeView[Catalog][Category][SubCategory]">
+                                                    {{Topic}}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
                 <!--<button id="up">up</button>-->
                 <!--<button id="home">home</button>-->
                 <!--<div id="adressBar"></div>-->
@@ -77,23 +103,22 @@
                 </select>
                 <select id="subtopic">
                 </select>-->
-
                 <!--<ul id="currentItems">
 
                 </ul>
                 <h1>v2</h1>-->
-                <ul id="outline">
+                <!--<ul id="outline">
 
-                </ul>
+                </ul>-->
             </div>
-                <!--<div id="loadFile" class="tab">
-            <button class="blueButton" id="save" type="button">Save</button>
-            <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
+            <!--<div id="loadFile" class="tab">
+                <button class="blueButton" id="save" type="button">Save</button>
+                <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
 
-            <button class="blueButton" id="load" type="button">Load</button>
-            <input type="file" id="loadFileDialog" style="display:none;">
-        </div>-->
-            </div>
+                <button class="blueButton" id="load" type="button">Load</button>
+                <input type="file" id="loadFileDialog" style="display:none;">
+            </div>-->
+        </div>
 
         <div id="hidy-hole">
             <div id="addMonitorDialog" class="dialog">
@@ -215,8 +240,9 @@
         <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
         <script type="text/javascript" src="JSON/json2.js"></script>
 
-        
+
         <!-- INTERNALS -->
+        <script type="text/javascript" src="g.js"></script>
         <script type="text/javascript" src="app.js"></script>
         <script type="text/javascript" src="RowData.js"></script>
         <script type="text/javascript" src="DataOptions.js"></script>

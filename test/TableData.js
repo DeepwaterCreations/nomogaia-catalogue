@@ -2,17 +2,33 @@
 function TableData() {
     //Holds RowData objects.
     this.rows = [];
+    // this is a view of rows sorted by
+    // {Catalog:{Category:{Sub-Category:[...rows...]}}
+    this.treeView = {};
+
+
 
     //Adds a data row to the table. If a second argument is specified, 
     //it gets passed in as a listener function.
     //Returns the newly-added row.
     this.addRow = function (inRow) {
-        if (inRow == undefined) {
+        if (inRow === undefined) {
             var newRow = new RowData();
         } else {
             var newRow = inRow;
         }
         this.rows.push(newRow);
+
+        if (!(newRow.getData("Catalog") in this.treeView)) {
+            this.treeView[newRow.getData("Catalog")] = {};
+        }
+        if (!(newRow.getData("Category") in this.treeView[newRow.getData("Catalog")])) {
+            this.treeView[newRow.getData("Catalog")][newRow.getData("Category")] = {};
+        }
+        if (!(newRow.getData("Sub-Category") in this.treeView[newRow.getData("Catalog")][newRow.getData("Category")])) {
+            this.treeView[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
+        }
+        this.treeView[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
         return newRow;
     };
 
