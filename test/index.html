@@ -97,11 +97,11 @@
                                                         </div>
                                                         <div>
                                                             Impacted Rights
-                                                            <button data-ng-repeat="right in rightslist">{{right}}</button>
+                                                            <button data-ng-repeat="right in getCurrentRights(Topic)">{{right}}</button>
                                                         </div>
                                                         <div>
                                                             Impacted Rights-holders
-                                                            <button data-ng-repeat="rightsholder in rightsholderlist">{{rightsholder}}</button>
+                                                            <button data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">{{rightsholder}}</button>
                                                         </div>
                                                         <div>
                                                             Module

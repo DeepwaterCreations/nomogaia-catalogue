@@ -17,6 +17,14 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     //Row Edit UI
 
+    //Retrieve lists of current rights and rights-holders for a given topic (RowData).
+    $scope.getCurrentRights = function(rowData){
+        return rowData.getData("Impacted Rights");
+    };
+    $scope.getCurrentRightsholders = function(rowData){
+        return rowData.getData("Impacted Rights-Holders");
+    };
+
     //A function that returns a function that is a getterSetter for the given topic (RowData).
     $scope.getSetData = function(rowData, columnName){
         return function(data){
