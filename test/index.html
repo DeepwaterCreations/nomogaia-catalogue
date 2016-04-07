@@ -88,28 +88,28 @@
                                                     </div>
                                                     <div id="rowInputUI" data-ng-show="this.show">
                                                         <div>
-                                                            Input
+                                                            <p>Input</p>
                                                             <textarea name="input" data-ng-model="getSetData(Topic, 'Input')" data-ng-model-options="{getterSetter: true}"></textarea>
                                                         </div>
                                                         <div>
-                                                            Source
+                                                            <p>Source</p>
                                                             <textarea name="source" data-ng-model="getSetData(Topic, 'Source')" data-ng-model-options="{getterSetter: true}"></textarea>
                                                         </div>
                                                         <div>
-                                                            Impacted Rights
+                                                            <p>Impacted Rights</p>
                                                             <button data-ng-repeat="right in getCurrentRights(Topic)">{{right}}</button>
                                                         </div>
                                                         <div>
-                                                            Impacted Rights-holders
+                                                            <p>Impacted Rights-holders</p>
                                                             <button data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">{{rightsholder}}</button>
                                                         </div>
                                                         <div>
-                                                            Module
+                                                            <p>Module</p>
                                                             <input type="text" name="module"></input>
                                                             <button>Add New</button>
                                                         </div>
                                                         <div>
-                                                            Score
+                                                            <p>Score</p>
                                                             <input type="radio" name="score" value="-">
                                                             <input type="radio" name="score" value="25">
                                                             <input type="radio" name="score" value="15">
