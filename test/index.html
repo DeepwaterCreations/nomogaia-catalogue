@@ -82,7 +82,7 @@
                                                 {{SubCategory}}
                                             </div>
                                             <ul data-ng-show="this.show">
-                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false">
+                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false">
                                                     <div data-ng-click="this.show= !this.show" >
                                                         {{Topic.getData("Topic")}}
                                                     </div>
@@ -96,11 +96,19 @@
                                                             <textarea name="source" data-ng-model="getSetData(Topic, 'Source')" data-ng-model-options="{getterSetter: true}"></textarea>
                                                         </div>
                                                         <div>
-                                                            <p>Impacted Rights</p>
+                                                            <p>Impacted Rights <button data-ng-click="this.editRights = !this.editRights">+</button></p>
+                                                            <div data-ng-show="this.editRights">
+                                                                <button data-ng-repeat="right in rightslist" data-ng-click="addRight(Topic, right)">{{right}}</button>
+                                                                <br><span>-----</span>
+                                                            </div>
                                                             <button data-ng-repeat="right in getCurrentRights(Topic)">{{right}}</button>
                                                         </div>
                                                         <div>
-                                                            <p>Impacted Rights-holders</p>
+                                                            <p>Impacted Rights-holders<button data-ng-click="this.editRightsholders = !this.editRightsholders">+</button></p>
+                                                            <div data-ng-show="this.editRightsholders">
+                                                                <button data-ng-repeat="rightsholder in rightsholderlist" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
+                                                                <br><span>-----</span>
+                                                            </div>
                                                             <button data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">{{rightsholder}}</button>
                                                         </div>
                                                         <div>
