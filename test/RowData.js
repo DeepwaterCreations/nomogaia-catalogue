@@ -129,6 +129,20 @@ RowData = function (rowData) {
         this.rowData.child = null;
     }
 
+    //Helper functions so we can add new rights/rightsholders without clobbering
+    //the existing rights or fussing around with the stuff this function
+    //does every single time. 
+    this.addRights = function(rights){
+        var current_rights = this.getData("Impacted Rights") || [];
+        var new_rights = current_rights.concat(rights);
+        this.setData("Impacted Rights", new_rights);
+    };
+    this.addRightsholders = function(rightsholders){
+        var current_rightsholders = this.getData("Impacted Rights-Holders") || [];
+        var new_rightsholders = current_rightsholders.concat(rightsholders);
+        this.setData("Impacted Rights-Holders", new_rightsholders);
+    };
+
     this.setData = function (columnName, data) {
         var oldData = this.getData(columnName)
 

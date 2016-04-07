@@ -83,35 +83,48 @@
                                                 {{SubCategory}}
                                             </div>
                                             <ul data-ng-show="this.show">
-                                                <li data-ng-repeat="Topic in topics" data-ng-show="filtered(Topic)" data-ng-init="this.show=false">
-                                                    <div data-ng-click="this.show= !this.show">
+                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false">
+                                                    <div data-ng-click="this.show= !this.show" >
+
                                                         {{Topic.getData("Topic")}}
                                                     </div>
                                                     <div id="rowInputUI" data-ng-show="this.show">
                                                         <div>
-                                                            Input
-                                                            <input type="text" name="input" data-ng-model="getSetData(Topic, 'Input')" data-ng-model-options="{getterSetter: true}"></input>
-                                                            {{row.input}}
+                                                            <p>Input</p>
+                                                            <textarea name="input" data-ng-model="getSetData(Topic, 'Input')" data-ng-model-options="{getterSetter: true}"></textarea>
                                                         </div>
                                                         <div>
-                                                            Source
-                                                            <input type="text" name="source" data-ng-model="getSetData(Topic, 'Source')" data-ng-model-options="{getterSetter: true}"></input>
+                                                            <p>Source</p>
+                                                            <textarea name="source" data-ng-model="getSetData(Topic, 'Source')" data-ng-model-options="{getterSetter: true}"></textarea>
                                                         </div>
                                                         <div>
-                                                            Impacted Rights
-                                                            <button data-ng-repeat="right in rightslist">{{right}}</button>
+                                                            <p>Impacted Rights <button data-ng-click="this.editRights = !this.editRights">+</button></p>
+                                                            <div data-ng-show="this.editRights">
+                                                                <button data-ng-repeat="right in rightslist" data-ng-click="addRight(Topic, right)">{{right}}</button>
+                                                                <br><span>-----</span>
+                                                            </div>
+                                                            <button data-ng-repeat="right in getCurrentRights(Topic)">{{right}}</button>
                                                         </div>
                                                         <div>
-                                                            Impacted Rights-holders
-                                                            <button data-ng-repeat="rightsholder in rightsholderlist">{{rightsholder}}</button>
+                                                            <p>Impacted Rights-holders<button data-ng-click="this.editRightsholders = !this.editRightsholders">+</button></p>
+                                                            <div data-ng-show="this.editRightsholders">
+                                                                <button data-ng-repeat="rightsholder in rightsholderlist" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
+                                                                <br><span>-----</span>
+                                                            </div>
+                                                            <button data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">{{rightsholder}}</button>
                                                         </div>
                                                         <div>
+<<<<<<< HEAD
                                                             Module
                                                             <input type="text" name="module"/>
+=======
+                                                            <p>Module</p>
+                                                            <input type="text" name="module"></input>
+>>>>>>> origin/master
                                                             <button>Add New</button>
                                                         </div>
                                                         <div>
-                                                            Score
+                                                            <p>Score</p>
                                                             <input type="radio" name="score" value="-">
                                                             <input type="radio" name="score" value="25">
                                                             <input type="radio" name="score" value="15">
