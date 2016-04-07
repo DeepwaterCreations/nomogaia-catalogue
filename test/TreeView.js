@@ -1,18 +1,40 @@
 g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope, $timeout) {
     $scope.tableData = null;
+    $scope.filteredTree = {};
+    $scope.search = "";
 
     g.onMonitorTablesChange(function (monitorTables) {
         $timeout(function(){
             $scope.tableData = monitorTables.backingData[0].tableData;
+            $scope.filteredTree = $scope.tableData.treeView;
             $scope.rightslist = monitorTables.dataOptions.columnOptions["Impacted Rights"];
             $scope.rightsholderlist = monitorTables.dataOptions.columnOptions["Impacted Rights-Holders"];
             console.log("TableData set!", $scope.tableData);
         });
     })
 
-    $scope.toggleExpand = function (that) {
-        console.log("that: ",that)
-        that.show = !that.show;
+    // Colin, this seems like a really slow way
+    $scope.updateFilteredRows = function (x) {
+        var filteredRows = $scope.tableData.filterRows(x)
+        $scope.filteredTree = {};
+        for (var i = 0; i < filteredRows.length; i++) {
+            var newRow = filteredRows[i];
+            if (!(newRow.getData("Catalog") in $scope.filteredTree)) {
+                $scope.filteredTree[newRow.getData("Catalog")] = {};
+            }
+            if (!(newRow.getData("Category") in $scope.filteredTree[newRow.getData("Catalog")])) {
+                $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")] = {};
+            }
+            if (!(newRow.getData("Sub-Category") in $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")])) {
+                $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
+            }
+            $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
+
+        }
+    }
+
+    $scope.filtered = function (topic) {
+        return $scope.search=="" || topic.hasTerm($scope.search);
     }
 
     //Row Edit UI

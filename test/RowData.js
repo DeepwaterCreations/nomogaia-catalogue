@@ -51,6 +51,22 @@ RowData = function (rowData) {
         }
     }
 
+    this.hasTerm = function (data) {
+        for (var i = 0; i < g.columnList.length; i++) {
+            var columnName = g.columnList[i];
+            var rowValue = this.getData(columnName);
+            if (rowValue == DataOptions.getDefaultValue(columnName) || rowValue == undefined) {
+            }else if (rowValue.constructor === Array) {
+                if (rowValue.indexOf(data) >= 0) {
+                    return true;
+                }
+            } else if (rowValue.indexOf(data) >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     this.setMonitor = function (val) {
         if (val == undefined) {
             var monitor = 0;
