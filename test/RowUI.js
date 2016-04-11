@@ -148,27 +148,19 @@ function RowUI(table, rowData) {
     // private - set data values throught RowData or setValue
     this.setUIValue = function (column, value) {
         if (column == "Catalog") {
-            this.get(column).select2("val", value);
         } else if (column == "Category") {
-            this.get(column).select2("val", value);
         } else if (column == "Sub-Category") {
-            this.get(column).select2("val", value);
         } else if (column == "Topic") {
-            this.get(column).select2("val", value);
         } else if (column == "Description") {
             this.get(column).val(value);
         } else if (column == "Input") {
             this.get(column).val(value);
         } else if (column == "Module") {
-            this.get(column).select2("val", value);
         } else if (column == "Source") {
             this.get(column).val(value);
         } else if (column == "Impacted Rights") {
-            this.get(column).select2("val", value);
         } else if (column == "Impacted Rights-Holders") {
-            this.get(column).select2("val", value);
         } else if (column == "Score") {
-            this.get(column).select2("val", value);
         } else if (column == "Monitor") {
             this.get(column).val(value);
         } else {
@@ -185,59 +177,17 @@ function RowUI(table, rowData) {
     // makes a select a select2
     // if a value is selected don't 
     this.toSelect2final = function (className) {
-        //if (rowData == undefined) {
-        var backingList = []//this.table.owner.dataOptions.getColumnOptions(className);
-        //} else {
-        //    var backingList = [rowData.getData(className)];
-        //
-        // make the className a awesome select
-        this.get(className).select2({
-            data: backingList,
-            width: 'resolve',
-            formatResult: format,
-            formatSelection: format
-        });
-        if (rowData != undefined) {
-            this.setUIValue(className, rowData.getData(className));
-        }
     }
 
 
     // makes a select a select2
     this.toSelect2AllOptions = function (className) {
-        var backingList = this.table.owner.dataOptions.getColumnOptions(className);
-
-        // make the className a awesome select
-        this.get(className).select2({
-            data: backingList,
-            width: 'resolve'
-        });
-
-        if (rowData != undefined) {
-            this.setUIValue(className, rowData.getData(className));
-        } else {
-            this.setUIValue(className, DataOptions.getDefaultValue(className));
-        }
     }
 
 
 
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
-        var backingList = this.table.owner.dataOptions.getColumnOptions(className);
-        // make classname a select2
-        this.get(className).select2({
-            data: backingList,
-            tags: true
-        });
-
-        this.get(className).on("select2:select", this.generateOnSelect(className, backingList));
-
-        if (rowData != undefined) {
-            this.setUIValue(className, rowData.getData(className));
-        } else {
-            this.setUIValue(className, DataOptions.getDefaultValue(className));
-        }
     }
 
     var that = this;

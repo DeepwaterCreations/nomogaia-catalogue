@@ -52,19 +52,6 @@ AddTopic.addTopic = function () {
     $("#addTopic").dialog("close");
 }
 
-AddTopic.makeSelect2 = function (select, backingList) {
-    select.select2({
-        data: backingList,
-        tags: true
-    });
-}
-
-AddTopic.makeSelect2NoAdd = function (select, backingList) {
-    select.select2({
-        data: backingList
-    });
-}
-
 AddTopic.hasValue = function (string) {
     if (string == undefined
         || string == null
@@ -162,27 +149,19 @@ AddTopic.updateSelectColumnOptions = function (target, list) {
     });
     // see if the old value is still around:
     if (list.indexOf(oldValue) != -1) {
-        target.select2("val", oldValue);
     } else {
-        target.select2("val", "-");
     }
 }
 
 AddTopic.setColumnSelect = function (target, value) {
     if (Array.isArray(value) && value.length == 1) {
         value = value[0];
-        target.select2("val", value);
     } else if (!Array.isArray(value)) {
-        target.select2("val", value);
     }
 }
 
 
 AddTopic.initFields = function (dataOptions) {
-    AddTopic.makeSelect2($("#catalogSelect"), dataOptions.getColumnOptions("Catalog"));
-    AddTopic.makeSelect2($("#categorySelect"), dataOptions.getColumnOptions("Category"));
-    AddTopic.makeSelect2($("#subcategorySelect"), dataOptions.getColumnOptions("Sub-Category"));
-    AddTopic.makeSelect2NoAdd($("#moduleSelect"), dataOptions.getColumnOptions("Module"));
 
     AddTopic.canAdd();
 
