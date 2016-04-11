@@ -91,11 +91,19 @@
                                                     <div id="rowInputUI" data-ng-show="this.show">
                                                         <div>
                                                             <p>Input</p>
-                                                            <textarea name="input" data-ng-model="getSetData(Topic, 'Input')" data-ng-model-options="{getterSetter: true}"></textarea>
+                                                            <textarea name="input"
+                                                                    data-ng-model="getSetData(Topic, 'Input')"
+                                                                    data-ng-model-options="{updateOn: 'blur',
+                                                                                            getterSetter: true}">
+                                                            </textarea>
                                                         </div>
                                                         <div>
                                                             <p>Source</p>
-                                                            <textarea name="source" data-ng-model="getSetData(Topic, 'Source')" data-ng-model-options="{getterSetter: true}"></textarea>
+                                                            <textarea name="source"
+                                                                data-ng-model="getSetData(Topic, 'Source')"
+                                                                data-ng-model-options="{updateOn: 'blur',
+                                                                                        getterSetter: true}">
+                                                            </textarea>
                                                         </div>
                                                         <div>
                                                             <p>Impacted Rights <button data-ng-click="this.editRights = !this.editRights">+</button></p>
