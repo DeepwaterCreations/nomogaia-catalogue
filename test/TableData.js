@@ -44,7 +44,7 @@ function TableData() {
     //If "columnName" holds an array, includes the row in the return values if that array contains "data".
     this.getRows = function (columnName, data) {
         var matchingRows = [];
-                
+
         this.rows.forEach(function (row) {
             var rowValue = row.getData(columnName);
             if (rowValue == DataOptions.getDefaultValue(columnName) || rowValue == undefined) return;
@@ -55,7 +55,21 @@ function TableData() {
             else if (rowValue === data)
                 matchingRows.push(row);
         });
-        
+
+        return matchingRows;
+    };
+
+    //Returns an array with all the rows for which the "columnName" value contains "data". 
+    //If "columnName" holds an array, includes the row in the return values if that array contains "data".
+    this.filterRows = function (data) {
+        var matchingRows = [];
+
+        this.rows.forEach(function (row) {
+            if (row.hasTerm(data)) {
+                matchingRows.push(row);
+            }
+        });
+
         return matchingRows;
     };
 
@@ -64,7 +78,7 @@ function TableData() {
         var matchingRows = this.getRows(columnName, data);
         var withScore = [];
 
-        matchingRows.forEach(function (row) { 
+        matchingRows.forEach(function (row) {
             if (row.getData("Score") != DataOptions.getDefaultValue("Score")) {
                 withScore.push(row);
             }
