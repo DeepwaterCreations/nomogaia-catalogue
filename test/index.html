@@ -101,7 +101,7 @@
                                                                 <button data-ng-repeat="right in rightslist" data-ng-click="addRight(Topic, right)">{{right}}</button>
                                                                 <br><span>-----</span>
                                                             </div>
-                                                            <button data-ng-repeat="right in getCurrentRights(Topic)">{{right}}</button>
+                                                            <span data-ng-repeat="right in getCurrentRights(Topic)"><button data-ng-show="this.editRights" data-ng-click="removeRight(Topic, right)">X</button>{{right}}</span>
                                                         </div>
                                                         <div>
                                                             <p>Impacted Rights-holders<button data-ng-click="this.editRightsholders = !this.editRightsholders">+</button></p>
@@ -109,7 +109,7 @@
                                                                 <button data-ng-repeat="rightsholder in rightsholderlist" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
                                                                 <br><span>-----</span>
                                                             </div>
-                                                            <button data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">{{rightsholder}}</button>
+                                                            <span data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><button data-ng-show="this.editRightsholders" data-ng-click="removeRightsholder(Topic, rightsholder)">X</button>{{rightsholder}}</span>
                                                         </div>
                                                         <div>
                                                             <p>Module</p>

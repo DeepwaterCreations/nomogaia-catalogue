@@ -28,10 +28,18 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     //Add a right or rightsholder to the topic.
     $scope.addRight = function(rowData, rightname){
         rowData.addRights(rightname);
-    }
+    };
     $scope.addRightsholder = function(rowData, rightsholdername){
         rowData.addRightsholders(rightsholdername);
-    }
+    };
+
+    //Or remove one.
+    $scope.removeRight = function(rowData, rightname){
+        rowData.removeRights(rightname);
+    };
+    $scope.removeRightsholder = function(rowData, rightsholdername){
+        rowData.removeRightsholders(rightsholdername);
+    };
 
     //A function that returns a function that is a getterSetter for the given topic (RowData).
     $scope.getSetData = function(rowData, columnName){

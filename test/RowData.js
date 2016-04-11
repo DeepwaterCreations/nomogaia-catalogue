@@ -127,6 +127,35 @@ RowData = function (rowData) {
         this.setData("Impacted Rights-Holders", new_rightsholders);
     };
 
+    this.removeRights = function(rights){
+        if(typeof rights === 'string')
+            rights = [rights];
+
+        var topic_rights = this.getData("Impacted Rights") || [];
+        rights.forEach(function(right){
+            var index = rights.indexOf(right);
+            if(index >= 0){
+                topic_rights.splice(index, 1);
+            }
+        });
+
+        this.setData("Impacted Rights", topic_rights);
+    };
+    this.removeRightsholders = function(rightsholders){
+        if(typeof rightsholders === 'string')
+            rightsholders = [rightsholders];
+
+        var topic_rightsholders = this.getData("Impacted Rights-Holders") || [];
+        rightsholders.forEach(function(rightsholder){
+            var index = rightsholders.indexOf(rightsholder);
+            if(index >= 0){
+                topic_rightsholders.splice(index, 1);
+            }
+        });
+
+        this.setData("Impacted Rights-Holders", topic_rightsholders);
+    };
+
     this.setData = function (columnName, data) {
         var oldData = this.getData(columnName)
 
