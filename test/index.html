@@ -71,24 +71,28 @@
                     <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)"/>
                     <ul>
                         <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
-                            <div data-ng-click="this.show= !this.show">{{Catalog}}</div>
-                            <ul data-ng-show="this.show">
+                            <div data-ng-click="this.show= !this.show">{{::Catalog}}</div>
+                            <ul data-ng-if="this.show">
                                 <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
                                     <div data-ng-click="this.show= !this.show">
-                                        {{Category}}
+                                        {{::Category}}
                                     </div>
-                                    <ul data-ng-show="this.show">
+                                    <ul data-ng-if="this.show">
                                         <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
                                             <div data-ng-click="this.show= !this.show">
-                                                {{SubCategory}}
+                                                {{::SubCategory}}
                                             </div>
-                                            <ul data-ng-show="this.show">
-                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false">
+                                            <ul data-ng-if="this.show">
+                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
                                                     <div data-ng-click="this.show= !this.show" >
 
-                                                        {{Topic.getData("Topic")}}
+                                                        {{::Topic.getData("Topic")}}
                                                     </div>
                                                     <div id="rowInputUI" data-ng-show="this.show">
+                                                        <button data-ng-click="this.showAbout = !this.showAbout">info</button>
+                                                        <div data-ng-if="this.showAbout">
+                                                        {{::Topic.getData("Description")}}
+                                                    </div>
                                                         <div>
                                                             <p>Input</p>
                                                             <textarea name="input"
@@ -107,7 +111,7 @@
                                                         </div>
                                                         <div>
                                                             <p>Impacted Rights <button data-ng-click="this.editRights = !this.editRights">+</button></p>
-                                                            <div data-ng-show="this.editRights">
+                                                            <div data-ng-if="this.editRights">
                                                                 <button data-ng-repeat="right in rightslist" data-ng-click="addRight(Topic, right)">{{right}}</button>
                                                                 <br><span>-----</span>
                                                             </div>
@@ -115,7 +119,7 @@
                                                         </div>
                                                         <div>
                                                             <p>Impacted Rights-holders<button data-ng-click="this.editRightsholders = !this.editRightsholders">+</button></p>
-                                                            <div data-ng-show="this.editRightsholders">
+                                                            <div data-ng-if="this.editRightsholders">
                                                                 <button data-ng-repeat="rightsholder in rightsholderlist" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
                                                                 <br><span>-----</span>
                                                             </div>

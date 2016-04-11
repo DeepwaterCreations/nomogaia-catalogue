@@ -109,29 +109,29 @@
 
     //Makes the div a JqueryUI tabs widget and styles it as vertical.
     this.addTabsDiv = function (tabsDivID, functionObj) {
-        $("#" + tabsDivID).append("<ul></ul>");
-        this.tabsDiv = $("#" + tabsDivID).tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
-        $("#" + tabsDivID + " li").removeClass("ui-corner-top").addClass("ui-corner-left");
+        $(tabsDivID).append("<ul></ul>");
+        this.tabsDiv = $(tabsDivID).tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+        $(tabsDivID + " li").removeClass("ui-corner-top").addClass("ui-corner-left");
         
         //Bind the activate event to a method for making sure all the tabsDivs are linked.
         var that = this;
-        $("#" + tabsDivID).tabs({
+        $(tabsDivID).tabs({
             activate: function (event, ui) {
                 that.changeToTab(event.target);
             }
         })
 
         //Add the "add tab" tab and binds its click event to open the add monitor dialog.
-        $("#" + tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#' + this.addTabDivID + '">' + this.addTabLabel + '</a></li>');
-        $("#" + tabsDivID).find('.' + this.addTabClass).on("click", function () {
+        $(tabsDivID + " ul").append('<li class="' + this.addTabClass + '"><a href="#' + this.addTabDivID + '">' + this.addTabLabel + '</a></li>');
+        $(tabsDivID).find('.' + this.addTabClass).on("click", function () {
             $("#addMonitorDialog :input").val("");
             $("#monitorNameField").attr("placeholder",  that.newTabLabel + "" + (that.tabCount));
             $("#addMonitorDialog").dialog("open");
         });
         //Also give the add tab a div.
-        $("#" + tabsDivID + " ul").after('<div id="' + this.addTabDivID + '"></div>');
+        $(tabsDivID + " ul").after('<div id="' + this.addTabDivID + '"></div>');
 
-        $("#" + tabsDivID).tabs("refresh");
+        $(tabsDivID).tabs("refresh");
 
         //Add the functions.
         this.addFunctions(functionObj);

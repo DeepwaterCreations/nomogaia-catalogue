@@ -4,7 +4,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.search = "";
 
     g.onMonitorTablesChange(function (monitorTables) {
-        $timeout(function(){
+        $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
             $scope.filteredTree = $scope.tableData.treeView;
             $scope.rightslist = monitorTables.dataOptions.columnOptions["Impacted Rights"];
@@ -34,24 +34,25 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     $scope.filtered = function (topic) {
-        return $scope.search=="" || topic.hasTerm($scope.search);
+        return $scope.search == "" || topic.hasTerm($scope.search);
     }
 
     //Row Edit UI
 
     //Retrieve lists of current rights and rights-holders for a given topic (RowData).
-    $scope.getCurrentRights = function(rowData){
+    $scope.getCurrentRights = function (rowData) {
         return rowData.getData("Impacted Rights");
     };
-    $scope.getCurrentRightsholders = function(rowData){
+    $scope.getCurrentRightsholders = function (rowData) {
         return rowData.getData("Impacted Rights-Holders");
     };
 
     //Add a right or rightsholder to the topic.
-    $scope.addRight = function(rowData, rightname){
+    $scope.addRight = function (rowData, rightname) {
         rowData.addRights(rightname);
-    };
-    $scope.addRightsholder = function(rowData, rightsholdername){
+
+    }
+    $scope.addRightsholder = function (rowData, rightsholdername) {
         rowData.addRightsholders(rightsholdername);
     };
 
@@ -64,107 +65,128 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     //A function that returns a function that is a getterSetter for the given topic (RowData).
-    $scope.getSetData = function(rowData, columnName){
-        return function(data){
-            if(arguments.length){
+    $scope.getSetData = function (rowData, columnName) {
+        return function (data) {
+            if (arguments.length) {
                 //Set
                 rowData.setData(columnName, data);
             }
-            else{
+            else {
                 //Get
                 var getval = rowData.getData(columnName);
                 return getval;
             }
         };
     };
+
+    this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
+        return function (id, count) {
+        };
+    }(this);
+
+    this.changeMonitorTabEvent = function (that) {
+        return function (newlyActiveTab) {
+            console.log("newly active tab:", monitorTables.backingData[newlyActiveTab]);
+            $timeout(function () {
+                $scope.tableData = monitorTables.backingData[newlyActiveTab].tableData;
+                $scope.filteredTree = $scope.tableData.treeView;
+                $scope.updateFilteredRows($scope.search);
+            })
+        }
+    }(this);
+
+    monitorTabs.addFunctions({
+        addTab: this.addMonitorTabEvent,
+        changeTab: this.changeMonitorTabEvent
+    });
 }]);
 
 //function TreeView(categoryHierarchy) {
-    //this.hierarchy = categoryHierarchy;
-    //this.address = new Adress();
+//this.hierarchy = categoryHierarchy;
+//this.address = new Adress();
 
 
-    //var that = this;
-    
-    //this.update = function () {
-    //    var currentItems = this.hierarchy.itemsForAdress(this.address);
+//var that = this;
 
-    //    var uiList = $("#currentItems");
+//this.update = function () {
+//    var currentItems = this.hierarchy.itemsForAdress(this.address);
 
-    //    uiList.empty();
+//    var uiList = $("#currentItems");
 
-    //    for (var i = 0; i < currentItems.length; i++) {
-    //        var str = "<li class='expandable'>" + currentItems[i] + "</li>";
-    //        uiList.append(str);
-    //    }
+//    uiList.empty();
 
-    //    $(".expandable").click(function () {
-    //        var me = $(this);
-    //        var myName = me.text();
-    //        that.address.append(myName);
-    //        that.update();
-    //    });
+//    for (var i = 0; i < currentItems.length; i++) {
+//        var str = "<li class='expandable'>" + currentItems[i] + "</li>";
+//        uiList.append(str);
+//    }
 
-    //    var adressBar = $("#adressBar");
-    //    adressBar.empty();
+//    $(".expandable").click(function () {
+//        var me = $(this);
+//        var myName = me.text();
+//        that.address.append(myName);
+//        that.update();
+//    });
 
-
-
-    //    var title = $("#title");
-
-    //    if (this.address.catalog !== null) {
-    //        adressBar.append('<button id="home">home</button>');
-    //        $("#home").click(function () {
-    //            that.address.home();
-    //            that.update();
-    //        })
-    //        if (this.address.category !== null) {
-    //            adressBar.append('<button id="catalog" class="adressButton">' + this.address.catalog + '</button>');
-    //            if (this.address.subCategory !== null) {
-    //                adressBar.append('<button id="category" class="adressButton">' + this.address.category + '</button>');
-    //                if (this.address.topic !== null) {
-    //                    //adressBar.append('<button id="subCategory" class="adressButton">' + this.address.subCategory + '</button>');
-    //                    //adressBar.append('<button id="topic" class="adressButton">' + this.address.topic + '</button>');
-    //                } else {
-    //                    title.text(this.address.subCategory);
-    //                }
-    //            } else {
-    //                title.text(this.address.category);
-    //            }
-    //        } else {
-    //            title.text(this.address.catalog);
-    //        }
-    //    } else {
-    //        title.text("home");
-    //    }
-
-    //    $(".adressButton").click(function () {
-    //        that.address.rollBackTo($(this).text());
-    //        that.update();
-    //    });
-    //}
-    
-    //this.update();
-
-    //$("#up").click(function () {
-    //    that.address.up();
-    //    that.update();
-    //});
+//    var adressBar = $("#adressBar");
+//    adressBar.empty();
 
 
 
+//    var title = $("#title");
 
-    //var outerList = $("#outline");
-    //var outlineString = TreeView.treeFromDictionary(categoryHierarchy.hierarchy);
-    //outerList.append(outlineString);
-    //$(".show-hide").click(function () {
-    //    var me = $(this);
-    //    var current = me.attr('data-shown');
-    //    current = current == "true" ? "false" : "true";
-    //    me.attr('data-shown', current);
-    //    var text = current == "true" ? "hide" : "show";
-    //    me.text(text)
-    //});
+//    if (this.address.catalog !== null) {
+//        adressBar.append('<button id="home">home</button>');
+//        $("#home").click(function () {
+//            that.address.home();
+//            that.update();
+//        })
+//        if (this.address.category !== null) {
+//            adressBar.append('<button id="catalog" class="adressButton">' + this.address.catalog + '</button>');
+//            if (this.address.subCategory !== null) {
+//                adressBar.append('<button id="category" class="adressButton">' + this.address.category + '</button>');
+//                if (this.address.topic !== null) {
+//                    //adressBar.append('<button id="subCategory" class="adressButton">' + this.address.subCategory + '</button>');
+//                    //adressBar.append('<button id="topic" class="adressButton">' + this.address.topic + '</button>');
+//                } else {
+//                    title.text(this.address.subCategory);
+//                }
+//            } else {
+//                title.text(this.address.category);
+//            }
+//        } else {
+//            title.text(this.address.catalog);
+//        }
+//    } else {
+//        title.text("home");
+//    }
+
+//    $(".adressButton").click(function () {
+//        that.address.rollBackTo($(this).text());
+//        that.update();
+//    });
+//}
+
+//this.update();
+
+//$("#up").click(function () {
+//    that.address.up();
+//    that.update();
+//});
+
+
+
+
+//var outerList = $("#outline");
+//var outlineString = TreeView.treeFromDictionary(categoryHierarchy.hierarchy);
+//outerList.append(outlineString);
+//$(".show-hide").click(function () {
+//    var me = $(this);
+//    var current = me.attr('data-shown');
+//    current = current == "true" ? "false" : "true";
+//    me.attr('data-shown', current);
+//    var text = current == "true" ? "hide" : "show";
+//    me.text(text)
+//});
 //}
 
 // returns a html string 
