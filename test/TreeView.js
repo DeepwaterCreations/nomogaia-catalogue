@@ -9,6 +9,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.filteredTree = $scope.tableData.treeView;
             $scope.rightslist = monitorTables.dataOptions.columnOptions["Impacted Rights"];
             $scope.rightsholderlist = monitorTables.dataOptions.columnOptions["Impacted Rights-Holders"];
+            $scope.moduleList = monitorTables.dataOptions.columnOptions["Module"];
             console.log("TableData set!", $scope.tableData);
         });
     })
@@ -45,6 +46,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
     $scope.getCurrentRightsholders = function (rowData) {
         return rowData.getData("Impacted Rights-Holders");
+    };
+    $scope.getModules = function (rowData) {
+        return rowData.getData("Module");
     };
 
     //Add a right or rightsholder to the topic.
