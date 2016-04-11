@@ -44,7 +44,7 @@ var onClickAdd = function () {
 
 
 
-monitorTabs.addTabsDiv("sideBar", {});
+monitorTabs.addTabsDiv("#sideBar", {});
 
 //Opens a dialog with some info about the application and its creators.
 function openAboutDialog() {
