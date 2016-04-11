@@ -18,7 +18,7 @@
         <div id="tabs">
             <ul id="tabsBar">
                 <li>
-                    <a href="#Catalogs">Catalogs</a>
+                    <a href="#outlineTab">Outline</a>
                 </li>
                 <li id="impactRatingsTab">
                     <a href="#impactedRatings">Impact Ratings</a>
@@ -26,9 +26,7 @@
                 <li id="matrixTab">
                     <a href="#rightsMatrix">Rights Matrix</a>
                 </li>
-                <li>
-                    <a href="#outlineTab">Outline</a>
-                </li>
+
 
                 <button class="blueButton rightButton" id="load" type="button">Load</button>
                 <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
@@ -36,39 +34,12 @@
                 <button class="blueButton rightButton" id="save" type="button">Save</button>
                 <input type="file" id="saveFileDialog" style="display:none;" accept=".json" nwsaveas />
             </ul>
-            <div id="Catalogs" class="tab">
-                <div id="catalogMonitorTabs">
-                    <div id="tables"></div>
-                </div>
-                <input type="button" class="blueButton" id="addRow" value="Add Row" />
-                <input type="button" class="blueButton" id="openAddTopic" value="Add Topic" />
-            </div>
-            <div id="impactedRatings" class="tab">
-                <div id="impactedRightsMonitorTabs">
-                    <table id="impactedRightsTable"></table>
-                </div>
-            </div>
-            <div id="rightsMatrix" class="tab">
-                <form id="matrixSortOptions">
-                    <fieldset>
-                        <legend>Sort By:</legend>
-                        <div id="matrixSortOptionsButtons">
-                            <input type="radio" id="sortByRightsImpact" name="sortOptions" checked="checked">
-                            <label for="sortByRightsImpact">Most Impacted Rights</label>
-                            <input type="radio" id="sortByRightsholdersImpact" name="sortOptions">
-                            <label for="sortByRightsholdersImpact">Most Impacted Rightsholders</label>
-                        </div>
-                    </fieldset>
-                </form>
-                <div id="matrixTableDiv">
-                </div>
-            </div>
             <div id="outlineTab" class="tab" data-ng-controller="treeController">
                 <div data-ng-if="tableData === null">
                     <h1>Loading</h1>
                 </div>
                 <div data-ng-if="tableData !== null">
-                    <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)"/>
+                    <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)" />
                     <ul>
                         <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
                             <div data-ng-click="this.show= !this.show">{{::Catalog}}</div>
@@ -84,15 +55,15 @@
                                             </div>
                                             <ul data-ng-if="this.show">
                                                 <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
-                                                    <div data-ng-click="this.show= !this.show" >
+                                                    <div data-ng-click="this.show= !this.show">
 
                                                         {{::Topic.getData("Topic")}}
                                                     </div>
                                                     <div id="rowInputUI" data-ng-show="this.show">
                                                         <button data-ng-click="this.showAbout = !this.showAbout">info</button>
                                                         <div data-ng-if="this.showAbout">
-                                                        {{::Topic.getData("Description")}}
-                                                    </div>
+                                                            {{::Topic.getData("Description")}}
+                                                        </div>
                                                         <div>
                                                             <p>Input</p>
                                                             <textarea name="input" data-ng-model="getSetData(Topic, 'Input')" data-ng-model-options="{getterSetter: true}"></textarea>
@@ -121,7 +92,7 @@
                                                             <p>
                                                                 Module
                                                             </p>
-                                                                <input type="text" name="module" />
+                                                            <input type="text" name="module" />
                                                             <button>Add New</button>
                                                         </div>
                                                         <div>
@@ -172,6 +143,26 @@
                 <!--<ul id="outline">
 
                     </ul>-->
+            </div>
+            <div id="impactedRatings" class="tab">
+                <div id="impactedRightsMonitorTabs">
+                    <table id="impactedRightsTable"></table>
+                </div>
+            </div>
+            <div id="rightsMatrix" class="tab">
+                <form id="matrixSortOptions">
+                    <fieldset>
+                        <legend>Sort By:</legend>
+                        <div id="matrixSortOptionsButtons">
+                            <input type="radio" id="sortByRightsImpact" name="sortOptions" checked="checked">
+                            <label for="sortByRightsImpact">Most Impacted Rights</label>
+                            <input type="radio" id="sortByRightsholdersImpact" name="sortOptions">
+                            <label for="sortByRightsholdersImpact">Most Impacted Rightsholders</label>
+                        </div>
+                    </fieldset>
+                </form>
+                <div id="matrixTableDiv">
+                </div>
             </div>
             <!--<div id="loadFile" class="tab">
                 <button class="blueButton" id="save" type="button">Save</button>

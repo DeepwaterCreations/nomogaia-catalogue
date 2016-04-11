@@ -107,7 +107,7 @@ $(document).ready(function () {
         }
     });
 
-    table.addRowsWrapped(dataList, function () { g.setMonitorTables(monitorTables); });
+    table.addRows(dataList, function () { g.setMonitorTables(monitorTables); });
 
     AddTopic.initFields(monitorTables.dataOptions);
 
