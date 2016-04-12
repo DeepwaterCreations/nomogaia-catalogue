@@ -1,0 +1,14 @@
+.rowInputUI{
+    display: flex;
+    flex-direction: row;
+}
+
+    .rowInputUI > div{
+        background-color: #efefef;
+        margin: .12em;
+        padding: .5em;
+    }
+    
+    .rowInputUI > div p{
+        font-weight: bold;
+    }

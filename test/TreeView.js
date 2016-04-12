@@ -16,6 +16,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.moduleList = function () {
                 return DataOptions.columnOptions["Module"];
             }
+            $scope.scorevals = DataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
         });
     })
