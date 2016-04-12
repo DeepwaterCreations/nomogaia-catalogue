@@ -12,3 +12,15 @@
     .rowInputUI > div p{
         font-weight: bold;
     }
+
+    .rowInputUI .inputandsource{
+        display: flex;
+        flex-direction: column;
+    }
+
+        .inputandsource .inputtext{
+            flex: 3 1 auto;
+        }
+        .inputandsource .sourcetext{
+            flex: 1 1 auto;
+        }
