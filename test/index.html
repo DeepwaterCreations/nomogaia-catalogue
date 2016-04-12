@@ -141,20 +141,10 @@
                                                         </div>
                                                         <div>
                                                             <p>Score</p>
-                                                            <input type="radio" name="score" value="-">
-                                                            <input type="radio" name="score" value="25">
-                                                            <input type="radio" name="score" value="15">
-                                                            <input type="radio" name="score" value="9">
-                                                            <input type="radio" name="score" value="5">
-                                                            <input type="radio" name="score" value="3">
-                                                            <input type="radio" name="score" value="1">
-                                                            <input type="radio" name="score" value="0">
-                                                            <input type="radio" name="score" value="-1">
-                                                            <input type="radio" name="score" value="-3">
-                                                            <input type="radio" name="score" value="-5">
-                                                            <input type="radio" name="score" value="-9">
-                                                            <input type="radio" name="score" value="-15">
-                                                            <input type="radio" name="score" value="-25">
+                                                            <div data-ng-repeat="score in scorevals">
+                                                                <input type="radio" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
+                                                                <label>{{score}}</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </li>

@@ -10,6 +10,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.rightslist = monitorTables.dataOptions.columnOptions["Impacted Rights"];
             $scope.rightsholderlist = monitorTables.dataOptions.columnOptions["Impacted Rights-Holders"];
             $scope.moduleList = monitorTables.dataOptions.columnOptions["Module"];
+            $scope.scorevals = monitorTables.dataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
         });
     })
