@@ -14,18 +14,22 @@
     padding: 0px;
 }
 
-#sideBar {
-    z-index: 1;
-    position: relative;
+
+
+#main-page {
+    display: flex;
+    flex-direction: row;
+}
+
+#page {
+    flex: 1 1 auto;
+}
+
+.side-bar {
     width: 140px;
-    height: 100%;
-    float: left;
-    border-right: 1px solid #808080;
-    -webkit-box-shadow: 4px 0 4px -2px #888;
-    border-bottom-right-radius: 0px;
-    border-top-right-radius: 0px;
-    overflow-y: auto;
-overflow-x: hidden;
+    flex: 0 0 auto;
+    border-left: 2px solid #356C28;
+    border-radius:0; /*jquery ui wants to put a bunch of stupid classes on my side bar*/
 }
 
 .ui-tabs-nav li {
@@ -74,18 +78,18 @@ ui-tabs-nav li a {
         color: #1c1b39;
     }
 
-#sideBar .ui-tabs-nav {
+#side-bar-monitors .ui-tabs-nav {
     position: absolute;
     width: 120px;
     padding: 10px;
 }
 
-    #sideBar .ui-tabs-nav li {
+    #side-bar-monitors .ui-tabs-nav li {
         width: 100%;
         overflow: hidden;
     }
 
-        #sideBar .ui-tabs-nav li a {
+        #side-bar-monitors .ui-tabs-nav li a {
             width: calc(100% - 2em);
             overflow: hidden;
         }
@@ -100,9 +104,13 @@ ui-tabs-nav li a {
 
 
 #main {
-    margin-left: 140px;
     height: 100%;
-    width: calc(100% - 140px);
+    width: 100%;
+}
+
+#main-page {
+        height: 100%;
+    width: 100%;
 }
 
 html {
@@ -137,9 +145,13 @@ body {
     width: 100%;
 }
 
+#page {
+    height:100%;
+}
+
 .tab {
     height: calc(100% - 85px);
-    overflow:scroll;
+    overflow: scroll;
     padding-left: 15px;
     padding-top: 15px;
     padding-right: 15px;
@@ -242,11 +254,11 @@ textarea.Module, textarea.Score, textarea.Monitor {
     width: 150px;
 }
 
-.catalog-readonly.catalog-info {
+    .catalog-readonly.catalog-info {
         resize: vertical;
-        overflow:hidden;
+        overflow: hidden;
         height: 100%;
-}
+    }
 
 .catalog-input {
     padding: 4px;
@@ -530,7 +542,7 @@ button.close-icon {
 
 /* a bit ugly, this is the div we hide our pop ups in*/
 #hidy-hole {
-    height:0px;
+    height: 0px;
     overflow: hidden;
 }
 

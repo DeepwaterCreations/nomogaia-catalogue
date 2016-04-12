@@ -10,13 +10,13 @@
     <link href="TreeView.css" rel="stylesheet">
 </head>
 <body>
-    <div id="sideBar">
-    </div>
     <div id="main">
         <!--<div id="loading"><div id="progressbar"></div></div>-->
 
         <div id="tabs">
             <ul id="tabsBar">
+
+
                 <li>
                     <a href="#Catalogs">Catalogs</a>
                 </li>
@@ -30,171 +30,152 @@
                     <a href="#outlineTab">Outline</a>
                 </li>
 
+                <button class="blueButton rightButton" id="monitor" type="button">Monitor</button>
+
                 <button class="blueButton rightButton" id="load" type="button">Load</button>
                 <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
 
                 <button class="blueButton rightButton" id="save" type="button">Save</button>
                 <input type="file" id="saveFileDialog" style="display:none;" accept=".json" nwsaveas />
             </ul>
-            <div id="Catalogs" class="tab">
-                <div id="catalogMonitorTabs">
-                    <div id="tables"></div>
-                </div>
-                <input type="button" class="blueButton" id="addRow" value="Add Row" />
-                <input type="button" class="blueButton" id="openAddTopic" value="Add Topic" />
-            </div>
-            <div id="impactedRatings" class="tab">
-                <div id="impactedRightsMonitorTabs">
-                    <table id="impactedRightsTable"></table>
-                </div>
-            </div>
-            <div id="rightsMatrix" class="tab">
-                <form id="matrixSortOptions">
-                    <fieldset>
-                        <legend>Sort By:</legend>
-                        <div id="matrixSortOptionsButtons">
-                            <input type="radio" id="sortByRightsImpact" name="sortOptions" checked="checked">
-                            <label for="sortByRightsImpact">Most Impacted Rights</label>
-                            <input type="radio" id="sortByRightsholdersImpact" name="sortOptions">
-                            <label for="sortByRightsholdersImpact">Most Impacted Rightsholders</label>
+            <div id="main-page">
+                <div id="page">
+                    <div id="Catalogs" class="tab">
+                        <div id="catalogMonitorTabs">
+                            <div id="tables"></div>
                         </div>
-                    </fieldset>
-                </form>
-                <div id="matrixTableDiv">
-                </div>
-            </div>
-            <div id="outlineTab" class="tab" data-ng-controller="treeController">
-                <div data-ng-if="tableData === null">
-                    <h1>Loading</h1>
-                </div>
-                <div data-ng-if="tableData !== null">
-                    <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)"/>
-                    <ul>
-                        <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
-                            <div data-ng-click="this.show= !this.show">{{::Catalog}}</div>
-                            <ul data-ng-if="this.show">
-                                <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
-                                    <div data-ng-click="this.show= !this.show">
-                                        {{::Category}}
-                                    </div>
+                        <input type="button" class="blueButton" id="addRow" value="Add Row" />
+                        <input type="button" class="blueButton" id="openAddTopic" value="Add Topic" />
+                    </div>
+                    <div id="impactedRatings" class="tab">
+                        <div id="impactedRightsMonitorTabs">
+                            <table id="impactedRightsTable"></table>
+                        </div>
+                    </div>
+                    <div id="rightsMatrix" class="tab">
+                        <form id="matrixSortOptions">
+                            <fieldset>
+                                <legend>Sort By:</legend>
+                                <div id="matrixSortOptionsButtons">
+                                    <input type="radio" id="sortByRightsImpact" name="sortOptions" checked="checked">
+                                    <label for="sortByRightsImpact">Most Impacted Rights</label>
+                                    <input type="radio" id="sortByRightsholdersImpact" name="sortOptions">
+                                    <label for="sortByRightsholdersImpact">Most Impacted Rightsholders</label>
+                                </div>
+                            </fieldset>
+                        </form>
+                        <div id="matrixTableDiv">
+                        </div>
+                    </div>
+                    <div id="outlineTab" class="tab" data-ng-controller="treeController">
+                        <div data-ng-if="tableData === null">
+                            <h1>Loading</h1>
+                        </div>
+                        <div data-ng-if="tableData !== null">
+                            <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)" />
+                            <ul>
+                                <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
+                                    <div data-ng-click="this.show= !this.show">{{::Catalog}}</div>
                                     <ul data-ng-if="this.show">
-                                        <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
+                                        <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
                                             <div data-ng-click="this.show= !this.show">
-                                                {{::SubCategory}}
+                                                {{::Category}}
                                             </div>
                                             <ul data-ng-if="this.show">
-                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
-                                                    <div data-ng-click="this.show= !this.show" >
+                                                <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
+                                                    <div data-ng-click="this.show= !this.show">
+                                                        {{::SubCategory}}
+                                                    </div>
+                                                    <ul data-ng-if="this.show">
+                                                        <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
+                                                            <div data-ng-click="this.show= !this.show">
 
-                                                        {{::Topic.getData("Topic")}}
-                                                    </div>
-                                                    <div id="rowInputUI" data-ng-show="this.show">
-                                                        <button data-ng-click="this.showAbout = !this.showAbout">info</button>
-                                                        <div data-ng-if="this.showAbout">
-                                                        {{::Topic.getData("Description")}}
-                                                    </div>
-                                                        <div>
-                                                            <p>Input</p>
-                                                            <textarea name="input"
-                                                                    data-ng-model="getSetData(Topic, 'Input')"
-                                                                    data-ng-model-options="{updateOn: 'blur',
-                                                                                            getterSetter: true}">
-                                                            </textarea>
-                                                        </div>
-                                                        <div>
-                                                            <p>Source</p>
-                                                            <textarea name="source"
-                                                                data-ng-model="getSetData(Topic, 'Source')"
-                                                                data-ng-model-options="{updateOn: 'blur',
-                                                                                        getterSetter: true}">
-                                                            </textarea>
-                                                        </div>
-                                                        <div>
-                                                            <p>Impacted Rights <button data-ng-click="this.editRights = !this.editRights">+</button></p>
-                                                            <div data-ng-if="this.editRights">
-                                                                <button data-ng-repeat="right in rightslist" data-ng-click="addRight(Topic, right)">{{right}}</button>
-                                                                <br><span>-----</span>
+                                                                {{::Topic.getData("Topic")}}
                                                             </div>
-                                                            <span data-ng-repeat="right in getCurrentRights(Topic)"><button data-ng-show="this.editRights" data-ng-click="removeRight(Topic, right)">X</button>{{right}}</span>
-                                                        </div>
-                                                        <div>
-                                                            <p>Impacted Rights-holders<button data-ng-click="this.editRightsholders = !this.editRightsholders">+</button></p>
-                                                            <div data-ng-if="this.editRightsholders">
-                                                                <button data-ng-repeat="rightsholder in rightsholderlist" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
-                                                                <br><span>-----</span>
+                                                            <div id="rowInputUI" data-ng-show="this.show">
+                                                                <button data-ng-click="this.showAbout = !this.showAbout">info</button>
+                                                                <div data-ng-if="this.showAbout">
+                                                                    {{::Topic.getData("Description")}}
+                                                                </div>
+                                                                <div>
+                                                                    <p>Input</p>
+                                                                    <textarea name="input"
+                                                                              data-ng-model="getSetData(Topic, 'Input')"
+                                                                              data-ng-model-options="{updateOn: 'blur',
+                                                                                            getterSetter: true}"></textarea>
+                                                                </div>
+                                                                <div>
+                                                                    <p>Source</p>
+                                                                    <textarea name="source"
+                                                                              data-ng-model="getSetData(Topic, 'Source')"
+                                                                              data-ng-model-options="{updateOn: 'blur',
+                                                                                        getterSetter: true}"></textarea>
+                                                                </div>
+                                                                <div>
+                                                                    <p>Impacted Rights <button data-ng-click="this.editRights = !this.editRights">+</button></p>
+                                                                    <div data-ng-if="this.editRights">
+                                                                        <button data-ng-repeat="right in rightslist" data-ng-click="addRight(Topic, right)">{{right}}</button>
+                                                                        <br><span>-----</span>
+                                                                    </div>
+                                                                    <span data-ng-repeat="right in getCurrentRights(Topic)"><button data-ng-show="this.editRights" data-ng-click="removeRight(Topic, right)">X</button>{{right}}</span>
+                                                                </div>
+                                                                <div>
+                                                                    <p>Impacted Rights-holders<button data-ng-click="this.editRightsholders = !this.editRightsholders">+</button></p>
+                                                                    <div data-ng-if="this.editRightsholders">
+                                                                        <button data-ng-repeat="rightsholder in rightsholderlist" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
+                                                                        <br><span>-----</span>
+                                                                    </div>
+                                                                    <span data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><button data-ng-show="this.editRightsholders" data-ng-click="removeRightsholder(Topic, rightsholder)">X</button>{{rightsholder}}</span>
+                                                                </div>
+                                                                <div>
+                                                                    <p>
+                                                                        Module
+                                                                    </p>
+                                                                    <ul>
+                                                                        <li data-ng-repeat="module in moduleList">
+                                                                            <input type="radio" name="mod" data-ng-model="getSetData(Topic, 'Module')"
+                                                                                   data-ng-model-options="{getterSetter: true}" value="{{module}}">
+                                                                            <label>{{module}}</label>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <input type="text" name="module" />
+                                                                    <button>Add New</button>
+                                                                </div>
+                                                                <div>
+                                                                    <p>Score</p>
+                                                                    <input type="radio" name="score" value="-">
+                                                                    <input type="radio" name="score" value="25">
+                                                                    <input type="radio" name="score" value="15">
+                                                                    <input type="radio" name="score" value="9">
+                                                                    <input type="radio" name="score" value="5">
+                                                                    <input type="radio" name="score" value="3">
+                                                                    <input type="radio" name="score" value="1">
+                                                                    <input type="radio" name="score" value="0">
+                                                                    <input type="radio" name="score" value="-1">
+                                                                    <input type="radio" name="score" value="-3">
+                                                                    <input type="radio" name="score" value="-5">
+                                                                    <input type="radio" name="score" value="-9">
+                                                                    <input type="radio" name="score" value="-15">
+                                                                    <input type="radio" name="score" value="-25">
+                                                                </div>
                                                             </div>
-                                                            <span data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><button data-ng-show="this.editRightsholders" data-ng-click="removeRightsholder(Topic, rightsholder)">X</button>{{rightsholder}}</span>
-                                                        </div>
-                                                        <div>
-                                                            <p>
-                                                                Module
-                                                            </p>
-                                                            <ul>
-                                                                <li data-ng-repeat="module in moduleList">
-                                                                    <input type="radio" name="mod" data-ng-model="getSetData(Topic, 'Module')"
-                                                                data-ng-model-options="{getterSetter: true}" value="{{module}}">
-                                                                    <label>{{module}}</label>
-                                                                </li>
-                                                            </ul>
-                                                                <input type="text" name="module" />
-                                                                <button>Add New</button>
-                                                        </div>
-                                                        <div>
-                                                            <p>Score</p>
-                                                            <input type="radio" name="score" value="-">
-                                                            <input type="radio" name="score" value="25">
-                                                            <input type="radio" name="score" value="15">
-                                                            <input type="radio" name="score" value="9">
-                                                            <input type="radio" name="score" value="5">
-                                                            <input type="radio" name="score" value="3">
-                                                            <input type="radio" name="score" value="1">
-                                                            <input type="radio" name="score" value="0">
-                                                            <input type="radio" name="score" value="-1">
-                                                            <input type="radio" name="score" value="-3">
-                                                            <input type="radio" name="score" value="-5">
-                                                            <input type="radio" name="score" value="-9">
-                                                            <input type="radio" name="score" value="-15">
-                                                            <input type="radio" name="score" value="-25">
-                                                        </div>
-                                                    </div>
+                                                        </li>
+                                                    </ul>
                                                 </li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-                    <!--</div>-->
+                        </div>
+                    </div>
                 </div>
 
-                <!--<button id="up">up</button>-->
-                <!--<button id="home">home</button>-->
-                <!--<div id="adressBar"></div>-->
-                <!--<h2 id="title"></h2>-->
-                <!--<select id="catalog">
-                    </select>
-                    <select id="category">
-                    </select>
-                    <select id="topic">
-                    </select>
-                    <select id="subtopic">
-                    </select>-->
-                <!--<ul id="currentItems">
-
-                    </ul>
-                    <h1>v2</h1>-->
-                <!--<ul id="outline">
-
-                    </ul>-->
+                <div id="side-bar-monitors" class="side-bar">
+                </div>
+                <div id="side-bar-rights" class="side-bar">
+                </div>
             </div>
-            <!--<div id="loadFile" class="tab">
-                <button class="blueButton" id="save" type="button">Save</button>
-                <input type="file" id="saveFileDialog" style="display:none;" nwsaveas />
-
-                <button class="blueButton" id="load" type="button">Load</button>
-                <input type="file" id="loadFileDialog" style="display:none;">
-                </div>-->
         </div>
 
         <div id="hidy-hole">

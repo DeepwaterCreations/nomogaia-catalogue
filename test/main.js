@@ -44,7 +44,7 @@ var onClickAdd = function () {
 
 
 
-monitorTabs.addTabsDiv("#sideBar", {});
+monitorTabs.addTabsDiv("#side-bar-monitors", {});
 
 //Opens a dialog with some info about the application and its creators.
 function openAboutDialog() {
@@ -124,6 +124,12 @@ $(document).ready(function () {
                 rebuildImpactedRights(monitorTables, monitorTabs.getActiveMonitor());
             }
         }
+    });
+
+    $('.side-bar').hide();
+
+    $('#monitor').click(function() {
+        $('#side-bar-monitors').toggle();
     });
 
     //$('#catalog').selectmenu();
