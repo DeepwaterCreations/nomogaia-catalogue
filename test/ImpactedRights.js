@@ -115,7 +115,7 @@ function rebuildImpactedRights(monitorTable, index) {
 
     var modules = []
 
-    table.owner.dataOptions.getColumnOptions("Module").forEach(function (module) {
+    DataOptions.getColumnOptions("Module").forEach(function (module) {
         if (moduleIsUsed(module)) {
             modules.push(module);
             headersList.push(module);
@@ -124,7 +124,7 @@ function rebuildImpactedRights(monitorTable, index) {
 
     //Sort the right from most to least impacted
 
-    var allRights = table.owner.dataOptions.getColumnOptions("Impacted Rights");
+    var allRights = DataOptions.getColumnOptions("Impacted Rights");
 
     var impactedRights = [];
 

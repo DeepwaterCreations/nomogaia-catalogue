@@ -8,7 +8,7 @@
     }
 
     // dataOptions hold what values a drop can can hold
-    this.dataOptions = new DataOptions(categoryHierarchy);
+    //this.dataOptions = new DataOptions(categoryHierarchy);
 
     this.push = function (table) {
         this.backingData.push(table);

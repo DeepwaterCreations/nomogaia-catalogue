@@ -178,11 +178,11 @@ AddTopic.setColumnSelect = function (target, value) {
 }
 
 
-AddTopic.initFields = function (dataOptions) {
-    AddTopic.makeSelect2($("#catalogSelect"), dataOptions.getColumnOptions("Catalog"));
-    AddTopic.makeSelect2($("#categorySelect"), dataOptions.getColumnOptions("Category"));
-    AddTopic.makeSelect2($("#subcategorySelect"), dataOptions.getColumnOptions("Sub-Category"));
-    AddTopic.makeSelect2NoAdd($("#moduleSelect"), dataOptions.getColumnOptions("Module"));
+AddTopic.initFields = function () {
+    AddTopic.makeSelect2($("#catalogSelect"), DataOptions.getColumnOptions("Catalog"));
+    AddTopic.makeSelect2($("#categorySelect"), DataOptions.getColumnOptions("Category"));
+    AddTopic.makeSelect2($("#subcategorySelect"), DataOptions.getColumnOptions("Sub-Category"));
+    AddTopic.makeSelect2NoAdd($("#moduleSelect"), DataOptions.getColumnOptions("Module"));
 
     AddTopic.canAdd();
 

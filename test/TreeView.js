@@ -7,10 +7,16 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
             $scope.filteredTree = $scope.tableData.treeView;
-            $scope.rightslist = monitorTables.dataOptions.columnOptions["Impacted Rights"];
-            $scope.rightsholderlist = monitorTables.dataOptions.columnOptions["Impacted Rights-Holders"];
-            $scope.moduleList = monitorTables.dataOptions.columnOptions["Module"];
-            $scope.scorevals = monitorTables.dataOptions.columnOptions["Score"];
+            $scope.rightslist = function () {
+                return DataOptions.columnOptions["Impacted Rights"];
+            }
+            $scope.rightsholderlist = function () {
+                return DataOptions.columnOptions["Impacted Rights-Holders"];
+            }
+            $scope.moduleList = function () {
+                return DataOptions.columnOptions["Module"];
+            }
+            $scope.scorevals = DataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
         });
     })
@@ -52,6 +58,14 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return rowData.getData("Module");
     };
 
+    $scope.addMod = function (newMod) {
+        var list = $scope.moduleList();
+        if (list.indexOf(newMod) == -1) {
+            list.push(newMod);
+        }
+        
+    }
+
     //Add a right or rightsholder to the topic.
     $scope.addRight = function (rowData, rightname) {
         rowData.addRights(rightname);
@@ -62,10 +76,10 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     //Or remove one.
-    $scope.removeRight = function(rowData, rightname){
+    $scope.removeRight = function (rowData, rightname) {
         rowData.removeRights(rightname);
     };
-    $scope.removeRightsholder = function(rowData, rightsholdername){
+    $scope.removeRightsholder = function (rowData, rightsholdername) {
         rowData.removeRightsholders(rightsholdername);
     };
 
@@ -74,7 +88,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return function (data) {
             if (arguments.length) {
                 //Set
+                console.log("set to " + data);
                 rowData.setData(columnName, data);
+                console.log("result " + rowData.getData(columnName));
             }
             else {
                 //Get
