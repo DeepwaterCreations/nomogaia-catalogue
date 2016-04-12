@@ -129,8 +129,15 @@
                                                             <p>
                                                                 Module
                                                             </p>
+                                                            <ul>
+                                                                <li data-ng-repeat="module in moduleList">
+                                                                    <input type="radio" name="mod" data-ng-model="getSetData(Topic, 'Module')"
+                                                                data-ng-model-options="{getterSetter: true}" value="{{module}}">
+                                                                    <label>{{module}}</label>
+                                                                </li>
+                                                            </ul>
                                                                 <input type="text" name="module" />
-                                                            <button>Add New</button>
+                                                                <button>Add New</button>
                                                         </div>
                                                         <div>
                                                             <p>Score</p>
