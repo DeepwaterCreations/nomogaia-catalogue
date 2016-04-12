@@ -186,7 +186,7 @@ function RowUI(table, rowData) {
     // if a value is selected don't 
     this.toSelect2final = function (className) {
         //if (rowData == undefined) {
-        var backingList = []//this.table.owner.dataOptions.getColumnOptions(className);
+        var backingList = [];//this.table.owner.dataOptions.getColumnOptions(className);
         //} else {
         //    var backingList = [rowData.getData(className)];
         //
@@ -205,7 +205,7 @@ function RowUI(table, rowData) {
 
     // makes a select a select2
     this.toSelect2AllOptions = function (className) {
-        var backingList = this.table.owner.dataOptions.getColumnOptions(className);
+        var backingList = DataOptions.getColumnOptions(className);
 
         // make the className a awesome select
         this.get(className).select2({
@@ -224,7 +224,7 @@ function RowUI(table, rowData) {
 
     // makes a select a with add
     this.toSelect2WithAdd = function (className) {
-        var backingList = this.table.owner.dataOptions.getColumnOptions(className);
+        var backingList = DataOptions.getColumnOptions(className);
         // make classname a select2
         this.get(className).select2({
             data: backingList,
@@ -286,13 +286,13 @@ function RowUI(table, rowData) {
     this.updateCatalog = function () {
 
         // first let's update category 
-        that.updateColumnOptions('Category', that.table.owner.dataOptions.categoryHierarchy.getCategories(that.getValue('Catalog')));
+        that.updateColumnOptions('Category', DataOptions.categoryHierarchy.getCategories(that.getValue('Catalog')));
 
         // let's update subCategory
-        that.updateColumnOptions('Sub-Category', that.table.owner.dataOptions.categoryHierarchy.getSubCategories(that.getValue('Catalog')));
+        that.updateColumnOptions('Sub-Category', DataOptions.categoryHierarchy.getSubCategories(that.getValue('Catalog')));
 
         // let's update topic
-        that.updateColumnOptions('Topic', that.table.owner.dataOptions.categoryHierarchy.getTopics(that.getValue('Catalog')));
+        that.updateColumnOptions('Topic', DataOptions.categoryHierarchy.getTopics(that.getValue('Catalog')));
 
     };
 
@@ -301,14 +301,14 @@ function RowUI(table, rowData) {
 
         if (that.getValue('Category') != "-") {
             // first let's update catalog 
-            that.setColumnSelect('Catalog', that.table.owner.dataOptions.categoryHierarchy.getCategoryCatalogs(that.getValue('Category')));
+            that.setColumnSelect('Catalog', DataOptions.categoryHierarchy.getCategoryCatalogs(that.getValue('Category')));
         }
 
         // let's update subCategory
-        that.updateColumnOptions('Sub-Category', that.table.owner.dataOptions.categoryHierarchy.getSubCategories(that.getValue('Catalog'), that.getValue('Category')));
+        that.updateColumnOptions('Sub-Category', DataOptions.categoryHierarchy.getSubCategories(that.getValue('Catalog'), that.getValue('Category')));
 
         // let's update topic
-        that.updateColumnOptions('Topic', that.table.owner.dataOptions.categoryHierarchy.getTopics(that.getValue('Catalog'), that.getValue('Category')));
+        that.updateColumnOptions('Topic', DataOptions.categoryHierarchy.getTopics(that.getValue('Catalog'), that.getValue('Category')));
 
     }
 
@@ -319,14 +319,14 @@ function RowUI(table, rowData) {
         if (that.getValue('Sub-Category') != '-') {
 
             // first let's update catalog 
-            that.setColumnSelect('Catalog', that.table.owner.dataOptions.categoryHierarchy.getSubCategoryCatalogs(that.getValue("Sub-Category")));
+            that.setColumnSelect('Catalog', DataOptions.categoryHierarchy.getSubCategoryCatalogs(that.getValue("Sub-Category")));
 
             // let's update subCategory
-            that.setColumnSelect('Category', that.table.owner.dataOptions.categoryHierarchy.getSubCategoryCategories(that.getValue("Sub-Category")));
+            that.setColumnSelect('Category', DataOptions.categoryHierarchy.getSubCategoryCategories(that.getValue("Sub-Category")));
         }
 
         // let's update topic
-        that.updateColumnOptions('Topic', that.table.owner.dataOptions.categoryHierarchy.getTopics(that.getValue('Catalog'), that.getValue('Category'), that.getValue("Sub-Category")));
+        that.updateColumnOptions('Topic', DataOptions.categoryHierarchy.getTopics(that.getValue('Catalog'), that.getValue('Category'), that.getValue("Sub-Category")));
 
     }
 
@@ -337,13 +337,13 @@ function RowUI(table, rowData) {
         if (that.getValue('Topic') != "-") {
 
             // first let's update catalog 
-            that.setColumnSelect('Catalog', that.table.owner.dataOptions.categoryHierarchy.getTopicCatalogs(that.getValue("Topic")));
+            that.setColumnSelect('Catalog', DataOptions.categoryHierarchy.getTopicCatalogs(that.getValue("Topic")));
 
             // let's update Category
-            that.setColumnSelect('Category', that.table.owner.dataOptions.categoryHierarchy.getTopicCategories(that.getValue("Topic")));
+            that.setColumnSelect('Category', DataOptions.categoryHierarchy.getTopicCategories(that.getValue("Topic")));
 
             // let's update Sub-Category
-            that.setColumnSelect('Sub-Category', that.table.owner.dataOptions.categoryHierarchy.getTopicSubCategories(that.getValue("Topic")));
+            that.setColumnSelect('Sub-Category', DataOptions.categoryHierarchy.getTopicSubCategories(that.getValue("Topic")));
 
             // we need to set the module to the topics default module 
             var topicInstance = categoryHierarchy.getTopic(that.getValue('Topic'));
@@ -374,10 +374,10 @@ function RowUI(table, rowData) {
         //var start = window.performance.now();
 
         // add options to drop downs:
-        this.updateColumnOptions('Catalog', this.table.owner.dataOptions.categoryHierarchy.getCatalogs());
-        this.updateColumnOptions('Category', this.table.owner.dataOptions.categoryHierarchy.getCategories(this.getValue('Catalog')));
-        this.updateColumnOptions('Sub-Category', this.table.owner.dataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
-        this.updateColumnOptions('Topic', this.table.owner.dataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
+        this.updateColumnOptions('Catalog', DataOptions.categoryHierarchy.getCatalogs());
+        this.updateColumnOptions('Category', DataOptions.categoryHierarchy.getCategories(this.getValue('Catalog')));
+        this.updateColumnOptions('Sub-Category', DataOptions.categoryHierarchy.getSubCategories(this.getValue('Catalog'), this.getValue('Category')));
+        this.updateColumnOptions('Topic', DataOptions.categoryHierarchy.getTopics(this.getValue('Catalog'), this.getValue('Category'), this.getValue("Sub-Category")));
 
 
         //this.table.timeUpdateColumnOptions += window.performance.now() - start;
@@ -389,7 +389,7 @@ function RowUI(table, rowData) {
             var that = this;
             ["Impacted Rights-Holders", "Impacted Rights", "Module"].forEach(function (column) {
                 if (rowData.getData(column) != DataOptions.getDefaultValue(column)) {
-                    that.table.owner.dataOptions.update(column, rowData.getData(column));
+                    DataOptions.update(column, rowData.getData(column));
                 }
             });
 

@@ -9,6 +9,7 @@ var filename = path.join(path.dirname(process.execPath), "TopicInfo.txt");// "To
 var buf = fs.readFileSync(filename, "utf8");
 // use it to create a categoryHierarchy
 var categoryHierarchy = new CategoryHierarchy(buf);
+DataOptions.setCategoryHierarchy(categoryHierarchy);
 
 // add the users own topics
 var myTopics = path.join(path.dirname(process.execPath), "myTopics.txt");//"myTopics.txt";
@@ -109,7 +110,7 @@ $(document).ready(function () {
 
     table.addRowsWrapped(dataList, function () { g.setMonitorTables(monitorTables); });
 
-    AddTopic.initFields(monitorTables.dataOptions);
+    AddTopic.initFields();
 
     $('#addRow').click(onClickAdd);
     //Hider.init();

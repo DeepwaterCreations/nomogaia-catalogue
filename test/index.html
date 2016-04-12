@@ -114,7 +114,7 @@
                                                                 <div>
                                                                     <p>Impacted Rights <button data-ng-click="this.editRights = !this.editRights">+</button></p>
                                                                     <div data-ng-if="this.editRights">
-                                                                        <button data-ng-repeat="right in rightslist" data-ng-click="addRight(Topic, right)">{{right}}</button>
+                                                                        <button data-ng-repeat="right in rightslist()" data-ng-click="addRight(Topic, right)">{{right}}</button>
                                                                         <br><span>-----</span>
                                                                     </div>
                                                                     <span data-ng-repeat="right in getCurrentRights(Topic)"><button data-ng-show="this.editRights" data-ng-click="removeRight(Topic, right)">X</button>{{right}}</span>
@@ -122,24 +122,21 @@
                                                                 <div>
                                                                     <p>Impacted Rights-holders<button data-ng-click="this.editRightsholders = !this.editRightsholders">+</button></p>
                                                                     <div data-ng-if="this.editRightsholders">
-                                                                        <button data-ng-repeat="rightsholder in rightsholderlist" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
+                                                                        <button data-ng-repeat="rightsholder in rightsholderlist()" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
                                                                         <br><span>-----</span>
                                                                     </div>
                                                                     <span data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><button data-ng-show="this.editRightsholders" data-ng-click="removeRightsholder(Topic, rightsholder)">X</button>{{rightsholder}}</span>
                                                                 </div>
-                                                                <div>
+                                                                <div data-ng-init="newMod=''">
                                                                     <p>
-                                                                        Module
+                                                                        Module: {{Topic.getData('Module')}}
                                                                     </p>
-                                                                    <ul>
-                                                                        <li data-ng-repeat="module in moduleList">
-                                                                            <input type="radio" name="mod" data-ng-model="getSetData(Topic, 'Module')"
-                                                                                   data-ng-model-options="{getterSetter: true}" value="{{module}}">
-                                                                            <label>{{module}}</label>
-                                                                        </li>
-                                                                    </ul>
-                                                                    <input type="text" name="module" />
-                                                                    <button>Add New</button>
+                                                                    <label data-ng-repeat="module in moduleList()">
+                                                                        <input type="radio" name="mod" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
+                                                                        {{module}}
+                                                                    </label>
+                                                                    <input type="text" name="module" data-ng-model="newMod" />
+                                                                    <button data-ng-click="addMod(newMod);newMod='';">Add New</button>
                                                                 </div>
                                                                 <div>
                                                                     <p>Score</p>
