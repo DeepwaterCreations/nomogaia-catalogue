@@ -8,10 +8,13 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.tableData = monitorTables.backingData[0].tableData;
             $scope.filteredTree = $scope.tableData.treeView;
             $scope.rightslist = function () {
+                return DataOptions.columnOptions["Impacted Rights"];
             }
             $scope.rightsholderlist = function () {
+                return DataOptions.columnOptions["Impacted Rights-Holders"];
             }
             $scope.moduleList = function () {
+                return DataOptions.columnOptions["Module"];
             }
             console.log("TableData set!", $scope.tableData);
         });
