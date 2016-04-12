@@ -149,7 +149,7 @@ RowData = function (rowData) {
 
         var topic_rights = this.getData("Impacted Rights") || [];
         rights.forEach(function(right){
-            var index = rights.indexOf(right);
+            var index = topic_rights.indexOf(right);
             if(index >= 0){
                 topic_rights.splice(index, 1);
             }
@@ -163,7 +163,7 @@ RowData = function (rowData) {
 
         var topic_rightsholders = this.getData("Impacted Rights-Holders") || [];
         rightsholders.forEach(function(rightsholder){
-            var index = rightsholders.indexOf(rightsholder);
+            var index = topic_rightsholders.indexOf(rightsholder);
             if(index >= 0){
                 topic_rightsholders.splice(index, 1);
             }
