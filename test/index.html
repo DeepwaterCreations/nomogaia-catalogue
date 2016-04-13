@@ -142,10 +142,10 @@
                                                                 </div>
                                                                 <div class="scoreUI">
                                                                     <p>Score</p>
-                                                                    <label class="vert" data-ng-repeat="score in scorevals" data-ng-class="getScoreCategoryClass(score)">
-                                                                        <input type="radio" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
-                                                                        {{score}}
-                                                                    </label>
+                                                                    <div data-ng-repeat="score in scorevals">
+                                                                        <input type="radio" id="{{'radio' + score}}" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
+                                                                        <label for="{{'radio' + score}}" data-ng-class="getScoreCategoryClass(score)">{{score}}</label>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </li>

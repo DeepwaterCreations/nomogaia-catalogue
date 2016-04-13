@@ -49,3 +49,22 @@
         flex: 1 4 auto;
         min-width: 3em;
     }
+
+        .scoreUI > div{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .scoreUI label{
+            padding: 3px;
+        }
+
+        .scoreUI input[type='radio']{
+            opacity: 0;
+            height: 0;
+        }
+        .scoreUI input[type='radio']:checked ~ label{
+            border-style: solid;
+            padding: 0px;
+        }
