@@ -13,18 +13,26 @@
         font-weight: bold;
     }
 
-    .rowInputUI .inputandsource{
+    .rowInputUI .inputandsourceUI{
         display: flex;
         flex-direction: column;
+
+        flex: 4 1 auto;
     }
-        
-        .inputandsource .inputtext textarea, .inputandsource .sourcetext textarea{
-            width: 100%;
+
+        .inputandsourceUI > div{
+            display: flex;
+            flex-direction: column;
         }
 
-        .inputandsource .inputtext{
-            flex: 3 1 auto;
+        .inputandsourceUI .inputtext{
+            flex: 3 2 auto;
         }
-        .inputandsource .sourcetext{
-            flex: 1 1 auto;
+        .inputandsourceUI .sourcetext{
+            flex: 1 2 auto;
+        }
+
+        .inputandsourceUI .inputtext textarea, .inputandsourceUI .sourcetext textarea{
+            width: 100%;
+            flex: 1;
         }
