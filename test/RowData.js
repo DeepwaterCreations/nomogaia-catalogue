@@ -12,9 +12,12 @@
 //TODO to closure?
 var rowDataId = 0;
 
+g.allRowData = {};
+
 //Holds the data for a single row.
 RowData = function (rowData) {
     this.id = rowDataId++;
+    g.allRowData[this.id] = this;
     this.child = null;
     this.ui = null;
 
@@ -172,6 +175,16 @@ RowData = function (rowData) {
         this.setData("Impacted Rights-Holders", topic_rightsholders);
     };
 
+    this.acceptDrop = function (type, value) {
+        var toAdd = [];
+        toAdd.push(value);
+        if (type == "Impacted Rights-Holders") {
+            this.addRightsholders(toAdd);
+        } else if (type == "Impacted Rights") {
+            this.addRights(toAdd);
+        }
+    }
+
     this.setData = function (columnName, data) {
         var oldData = this.getData(columnName)
 
@@ -237,7 +250,7 @@ RowData = function (rowData) {
         this.rowData = rowData;
         rowData.child = this;
         var that = this;
-        // we want to listen to the changes to the row we are rapping so we pass it listeners that call our listeners
+        // we want to listen to the changes to the row we are wrapping so we pass it listeners that call our listeners
         g.columnList.forEach(function (columnName) {
             var listner = that.callMyListeners(that, columnName);
             that.listeningWith.push(listner);
@@ -245,3 +258,7 @@ RowData = function (rowData) {
         });
     }
 };
+
+RowData.getRow = function (id) {
+    return g.allRowData[id];
+}

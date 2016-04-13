@@ -127,11 +127,13 @@ $(document).ready(function () {
         }
     });
 
-    $('.side-bar').hide();
+    //$('.side-bar').hide();
 
     $('#monitor').click(function() {
         $('#side-bar-monitors').toggle();
     });
+
+
 
     //$('#catalog').selectmenu();
     //$('#category').selectmenu();
@@ -139,3 +141,5 @@ $(document).ready(function () {
 
     autosave(5 * 60 * 1000); //Minutes * sec/min * ms/sec.
 });
+
+

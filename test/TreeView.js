@@ -63,7 +63,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         if (list.indexOf(newMod) == -1) {
             list.push(newMod);
         }
-        
+
     }
 
     //Add a right or rightsholder to the topic.
@@ -99,6 +99,34 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             }
         };
     };
+
+
+    g.drag = function (event) {
+        console.log("drag!", event);
+        event.dataTransfer.setData("type", event.target.dataset.type);
+        event.dataTransfer.setData("value", event.target.dataset.value);
+    }
+
+    g.drop = function (event) {
+        event.preventDefault();
+        var type = event.dataTransfer.getData("type");
+        var value = event.dataTransfer.getData("value");
+        var at = event.target;
+        while (at.className != "rowInputUI") {
+            at = at.parentElement;
+        }
+        var row = at.dataset.row;
+        console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
+        $timeout(function () {
+            RowData.getRow(parseInt(row)).acceptDrop(type, value);
+        })
+
+    }
+
+    g.allowDrop = function (event) {
+        //console.log("allow Drop!",event);
+        event.preventDefault();
+    }
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
         return function (id, count) {
