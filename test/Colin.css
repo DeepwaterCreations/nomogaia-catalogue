@@ -45,7 +45,8 @@
 }
 
 #side-bar-rights {
-    width: 300px;
+    width: 500px;
+    -webkit-column-count: 2;
 }
 
 .ui-tabs-nav li {

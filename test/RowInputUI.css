@@ -47,4 +47,5 @@
 
     .rowInputUI .scoreUI{
         flex: 1 4 auto;
+        min-width: 3em;
     }

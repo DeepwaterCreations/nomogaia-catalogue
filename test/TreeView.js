@@ -83,6 +83,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         rowData.removeRightsholders(rightsholdername);
     };
 
+    $scope.getScoreCategoryClass = getScoreCategoryClass; //What's with this global BS
+
     //A function that returns a function that is a getterSetter for the given topic (RowData).
     $scope.getSetData = function (rowData, columnName) {
         return function (data) {
