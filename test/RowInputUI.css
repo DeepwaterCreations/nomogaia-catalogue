@@ -36,3 +36,15 @@
             width: 100%;
             flex: 1;
         }
+
+    .rowInputUI .rightsUI, .rowInputUI .rightsholdersUI{
+        flex: 3 2 auto;
+    }
+
+    .rowInputUI .moduleUI{
+        flex: 2 2 auto;
+    }
+
+    .rowInputUI .scoreUI{
+        flex: 1 4 auto;
+    }

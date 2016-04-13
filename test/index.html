@@ -115,7 +115,7 @@
                                                                         </textarea>
                                                                     </div>
                                                                 </div>
-                                                                <div>
+                                                                <div class="rightsUI">
                                                                     <p>Impacted Rights <button data-ng-click="this.editRights = !this.editRights">+</button></p>
                                                                     <div data-ng-if="this.editRights">
                                                                         <button data-ng-repeat="right in rightslist()" data-ng-click="addRight(Topic, right)">{{right}}</button>
@@ -123,7 +123,7 @@
                                                                     </div>
                                                                     <span data-ng-repeat="right in getCurrentRights(Topic)"><button data-ng-show="this.editRights" data-ng-click="removeRight(Topic, right)">X</button>{{right}}</span>
                                                                 </div>
-                                                                <div>
+                                                                <div class="rightsholdersUI">
                                                                     <p>Impacted Rights-holders<button data-ng-click="this.editRightsholders = !this.editRightsholders">+</button></p>
                                                                     <div data-ng-if="this.editRightsholders">
                                                                         <button data-ng-repeat="rightsholder in rightsholderlist()" data-ng-click="addRightsholder(Topic, rightsholder)">{{rightsholder}}</button>
@@ -131,7 +131,7 @@
                                                                     </div>
                                                                     <span data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><button data-ng-show="this.editRightsholders" data-ng-click="removeRightsholder(Topic, rightsholder)">X</button>{{rightsholder}}</span>
                                                                 </div>
-                                                                <div data-ng-init="newMod=''">
+                                                                <div data-ng-init="newMod=''" class="moduleUI">
                                                                     <p>
                                                                     Module: {{Topic.getData('Module')}}
                                                                     </p>
@@ -142,7 +142,7 @@
                                                                     <input type="text" name="module" data-ng-model="newMod" />
                                                                     <button data-ng-click="addMod(newMod);newMod='';">Add New</button>
                                                                 </div>
-                                                                <div>
+                                                                <div class="scoreUI">
                                                                     <p>Score</p>
                                                                     <div data-ng-repeat="score in scorevals">
                                                                         <input type="radio" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
