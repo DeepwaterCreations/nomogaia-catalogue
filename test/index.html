@@ -103,16 +103,14 @@
                                                                         <textarea name="input"
                                                                                   data-ng-model="getSetData(Topic, 'Input')"
                                                                                   data-ng-model-options="{updateOn: 'blur',
-                                                                                  getterSetter: true}">
-                                                                        </textarea>
+                                                                                  getterSetter: true}"></textarea>
                                                                     </div>
                                                                     <div class="sourcetext">
                                                                         <p>Source</p>
                                                                         <textarea name="source"
                                                                                   data-ng-model="getSetData(Topic, 'Source')"
                                                                                   data-ng-model-options="{updateOn: 'blur',
-                                                                                  getterSetter: true}">
-                                                                        </textarea>
+                                                                                  getterSetter: true}"></textarea>
                                                                     </div>
                                                                 </div>
                                                                 <div class="rightsUI">
@@ -133,9 +131,9 @@
                                                                 </div>
                                                                 <div data-ng-init="newMod=''" class="moduleUI">
                                                                     <p>
-                                                                    Module: {{Topic.getData('Module')}}
+                                                                        Module: {{Topic.getData('Module')}}
                                                                     </p>
-                                                                    <label data-ng-repeat="module in moduleList()">
+                                                                    <label class="vert" data-ng-repeat="module in moduleList()">
                                                                         <input type="radio" name="mod" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
                                                                         {{module}}
                                                                     </label>
@@ -144,10 +142,10 @@
                                                                 </div>
                                                                 <div class="scoreUI">
                                                                     <p>Score</p>
-                                                                    <div data-ng-repeat="score in scorevals">
+                                                                    <label class="vert" data-ng-repeat="score in scorevals">
                                                                         <input type="radio" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
-                                                                        <label>{{score}}</label>
-                                                                    </div>
+                                                                        {{score}}
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                         </li>

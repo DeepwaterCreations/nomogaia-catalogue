@@ -25,6 +25,10 @@
     flex: 1 1 auto;
 }
 
+.vert {
+    display:block;
+}
+
 .side-bar {
     width: 140px;
     flex: 0 0 auto;
