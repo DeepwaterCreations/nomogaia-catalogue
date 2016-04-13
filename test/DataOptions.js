@@ -82,7 +82,7 @@ DataOptions.columnOptions = {
 
 DataOptions.getDefaultValue = function (className) {
     if (className == "Score") {
-        return DataOptions.columnOptions["Score"][0];
+        return DataOptions.columnOptions["Score"][0];//25";//
     } else if (className == "Module") {
         return DataOptions.columnOptions["Module"][0];
     }

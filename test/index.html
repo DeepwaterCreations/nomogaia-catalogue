@@ -134,7 +134,7 @@
                                                                         Module: {{Topic.getData('Module')}}
                                                                     </p>
                                                                     <label class="vert" data-ng-repeat="module in moduleList()">
-                                                                        <input type="radio" name="mod" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
+                                                                        <input type="radio" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
                                                                         {{module}}
                                                                     </label>
                                                                     <input type="text" name="module" data-ng-model="newMod" />

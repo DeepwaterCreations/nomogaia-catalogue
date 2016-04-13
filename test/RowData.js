@@ -244,6 +244,5 @@ RowData = function (rowData) {
             that.rowData.addListener(columnName, listner);
         });
     }
-
-
 };
+fxg
