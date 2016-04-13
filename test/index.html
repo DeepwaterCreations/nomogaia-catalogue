@@ -142,7 +142,7 @@
                                                                 </div>
                                                                 <div class="scoreUI">
                                                                     <p>Score</p>
-                                                                    <label class="vert" data-ng-repeat="score in scorevals">
+                                                                    <label class="vert" data-ng-repeat="score in scorevals" data-ng-class="getScoreCategoryClass(score)">
                                                                         <input type="radio" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
                                                                         {{score}}
                                                                     </label>
