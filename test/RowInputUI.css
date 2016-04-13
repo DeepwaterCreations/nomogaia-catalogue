@@ -17,6 +17,10 @@
         display: flex;
         flex-direction: column;
     }
+        
+        .inputandsource .inputtext textarea, .inputandsource .sourcetext textarea{
+            width: 100%;
+        }
 
         .inputandsource .inputtext{
             flex: 3 1 auto;
