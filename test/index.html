@@ -98,50 +98,56 @@
                                                                     {{::Topic.getData("Description")}}
                                                                 </div>
                                                                 <div class="rowInputUI" data-row="{{Topic.id}}" data-ng-show="this.show" ondrop="g.drop(event)" ondragover="g.allowDrop(event)">
-                                                                    <div class="inputandsourceUI">
+                                                                    <div class="rowInputUISection">
                                                                         <div class="inputtext">
-                                                                            <p>Input</p>
+                                                                            <span>Input</span>
                                                                             <textarea name="input"
                                                                                       data-ng-model="getSetData(Topic, 'Input')"
                                                                                       data-ng-model-options="{updateOn: 'blur',
                                                                                   getterSetter: true}"></textarea>
                                                                         </div>
                                                                         <div class="sourcetext">
-                                                                            <p>Source</p>
+                                                                            <span>Source</span>
                                                                             <textarea name="source"
                                                                                       data-ng-model="getSetData(Topic, 'Source')"
                                                                                       data-ng-model-options="{updateOn: 'blur',
                                                                                   getterSetter: true}"></textarea>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="rightsUI">
-                                                                        <p>Impacted Rights</p>
-                                                                        <ul>
-                                                                            <li data-ng-repeat="right in getCurrentRights(Topic)"><button  data-ng-click="removeRight(Topic, right)">X</button>{{right}}</li><!--data-ng-show="this.editRights"-->
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="rightsholdersUI">
-                                                                        <p>Impacted Rights-holders</p>
-                                                                        <ul>
-                                                                            <li data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><button data-ng-click="removeRightsholder(Topic, rightsholder)">X</button>{{rightsholder}}</li><!--data-ng-show="this.editRightsholders"-->
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div data-ng-init="newMod=''" class="moduleUI">
-                                                                        <p>
+                                                                    <div class="rowInputUISection">
+                                                                        <div class="rightsUI">
+                                                                            <span>Impacted Rights</span>
+                                                                            <ul>
+                                                                                <li data-ng-repeat="right in getCurrentRights(Topic)"><button  data-ng-click="removeRight(Topic, right)">X</button>{{right}}</li><!--data-ng-show="this.editRights"-->
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="rightsholdersUI">
+                                                                            <span>Impacted Rights-holders</span>
+                                                                            <ul>
+                                                                                <li data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><button data-ng-click="removeRightsholder(Topic, rightsholder)">X</button>{{rightsholder}}</li><!--data-ng-show="this.editRightsholders"-->
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div data-ng-init="newMod=''" class="moduleUI">
+                                                                            <span>
                                                                             Module: {{Topic.getData('Module')}}
-                                                                        </p>
-                                                                        <label class="vert" data-ng-repeat="module in moduleList()">
-                                                                            <input type="radio" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
-                                                                            {{module}}
-                                                                        </label>
-                                                                        <input type="text" name="module" data-ng-model="newMod" />
-                                                                        <button data-ng-click="addMod(newMod);newMod='';">Add New</button>
+                                                                            </span>
+                                                                            <label class="vert" data-ng-repeat="module in moduleList()">
+                                                                                <input type="radio" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
+                                                                                {{module}}
+                                                                            </label>
+                                                                            <input type="text" name="module" data-ng-model="newMod" />
+                                                                            <button data-ng-click="addMod(newMod);newMod='';">Add New</button>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="scoreUI">
-                                                                        <p>Score</p>
-                                                                        <div data-ng-repeat="score in scorevals">
-                                                                            <input type="radio" id="{{::'radio' + score + Topic.getData('Topic')}}" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
-                                                                            <label for="{{::'radio' + score + Topic.getData('Topic')}}" data-ng-class="getScoreCategoryClass(score)">{{score}}</label>
+                                                                    <div class="rowInputUISection">
+                                                                        <div class="scoreUI">
+                                                                            <span>Score</span>
+                                                                            <div>
+                                                                                <div data-ng-repeat="score in scorevals">
+                                                                                    <input type="radio" id="{{::'radio' + score + Topic.getData('Topic')}}" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
+                                                                                    <label for="{{::'radio' + score + Topic.getData('Topic')}}" data-ng-class="getScoreCategoryClass(score)">{{score}}</label>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
