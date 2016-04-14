@@ -58,12 +58,23 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return rowData.getData("Module");
     };
 
-    $scope.addMod = function (newMod) {
+    $scope.addNewMod = function (newMod) {
         var list = $scope.moduleList();
         if (list.indexOf(newMod) == -1) {
             list.push(newMod);
         }
-
+    }
+    $scope.addNewRight = function (newRight) {
+        var list = $scope.rightslist();
+        if (list.indexOf(newRight) == -1) {
+            list.push(newRight);
+        }
+    }
+    $scope.addNewRightHolder = function (newRightHolder) {
+        var list = $scope.rightsholderlist();
+        if (list.indexOf(newRightHolder) == -1) {
+            list.push(newRightHolder);
+        }
     }
 
     //Add a right or rightsholder to the topic.
