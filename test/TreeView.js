@@ -114,14 +114,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     $scope.init = function () {
-        //$("#side-bar-rights").resizable({
-        //    ghost: true,
-        //    handles: 'w',
-        //    resize: function (event, ui) {
-        //    $(this).css('height', '100%');
-        //}
-        //});
-
+        // resize
         var dragging = false;
         var startX = 0;
         $('#drag-bar').mousedown(function (e) {
@@ -141,21 +134,67 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
             ghostbar.css("left", e.pageX);
             $(document).mousemove(function (e) {
-                ghostbar.css("left", e.pageX );
+                ghostbar.css("left", e.pageX);
             });
         });
 
         $(document).mouseup(function (e) {
             if (dragging) {
-                console.log(" width: "+$('#side-bar-rights').css("width") +" startX: "+startX + " e.pageX: "+ e.pageX, e)
+                console.log(" width: " + $('#side-bar-rights').css("width") + " startX: " + startX + " e.pageX: " + e.pageX, e)
                 $('#side-bar-rights').css("width",
-                    ($('#side-bar-rights').width() + 
-                    startX-e.pageX )+ "px");
+                    ($('#side-bar-rights').width() +
+                    startX - e.pageX) + "px");
                 //$('#main').css("left", e.pageX + 2);
                 $('#ghostbar').remove();
                 $(document).unbind('mousemove');
                 dragging = false;
             }
+        });
+
+        $("#addTopic").dialog({
+            buttons: [
+                {
+                    text: "Cancel",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }, {
+                    id:"addTopicButton",
+                    text: "Ok",
+                    click: function () {
+                        if (AddTopic.canAdd()) {
+                            AddTopic.addTopic();
+                            $(this).dialog("close");
+                        }
+                        
+                    }
+                }
+            ],
+            autoOpen: false,
+            width: "90%"
+        });
+
+        $(".openAddTopic").click(function () {
+            $("#addTopic").dialog("open");
+            $(".ui-dialog").find("button").addClass("blueButton");
+            AddTopic.canAdd();
+        })
+
+        $('#addRowTree').click(function () {
+            //var rowAt = null;
+            //for (var tabIndex in g.getMonitorTables().backingData) {
+            //    if (tabIndex >= g.getMonitorTables().getActiveMonitor()) {
+            //        var myTable = g.getMonitorTables().backingData[tabIndex];
+            //        if (rowAt == null) {
+            //            rowAt = myTable.addRow();
+            //            rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+            //        } else {
+            //            var dataAt = rowAt.data;
+            //            var newData = new RowData(dataAt);
+            //            rowAt = myTable.addRow(newData);
+            //        }
+            //    }
+            //}
         });
     }
 
