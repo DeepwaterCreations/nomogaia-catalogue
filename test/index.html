@@ -117,7 +117,7 @@
                                                                     <div class="rightsUI">
                                                                         <p>Impacted Rights</p>
                                                                         <ul>
-                                                                            <li data-ng-repeat="right in getCurrentRights(Topic)"><button  data-ng-click="removeRight(Topic, right)">X</button>{{right}}</li><!--data-ng-show="this.editRights"-->
+                                                                            <li data-ng-repeat="right in getCurrentRights(Topic)"><button data-ng-click="removeRight(Topic, right)">X</button>{{right}}</li><!--data-ng-show="this.editRights"-->
                                                                         </ul>
                                                                     </div>
                                                                     <div class="rightsholdersUI">
@@ -157,14 +157,17 @@
                             <div id="drag-bar"></div>
                             <div id="side-bar-rights" class="side-bar">
                                 <h2>Rights</h2>
-                                <ul>
-                                    <li data-ng-repeat="right in rightslist()" draggable="true" data-value="{{right}}" data-type="Impacted Rights" ondragstart="g.drag(event)">{{right}}</li>
-                                </ul>
-
+                                <div class="multi-column">
+                                    <ul>
+                                        <li data-ng-repeat="right in rightslist()" draggable="true" data-value="{{right}}" data-type="Impacted Rights" ondragstart="g.drag(event)">{{right}}</li>
+                                    </ul>
+                                </div>
                                 <h2>Rights Holders</h2>
-                                <ul>
-                                    <li data-ng-repeat="rightsholder in rightsholderlist()" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)">{{rightsholder}}</li>
-                                </ul>
+                                <div class="multi-column">
+                                    <ul>
+                                        <li data-ng-repeat="rightsholder in rightsholderlist()" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)">{{rightsholder}}</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
