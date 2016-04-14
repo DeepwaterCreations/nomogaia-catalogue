@@ -25,6 +25,22 @@
     flex: 1 1 auto;
 }
 
+#drag-bar {
+    flex: 0 0 auto;
+    background-color: #356C28;
+    width: .2em;
+    cursor: col-resize;
+    height: 100%;
+}
+
+#ghostbar{
+    width:3px;
+    background-color:#000;
+    opacity:0.5;
+    position:absolute;
+    cursor: col-resize;
+    z-index:999}
+
 .can-drop {
     background-color:red;
 }
@@ -45,8 +61,9 @@
 }
 
 #side-bar-rights {
+    border-left: 0px solid #356C28;
     width: 500px;
-    -webkit-column-count: 2;
+    -webkit-column-width: 250px;
 }
 
 .ui-tabs-nav li {

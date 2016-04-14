@@ -72,7 +72,7 @@
                         <div data-ng-if="tableData === null" class="fill">
                             <h1>Loading</h1>
                         </div>
-                        <div data-ng-if="tableData !== null" data-ng-init="init()" class="fill flx-row">
+                        <div data-ng-if="tableData !== null" data-ng-init="init()" class="fill flx-row" id="tree-view">
                             <div class="main">
                                 <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)" />
                                 <ul>
@@ -160,6 +160,7 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div id="drag-bar"></div>
                             <div id="side-bar-rights" class="side-bar">
                                 <h2>Rights</h2>
                                 <ul>
