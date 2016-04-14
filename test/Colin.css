@@ -63,7 +63,10 @@
 #side-bar-rights {
     border-left: 0px solid #356C28;
     width: 500px;
-    -webkit-column-width: 250px;
+}
+
+.multi-column {
+    -webkit-column-width: 200px;
 }
 
 .ui-tabs-nav li {

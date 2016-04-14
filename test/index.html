@@ -136,7 +136,7 @@
                                                                                 {{module}}
                                                                             </label>
                                                                             <input type="text" name="module" data-ng-model="newMod" />
-                                                                            <button data-ng-click="addMod(newMod);newMod='';">Add New</button>
+                                                                            <button data-ng-click="addNewMod(newMod);newMod='';">Add New</button>
                                                                         </div>
                                                                     </div>
                                                                     <div class="rowInputUISection">
@@ -163,14 +163,21 @@
                             <div id="drag-bar"></div>
                             <div id="side-bar-rights" class="side-bar">
                                 <h2>Rights</h2>
-                                <ul>
-                                    <li data-ng-repeat="right in rightslist()" draggable="true" data-value="{{right}}" data-type="Impacted Rights" ondragstart="g.drag(event)">{{right}}</li>
-                                </ul>
-
+                                <input type="text" data-ng-model="newRight" />
+                                <button data-ng-click="addNewRight(newRight);newRight='';">Add</button>
+                                <div class="multi-column">
+                                    <ul>
+                                        <li data-ng-repeat="right in rightslist()" draggable="true" data-value="{{right}}" data-type="Impacted Rights" ondragstart="g.drag(event)">{{right}}</li>
+                                    </ul>
+                                </div>
                                 <h2>Rights Holders</h2>
-                                <ul>
-                                    <li data-ng-repeat="rightsholder in rightsholderlist()" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)">{{rightsholder}}</li>
-                                </ul>
+                                <input type="text" data-ng-model="newRightHolder" />
+                                <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';">Add</button>
+                                <div class="multi-column">
+                                    <ul>
+                                        <li data-ng-repeat="rightsholder in rightsholderlist()" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)">{{rightsholder}}</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 

@@ -424,13 +424,18 @@ function RowUI(table, rowData) {
         this.data.addListener('Sub-Category', this.updateSubCategory);
         this.data.addListener('Topic', this.updateTopic);
         //for the rest we loop
-        g.columnList.forEach(function (columnName) {
-            if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
-                that.data.addListener(columnName, function () {
-                    that.setUIValue(columnName, that.data.getData(columnName))
-                })
-            }
-        });
+
+        // TODO TODO TODO
+        // commenting this definatly breaks stuff in the old catalogs
+        // but fixes stuff in the new table 
+
+        //g.columnList.forEach(function (columnName) {
+        //    if (['Catalog', 'Category', 'Sub-Category', 'Topic'].indexOf(columnName) == -1) {
+        //        that.data.addListener(columnName, function () {
+        //            that.setUIValue(columnName, that.data.getData(columnName))
+        //        })
+        //    }
+        //});
 
 
         //this.table.timeListenToData += window.performance.now() - start;
