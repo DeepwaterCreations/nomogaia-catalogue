@@ -103,11 +103,49 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     $scope.init = function () {
-        $("#side-bar-rights").resizable({
-            ghost: true,
-            handles: 'w'
+        //$("#side-bar-rights").resizable({
+        //    ghost: true,
+        //    handles: 'w',
+        //    resize: function (event, ui) {
+        //    $(this).css('height', '100%');
+        //}
+        //});
+
+        var dragging = false;
+        var startX = 0;
+        $('#drag-bar').mousedown(function (e) {
+            e.preventDefault();
+            startX = e.pageX;
+            dragging = true;
+            var main = $('#tree-view .main');
+            var ghostbar = $('<div>',
+                             {
+                                 id: 'ghostbar',
+                                 css: {
+                                     height: main.outerHeight(),
+                                     top: main.offset().top,
+                                     left: main.offset().left
+                                 }
+                             }).appendTo('#tree-view');
+
+            ghostbar.css("left", e.pageX);
+            $(document).mousemove(function (e) {
+                ghostbar.css("left", e.pageX );
+            });
         });
-        console.log("", $("#side-bar-rights"));
+
+        $(document).mouseup(function (e) {
+            if (dragging) {
+                console.log(" width: "+$('#side-bar-rights').css("width") +" startX: "+startX + " e.pageX: "+ e.pageX, e)
+                $('#side-bar-rights').css("width",
+                    ($('#side-bar-rights').width() + 
+                    startX-e.pageX )+ "px");
+                //$('#main').css("left", e.pageX + 2);
+                $('#ghostbar').remove();
+                $(document).unbind('mousemove');
+                dragging = false;
+            }
+        });
     }
 
 
