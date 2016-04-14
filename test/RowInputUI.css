@@ -45,17 +45,27 @@
 
     .rowInputUI .scoreUI{
         flex: 1 4 auto;
-        min-width: 3em;
     }
 
         .scoreUI > div{
             display: flex;
             flex-direction: row;
             text-align: center;
+            justify-content: center;
+            align-self: center;
         }
 
+            .scoreUI > div > div{
+                display: flex;
+                flex-direction: row;
+                flex: 1;
+            }
+
         .scoreUI label{
+            min-width: 2em;
+            max-width: 3em;
             padding: 3px;
+            flex: 1;
         }
 
         .scoreUI input[type='radio']{
@@ -71,5 +81,5 @@
         .scoreUI input[type='radio']:not(:checked) ~ label.okay,
         .scoreUI input[type='radio']:not(:checked) ~ label.good,
         .scoreUI input[type='radio']:not(:checked) ~ label.great{
-            background-color:#efefef;
+            background-color:#fefefe;
         }
