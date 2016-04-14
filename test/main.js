@@ -127,7 +127,7 @@ $(document).ready(function () {
         }
     });
 
-    //$('.side-bar').hide();
+    $('#side-bar-monitors').hide();
 
     $('#monitor').click(function() {
         $('#side-bar-monitors').toggle();

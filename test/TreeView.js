@@ -102,6 +102,14 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         };
     };
 
+    $scope.init = function () {
+        $("#side-bar-rights").resizable({
+            ghost: true,
+            handles: 'w'
+        });
+        console.log("", $("#side-bar-rights"));
+    }
+
 
     g.drag = function (event) {
         console.log("drag!", event);

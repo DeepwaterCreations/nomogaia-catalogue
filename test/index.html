@@ -72,7 +72,7 @@
                         <div data-ng-if="tableData === null" class="fill">
                             <h1>Loading</h1>
                         </div>
-                        <div data-ng-if="tableData !== null" class="fill flx-row">
+                        <div data-ng-if="tableData !== null" data-ng-init="init()" class="fill flx-row">
                             <div class="main">
                                 <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)" />
                                 <ul>
