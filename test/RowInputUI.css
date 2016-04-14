@@ -68,3 +68,10 @@
             border-style: solid;
             padding: 0px;
         }
+        .scoreUI input[type='radio']:not(:checked) ~ label.terrible,
+        .scoreUI input[type='radio']:not(:checked) ~ label.bad,
+        .scoreUI input[type='radio']:not(:checked) ~ label.okay,
+        .scoreUI input[type='radio']:not(:checked) ~ label.good,
+        .scoreUI input[type='radio']:not(:checked) ~ label.great{
+            background-color:#efefef;
+        }
