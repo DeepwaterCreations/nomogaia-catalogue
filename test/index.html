@@ -77,8 +77,8 @@
                                 <div class="header">
                                     <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)" />
                                     <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
-                                    <input type="button" class="blueButton" id="addRow" value="Add Row" />
-                                    <input type="button" class="blueButton openAddTopic" value="Add Topic" />
+                                    <!--<input type="button" class="blueButton" id="addRow" value="Add Row" />
+                                    <input type="button" class="blueButton openAddTopic" value="Add Topic" />-->
                                 </div>
                                 <ul>
                                     <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
@@ -157,11 +157,27 @@
                                                                     </div>
                                                                 </div>
                                                             </li>
+                                                            <li>
+                                                                <input type="text" data-ng-model="newTopic" />
+                                                                <button ng-disabled="isNewTopic(Catalog,Category,SubCategory,newTopic)" data-ng-click="addNewTopic(Catalog,Category,SubCategory,newTopic);newTopic='';">Add</button>
+                                                            </li>
                                                         </ul>
+                                                    </li>
+                                                    <li>
+                                                        <input type="text" data-ng-model="newSubCatagorgy" />
+                                                        <button ng-disabled="isNewSubCategory(Catalog,Category,newSubCatagorgy)" data-ng-click="addNewSubCategory(Catalog,Category,newSubCatagorgy);newSubCatagorgy='';">Add</button>
                                                     </li>
                                                 </ul>
                                             </li>
+                                            <li>
+                                                <input type="text" data-ng-model="newCatagorgy" />
+                                                <button ng-disabled="isNewCategory(Catalog,newCatagorgy)" data-ng-click="addNewCategory(Catalog,newCatagorgy);newCatagorgy='';">Add</button>
+                                            </li>
                                         </ul>
+                                    </li>
+                                    <li>
+                                        <input type="text" data-ng-model="newCatalog" />
+                                        <button ng-disabled="isNewCatalog(newCatalog)" data-ng-click="addNewCatalog(newCatalog);newCatalog='';">Add</button>
                                     </li>
                                 </ul>
                             </div>
