@@ -44,12 +44,11 @@
         /* background-color: #DCF0D8; */
     }
     .rightContainer span{
-        opacity: 0;
-        color: red;
+        color: gray;
         cursor: pointer;
     }
     .rightContainer:hover span{
-        opacity: 1;
+	color: red;
     }
 
     .rowInputUI .moduleUI{
