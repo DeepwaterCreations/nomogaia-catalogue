@@ -165,6 +165,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                         if (AddTopic.canAdd()) {
                             AddTopic.addTopic();
                             $(this).dialog("close");
+                        } else {
+                            AddTopic.highlightIncomplete();
                         }
                         
                     }

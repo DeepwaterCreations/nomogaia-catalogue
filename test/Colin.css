@@ -1,4 +1,8 @@
-﻿.ui-state-active, .ui-state-hover, .ui-state-visited, .ui-state-focus {
+﻿body .ui-widget {
+font-size:1em;
+}
+
+.ui-state-active, .ui-state-hover, .ui-state-visited, .ui-state-focus {
     outline: none !important;
 }
 
@@ -33,16 +37,17 @@
     height: 100%;
 }
 
-#ghostbar{
-    width:3px;
-    background-color:#000;
-    opacity:0.5;
-    position:absolute;
+#ghostbar {
+    width: 3px;
+    background-color: #000;
+    opacity: 0.5;
+    position: absolute;
     cursor: col-resize;
-    z-index:999}
+    z-index: 999;
+}
 
 .can-drop {
-    background-color:red;
+    background-color: red;
 }
 
 .vert {
@@ -50,7 +55,7 @@
 }
 
 .side-bar {
-    overflow-y:scroll;
+    overflow-y: scroll;
     flex: 0 0 auto;
     border-left: 2px solid #356C28;
     border-radius: 0; /*jquery ui wants to put a bunch of stupid classes on my side bar*/
@@ -202,7 +207,7 @@ body {
     #outlineTab .main {
         flex: 1 1 auto;
         overflow: scroll;
-        height:  calc(100% - 30px);
+        height: calc(100% - 30px);
         padding: 15px;
     }
 
@@ -526,6 +531,12 @@ button.close-icon {
     border-color: red;
 }
 
+#addTopic input.red,
+#addTopic textarea.red,
+#addTopic .holder select.red + .select2-container {
+    border-color: red;
+}
+
 .addTopic .select2-container {
     width: calc(100% - 206px);
 }
@@ -555,8 +566,13 @@ button.close-icon {
     }
 
         .blueButton.off:hover {
-            background: #666;
-            border-color: #666;
+            background: #888;
+            border-color: #888;
+        }
+
+        .blueButton.off:focus {
+            background: #888;
+            border-color: #888;
         }
 
 #saveLoad {
