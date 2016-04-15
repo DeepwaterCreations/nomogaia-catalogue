@@ -53,16 +53,19 @@
             text-align: center;
             justify-content: center;
             align-self: center;
+            width: 100%;
         }
 
             .scoreUI > div > div{
                 display: flex;
                 flex-direction: row;
                 flex: 1;
+                max-width: 4em;
+                margin: 0px 2px;
             }
 
         .scoreUI label{
-            min-width: 2em;
+            width: 1.5em;
             max-width: 3em;
             padding: 3px;
             flex: 1;
@@ -71,6 +74,7 @@
         .scoreUI input[type='radio']{
             opacity: 0;
             height: 0;
+            width: 0;
         }
         .scoreUI input[type='radio']:checked ~ label{
             border-style: solid;
