@@ -121,13 +121,13 @@
                                                                         <div class="rightsUI">
                                                                             <span>Impacted Rights</span>
                                                                             <ul>
-                                                                                <li data-ng-repeat="right in getCurrentRights(Topic)"><button  data-ng-click="removeRight(Topic, right)">X</button>{{right}}</li><!--data-ng-show="this.editRights"-->
+                                                                                <li class="rightContainer" data-ng-repeat="right in getCurrentRights(Topic)"><span  data-ng-click="removeRight(Topic, right)"> x </span>{{right}}</li><!--data-ng-show="this.editRights"-->
                                                                             </ul>
                                                                         </div>
                                                                         <div class="rightsholdersUI">
                                                                             <span>Impacted Rights-holders</span>
                                                                             <ul>
-                                                                                <li data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><button data-ng-click="removeRightsholder(Topic, rightsholder)">X</button>{{rightsholder}}</li><!--data-ng-show="this.editRightsholders"-->
+                                                                                <li class="rightContainer" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}</li><!--data-ng-show="this.editRightsholders"-->
                                                                             </ul>
                                                                         </div>
                                                                         <div data-ng-init="newMod=''" class="moduleUI">
