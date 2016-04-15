@@ -1,5 +1,4 @@
 ﻿var fs = require('fs');
-var gui = require('nw.gui');
 var path = require('path');
 require('events').EventEmitter;
 
@@ -48,41 +47,6 @@ var FilenameRememberer = (function () {
         }
     };
 }());
-
-//Enabling ctrl-s to save
-var keyboardCommand = new gui.Shortcut({
-    key: "Ctrl+S",
-    active: function () {
-        filename = FilenameRememberer.getFilename();
-        if (filename) {
-            //If we already have a filename, save to the existing file.
-            save(filename, function (error) {
-                if (error)
-                    console.log("ERROR: ", error);
-                else {
-                    FilenameRememberer.setClean();
-                    console.log("Finished saving");
-                }
-            });
-        }
-        else {
-            //Otherwise, open the dialog to select a new filename.
-            $('#save').click();
-        }
-    }
-});
-gui.App.registerGlobalHotKey(keyboardCommand);
-
-//We need to bind and unbind the shortcut when the window loses and gains focus, otherwise
-//we'll steal Ctrl-S from other programs!
-var win = gui.Window.get();
-win.on('focus', function(){
-    gui.App.registerGlobalHotKey(keyboardCommand);
-});
-win.on('blur', function () {
-    gui.App.unregisterGlobalHotKey(keyboardCommand);
-});
-
 
 //What we're basically doing with these is using the button's onClick to trigger the (hidden) file input's onClick. That way, we get the dialog but not the
 //standard filepath-and-"choose-file"-button UI element from the file input. See https://github.com/nwjs/nw.js/wiki/File-dialogs
