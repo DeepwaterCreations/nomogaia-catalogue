@@ -20,5 +20,9 @@ g.setMonitorTables = function (monitorTables) {
     }
 }
 
+g.getMonitorTables = function () {
+    return g.private.monitorTables;
+}
+
 //This is the list of column names. Populate the html table from here.
 g.columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Description", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor", "Delete"];

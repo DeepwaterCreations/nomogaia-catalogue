@@ -247,9 +247,9 @@ AddTopic.initFields = function () {
     });
     $("#topicSourceTextBox").keyup(function () { AddTopic.canAdd(); });
 
-    $("#addTopicButton").click(function () {
-        if (AddTopic.canAdd()) {
-            AddTopic.addTopic();
-        }
-    })
+    //$("#addTopicButton").click(function () {
+    //    if (AddTopic.canAdd()) {
+    //        AddTopic.addTopic();
+    //    }
+    //})
 }

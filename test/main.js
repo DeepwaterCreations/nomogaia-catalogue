@@ -21,29 +21,7 @@ var monitorTables = new MonitorTables(categoryHierarchy);
 var table = new Table(monitorTables);
 monitorTables.push(table);
 
-addMonitorTabsToImpactedRights(monitorTables)
-
-
-
-var onClickAdd = function () {
-    var rowAt = null;
-
-    for (var tabIndex in monitorTables.backingData) {
-        if (tabIndex >=monitorTabs.getActiveMonitor()) {
-            var myTable = monitorTables.backingData[tabIndex];
-            if (rowAt == null) {
-                rowAt = myTable.addRow();
-                rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
-            } else {
-                var dataAt = rowAt.data;
-                var newData = new RowData(dataAt);
-                rowAt = myTable.addRow(newData);
-            }
-        }
-    }
-};
-
-
+addMonitorTabsToImpactedRights(monitorTables);
 
 monitorTabs.addTabsDiv("#side-bar-monitors", {});
 
@@ -69,24 +47,6 @@ $(document).ready(function () {
         autoOpen: false
     });
 
-    //Make the add topic dialog.
-    $("#addTopic").dialog({
-        buttons: [
-            {
-                text: "Cancel",
-                click: function () {
-                    $(this).dialog("close");
-                }
-            }
-        ],
-        autoOpen: false,
-        width: "90%"
-    });
-
-    $("#openAddTopic").click(function () {
-        $("#addTopic").dialog("open");
-        $(".ui-dialog").find("button").addClass("blueButton");
-    })
 
     //Any span styled with "link" will act as a hyperlink that opens the website specified in its "dest" attribute in a new browser window.
     var gui = require('nw.gui');
@@ -112,7 +72,7 @@ $(document).ready(function () {
 
     AddTopic.initFields();
 
-    $('#addRow').click(onClickAdd);
+
     //Hider.init();
     //$('.CatalogHeader').click(updateSearchColumn);
 
@@ -133,7 +93,22 @@ $(document).ready(function () {
         $('#side-bar-monitors').toggle();
     });
 
-
+    $('#addRowCatalog').click(function () {
+        var rowAt = null;
+        for (var tabIndex in monitorTables.backingData) {
+            if (tabIndex >= monitorTables.getActiveMonitor()) {
+                var myTable = monitorTables.backingData[tabIndex];
+                if (rowAt == null) {
+                    rowAt = myTable.addRow();
+                    rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+                } else {
+                    var dataAt = rowAt.data;
+                    var newData = new RowData(dataAt);
+                    rowAt = myTable.addRow(newData);
+                }
+            }
+        }
+    });
 
     //$('#catalog').selectmenu();
     //$('#category').selectmenu();
