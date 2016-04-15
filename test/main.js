@@ -9,6 +9,7 @@ var filename = path.join(path.dirname(process.execPath), "TopicInfo.txt");// "To
 var buf = fs.readFileSync(filename, "utf8");
 // use it to create a categoryHierarchy
 var categoryHierarchy = new CategoryHierarchy(buf);
+DataOptions.setCategoryHierarchy(categoryHierarchy);
 
 // add the users own topics
 var myTopics = path.join(path.dirname(process.execPath), "myTopics.txt");//"myTopics.txt";
@@ -20,31 +21,9 @@ var monitorTables = new MonitorTables(categoryHierarchy);
 var table = new Table(monitorTables);
 monitorTables.push(table);
 
-addMonitorTabsToImpactedRights(monitorTables)
+addMonitorTabsToImpactedRights(monitorTables);
 
-
-
-var onClickAdd = function () {
-    var rowAt = null;
-
-    for (var tabIndex in monitorTables.backingData) {
-        if (tabIndex >=monitorTabs.getActiveMonitor()) {
-            var myTable = monitorTables.backingData[tabIndex];
-            if (rowAt == null) {
-                rowAt = myTable.addRow();
-                rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
-            } else {
-                var dataAt = rowAt.data;
-                var newData = new RowData(dataAt);
-                rowAt = myTable.addRow(newData);
-            }
-        }
-    }
-};
-
-
-
-monitorTabs.addTabsDiv("#sideBar", {});
+monitorTabs.addTabsDiv("#side-bar-monitors", {});
 
 //Opens a dialog with some info about the application and its creators.
 function openAboutDialog() {
@@ -68,24 +47,6 @@ $(document).ready(function () {
         autoOpen: false
     });
 
-    //Make the add topic dialog.
-    $("#addTopic").dialog({
-        buttons: [
-            {
-                text: "Cancel",
-                click: function () {
-                    $(this).dialog("close");
-                }
-            }
-        ],
-        autoOpen: false,
-        width: "90%"
-    });
-
-    $("#openAddTopic").click(function () {
-        $("#addTopic").dialog("open");
-        $(".ui-dialog").find("button").addClass("blueButton");
-    })
 
     //Any span styled with "link" will act as a hyperlink that opens the website specified in its "dest" attribute in a new browser window.
     var gui = require('nw.gui');
@@ -109,9 +70,9 @@ $(document).ready(function () {
 
     table.addRows(dataList, function () { g.setMonitorTables(monitorTables); });
 
-    AddTopic.initFields(monitorTables.dataOptions);
+    AddTopic.initFields();
 
-    $('#addRow').click(onClickAdd);
+
     //Hider.init();
     //$('.CatalogHeader').click(updateSearchColumn);
 
@@ -126,9 +87,34 @@ $(document).ready(function () {
         }
     });
 
+    $('#side-bar-monitors').hide();
+
+    $('#monitor').click(function() {
+        $('#side-bar-monitors').toggle();
+    });
+
+    $('#addRowCatalog').click(function () {
+        var rowAt = null;
+        for (var tabIndex in monitorTables.backingData) {
+            if (tabIndex >= monitorTables.getActiveMonitor()) {
+                var myTable = monitorTables.backingData[tabIndex];
+                if (rowAt == null) {
+                    rowAt = myTable.addRow();
+                    rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+                } else {
+                    var dataAt = rowAt.data;
+                    var newData = new RowData(dataAt);
+                    rowAt = myTable.addRow(newData);
+                }
+            }
+        }
+    });
+
     //$('#catalog').selectmenu();
     //$('#category').selectmenu();
     //$('#subcategory').selectmenu();
 
     autosave(5 * 60 * 1000); //Minutes * sec/min * ms/sec.
 });
+
+

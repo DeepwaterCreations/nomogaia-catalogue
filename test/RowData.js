@@ -12,9 +12,12 @@
 //TODO to closure?
 var rowDataId = 0;
 
+g.allRowData = {};
+
 //Holds the data for a single row.
 RowData = function (rowData) {
     this.id = rowDataId++;
+    g.allRowData[this.id] = this;
     this.child = null;
     this.ui = null;
 
@@ -56,7 +59,7 @@ RowData = function (rowData) {
             var columnName = g.columnList[i];
             var rowValue = this.getData(columnName);
             if (rowValue == DataOptions.getDefaultValue(columnName) || rowValue == undefined) {
-            }else if (rowValue.constructor === Array) {
+            } else if (rowValue.constructor === Array) {
                 if (rowValue.indexOf(data) >= 0) {
                     return true;
                 }
@@ -113,8 +116,8 @@ RowData = function (rowData) {
         }
     };
 
-    this.tryUnHook = function(){
-        if (this.rowData != null){
+    this.tryUnHook = function () {
+        if (this.rowData != null) {
             this.unHook();
         }
     }
@@ -132,45 +135,71 @@ RowData = function (rowData) {
     //Helper functions so we can add new rights/rightsholders without clobbering
     //the existing rights or fussing around with the stuff this function
     //does every single time. 
-    this.addRights = function(rights){
+    this.addRights = function (rights) {
         var current_rights = this.getData("Impacted Rights") || [];
-        var new_rights = current_rights.concat(rights);
-        this.setData("Impacted Rights", new_rights);
+        var next_rights = [];
+        for (var i = 0; i < current_rights.length; i++) {
+            next_rights.push(current_rights[i]);
+        }
+        for (var i = 0; i < rights.length; i++) {
+            if (next_rights.indexOf(rights[i]) == -1) {
+                next_rights.push(rights[i]);
+            }
+        }
+        this.setData("Impacted Rights", next_rights);
     };
-    this.addRightsholders = function(rightsholders){
+    this.addRightsholders = function (rightsholders) {
         var current_rightsholders = this.getData("Impacted Rights-Holders") || [];
-        var new_rightsholders = current_rightsholders.concat(rightsholders);
-        this.setData("Impacted Rights-Holders", new_rightsholders);
+        var next_rightsholders = [];
+        for (var i = 0; i < current_rightsholders.length; i++) {
+            next_rightsholders.push(current_rightsholders[i]);
+        }
+        for (var i = 0; i < rightsholders.length; i++) {
+            if (next_rightsholders.indexOf(rightsholders[i]) == -1) {
+                next_rightsholders.push(rightsholders[i]);
+            }
+        }
+        this.setData("Impacted Rights-Holders", next_rightsholders);
     };
 
-    this.removeRights = function(rights){
-        if(typeof rights === 'string')
+    this.removeRights = function (rights) {
+        if (typeof rights === 'string')
             rights = [rights];
 
         var topic_rights = this.getData("Impacted Rights") || [];
-        rights.forEach(function(right){
-            var index = rights.indexOf(right);
-            if(index >= 0){
+        rights.forEach(function (right) {
+            var index = topic_rights.indexOf(right);
+            if (index >= 0) {
                 topic_rights.splice(index, 1);
             }
         });
 
         this.setData("Impacted Rights", topic_rights);
     };
-    this.removeRightsholders = function(rightsholders){
-        if(typeof rightsholders === 'string')
+    this.removeRightsholders = function (rightsholders) {
+        if (typeof rightsholders === 'string')
             rightsholders = [rightsholders];
 
         var topic_rightsholders = this.getData("Impacted Rights-Holders") || [];
-        rightsholders.forEach(function(rightsholder){
-            var index = rightsholders.indexOf(rightsholder);
-            if(index >= 0){
+        rightsholders.forEach(function (rightsholder) {
+            var index = topic_rightsholders.indexOf(rightsholder);
+            if (index >= 0) {
                 topic_rightsholders.splice(index, 1);
             }
         });
 
         this.setData("Impacted Rights-Holders", topic_rightsholders);
     };
+
+    this.acceptDrop = function (type, value) {
+        var toAdd = [];
+        toAdd.push(value);
+        if (type == "Impacted Rights-Holders") {
+            this.addRightsholders(toAdd);
+        } else if (type == "Impacted Rights") {
+            this.addRights(toAdd);
+        }
+    }
 
     this.setData = function (columnName, data) {
         var oldData = this.getData(columnName)
@@ -204,7 +233,7 @@ RowData = function (rowData) {
                 //now update Monitor
                 //this will stop wrapping rowData for us
                 this.setMonitor();
-                
+
             }
             this[columnName] = data;
             // call the listeners
@@ -237,13 +266,15 @@ RowData = function (rowData) {
         this.rowData = rowData;
         rowData.child = this;
         var that = this;
-        // we want to listen to the changes to the row we are rapping so we pass it listeners that call our listeners
+        // we want to listen to the changes to the row we are wrapping so we pass it listeners that call our listeners
         g.columnList.forEach(function (columnName) {
             var listner = that.callMyListeners(that, columnName);
             that.listeningWith.push(listner);
             that.rowData.addListener(columnName, listner);
         });
     }
-
-
 };
+
+RowData.getRow = function (id) {
+    return g.allRowData[id];
+}

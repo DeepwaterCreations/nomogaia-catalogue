@@ -37,7 +37,6 @@
         }
         var data = monitorTables.backingData[monitor].tableData;
         var newestMonitorData = monitorTables.getNewestMonitorData().tableData;
-        var options = monitorTables.dataOptions;
 
         //First clear what's already there.
         $("#" + matrixTableID).empty();
@@ -56,7 +55,7 @@
         //Add the rows
         //For each right, get the list of monitor table rows that contain that right. Iterate over the rights-holders, and for each one that the row item impacts, get the score and increment a count of scores.
         //Cell HTML strings go in an HTMLrow object mapped to rights-holder names. Then we can sort by rights and add rows in the rights order, or sort by rights-holders to add cells from each right in a particular column order.
-        options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+        DataOptions.getColumnOptions("Impacted Rights").forEach(function (rightName) {
             rightName = rightName || undefinedRightNameFiller;
 
             var rowHTML = {
@@ -75,7 +74,7 @@
             newestMonitorRows = newestMonitorRows.filter(function (element, index, array) {
                 return element.getData("Catalog") !== "Context";
             });
-            options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+            DataOptions.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
                 rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
                 
                 var scoreCount = 0;
@@ -141,7 +140,7 @@
         else {
 
             //Add the column headings
-            var sortedRightsholders = options.getColumnOptions("Impacted Rights-Holders");
+            var sortedRightsholders = DataOptions.getColumnOptions("Impacted Rights-Holders");
             //Weed out the rightsHolders with no data in any monitor
             sortedRightsholders = sortedRightsholders.filter(function (value, index, array) {
                 //return value in columnSortScores
@@ -211,14 +210,14 @@
     //    var keptRows = {};
         
     //    var data = monitorTables.backingData[monitor].tableData;
-    //    var options = monitorTables.dataOptions;
+    //    var DataOptions = monitorTables.dataOptions;
                 
     //    //We're going to iterate over all the rows and columns to see which have scores. Each row/column that has at least one score in it, we'll keep. 
-    //    options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+    //    DataOptions.getColumnOptions("Impacted Rights").forEach(function (rightName) {
     //        rightName = rightName || undefinedRightNameFiller;
 
             //var rows = data.getRowsWithScore("Impacted Rights", rightName);
-            //options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+            //DataOptions.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
             //    rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
 
     //            rows.forEach(function (row) {
@@ -231,14 +230,14 @@
     //    });
 
     //    //Now, delete all the rows and columns that never made it onto the list.
-    //    options.getColumnOptions("Impacted Rights").forEach(function (rightName) {
+    //    DataOptions.getColumnOptions("Impacted Rights").forEach(function (rightName) {
     //        rightName = rightName || undefinedRightNameFiller;
 
     //        if (!(rightName in keptRows))
     //            $("#" + getRowID(rightName)).remove();
     //    });
 
-    //    options.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+    //    DataOptions.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
     //        rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
 
     //        if (!(rightsholderName in keptColumns)) {

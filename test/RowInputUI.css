@@ -1,0 +1,89 @@
+.rowInputUI{
+    display: flex;
+    flex-direction: column;
+}
+
+    .rowInputUI > div span{
+        font-weight: bold;
+    }
+
+    .rowInputUI .rowInputUISection{
+        display: flex;
+        flex-direction: row;
+
+        flex: 4 1 auto;
+    }
+
+        .rowInputUISection > div{
+            display: flex;
+            flex-direction: column;
+
+            background-color: #efefef;
+            margin: .12em;
+            padding: .5em;
+        }
+
+        .rowInputUISection .inputtext{
+            flex: 3 2 auto;
+        }
+        .rowInputUISection .sourcetext{
+            flex: 1 2 auto;
+        }
+
+        .rowInputUISection .inputtext textarea, .rowInputUISection .sourcetext textarea{
+            width: 100%;
+            flex: 1;
+        }
+
+    .rowInputUI .rightsUI, .rowInputUI .rightsholdersUI{
+        flex: 3 2 auto;
+    }
+
+    .rowInputUI .moduleUI{
+        flex: 1 2 auto;
+    }
+
+    .rowInputUI .scoreUI{
+        flex: 1 4 auto;
+    }
+
+        .scoreUI > div{
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            justify-content: center;
+            align-self: center;
+            width: 100%;
+        }
+
+            .scoreUI > div > div{
+                display: flex;
+                flex-direction: row;
+                flex: 1;
+                max-width: 4em;
+                margin: 0px 2px;
+            }
+
+        .scoreUI label{
+            width: 1.5em;
+            max-width: 3em;
+            padding: 3px;
+            flex: 1;
+        }
+
+        .scoreUI input[type='radio']{
+            opacity: 0;
+            height: 0;
+            width: 0;
+        }
+        .scoreUI input[type='radio']:checked ~ label{
+            border-style: solid;
+            padding: 0px;
+        }
+        .scoreUI input[type='radio']:not(:checked) ~ label.terrible,
+        .scoreUI input[type='radio']:not(:checked) ~ label.bad,
+        .scoreUI input[type='radio']:not(:checked) ~ label.okay,
+        .scoreUI input[type='radio']:not(:checked) ~ label.good,
+        .scoreUI input[type='radio']:not(:checked) ~ label.great{
+            background-color:#fefefe;
+        }

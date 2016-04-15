@@ -178,11 +178,20 @@ AddTopic.setColumnSelect = function (target, value) {
 }
 
 
-AddTopic.initFields = function (dataOptions) {
-    AddTopic.makeSelect2($("#catalogSelect"), dataOptions.getColumnOptions("Catalog"));
-    AddTopic.makeSelect2($("#categorySelect"), dataOptions.getColumnOptions("Category"));
-    AddTopic.makeSelect2($("#subcategorySelect"), dataOptions.getColumnOptions("Sub-Category"));
-    AddTopic.makeSelect2NoAdd($("#moduleSelect"), dataOptions.getColumnOptions("Module"));
+AddTopic.highlightIncomplete = function () {
+    // this coulld be done nicer with jQuerys animate
+    $("#addTopic .incomplete").addClass("red");
+    setTimeout(function () {
+        $("#addTopic .red").removeClass("red");
+    },1000)
+}
+
+
+AddTopic.initFields = function () {
+    AddTopic.makeSelect2($("#catalogSelect"), DataOptions.getColumnOptions("Catalog"));
+    AddTopic.makeSelect2($("#categorySelect"), DataOptions.getColumnOptions("Category"));
+    AddTopic.makeSelect2($("#subcategorySelect"), DataOptions.getColumnOptions("Sub-Category"));
+    AddTopic.makeSelect2NoAdd($("#moduleSelect"), DataOptions.getColumnOptions("Module"));
 
     AddTopic.canAdd();
 
@@ -247,9 +256,9 @@ AddTopic.initFields = function (dataOptions) {
     });
     $("#topicSourceTextBox").keyup(function () { AddTopic.canAdd(); });
 
-    $("#addTopicButton").click(function () {
-        if (AddTopic.canAdd()) {
-            AddTopic.addTopic();
-        }
-    })
+    //$("#addTopicButton").click(function () {
+    //    if (AddTopic.canAdd()) {
+    //        AddTopic.addTopic();
+    //    }
+    //})
 }

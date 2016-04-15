@@ -7,8 +7,16 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
             $scope.filteredTree = $scope.tableData.treeView;
-            $scope.rightslist = monitorTables.dataOptions.columnOptions["Impacted Rights"];
-            $scope.rightsholderlist = monitorTables.dataOptions.columnOptions["Impacted Rights-Holders"];
+            $scope.rightslist = function () {
+                return DataOptions.columnOptions["Impacted Rights"];
+            }
+            $scope.rightsholderlist = function () {
+                return DataOptions.columnOptions["Impacted Rights-Holders"];
+            }
+            $scope.moduleList = function () {
+                return DataOptions.columnOptions["Module"];
+            }
+            $scope.scorevals = DataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
         });
     })
@@ -46,6 +54,28 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.getCurrentRightsholders = function (rowData) {
         return rowData.getData("Impacted Rights-Holders");
     };
+    $scope.getModules = function (rowData) {
+        return rowData.getData("Module");
+    };
+
+    $scope.addNewMod = function (newMod) {
+        var list = $scope.moduleList();
+        if (list.indexOf(newMod) == -1) {
+            list.push(newMod);
+        }
+    }
+    $scope.addNewRight = function (newRight) {
+        var list = $scope.rightslist();
+        if (list.indexOf(newRight) == -1) {
+            list.push(newRight);
+        }
+    }
+    $scope.addNewRightHolder = function (newRightHolder) {
+        var list = $scope.rightsholderlist();
+        if (list.indexOf(newRightHolder) == -1) {
+            list.push(newRightHolder);
+        }
+    }
 
     //Add a right or rightsholder to the topic.
     $scope.addRight = function (rowData, rightname) {
@@ -57,19 +87,23 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     //Or remove one.
-    $scope.removeRight = function(rowData, rightname){
+    $scope.removeRight = function (rowData, rightname) {
         rowData.removeRights(rightname);
     };
-    $scope.removeRightsholder = function(rowData, rightsholdername){
+    $scope.removeRightsholder = function (rowData, rightsholdername) {
         rowData.removeRightsholders(rightsholdername);
     };
+
+    $scope.getScoreCategoryClass = getScoreCategoryClass; //What's with this global BS
 
     //A function that returns a function that is a getterSetter for the given topic (RowData).
     $scope.getSetData = function (rowData, columnName) {
         return function (data) {
             if (arguments.length) {
                 //Set
+                console.log("set to " + data);
                 rowData.setData(columnName, data);
+                console.log("result " + rowData.getData(columnName));
             }
             else {
                 //Get
@@ -78,6 +112,121 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             }
         };
     };
+
+    $scope.init = function () {
+        // resize
+        var dragging = false;
+        var startX = 0;
+        $('#drag-bar').mousedown(function (e) {
+            e.preventDefault();
+            startX = e.pageX;
+            dragging = true;
+            var main = $('#tree-view .main');
+            var ghostbar = $('<div>',
+                             {
+                                 id: 'ghostbar',
+                                 css: {
+                                     height: main.outerHeight(),
+                                     top: main.offset().top,
+                                     left: main.offset().left
+                                 }
+                             }).appendTo('#tree-view');
+
+            ghostbar.css("left", e.pageX);
+            $(document).mousemove(function (e) {
+                ghostbar.css("left", e.pageX);
+            });
+        });
+
+        $(document).mouseup(function (e) {
+            if (dragging) {
+                console.log(" width: " + $('#side-bar-rights').css("width") + " startX: " + startX + " e.pageX: " + e.pageX, e)
+                $('#side-bar-rights').css("width",
+                    ($('#side-bar-rights').width() +
+                    startX - e.pageX) + "px");
+                //$('#main').css("left", e.pageX + 2);
+                $('#ghostbar').remove();
+                $(document).unbind('mousemove');
+                dragging = false;
+            }
+        });
+
+        $("#addTopic").dialog({
+            buttons: [
+                {
+                    text: "Cancel",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }, {
+                    id:"addTopicButton",
+                    text: "Ok",
+                    click: function () {
+                        if (AddTopic.canAdd()) {
+                            AddTopic.addTopic();
+                            $(this).dialog("close");
+                        } else {
+                            AddTopic.highlightIncomplete();
+                        }
+                        
+                    }
+                }
+            ],
+            autoOpen: false,
+            width: "90%"
+        });
+
+        $(".openAddTopic").click(function () {
+            $("#addTopic").dialog("open");
+            $(".ui-dialog").find("button").addClass("blueButton");
+            AddTopic.canAdd();
+        })
+
+        $('#addRowTree').click(function () {
+            //var rowAt = null;
+            //for (var tabIndex in g.getMonitorTables().backingData) {
+            //    if (tabIndex >= g.getMonitorTables().getActiveMonitor()) {
+            //        var myTable = g.getMonitorTables().backingData[tabIndex];
+            //        if (rowAt == null) {
+            //            rowAt = myTable.addRow();
+            //            rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+            //        } else {
+            //            var dataAt = rowAt.data;
+            //            var newData = new RowData(dataAt);
+            //            rowAt = myTable.addRow(newData);
+            //        }
+            //    }
+            //}
+        });
+    }
+
+
+    g.drag = function (event) {
+        console.log("drag!", event);
+        event.dataTransfer.setData("type", event.target.dataset.type);
+        event.dataTransfer.setData("value", event.target.dataset.value);
+    }
+
+    g.drop = function (event) {
+        event.preventDefault();
+        var type = event.dataTransfer.getData("type");
+        var value = event.dataTransfer.getData("value");
+        var at = event.target;
+        while (at.className != "rowInputUI") {
+            at = at.parentElement;
+        }
+        var row = at.dataset.row;
+        console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
+        $timeout(function () {
+            RowData.getRow(parseInt(row)).acceptDrop(type, value);
+        })
+
+    }
+
+    g.allowDrop = function (event) {
+        //console.log("allow Drop!",event);
+        event.preventDefault();
+    }
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
         return function (id, count) {
