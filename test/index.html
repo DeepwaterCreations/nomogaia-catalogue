@@ -121,7 +121,7 @@
                                                                         <div class="rightsUI">
                                                                             <span>Impacted Rights</span>
                                                                             <ul>
-                                                                                <li class="rightContainer" data-ng-repeat="right in getCurrentRights(Topic)"><span  data-ng-click="removeRight(Topic, right)"> x </span>{{right}}</li><!--data-ng-show="this.editRights"-->
+                                                                                <li class="rightContainer" data-ng-repeat="right in getCurrentRights(Topic)"><span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}</li><!--data-ng-show="this.editRights"-->
                                                                             </ul>
                                                                         </div>
                                                                         <div class="rightsholdersUI">
@@ -132,7 +132,7 @@
                                                                         </div>
                                                                         <div data-ng-init="newMod=''" class="moduleUI">
                                                                             <span>
-                                                                            Module: {{Topic.getData('Module')}}
+                                                                                Module: {{Topic.getData('Module')}}
                                                                             </span>
                                                                             <label class="vert" data-ng-repeat="module in moduleList()">
                                                                                 <input type="radio" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
@@ -212,31 +212,37 @@
                         <fieldset>
                             <!--<input class="blueButton" type="button" id="addTopicButton" value="Add Topic" />-->
 
-                            <h4>Topic:</h4><input type="text" id="topicName" /></br>
-                            <p class="warning" id="warning-topic">! topic already exists</p>
+
 
                             <h4>Catalog:</h4>
                             <div class="holder">
                                 <select name="catalog" id="catalogSelect" style="width:100%;"></select>
-                            </div></br>
-                            <h4>Category:</h4>
+                            </div>
 
+                            <h4>Category:</h4>
                             <div class="holder">
                                 <select name="category" id="categorySelect" style="width:100%;"></select>
                             </div>
+
                             <h4>Subcategory:</h4>
                             <div class="holder">
                                 <select name="subcategory" id="subcategorySelect" style="width:100%;"></select>
-                            </div></br>
+                            </div>
+
+                            <h4>Topic:</h4><input type="text" id="topicName" />
+                            <p class="warning" id="warning-topic">! topic already exists</p>
+
                             <h4>Module:</h4>
                             <div class="holder">
                                 <select name="module" id="moduleSelect" style="width:100%;"></select>
-                            </div></br>
+                            </div>
 
-                            <h4>Topic Description:</h4><textarea name="topicDescText" cols="50" rows="2" id="topicDescTextBox"></textarea><br />
-
-                            <h4>Topic Source:</h4><textarea name="topicSourceText" cols="50" rows="2" id="topicSourceTextBox"></textarea><br />
-
+                            <h4>Topic Description:</h4>
+                            <textarea name="topicDescText" cols="50" rows="2" id="topicDescTextBox"></textarea><br />
+                            <br />
+                            <h4>Topic Source:</h4>
+                            <textarea name="topicSourceText" cols="50" rows="2" id="topicSourceTextBox"></textarea><br />
+                            <br />
                         </fieldset>
                     </div>
                 </div>

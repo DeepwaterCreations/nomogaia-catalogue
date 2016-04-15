@@ -6,6 +6,13 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     g.onMonitorTablesChange(function (monitorTables) {
         $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
+            $scope.tableData.onAddRow(function () {
+                // info angular of changes
+                $timeout(function () {
+                    $scope.tableData = $scope.tableData;
+                })
+            });
+
             $scope.filteredTree = $scope.tableData.treeView;
             $scope.rightslist = function () {
                 return DataOptions.columnOptions["Impacted Rights"];
@@ -165,6 +172,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                         if (AddTopic.canAdd()) {
                             AddTopic.addTopic();
                             $(this).dialog("close");
+                        } else {
+                            AddTopic.highlightIncomplete();
                         }
                         
                     }

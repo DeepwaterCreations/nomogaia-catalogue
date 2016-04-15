@@ -5,8 +5,12 @@ function TableData() {
     // this is a view of rows sorted by
     // {Catalog:{Category:{Sub-Category:[...rows...]}}
     this.treeView = {};
+    this.private = {};
+    this.private.addListeners = [];
 
-
+    this.onAddRow = function (listener) {
+        this.private.addListeners.push(listener);
+    }
 
     //Adds a data row to the table. If a second argument is specified, 
     //it gets passed in as a listener function.
@@ -29,6 +33,10 @@ function TableData() {
             this.treeView[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
         }
         this.treeView[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
+        for (var i = 0; i < this.private.addListeners.length; i++) {
+            this.private.addListeners[i]();
+        }
+
         return newRow;
     };
 

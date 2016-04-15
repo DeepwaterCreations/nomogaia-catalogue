@@ -178,6 +178,15 @@ AddTopic.setColumnSelect = function (target, value) {
 }
 
 
+AddTopic.highlightIncomplete = function () {
+    // this coulld be done nicer with jQuerys animate
+    $("#addTopic .incomplete").addClass("red");
+    setTimeout(function () {
+        $("#addTopic .red").removeClass("red");
+    },1000)
+}
+
+
 AddTopic.initFields = function () {
     AddTopic.makeSelect2($("#catalogSelect"), DataOptions.getColumnOptions("Catalog"));
     AddTopic.makeSelect2($("#categorySelect"), DataOptions.getColumnOptions("Category"));
