@@ -22,6 +22,10 @@
     <div class="rowInputUISection">
         <div class="rightsUI">
             <span>Impacted Rights</span>
+            <div data-ng-hide="getCurrentRights(Topic).length > 0">
+                <br />
+                <div class="infotext">Drag rights from the sidebar list to this section</div>
+            </div>
             <ul>
                 <li class="rightContainer" data-ng-repeat="right in getCurrentRights(Topic)">
                     <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
@@ -30,6 +34,10 @@
         </div>
         <div class="rightsholdersUI">
             <span>Impacted Rights-holders</span>
+            <div data-ng-hide="getCurrentRightsholders(Topic).length > 0">
+                <br />
+                <div class="infotext">Drag rightsholders from the sidebar list to this section</div>
+            </div>
             <ul>
                 <li class="rightContainer" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">
                     <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
