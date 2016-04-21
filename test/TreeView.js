@@ -1,6 +1,7 @@
 g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope, $timeout) {
     $scope.tableData = null;
     $scope.filteredTree = {};
+    $scope.filteredList = [];
     $scope.search = "";
 
     g.onMonitorTablesChange(function (monitorTables) {
@@ -14,6 +15,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             });
 
             $scope.filteredTree = $scope.tableData.treeView;
+            $scope.filteredList = $scope.tableData.rows;
             $scope.rightslist = function () {
                 return DataOptions.columnOptions["Impacted Rights"];
             }
@@ -32,6 +34,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.updateFilteredRows = function (x) {
         var filteredRows = $scope.tableData.filterRows(x)
         $scope.filteredTree = {};
+        $scope.filteredList = filteredRows;
         for (var i = 0; i < filteredRows.length; i++) {
             var newRow = filteredRows[i];
             if (!(newRow.getData("Catalog") in $scope.filteredTree)) {

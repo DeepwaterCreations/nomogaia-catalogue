@@ -79,8 +79,11 @@
                                     <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
                                     <!--<input type="button" class="blueButton" id="addRow" value="Add Row" />
                                     <input type="button" class="blueButton openAddTopic" value="Add Topic" />-->
+                                    <div >
+                                        <select data-ng-init="activeView='tree'" ng-model="activeView" ng-options="mode for mode in ['tree','list']"></select>
+                                    </div>
                                 </div>
-                                <ul>
+                                <ul data-ng-if="activeView=='tree'">
                                     <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
                                         <div data-ng-click="this.show= !this.show">{{::Catalog}}</div>
                                         <ul data-ng-if="this.show">
@@ -122,6 +125,9 @@
                                         <input type="text" data-ng-model="newCatalog" />
                                         <button ng-disabled="isNewCatalog(newCatalog)" data-ng-click="addNewCatalog(newCatalog);newCatalog='';">Add</button>
                                     </li>
+                                </ul>
+                                <ul data-ng-if="activeView=='list'">
+                                    <div data-ng-repeat="Topic in filteredList" data-ng-include="'row.html'"></div>
                                 </ul>
                             </div>
                             <div id="drag-bar"></div>
