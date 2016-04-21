@@ -21,9 +21,9 @@ AddTopic.addTopic = function () {
     // add a row
     var rowAt = null;
 
-    for (var tabIndex in monitorTables.backingData) {
+    for (var tabIndex in g.getMonitorTables().backingData) {
         if (tabIndex >= monitorTabs.getActiveMonitor()) {
-            var myTable = monitorTables.backingData[tabIndex];
+            var myTable = g.getMonitorTables().backingData[tabIndex];
             if (rowAt == null) {
                 rowAt = myTable.addRow(myTopic.toData());
                 rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());

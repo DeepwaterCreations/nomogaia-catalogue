@@ -65,6 +65,54 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return rowData.getData("Module");
     };
 
+    $scope.addNewCatalog = function(catalog) {
+        $timeout(function () {
+            $scope.tableData.treeView[catalog] = {};
+        });
+    }
+    $scope.isNewCatalog = function (catalog) {
+        return $scope.tableData.treeView[catalog] !== undefined;
+    }
+    $scope.addNewCategory = function (catalog,catagory) {
+        $timeout(function () {
+            $scope.tableData.treeView[catalog][catagory] = {};
+        });
+    }
+    $scope.isNewCategory = function (catalog, catagory) {
+        return $scope.tableData.treeView[catalog][catagory] !== undefined;
+    }
+    $scope.addNewSubCategory = function (catalog, catagory, subCatagory) {
+        $timeout(function () {
+            $scope.tableData.treeView[catalog][catagory][subCatagory] = {};
+        });
+    }
+    $scope.isNewSubCategory = function (catalog, catagory, subCatagory) {
+        return $scope.tableData.treeView[catalog][catagory][subCatagory] !== undefined;
+    }
+
+    $scope.addTopic = function (catalog, catagory, subCatagory, topic) {
+        //??
+        $timeout(function () {
+            var myTopic = new Topic(catalog, category, subCategory, topic, "", DataOptions.getDefaultValue("Module"), "");
+            for (var tabIndex in g.getMonitorTables().backingData) {
+                if (tabIndex >= monitorTabs.getActiveMonitor()) {
+                    var myTable = g.getMonitorTables().backingData[tabIndex];
+                    if (rowAt == null) {
+                        rowAt = myTable.addRow(myTopic.toData());
+                        rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+                    } else {
+                        var dataAt = rowAt.data;
+                        var newData = new RowData(dataAt);
+                        rowAt = myTable.addRow(newData);
+                    }
+                }
+            }
+        });
+    }
+    $scope.isNewTopic = function (catalog, catagory, subCatagory,topic) {
+        return false;
+    }
+
     $scope.addNewMod = function (newMod) {
         var list = $scope.moduleList();
         if (list.indexOf(newMod) == -1) {
@@ -219,7 +267,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         var type = event.dataTransfer.getData("type");
         var value = event.dataTransfer.getData("value");
         var at = event.target;
-        while (at.className != "rowInputUI") {
+        while (at.className.indexOf("hasRowID") === -1) {
             at = at.parentElement;
         }
         var row = at.dataset.row;

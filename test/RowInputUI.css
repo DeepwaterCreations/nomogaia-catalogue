@@ -39,6 +39,18 @@
         flex: 3 2 auto;
     }
 
+    .rightContainer{
+        /* border-style: solid; */
+        /* background-color: #DCF0D8; */
+    }
+    .rightContainer span{
+        color: gray;
+        cursor: pointer;
+    }
+    .rightContainer:hover span{
+	color: red;
+    }
+
     .rowInputUI .moduleUI{
         flex: 1 2 auto;
     }
