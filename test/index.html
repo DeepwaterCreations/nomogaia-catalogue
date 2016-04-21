@@ -126,9 +126,12 @@
                                         <button ng-disabled="isNewCatalog(newCatalog)" data-ng-click="addNewCatalog(newCatalog);newCatalog='';">Add</button>
                                     </li>
                                 </ul>
-                                <ul data-ng-if="activeView=='list'">
-                                    <div data-ng-repeat="Topic in filteredList" data-ng-include="'row.html'"></div>
-                                </ul>
+                                <div data-ng-if="activeView=='list'">
+                                    <div data-ng-repeat="Topic in filteredList" >
+                                        {{::Topic.getData("Catalog") +" , "+ Topic.getData("Category") +" , "+ Topic.getData("Sub-Category") +" , "+ Topic.getData("Topic")}}
+                                        <div data-ng-include="'row.html'"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div id="drag-bar"></div>
                             <div id="side-bar-rights" class="side-bar">
