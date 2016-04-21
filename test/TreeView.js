@@ -260,7 +260,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
 
     g.drag = function (event) {
-        console.log("drag!", event);
+        //console.log("drag!", event);
         event.dataTransfer.setData("type", event.target.dataset.type);
         event.dataTransfer.setData("value", event.target.dataset.value);
     }
@@ -274,7 +274,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             at = at.parentElement;
         }
         var row = at.dataset.row;
-        console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
+        //console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
         $timeout(function () {
             RowData.getRow(parseInt(row)).acceptDrop(type, value);
         })
@@ -293,7 +293,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     this.changeMonitorTabEvent = function (that) {
         return function (newlyActiveTab) {
-            console.log("newly active tab:", monitorTables.backingData[newlyActiveTab]);
+            //console.log("newly active tab:", monitorTables.backingData[newlyActiveTab]);
             $timeout(function () {
                 $scope.tableData = monitorTables.backingData[newlyActiveTab].tableData;
                 $scope.filteredTree = $scope.tableData.treeView;
