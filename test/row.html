@@ -9,27 +9,31 @@
             <textarea name="input"
                       data-ng-model="getSetData(Topic, 'Input')"
                       data-ng-model-options="{updateOn: 'blur',
-                                                                                  getterSetter: true}"></textarea>
+                                              getterSetter: true}"></textarea>
         </div>
         <div class="sourcetext">
             <span>Source</span>
             <textarea name="source"
                       data-ng-model="getSetData(Topic, 'Source')"
                       data-ng-model-options="{updateOn: 'blur',
-                                                                                  getterSetter: true}"></textarea>
+                                              getterSetter: true}"></textarea>
         </div>
     </div>
     <div class="rowInputUISection">
         <div class="rightsUI">
             <span>Impacted Rights</span>
             <ul>
-                <li class="rightContainer" data-ng-repeat="right in getCurrentRights(Topic)"><span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}</li><!--data-ng-show="this.editRights"-->
+                <li class="rightContainer" data-ng-repeat="right in getCurrentRights(Topic)">
+                    <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
+                </li><!--data-ng-show="this.editRights"-->
             </ul>
         </div>
         <div class="rightsholdersUI">
             <span>Impacted Rights-holders</span>
             <ul>
-                <li class="rightContainer" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)"><span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}</li><!--data-ng-show="this.editRightsholders"-->
+                <li class="rightContainer" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">
+                    <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
+                </li><!--data-ng-show="this.editRightsholders"-->
             </ul>
         </div>
         <div data-ng-init="newMod=''" class="moduleUI">
@@ -49,7 +53,11 @@
             <span>Score</span>
             <div>
                 <div data-ng-repeat="score in scorevals">
-                    <input type="radio" id="{{::'radio' + score + Topic.getData('Topic')}}" data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}">
+                    <input type="radio"
+                           id="{{::'radio' + score + Topic.getData('Topic')}}"
+                           data-ng-model="getSetData(Topic, 'Score')"
+                           data-ng-model-options="{getterSetter: true}"
+                           value="{{score}}">
                     <label for="{{::'radio' + score + Topic.getData('Topic')}}" data-ng-class="getScoreCategoryClass(score)">{{score}}</label>
                 </div>
             </div>
