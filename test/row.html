@@ -1,9 +1,8 @@
-
-<button data-ng-click="this.showAbout = !this.showAbout">info</button>
-<div data-ng-if="this.showAbout">
-    {{::Topic.getData("Description")}}
-</div>
-<div class="rowInputUI" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragover="g.allowDrop(event)">
+<div class="rowInputUI hasRowID" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragover="g.allowDrop(event)">
+    <button data-ng-click="this.showAbout = !this.showAbout">info</button>
+    <div data-ng-if="this.showAbout">
+        {{::Topic.getData("Description")}}
+    </div>
     <div class="rowInputUISection">
         <div class="inputtext">
             <span>Input</span>

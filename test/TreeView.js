@@ -267,7 +267,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         var type = event.dataTransfer.getData("type");
         var value = event.dataTransfer.getData("value");
         var at = event.target;
-        while (at.className != "rowInputUI") {
+        while (at.className.indexOf("hasRowID") === -1) {
             at = at.parentElement;
         }
         var row = at.dataset.row;
