@@ -27,6 +27,26 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             }
             $scope.scorevals = DataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
+
+            $(".main").scroll(function () {
+                $timeout(function () {
+                    console.log("I am being called over and over and over");
+                    var rows = $(".hasRowID");
+                    for (var i = 0 ; i < rows.length; i++) {
+                        var row = $(rows[i]);
+                        var rowId = row.data("row");
+                        var rowData = RowData.getRow(parseInt(rowId));
+                        var lastOnScreen = rowData.onScreen;
+                        rowData.onScreen = Util.checkVisible(row[0]);
+                        if (lastOnScreen && !rowData.onScreen) {
+                            row.height(row.height());
+                        }
+                        if (!lastOnScreen && rowData.onScreen) {
+                            row.height("auto");
+                        }
+                    }
+                });
+            })
         });
     })
 
@@ -93,9 +113,12 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return $scope.tableData.treeView[catalog][catagory][subCatagory] !== undefined;
     }
 
-    $scope.addTopic = function (catalog, catagory, subCatagory, topic) {
+    $scope.addNewTopic = function (catalog, category, subCategory, topic) {
         //??
         $timeout(function () {
+            // add a row
+            var rowAt = null;
+
             var myTopic = new Topic(catalog, category, subCategory, topic, "", DataOptions.getDefaultValue("Module"), "");
             for (var tabIndex in g.getMonitorTables().backingData) {
                 if (tabIndex >= monitorTabs.getActiveMonitor()) {
