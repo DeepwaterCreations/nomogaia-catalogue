@@ -28,24 +28,30 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.scorevals = DataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
 
-            $(".main").scroll(function () {
-                $timeout(function () {
-                    console.log("I am being called over and over and over");
-                    var rows = $(".hasRowID");
-                    for (var i = 0 ; i < rows.length; i++) {
-                        var row = $(rows[i]);
-                        var rowId = row.data("row");
-                        var rowData = RowData.getRow(parseInt(rowId));
-                        var lastOnScreen = rowData.onScreen;
-                        rowData.onScreen = Util.checkVisible(row[0]);
-                        if (lastOnScreen && !rowData.onScreen) {
-                            row.height(row.height());
+            var timeoutId ="";
+
+            $(".main").scroll(function (event) {
+                clearTimeout(timeoutId);
+                timeoutId= setTimeout(function () {
+                    // do something
+                    $timeout(function () {
+                        console.log("I did it!");
+                        var rows = $(".hasRowID");
+                        for (var i = 0 ; i < rows.length; i++) {
+                            var row = $(rows[i]);
+                            var rowId = row.data("row");
+                            var rowData = RowData.getRow(parseInt(rowId));
+                            var lastOnScreen = rowData.onScreen;
+                            rowData.onScreen = Util.checkVisible(row[0]);
+                            if (lastOnScreen && !rowData.onScreen) {
+                                row.height(row.height());
+                            }
+                            if (!lastOnScreen && rowData.onScreen) {
+                                row.height("auto");
+                            }
                         }
-                        if (!lastOnScreen && rowData.onScreen) {
-                            row.height("auto");
-                        }
-                    }
-                });
+                    });
+                }, 250);
             })
         });
     })
