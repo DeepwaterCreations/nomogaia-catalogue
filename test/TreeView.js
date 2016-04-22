@@ -37,22 +37,32 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     $timeout(function () {
                         console.log("I did it!");
                         var rows = $(".hasRowID");
+                        var rowCount = 0;
+
                         for (var i = 0 ; i < rows.length; i++) {
                             var row = $(rows[i]);
                             var rowId = row.data("row");
                             var rowData = RowData.getRow(parseInt(rowId));
                             var lastOnScreen = rowData.onScreen;
-                            rowData.onScreen = Util.checkVisible(row[0]);
+                            rowData.onScreen = Util.checkVisible(row[0],100);
                             if (lastOnScreen && !rowData.onScreen) {
                                 row.height(row.height());
                             }
                             if (!lastOnScreen && rowData.onScreen) {
                                 row.height("auto");
                             }
+                            if (rowData.onScreen) {
+                                rowCount++;
+                            }
                         }
+                        // TODO we seem to be showing a random number of rows
+                        console.log(rowCount);
                     });
-                }, 250);
+                }, 500);
             })
+
+            // TODO this does not work
+            $(".main").trigger("scroll");
         });
     })
 

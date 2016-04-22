@@ -1,14 +1,14 @@
 function Util() { }
 
 
-Util.checkVisible = function(elm, threshold, mode) {
+Util.checkVisible = function(elm, threshold) {
     threshold = threshold || 0;
-    mode = mode || 'visible';
 
     var rect = elm.getBoundingClientRect();
     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
-    var above = rect.bottom - threshold < 0;
-    var below = rect.top - viewHeight + threshold >= 0;
+    console.log(rect.bottom + " " + rect.top);
+    var above = rect.bottom + threshold < 0;
+    var below = rect.top - threshold >= viewHeight;
 
-    return mode === 'above' ? above : (mode === 'below' ? below : !above && !below);
+    return !above && !below;
 }
