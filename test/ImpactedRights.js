@@ -1,14 +1,14 @@
 ﻿var impactedRights_dirty = true; //Should be true whenever visible data has been changed and the table hasn't been rebuilt yet. //Colin, is there a better place for this to live?  
 
 // context is true or false
-function filterRows(rows, module, context) {
+function filterRows(rows,/* module,*/ context) {
     // if we are looking at a specific module
     // filter out all the rows not in that module
-    if (module != "") {
-        rows = rows.filter(function (row) {
-            return row.getData("Module") == module;
-        });
-    }
+    // if (module != "") {
+    //     rows = rows.filter(function (row) {
+    //         return row.getData("Module") == module;
+    //     });
+    // }
 
     rows = rows.filter(function (row) {
         return (row.getData("Catalog") == "Context") == context;
@@ -98,29 +98,29 @@ function rebuildImpactedRights(monitorTable, index) {
     impactedRightsTable.append("<tbody></tbody>");
     //Add the column headings
 
-    var headersList = ["", "Context"];
+    var headersList = ["", "Context", "Impact"];
 
-    var moduleIsUsed = function (module) {
-        for (var j = 0; j < monitorTable.backingData.length; j++) {
-            var myTable = monitorTable.backingData[j];
-            for (var i = 0; i < myTable.tableData.rows.length; i++) {
-                var row = myTable.tableData.rows[i];
-                if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Impacted Rights") != DataOptions.getDefaultValue("Impacted Rights")) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    // var moduleIsUsed = function (module) {
+    //     for (var j = 0; j < monitorTable.backingData.length; j++) {
+    //         var myTable = monitorTable.backingData[j];
+    //         for (var i = 0; i < myTable.tableData.rows.length; i++) {
+    //             var row = myTable.tableData.rows[i];
+    //             if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Impacted Rights") != DataOptions.getDefaultValue("Impacted Rights")) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
 
-    var modules = []
+    // var modules = []
 
-    DataOptions.getColumnOptions("Module").forEach(function (module) {
-        if (moduleIsUsed(module)) {
-            modules.push(module);
-            headersList.push(module);
-        }
-    })
+    // DataOptions.getColumnOptions("Module").forEach(function (module) {
+    //     if (moduleIsUsed(module)) {
+    //         modules.push(module);
+    //         headersList.push(module);
+    //     }
+    // })
 
     //Sort the right from most to least impacted
 
@@ -147,7 +147,7 @@ function rebuildImpactedRights(monitorTable, index) {
         var columnID = "";
         if (header)
             columnID = 'id = "' + getColumnHeadID(header) + '"';
-        headerString += '<th title="" ' + columnID + ' class="columnHeader">' + (header == "None" ? "Impact" : header) + '</th>';
+        headerString += '<th title="" ' + columnID + ' class="columnHeader">' + header + '</th>';
     });
     headerString += "</tr>";
     impactedRightsTable.find("thead").append(headerString);
@@ -198,29 +198,29 @@ function rebuildImpactedRights(monitorTable, index) {
             }
         );
 
-        //Add the cells
-        modules.forEach(function (myModule) {
+        //Add the non-context cells
+        // modules.forEach(function (myModule) {
             // find the average score for the rows
-            var moduleRows = filterRows(table.tableData.getRowsWithScore("Impacted Rights", rightName), myModule, false);
-            rowBeingAdded.append(getCell(moduleRows, toClassName(rightName) + " " + myModule));
-            var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + myModule);
-            cell.tooltip({ content: getFullToolTip(moduleRows) });
+            var columnRows = filterRows(table.tableData.getRowsWithScore("Impacted Rights", rightName), false);
+            rowBeingAdded.append(getCell(columnRows, toClassName(rightName) + " " + "None"));
+            var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + "None");
+            cell.tooltip({ content: getFullToolTip(columnRows) });
             cell.on("tooltipopen", function (scoreCategoryClass) {
                 return function (event, ui) {
                     ui.tooltip.addClass(scoreCategoryClass);
                 }
-            }(getScoreCategoryClass(getAverage(moduleRows))));
-            cell.addClass(getScoreCategoryClass(getAverage(moduleRows)));
+            }(getScoreCategoryClass(getAverage(columnRows))));
+            cell.addClass(getScoreCategoryClass(getAverage(columnRows)));
             cell.hover(function (event) {
                     //On mouse hover, give the column header a class.
-                    $('#' + getColumnHeadID(myModule)).addClass("hoveredColumn");
+                    $('#' + getColumnHeadID("Impact")).addClass("hoveredColumn");
                 },
                 function (event) {
                     //On mouse hover end, remove the class.
-                    $('#' + getColumnHeadID(myModule)).removeClass("hoveredColumn");
+                    $('#' + getColumnHeadID("Impact")).removeClass("hoveredColumn");
                 }
             );
-        });
+        // });
     });
     impactedRights_dirty = false;
 }
