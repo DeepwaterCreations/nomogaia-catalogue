@@ -25,7 +25,6 @@ function RowUI(table, rowData) {
 
     this.table.tableUI.rows.push(this);
 
-
     //adds a new right or right holder to the existing rights and rights holders list
     this.generateOnSelect = function (className, backingList) {
         return function () {

@@ -50,6 +50,11 @@ font-size:1em;
     background-color: red;
 }
 
+.draggable {
+    cursor: -webkit-grab;
+
+}
+
 .vert {
     display: block;
 }

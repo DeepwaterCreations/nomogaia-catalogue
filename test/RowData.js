@@ -20,6 +20,8 @@ RowData = function (rowData) {
     g.allRowData[this.id] = this;
     this.child = null;
     this.ui = null;
+    this.onScreen = true;
+    this.lastHeight = -1;
 
     // is a dictonary columnName: [listeners...]
     this.listenFunctions = {};

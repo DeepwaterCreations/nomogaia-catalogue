@@ -1,6 +1,7 @@
 .rowInputUI{
     display: flex;
     flex-direction: column;
+    /*height: 200px;*/
 }
 
     .rowInputUI > div span{
