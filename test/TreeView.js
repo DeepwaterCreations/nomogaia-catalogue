@@ -4,6 +4,43 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.filteredList = [];
     $scope.search = "";
 
+    this.timeoutId = "";
+
+    this.updateVisible = function () {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(function () {
+            // do something
+            $timeout(function () {
+                console.log("I did it!");
+                var rows = $(".hasRowID");
+
+                var showz = [];
+
+                for (var i = 0 ; i < rows.length; i++) {
+                    showz.push(Util.checkVisible(rows[i], 500));
+                }
+
+                // we have to split this up in to two loops if we start modifying onScreen the DOM starts changing
+                // and the measurements of the rest of the elements are wrong
+                for (var i = 0 ; i < rows.length; i++) {
+                    var row = $(rows[i]);
+                    var rowId = row.data("row");
+                    var rowData = RowData.getRow(parseInt(rowId));
+                    var lastOnScreen = rowData.onScreen;
+                    rowData.onScreen = showz[i]
+                    if (lastOnScreen && !rowData.onScreen) {
+                        row.height(row.height());
+                    }
+                    if (!lastOnScreen && rowData.onScreen) {
+                        row.height("auto");
+                    }
+                }
+            });
+        }, 50);
+    }
+
+    window.addEventListener('resize', this.updateVisible);
+    var that = this;
     g.onMonitorTablesChange(function (monitorTables) {
         $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
@@ -27,8 +64,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             }
             $scope.scorevals = DataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
+
+            $(".main").scroll(that.updateVisible)
+
         });
-    })
+    });
 
     // Colin, this seems like a really slow way
     $scope.updateFilteredRows = function (x) {
@@ -68,7 +108,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return rowData.getData("Module");
     };
 
-    $scope.addNewCatalog = function(catalog) {
+    $scope.addNewCatalog = function (catalog) {
         $timeout(function () {
             $scope.tableData.treeView[catalog] = {};
         });
@@ -76,7 +116,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.isNewCatalog = function (catalog) {
         return $scope.tableData.treeView[catalog] !== undefined;
     }
-    $scope.addNewCategory = function (catalog,catagory) {
+    $scope.addNewCategory = function (catalog, catagory) {
         $timeout(function () {
             $scope.tableData.treeView[catalog][catagory] = {};
         });
@@ -93,9 +133,12 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return $scope.tableData.treeView[catalog][catagory][subCatagory] !== undefined;
     }
 
-    $scope.addTopic = function (catalog, catagory, subCatagory, topic) {
+    $scope.addNewTopic = function (catalog, category, subCategory, topic) {
         //??
         $timeout(function () {
+            // add a row
+            var rowAt = null;
+
             var myTopic = new Topic(catalog, category, subCategory, topic, "", DataOptions.getDefaultValue("Module"), "");
             for (var tabIndex in g.getMonitorTables().backingData) {
                 if (tabIndex >= monitorTabs.getActiveMonitor()) {
@@ -112,7 +155,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             }
         });
     }
-    $scope.isNewTopic = function (catalog, catagory, subCatagory,topic) {
+    $scope.isNewTopic = function (catalog, catagory, subCatagory, topic) {
         return false;
     }
 
@@ -206,6 +249,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 $('#ghostbar').remove();
                 $(document).unbind('mousemove');
                 dragging = false;
+                that.updateVisible();
             }
         });
 
@@ -217,7 +261,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                         $(this).dialog("close");
                     }
                 }, {
-                    id:"addTopicButton",
+                    id: "addTopicButton",
                     text: "Ok",
                     click: function () {
                         if (AddTopic.canAdd()) {
@@ -226,7 +270,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                         } else {
                             AddTopic.highlightIncomplete();
                         }
-                        
+
                     }
                 }
             ],
