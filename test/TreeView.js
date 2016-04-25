@@ -4,9 +4,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.filteredList = [];
     $scope.search = "";
 
-    this.timeoutId = "";
+    $scope.timeoutId = "";
 
-    this.updateVisible = function () {
+    $scope.updateVisible = function () {
         clearTimeout(this.timeoutId);
         this.timeoutId = setTimeout(function () {
             // do something
@@ -39,8 +39,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         }, 50);
     }
 
-    window.addEventListener('resize', this.updateVisible);
-    var that = this;
+    window.addEventListener('resize', $scope.updateVisible);
     g.onMonitorTablesChange(function (monitorTables) {
         $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
@@ -65,7 +64,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.scorevals = DataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
 
-            $(".main").scroll(that.updateVisible)
+            $(".main").scroll($scope.updateVisible)
 
         });
     });
@@ -249,7 +248,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 $('#ghostbar').remove();
                 $(document).unbind('mousemove');
                 dragging = false;
-                that.updateVisible();
+                $scope.updateVisible();
             }
         });
 

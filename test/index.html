@@ -98,7 +98,7 @@
                                                         </div>
                                                         <ul data-ng-if="this.show">
                                                             <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
-                                                                <div data-ng-click="this.show= !this.show">
+                                                                <div data-ng-click="this.show= !this.show;updateVisible()">
                                                                     {{::Topic.getData("Topic")}}
                                                                 </div>
                                                                 <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
