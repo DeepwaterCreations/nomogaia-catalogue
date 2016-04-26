@@ -11,7 +11,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         this.timeoutId = setTimeout(function () {
             // do something
             $timeout(function () {
-                console.log("I did it!");
                 var rows = $(".hasRowID");
 
                 var showz = [];
@@ -40,7 +39,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     window.addEventListener('resize', $scope.updateVisible);
-    g.onMonitorTablesChange(function (monitorTables) {
+
+    g.onMonitorTablesChange(function(monitorTables) {
         $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
             $scope.tableData.onAddRow(function () {
@@ -71,7 +71,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     // Colin, this seems like a really slow way
     $scope.updateFilteredRows = function (x) {
-        var filteredRows = $scope.tableData.filterRows(x)
+        var filteredRows = $scope.tableData.filterRows(x);
         $scope.filteredTree = {};
         $scope.filteredList = filteredRows;
         for (var i = 0; i < filteredRows.length; i++) {
@@ -88,6 +88,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
 
         }
+        // we need to update what is on screen
+        $scope.updateVisible();
     }
 
     $scope.filtered = function (topic) {
@@ -143,19 +145,59 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 if (tabIndex >= monitorTabs.getActiveMonitor()) {
                     var myTable = g.getMonitorTables().backingData[tabIndex];
                     if (rowAt == null) {
-                        rowAt = myTable.addRow(myTopic.toData());
+                        rowAt = myTable.addRow(myTopic.toData(myTable));
                         rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
                     } else {
                         var dataAt = rowAt.data;
-                        var newData = new RowData(dataAt);
+                        var newData = new RowData(myTable,dataAt);
                         rowAt = myTable.addRow(newData);
                     }
                 }
             }
+            $scope.updateFilteredRows($scope.search);
         });
     }
     $scope.isNewTopic = function (catalog, catagory, subCatagory, topic) {
         return false;
+    }
+
+    // topic is a data row
+    $scope.delete = function (topic) {
+        $("#deleteDialog").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: [
+                {
+                    text: "Ok",
+                    click: function () {
+                        topic.delete();
+                        $timeout(function () {
+                            $scope.updateFilteredRows($scope.search);
+                        })
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ],
+            title: "Delete Topic?"
+        });
+        $(".ui-dialog").find("button").addClass("blueButton");
+        var count = 0;
+        var at = topic;
+        while (at.child != null) {
+            at = at.child;
+            count++;
+        }
+        $("#deleteDialogText").text("Are you sure you want to delete topic: ");
+        $("#deleteDialogTopic").text("" + topic.getData("Topic"))
+        $("#deleteDialogTopic").css("font-weight", "Bold");
+        $("#deleteDialogMonitors").text("" + (count != 0 ? " and it's " + (count > 1 ? count + " monitors" : " monitor") : "") + "?");
+        $("#deleteDialog").dialog("open");
     }
 
     $scope.addNewMod = function (newMod) {
@@ -293,7 +335,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             //            rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
             //        } else {
             //            var dataAt = rowAt.data;
-            //            var newData = new RowData(dataAt);
+            //            var newData = new RowData(myTable,dataAt);
             //            rowAt = myTable.addRow(newData);
             //        }
             //    }

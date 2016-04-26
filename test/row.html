@@ -1,5 +1,6 @@
 <div class="rowInputUI hasRowID" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragover="g.allowDrop(event)">
     <div data-ng-if="Topic.onScreen">
+        <button data-ng-click="delete(Topic)">remove</button>
         <button data-ng-click="this.showAbout = !this.showAbout">info</button>
         <div data-ng-if="this.showAbout">
             {{::Topic.getData("Description")}}
@@ -27,8 +28,8 @@
                     <br />
                     <div class="infotext">Drag rights from the sidebar list to this section</div>
                 </div>-->
-                <ul>
-                    <li class="rightContainer" data-ng-repeat="right in getCurrentRights(Topic)">
+                <ul class="dont-indent">
+                    <li class="rightContainer draggable-holder right" data-ng-repeat="right in getCurrentRights(Topic)">
                         <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
                     </li><!--data-ng-show="this.editRights"-->
                 </ul>
@@ -39,8 +40,8 @@
                     <br />
                     <div class="infotext">Drag rightsholders from the sidebar list to this section</div>
                 </div>-->
-                <ul>
-                    <li class="rightContainer" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">
+                <ul class="dont-indent">
+                    <li class="rightContainer draggable-holder right-holder" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">
                         <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
                     </li>
                     <!--data-ng-show="this.editRightsholders"-->

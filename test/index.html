@@ -139,16 +139,20 @@
                                 <input type="text" data-ng-model="newRight" />
                                 <button data-ng-click="addNewRight(newRight);newRight='';">Add</button>
                                 <div class="multi-column">
-                                    <ul>
-                                        <li class="draggable" data-ng-repeat="right in rightslist()" draggable="true" data-value="{{right}}" data-type="Impacted Rights" ondragstart="g.drag(event)">{{right}}</li>
+                                    <ul class="dont-indent">
+                                        <li class="draggable-holder" data-ng-repeat="right in rightslist()" >
+                                            <div class="draggable right" draggable="true" data-value="{{right}}" data-type="Impacted Rights" ondragstart="g.drag(event)">{{right}}</div>
+                                        </li>
                                     </ul>
                                 </div>
                                 <h2>Rights Holders</h2>
                                 <input type="text" data-ng-model="newRightHolder" />
                                 <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';">Add</button>
                                 <div class="multi-column">
-                                    <ul>
-                                        <li class="draggable" data-ng-repeat="rightsholder in rightsholderlist()" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)">{{rightsholder}}</li>
+                                    <ul class="dont-indent">
+                                        <li class="draggable-holder" data-ng-repeat="rightsholder in rightsholderlist()" >
+                                            <div class="draggable right-holder" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)">{{rightsholder}}</div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

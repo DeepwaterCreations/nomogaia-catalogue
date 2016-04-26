@@ -154,7 +154,7 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
             });
             //Once we've found the row being pointed to, make a new row that references it. 
             if (refRow) {
-                var newRowData = new RowData(refRow);
+                var newRowData = new RowData(newTable,refRow);
                 newRowData.setId("id", objRow.id);
                 dataList.push(newRowData);
             }
@@ -162,7 +162,7 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
                 console.log("WARNING: couldn't find a row with id " + objRow["pointsTo"]);
         }
         else {
-            var newRowData = new RowData();
+            var newRowData = new RowData(newTable);
             g.columnList.forEach(function (columnName) {
                 if (columnName in objRow)
                     newRowData.setData(columnName, objRow[columnName]);

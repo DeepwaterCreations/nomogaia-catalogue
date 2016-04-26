@@ -63,7 +63,7 @@ $(document).ready(function () {
     var dataList = []
     topicList.forEach(function (topicInstance) {
         if (topicInstance.module == "None") {
-            var data = topicInstance.toData();
+            var data = topicInstance.toData(table);
             dataList.push(data);
         }
     });
@@ -103,7 +103,7 @@ $(document).ready(function () {
                     rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
                 } else {
                     var dataAt = rowAt.data;
-                    var newData = new RowData(dataAt);
+                    var newData = new RowData(myTable,dataAt);
                     rowAt = myTable.addRow(newData);
                 }
             }
