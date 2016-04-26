@@ -1,15 +1,7 @@
 ﻿var impactedRights_dirty = true; //Should be true whenever visible data has been changed and the table hasn't been rebuilt yet. //Colin, is there a better place for this to live?  
 
 // context is true or false
-function filterRows(rows,/* module,*/ context) {
-    // if we are looking at a specific module
-    // filter out all the rows not in that module
-    // if (module != "") {
-    //     rows = rows.filter(function (row) {
-    //         return row.getData("Module") == module;
-    //     });
-    // }
-
+function filterRows(rows, context) {
     rows = rows.filter(function (row) {
         return (row.getData("Catalog") == "Context") == context;
     });
@@ -96,33 +88,9 @@ function rebuildImpactedRights(monitorTable, index) {
     //Then, rebuild it.
     impactedRightsTable.append("<thead></thead>");
     impactedRightsTable.append("<tbody></tbody>");
+    
     //Add the column headings
-
     var headersList = ["", "Context", "Impact"];
-
-    // var moduleIsUsed = function (module) {
-    //     for (var j = 0; j < monitorTable.backingData.length; j++) {
-    //         var myTable = monitorTable.backingData[j];
-    //         for (var i = 0; i < myTable.tableData.rows.length; i++) {
-    //             var row = myTable.tableData.rows[i];
-    //             if (row.getData("Module") == module && row.getData("Catalog") != "Context" && row.getData("Score") != undefined && row.getData("Impacted Rights") != DataOptions.getDefaultValue("Impacted Rights")) {
-    //                 return true;
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
-
-    // var modules = []
-
-    // DataOptions.getColumnOptions("Module").forEach(function (module) {
-    //     if (moduleIsUsed(module)) {
-    //         modules.push(module);
-    //         headersList.push(module);
-    //     }
-    // })
-
-    //Sort the right from most to least impacted
 
     var allRights = DataOptions.getColumnOptions("Impacted Rights");
 
@@ -167,9 +135,37 @@ function rebuildImpactedRights(monitorTable, index) {
             return getAbsSumSort(innerRightBRows) - getAbsSumSort(innerRightARows);
         }
     });
+    
+    //Generates and adds a cell for a given row and column to the impact ratings table.
+    //row is the DOM element to which this cell is being added.
+    //rightName is the name of the right this row represents.
+    //columnHeadName is the string indicating which column the cell goes in. Currently, will be either "Context" or "Impact".  
+    var addCellForRight = function(row, rightName, columnHeadName){
+        var isContext = columnHeadName === "Context";
+        var columnRows = filterRows(table.tableData.getRowsWithScore("Impacted Rights", rightName), isContext);
+        var moduleClass = (columnHeadName === "Impact" ? "None" : columnHeadName);
+
+        row.append(getCell(columnRows, toClassName(rightName) + " " + moduleClass));
+        var cell = row.find("." + toClassName(rightName) + "." + moduleClass);
+        cell.tooltip({ content: getFullToolTip(columnRows) });
+        cell.on("tooltipopen", function (scoreCategoryClass) {
+            return function (event, ui) {
+                ui.tooltip.addClass(scoreCategoryClass);
+            }
+        }(getScoreCategoryClass(getAverage(columnRows))));
+        cell.addClass(getScoreCategoryClass(getAverage(columnRows)));
+        cell.hover(function (event) {
+            //On mouse hover, give the column header a class.
+            $('#' + getColumnHeadID(columnHeadName)).addClass("hoveredColumn");
+        },
+        function (event) {
+            //On mouse hover end, remove the class.
+            $('#' + getColumnHeadID(columnHeadName)).removeClass("hoveredColumn");
+        }
+        );
+    };
 
     impactedRights.forEach(function (rightName) {
-
         // add an empty row
         impactedRightsTable.find("tbody").append('<tr class="' + toClassName(rightName) + '"></tr>');
         var rowBeingAdded = impactedRightsTable.find("." + toClassName(rightName));
@@ -177,51 +173,14 @@ function rebuildImpactedRights(monitorTable, index) {
         // add the title row
         rowBeingAdded.append('<th class="Right, rowHeader">' + rightName + '</th>')
 
-        // add the context
-        var contextRows = filterRows(table.tableData.getRowsWithScore("Impacted Rights", rightName), "None", true);
-        rowBeingAdded.append(getCell(contextRows, toClassName(rightName) + " Context"));
-        var cell = rowBeingAdded.find("." + toClassName(rightName) + ".Context");
-        cell.tooltip({ content: getFullToolTip(contextRows) });
-        cell.on("tooltipopen", function (scoreCategoryClass) {
-            return function (event, ui) {
-                ui.tooltip.addClass(scoreCategoryClass);
-            }
-        }(getScoreCategoryClass(getAverage(contextRows))));
-        cell.addClass(getScoreCategoryClass(getAverage(contextRows)));
-        cell.hover(function (event) {
-                //On mouse hover, give the column header a class.
-                $('#' + getColumnHeadID("Context")).addClass("hoveredColumn"); //TODO: Maybe "Context" shouldn't be hard-coded.
-            },
-            function (event) {
-                //On mouse hover end, remove the class.
-                $('#' + getColumnHeadID("Context")).removeClass("hoveredColumn");
-            }
-        );
+        // add the context cell for this right
+        addCellForRight(rowBeingAdded, rightName, "Context");
 
-        //Add the non-context cells
-        // modules.forEach(function (myModule) {
-            // find the average score for the rows
-            var columnRows = filterRows(table.tableData.getRowsWithScore("Impacted Rights", rightName), false);
-            rowBeingAdded.append(getCell(columnRows, toClassName(rightName) + " " + "None"));
-            var cell = rowBeingAdded.find("." + toClassName(rightName) + "." + "None");
-            cell.tooltip({ content: getFullToolTip(columnRows) });
-            cell.on("tooltipopen", function (scoreCategoryClass) {
-                return function (event, ui) {
-                    ui.tooltip.addClass(scoreCategoryClass);
-                }
-            }(getScoreCategoryClass(getAverage(columnRows))));
-            cell.addClass(getScoreCategoryClass(getAverage(columnRows)));
-            cell.hover(function (event) {
-                    //On mouse hover, give the column header a class.
-                    $('#' + getColumnHeadID("Impact")).addClass("hoveredColumn");
-                },
-                function (event) {
-                    //On mouse hover end, remove the class.
-                    $('#' + getColumnHeadID("Impact")).removeClass("hoveredColumn");
-                }
-            );
-        // });
+        //Add the non-context cell for this right
+        addCellForRight(rowBeingAdded, rightName, "Impact");
     });
+
+
     impactedRights_dirty = false;
 }
 
