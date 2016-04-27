@@ -22,29 +22,20 @@
             </div>
         </div>
         <div class="rowInputUISection">
-            <div class="rightsUI">
-                <span>Impacted Rights</span>
-                <!--<div data-ng-hide="getCurrentRights(Topic).length > 0">
-                    <br />
-                    <div class="infotext">Drag rights from the sidebar list to this section</div>
-                </div>-->
-                <ul class="dont-indent">
+            <div>
+                <ul class="dont-indent rightsUI">
+                    <span>Impacted Rights:</span>
+                    <span data-ng-hide="getCurrentRights(Topic).length > 0" class="infotext">Drag rights from the sidebar list to this section</span>
                     <li class="rightContainer draggable-holder right" data-ng-repeat="right in getCurrentRights(Topic)">
                         <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
                     </li><!--data-ng-show="this.editRights"-->
                 </ul>
-            </div>
-            <div class="rightsholdersUI">
-                <span>Impacted Rights-holders</span>
-                <!--<div data-ng-hide="getCurrentRightsholders(Topic).length > 0">
-                    <br />
-                    <div class="infotext">Drag rightsholders from the sidebar list to this section</div>
-                </div>-->
-                <ul class="dont-indent">
-                    <li class="rightContainer draggable-holder right-holder" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">
+                <ul class="dont-indent rightsholdersUI">
+                    <span>Impacted Rights-holders:</span>
+                    <span data-ng-hide="getCurrentRightsholders(Topic).length > 0" class="infotext">Drag rights-holders from the sidebar list to this section</span>
+                    <li class="rightContainer draggable-holder right" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">
                         <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
-                    </li>
-                    <!--data-ng-show="this.editRightsholders"-->
+                    </li><!--data-ng-show="this.editRights"-->
                 </ul>
             </div>
             <div data-ng-init="newMod=''" class="moduleUI">
@@ -57,10 +48,10 @@
                     <input type="radio" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
                     {{module}}
                 </label>-->
-                
 
-                <input type="text" name="module" data-ng-model="newMod" />
-                <button data-ng-click="addNewMod(newMod);newMod='';">Add New</button>
+
+                <!--<input type="text" name="module" data-ng-model="newMod" />
+                <button data-ng-click="addNewMod(newMod);newMod='';">Add New</button>-->
 
             </div>
         </div>
