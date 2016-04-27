@@ -68,7 +68,7 @@
                         <div id="matrixTableDiv">
                         </div>
                     </div>
-                    <div id="outlineTab" class="tab" data-ng-controller="treeController">
+                    <div id="outlineTab" class="tab" data-ng-controller="treeController" ondragenter="g.killDragData(event)">
                         <div data-ng-if="tableData === null" class="fill">
                             <h1>Loading</h1>
                         </div>
@@ -80,7 +80,7 @@
                                     <!--<input type="button" class="blueButton" id="addRow" value="Add Row" />
                                     <input type="button" class="blueButton openAddTopic" value="Add Topic" />-->
                                     <div >
-                                        <select data-ng-init="activeView='tree'" ng-model="activeView" ng-options="mode for mode in ['tree','list']"></select>
+                                        <select data-ng-init="activeView='tree'" ng-model="activeView" ng-change="showAll()" ng-options="mode for mode in ['tree','list']"></select>
                                     </div>
                                 </div>
                                 <ul data-ng-if="activeView=='tree'">

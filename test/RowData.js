@@ -296,3 +296,10 @@ RowData = function (table,rowData) {
 RowData.getRow = function (id) {
     return g.allRowData[id];
 }
+
+// f takes a data row
+RowData.forEach = function (f) {
+    for (var i = 0; i < rowDataId; i++) {
+        f(g.allRowData[i]);
+    }
+}

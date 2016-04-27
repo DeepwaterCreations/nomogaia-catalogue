@@ -1,4 +1,4 @@
-<div class="rowInputUI hasRowID" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragover="g.allowDrop(event)">
+<div class="rowInputUI hasRowID" data-row="{{Topic.id}}" ondrop="g.drop(event)"  ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)"><!--ondragleave="g.dragExit(event)"-->
     <div data-ng-if="Topic.onScreen">
         <button data-ng-click="delete(Topic)">remove</button>
         <button data-ng-click="this.showAbout = !this.showAbout">info</button>
@@ -25,17 +25,23 @@
             <div>
                 <ul class="dont-indent rightsUI">
                     <span>Impacted Rights:</span>
-                    <span data-ng-hide="getCurrentRights(Topic).length > 0" class="infotext">Drag rights from the sidebar list to this section</span>
-                    <li class="rightContainer draggable-holder right" data-ng-repeat="right in getCurrentRights(Topic)">
+                    <span data-ng-hide="getCurrentRights(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id)" class="infotext">Drag rights from the sidebar list to this section</span>
+                    <li class="rightContainer draggable-holder right" data-ng-repeat="right in getCurrentRights(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && dragData.value ==right}">
                         <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
+                    </li>
+                    <li class="rightContainer draggable-holder right adding" data-ng-if="dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && getCurrentRights(Topic).indexOf(dragData.value) ==-1">
+                        {{dragData.value}}
                     </li><!--data-ng-show="this.editRights"-->
                 </ul>
                 <ul class="dont-indent rightsholdersUI">
                     <span>Impacted Rights-holders:</span>
-                    <span data-ng-hide="getCurrentRightsholders(Topic).length > 0" class="infotext">Drag rights-holders from the sidebar list to this section</span>
-                    <li class="rightContainer draggable-holder right" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)">
+                    <span data-ng-hide="getCurrentRightsholders(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id)" class="infotext">Drag rights-holders from the sidebar list to this section</span>
+                    <li class="rightContainer draggable-holder right-holder" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id && dragData.value ==rightsholder}">
                         <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
                     </li><!--data-ng-show="this.editRights"-->
+                    <li class="rightContainer draggable-holder right-holder adding" data-ng-if="dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id  && getCurrentRightsholders(Topic).indexOf(dragData.value) ==-1">
+                        {{dragData.value}}
+                    </li>
                 </ul>
             </div>
             <div data-ng-init="newMod=''" class="moduleUI">

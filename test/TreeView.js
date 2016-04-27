@@ -3,8 +3,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.filteredTree = {};
     $scope.filteredList = [];
     $scope.search = "";
-
     $scope.timeoutId = "";
+    $scope.dragData = null;
 
     $scope.updateVisible = function () {
         clearTimeout(this.timeoutId);
@@ -38,9 +38,23 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         }, 50);
     }
 
+    $scope.showAll = function () {
+        RowData.forEach(function (row) {
+            row.onScreen = true;
+        })
+        // so this is a drity little hak
+        // we want to update what is visible as soon as the UI finishes loading 
+        // we put it in a timeout and angluar is such a but it does not let anything run till it is done
+        // so my little timeout gets called when UI is loaded just like I want it to be
+        setTimeout(function () {
+            $scope.updateVisible();
+            console.log("updated visible");
+        }, 100);//the time of the timeout does not really matter
+    }
+
     window.addEventListener('resize', $scope.updateVisible);
 
-    g.onMonitorTablesChange(function(monitorTables) {
+    g.onMonitorTablesChange(function (monitorTables) {
         $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
             $scope.tableData.onAddRow(function () {
@@ -100,10 +114,18 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     //Retrieve lists of current rights and rights-holders for a given topic (RowData).
     $scope.getCurrentRights = function (rowData) {
-        return rowData.getData("Impacted Rights");
+        var res = rowData.getData("Impacted Rights");
+        if (res == null) {
+            return [];
+        }
+        return res;
     };
     $scope.getCurrentRightsholders = function (rowData) {
-        return rowData.getData("Impacted Rights-Holders");
+        var res = rowData.getData("Impacted Rights-Holders");
+        if (res == null) {
+            return [];
+        }
+        return res;
     };
     $scope.getModules = function (rowData) {
         return rowData.getData("Module");
@@ -149,7 +171,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                         rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
                     } else {
                         var dataAt = rowAt.data;
-                        var newData = new RowData(myTable,dataAt);
+                        var newData = new RowData(myTable, dataAt);
                         rowAt = myTable.addRow(newData);
                     }
                 }
@@ -362,13 +384,53 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         //console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
         $timeout(function () {
             RowData.getRow(parseInt(row)).acceptDrop(type, value);
+            $scope.dragData = null;
         })
-
     }
 
     g.allowDrop = function (event) {
         //console.log("allow Drop!",event);
         event.preventDefault();
+    }
+
+    g.dragEnter = function (event) {
+        event.stopPropagation();
+        console.log("enter!")
+        var type = event.dataTransfer.getData("type");
+        var value = event.dataTransfer.getData("value");
+        var at = event.target;
+        while (at.className.indexOf("hasRowID") === -1) {
+            at = at.parentElement;
+        }
+        var row = at.dataset.row;
+        $timeout(function () {
+            $scope.dragData =
+                {
+                    type: type,
+                    row: row,
+                    value: value,
+                }
+        });
+    }
+
+    g.dragExit = function (event) {
+        console.log("exit!")
+        if ($scope.dragData !== null) {
+            var type = event.dataTransfer.getData("type");
+            var value = event.dataTransfer.getData("value");
+            var at = event.target;
+            while (at.className.indexOf("hasRowID") === -1) {
+                at = at.parentElement;
+            }
+            var row = at.dataset.row;
+            if (row == $scope.dragData.row) {
+                $timeout(function () { $scope.dragData = null; })
+            }
+        }
+    }
+
+    g.killDragData = function (event) {
+        $timeout(function () { $scope.dragData = null; })
     }
 
     this.addMonitorTabEvent = function (that) { //Is this the best way to ensure I still have the right "this" available when the function is called remotely? Probably not, but it works.
