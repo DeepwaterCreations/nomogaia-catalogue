@@ -5,15 +5,15 @@
         <div data-ng-if="this.showAbout">
             {{::Topic.getData("Description")}}
         </div>
-        <div class="rowInputUISection">
-            <div class="inputtext">
+        <div class="rowInputUIGroup">
+            <div class="rowInputUISection inputtext">
                 <span>Input</span>
                 <textarea name="input"
                           data-ng-model="getSetData(Topic, 'Input')"
                           data-ng-model-options="{updateOn: 'blur',
                                               getterSetter: true}"></textarea>
             </div>
-            <div class="sourcetext">
+            <div class="rowInputUISection sourcetext">
                 <span>Source</span>
                 <textarea name="source"
                           data-ng-model="getSetData(Topic, 'Source')"
@@ -21,8 +21,8 @@
                                               getterSetter: true}"></textarea>
             </div>
         </div>
-        <div class="rowInputUISection">
-            <div>
+        <div class="rowInputUIGroup">
+            <div class="rowInputUISection rightsUI">
                 <ul class="dont-indent rightsUI">
                     <span>Impacted Rights:</span>
                     <span data-ng-hide="getCurrentRights(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id)" class="infotext">Drag rights from the sidebar list to this section</span>
@@ -44,7 +44,7 @@
                     </li>
                 </ul>
             </div>
-            <div data-ng-init="newMod=''" class="moduleUI">
+            <div data-ng-init="newMod=''" class="rowInputUISection moduleUI">
                 <span>
                     Module
                 </span>
@@ -61,8 +61,8 @@
 
             </div>
         </div>
-        <div class="rowInputUISection">
-            <div class="scoreUI">
+        <div class="rowInputUIGroup">
+            <div class="rowInputUISection scoreUI">
                 <span>Score</span>
 
                 <!--<select data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}" ng-options="score for score in scorevals"></select>-->
