@@ -8,14 +8,14 @@
         font-weight: bold;
     }
 
-    .rowInputUI .rowInputUISection{
+    .rowInputUI .rowInputUIGroup{
         display: flex;
         flex-direction: row;
 
         flex: 4 1 auto;
     }
 
-        .rowInputUISection > div{
+        .rowInputUIGroup > div{
             display: flex;
             flex-direction: column;
 
@@ -24,14 +24,14 @@
             padding: .5em;
         }
 
-        .rowInputUISection .inputtext{
+        .rowInputUIGroup .inputtext{
             flex: 3 2 auto;
         }
-        .rowInputUISection .sourcetext{
+        .rowInputUIGroup .sourcetext{
             flex: 1 2 auto;
         }
 
-        .rowInputUISection .inputtext textarea, .rowInputUISection .sourcetext textarea{
+        .rowInputUIGroup .inputtext textarea, .rowInputUIGroup .sourcetext textarea{
             width: 100%;
             flex: 1;
         }
