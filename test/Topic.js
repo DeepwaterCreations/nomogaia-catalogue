@@ -7,8 +7,8 @@
     this.module = module;
     this.source = source;
 
-    this.toData = function () {
-        var result = new RowData();
+    this.toData = function (table) {
+        var result = new RowData(table);
         result.setData("Catalog", this.catalog);
         result.setData("Category", this.category);
         result.setData("Sub-Category", this.subCategory);
