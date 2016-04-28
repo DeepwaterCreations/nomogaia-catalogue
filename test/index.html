@@ -154,8 +154,7 @@
                                         </li>
                                         <!-- Unlocked list of rights -->
                                         <li data-ng-if="!rightsLocked" class="draggable-holder" data-ng-repeat="right in rightslist()">
-                                            <div class="right unlocked" data-ng-class="{hidden_right: shownRights.indexOf(right) === -1}" draggable="false">
-                                                <span data-ng-click="toggleRight(right)">X</span>
+                                            <div class="right unlocked" data-ng-class="{hidden_right: shownRights.indexOf(right) === -1}" data-ng-click="toggleRight(right)" draggable="false">
                                                 {{right}}
                                             </div>
                                         </li>
