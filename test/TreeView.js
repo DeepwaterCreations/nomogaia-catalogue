@@ -6,7 +6,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.timeoutId = "";
     $scope.dragData = null;
     $scope.rightsLocked = true;
+    $scope.rightsholdersLocked = true;
     $scope.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
+    $scope.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
 
     $scope.updateVisible = function () {
         clearTimeout(this.timeoutId);
@@ -270,6 +272,18 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             //Add the right, referencing the master list to give it the proper index.
             var new_idx = $scope.rightslist().indexOf(right);
             $scope.shownRights.splice(new_idx, 0, right);
+        }
+    };
+    //Ditto for -holders
+    $scope.toggleRightsholder = function(rightsholder){
+        var idx = $scope.shownRightsholders.indexOf(rightsholder);
+        if(idx > -1){
+            //Remove the rightsholder
+            $scope.shownRightsholders.splice(idx, 1);
+        }else{
+            //Add the rightsholder, referencing the master list to give it the proper index.
+            var new_idx = $scope.rightsholderlist().indexOf(rightsholder);
+            $scope.shownRightsholders.splice(new_idx, 0, rightsholder);
         }
     };
 

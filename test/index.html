@@ -164,10 +164,18 @@
                                 <h2>Rights Holders</h2>
                                 <input type="text" data-ng-model="newRightHolder" />
                                 <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';">Add</button>
+                                <button data-ng-click="rightsholdersLocked = !rightsholdersLocked">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
                                 <div class="multi-column">
                                     <ul class="dont-indent">
-                                        <li class="draggable-holder" data-ng-repeat="rightsholder in rightsholderlist()" >
+                                        <!-- Locked list of rightsholders -->
+                                        <li data-ng-if="rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in shownRightsholders">
                                             <div class="draggable right-holder" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)">{{rightsholder}}</div>
+                                        </li>
+                                        <!-- Unlocked list of rights -->
+                                        <li data-ng-if="!rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in rightsholderlist()">
+                                            <div class="right-holder unlocked" data-ng-class="{hidden_rightsholder: shownRightsholders.indexOf(rightsholder) === -1}" data-ng-click="toggleRightsholder(rightsholder)" draggable="false">
+                                                {{rightsholder}}
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
