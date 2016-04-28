@@ -8,14 +8,41 @@
     border-bottom-right-radius: .5em;
 }
 
-.topicHeader {
+.branchHeader {
     background-color: rgba(0,0,0,.05);
     margin: .12em .12em 0 .12em;
     padding: .5em;
     border-radius: .5em;
 }
 
-    .topicHeader.expanded {
+    .branchHeader.expanded {
+        background-color: rgba(0,0,0,.1);
+        -webkit-border-bottom-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+.branchBody {
+    list-style-type: none;
+    padding: .5em 0 .5em 0;
+    -webkit-border-bottom-left-radius: .5em;
+    border-bottom-left-radius: .5em;
+    /*overrides pure*/
+    margin: 0 .12em .12em .12em;
+}
+
+    .branchBody .branchBody {
+        padding-left: .5em;
+        border-left: .5em solid rgba(0,0,0,.1);
+    }
+
+.TopicHeader {
+    background-color: rgba(0,0,0,.05);
+    margin: .12em .12em 0 .12em;
+    padding: .5em;
+    border-radius: .5em;
+}
+
+    .TopicHeader.expanded {
         color: white;
         -webkit-border-bottom-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -23,11 +50,11 @@
         border-bottom-right-radius: 0;
     }
 
-        .odd .topicHeader.expanded {
+        .TopicHeader.expanded.odd {
             background-color: #356C28;
         }
 
-        .even .topicHeader.expanded {
+        .TopicHeader.expanded.even {
             background-color: #2F2D69;
         }
 
