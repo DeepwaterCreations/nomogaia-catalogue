@@ -97,11 +97,13 @@
                                                             {{::SubCategory}}
                                                         </div>
                                                         <ul data-ng-if="this.show">
-                                                            <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
-                                                                <div data-ng-click="this.show= !this.show;updateVisible()">
-                                                                    {{::Topic.getData("Topic")}}
-                                                                </div>
-                                                                <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
+                                                            <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                                <div >
+                                                                    <div data-ng-click="this.show= !this.show;updateVisible()" class="topicHeader" data-ng-class="{'expanded':this.show}" >
+                                                                        {{::Topic.getData("Topic")}}
+                                                                    </div>
+                                                                    <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
+                                                                </div> 
                                                             </li>
                                                             <li>
                                                                 <input type="text" data-ng-model="newTopic" />

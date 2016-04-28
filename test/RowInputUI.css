@@ -1,118 +1,157 @@
-.rowInputUI{
+.rowInputUI {
+    background-color: rgba(0,0,0,.1);
+    margin: 0 .12em .12em .12em;
+    padding: .5em;
+    -webkit-border-bottom-left-radius: .5em;
+    border-bottom-left-radius: .5em;
+    -webkit-border-bottom-right-radius: .5em;
+    border-bottom-right-radius: .5em;
+}
+
+.topicHeader {
+    background-color: rgba(0,0,0,.05);
+    margin: .12em .12em 0 .12em;
+    padding: .5em;
+    border-radius: .5em;
+}
+
+    .topicHeader.expanded {
+        color: white;
+        -webkit-border-bottom-left-radius: 0;
+        border-bottom-left-radius: 0;
+        -webkit-border-bottom-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+        .odd .topicHeader.expanded {
+            background-color: #356C28;
+        }
+
+        .even .topicHeader.expanded {
+            background-color: #2F2D69;
+        }
+
+.rowInputUI {
     display: flex;
     flex-direction: column;
     /*height: 200px;*/
 }
 
-    .rowInputUI > div span{
+    .rowInputUI > div span {
         font-weight: bold;
     }
 
-    .rowInputUI .rowInputUIGroup{
+    .rowInputUI .rowInputUIGroup {
         display: flex;
         flex-direction: row;
-
         flex: 4 1 auto;
     }
 
-        .rowInputUIGroup > div{
-            display: flex;
-            flex-direction: column;
+.rowInputUIGroup > div {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255,255,255,.5);
+    margin: .12em;
+    padding: .5em;
+    border-radius: .5em;
+}
 
-            background-color: #efefef;
-            margin: .12em;
-            padding: .5em;
-        }
+.rowInputUIGroup .inputtext {
+    flex: 3 2 auto;
+}
 
-        .rowInputUIGroup .inputtext{
-            flex: 3 2 auto;
-        }
-        .rowInputUIGroup .sourcetext{
-            flex: 1 2 auto;
-        }
+.rowInputUIGroup .sourcetext {
+    flex: 1 2 auto;
+}
 
-        .rowInputUIGroup .inputtext textarea, .rowInputUIGroup .sourcetext textarea{
-            width: 100%;
-            flex: 1;
-        }
-
-    .rowInputUI .rightsUI, .rowInputUI .rightsholdersUI{
-        flex: 3 2 auto;
+    .rowInputUIGroup .inputtext textarea, .rowInputUIGroup .sourcetext textarea {
+        width: 100%;
+        flex: 1;
     }
 
-    .rightContainer{
-        /* border-style: solid; */
-        /* background-color: #DCF0D8; */
-    }
-    .rightContainer span{
+.rowInputUI .rightsUI, .rowInputUI .rightsholdersUI {
+    flex: 3 2 auto;
+}
+
+.rightContainer {
+    /* border-style: solid; */
+    /* background-color: #DCF0D8; */
+}
+
+    .rightContainer span {
         color: gray;
         cursor: pointer;
     }
-    .rightContainer:hover span{
-	color: red;
+
+    .rightContainer:hover span {
+        color: red;
     }
 
-    .rowInputUI .moduleUI{
-        flex: 1 2 auto;
-    }
+.rowInputUI .moduleUI {
+    flex: 1 2 auto;
+}
 
-    .rowInputUI .scoreUI{
-        flex: 1 4 auto;
-    }
+.rowInputUI .scoreUI {
+    flex: 1 4 auto;
+}
 
-        .scoreUI > div{
-            display: flex;
-            flex-direction: row;
-            text-align: center;
-            justify-content: center;
-            align-self: center;
-            width: 100%;
-        }
-
-            .scoreUI > div > div{
-                display: flex;
-                flex-direction: row;
-                flex: 1;
-                max-width: 4em;
-                margin: 0px 2px;
-            }
-
-        .scoreUI label{
-            width: 1.5em;
-            max-width: 3em;
-            padding: 3px;
-            flex: 1;
-        }
-
-        .scoreUI input[type='radio']{
-            opacity: 0;
-            height: 0;
-            width: 0;
-        }
-        .scoreUI input[type='radio']:checked ~ label{
-            border-style: solid;
-            padding: 0px;
-        }
-        .scoreUI input[type='radio']:not(:checked) ~ label.terrible,
-        .scoreUI input[type='radio']:not(:checked) ~ label.bad,
-        .scoreUI input[type='radio']:not(:checked) ~ label.okay,
-        .scoreUI input[type='radio']:not(:checked) ~ label.good,
-        .scoreUI input[type='radio']:not(:checked) ~ label.great{
-            background-color:#fefefe;
-        }
-        .scoreUI input[type='radio']:focus ~ label{
-            border-style: dotted;
-            border-width: 1px;
-            padding: 2px;
-            border-color: #888;
-        }
-        .scoreUI input[type='radio']:checked:focus ~ label{
-            border-width: 3px;
-            padding: 0px;
-            border-color:rgba(1, 1, 1, 0.25);
-        }
-
-span.infotext{
+.scoreUI > div {
+    display: flex;
+    flex-direction: row;
     text-align: center;
-    color:rgba(0, 0, 0, 0.25);
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+}
+
+    .scoreUI > div > div {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        max-width: 4em;
+        margin: 0px 2px;
+    }
+
+.scoreUI label {
+    width: 1.5em;
+    max-width: 3em;
+    padding: 3px;
+    flex: 1;
+}
+
+.scoreUI input[type='radio'] {
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+    .scoreUI input[type='radio']:checked ~ label {
+        border-style: solid;
+        padding: 0px;
+    }
+
+    .scoreUI input[type='radio']:not(:checked) ~ label.terrible,
+    .scoreUI input[type='radio']:not(:checked) ~ label.bad,
+    .scoreUI input[type='radio']:not(:checked) ~ label.okay,
+    .scoreUI input[type='radio']:not(:checked) ~ label.good,
+    .scoreUI input[type='radio']:not(:checked) ~ label.great {
+        background-color: #fefefe;
+    }
+
+    .scoreUI input[type='radio']:focus ~ label {
+        border-style: dotted;
+        border-width: 1px;
+        padding: 2px;
+        border-color: #888;
+    }
+
+    .scoreUI input[type='radio']:checked:focus ~ label {
+        border-width: 3px;
+        padding: 0px;
+        border-color: rgba(1, 1, 1, 0.25);
+    }
+
+span.infotext {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.25);
 }

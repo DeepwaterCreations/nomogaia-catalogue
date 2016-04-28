@@ -26,9 +26,10 @@ body .ui-widget {
 }
 
 .dont-indent {
+    list-style-type: none;
     padding-left: 0;
     /*overrides pure*/
-    margin:0;
+    margin: 0;
 }
 
 .draggable-holder {
@@ -43,9 +44,9 @@ body .ui-widget {
     display: inline-block;
 }
 
-.right.adding, .right-holder.adding {
-    background-color: rgba(182,255,128,0.8);
-}
+    .right.adding, .right-holder.adding {
+        background-color: rgba(182,255,128,0.8);
+    }
 
 #main-page {
     display: flex;
