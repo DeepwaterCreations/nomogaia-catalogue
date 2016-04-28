@@ -48,7 +48,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         // so my little timeout gets called when UI is loaded just like I want it to be
         setTimeout(function () {
             $scope.updateVisible();
-            console.log("updated visible");
+            //console.log("updated visible");
         }, 100);//the time of the timeout does not really matter
     }
 
@@ -395,7 +395,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     g.dragEnter = function (event) {
         event.stopPropagation();
-        console.log("enter!")
+        //console.log("enter!")
         var type = event.dataTransfer.getData("type");
         var value = event.dataTransfer.getData("value");
         var at = event.target;
