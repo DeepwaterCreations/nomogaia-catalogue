@@ -138,11 +138,27 @@
                                 <h2>Rights</h2>
                                 <input type="text" data-ng-model="newRight" />
                                 <button data-ng-click="addNewRight(newRight);newRight='';">Add</button>
+                                <button data-ng-click="rightsLocked = !rightsLocked">{{rightsLocked ? "Unlock" : "Lock"}}</button>
                                 <div class="multi-column">
                                     <ul class="dont-indent">
-                                        <li class="draggable-holder" data-ng-repeat="right in rightslist()" >
-                                            <div class="draggable right" draggable="true" data-value="{{right}}" data-type="Impacted Rights" ondragstart="g.drag(event)">{{right}}</div>
+                                        <!-- Locked list of rights -->
+                                        <li data-ng-if="rightsLocked" class="draggable-holder" data-ng-repeat="right in shownRights">
+                                            <div class="draggable right" 
+                                                 draggable="true" 
+                                                 data-value="{{right}}" 
+                                                 data-type="Impacted Rights" 
+                                                 ondragstart="g.drag(event)">
+                                                {{right}}
+                                            </div>
                                         </li>
+                                        <!-- Unlocked list of rights -->
+                                        <li data-ng-if="!rightsLocked" class="draggable-holder" data-ng-repeat="right in rightslist()">
+                                            <div class="right" data-ng-class="{hidden_right: shownRights.indexOf(right) === -1}" draggable="false">
+                                                <span data-ng-click="toggleRight(right)">X</span>
+                                                {{right}}
+                                            </div>
+                                        </li>
+
                                     </ul>
                                 </div>
                                 <h2>Rights Holders</h2>
