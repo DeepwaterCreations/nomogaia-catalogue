@@ -140,6 +140,9 @@
                                 <input type="text" data-ng-model="newRight" />
                                 <button data-ng-click="addNewRight(newRight);newRight='';">Add</button>
                                 <button data-ng-click="rightsLocked = !rightsLocked">{{rightsLocked ? "Show/Hide Rights" : "Done"}}</button>
+                                <br/>
+                                <button data-ng-if="!rightsLocked" data-ng-click="showAllRights()">Show All</button>
+                                <button data-ng-if="!rightsLocked" data-ng-click="hideAllRights()">Hide All</button>
                                 <div class="multi-column">
                                     <ul class="dont-indent">
                                         <!-- Locked list of rights -->
@@ -158,13 +161,15 @@
                                                 {{right}}
                                             </div>
                                         </li>
-
                                     </ul>
                                 </div>
                                 <h2>Rights Holders</h2>
                                 <input type="text" data-ng-model="newRightHolder" />
                                 <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';">Add</button>
                                 <button data-ng-click="rightsholdersLocked = !rightsholdersLocked">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
+                                <br/>
+                                <button data-ng-if="!rightsholdersLocked" data-ng-click="showAllRightsholders()">Show All</button>
+                                <button data-ng-if="!rightsholdersLocked" data-ng-click="hideAllRightsholders()">Hide All</button>
                                 <div class="multi-column">
                                     <ul class="dont-indent">
                                         <!-- Locked list of rightsholders -->

@@ -287,6 +287,21 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         }
     };
 
+    $scope.showAllRights = function(){
+        //Reset the shown rights list to match the master list
+        $scope.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
+    };
+    $scope.hideAllRights = function(){
+        //Empty the shown rights list
+        $scope.shownRights = [];
+    };
+    $scope.showAllRightsholders = function(){
+        $scope.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
+    };
+    $scope.hideAllRightsholders = function(){
+        $scope.shownRightsholders = [];
+    };
+
     $scope.getScoreCategoryClass = getScoreCategoryClass; //What's with this global BS
 
     //A function that returns a function that is a getterSetter for the given topic (RowData).
