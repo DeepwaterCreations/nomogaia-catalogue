@@ -236,12 +236,14 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         var list = $scope.rightslist();
         if (list.indexOf(newRight) == -1) {
             list.push(newRight);
+            $scope.shownRights.push(newRight);
         }
     }
     $scope.addNewRightHolder = function (newRightHolder) {
         var list = $scope.rightsholderlist();
         if (list.indexOf(newRightHolder) == -1) {
             list.push(newRightHolder);
+            $scope.shownRightsholders.push(newRightHolder);
         }
     }
 
