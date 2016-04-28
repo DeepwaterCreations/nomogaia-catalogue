@@ -5,6 +5,10 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.search = "";
     $scope.timeoutId = "";
     $scope.dragData = null;
+    $scope.rightsLocked = true;
+    $scope.rightsholdersLocked = true;
+    $scope.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
+    $scope.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
 
     $scope.updateVisible = function () {
         clearTimeout(this.timeoutId);
@@ -232,12 +236,14 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         var list = $scope.rightslist();
         if (list.indexOf(newRight) == -1) {
             list.push(newRight);
+            $scope.shownRights.push(newRight);
         }
     }
     $scope.addNewRightHolder = function (newRightHolder) {
         var list = $scope.rightsholderlist();
         if (list.indexOf(newRightHolder) == -1) {
             list.push(newRightHolder);
+            $scope.shownRightsholders.push(newRightHolder);
         }
     }
 
@@ -256,6 +262,46 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
     $scope.removeRightsholder = function (rowData, rightsholdername) {
         rowData.removeRightsholders(rightsholdername);
+    };
+
+    //Show or hide a right in the sidebar.
+    $scope.toggleRight = function(right){
+        var idx = $scope.shownRights.indexOf(right);
+        if(idx > -1){
+            //Remove the right
+            $scope.shownRights.splice(idx, 1);
+        }else{
+            //Add the right, referencing the master list to give it the proper index.
+            var new_idx = $scope.rightslist().indexOf(right);
+            $scope.shownRights.splice(new_idx, 0, right);
+        }
+    };
+    //Ditto for -holders
+    $scope.toggleRightsholder = function(rightsholder){
+        var idx = $scope.shownRightsholders.indexOf(rightsholder);
+        if(idx > -1){
+            //Remove the rightsholder
+            $scope.shownRightsholders.splice(idx, 1);
+        }else{
+            //Add the rightsholder, referencing the master list to give it the proper index.
+            var new_idx = $scope.rightsholderlist().indexOf(rightsholder);
+            $scope.shownRightsholders.splice(new_idx, 0, rightsholder);
+        }
+    };
+
+    $scope.showAllRights = function(){
+        //Reset the shown rights list to match the master list
+        $scope.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
+    };
+    $scope.hideAllRights = function(){
+        //Empty the shown rights list
+        $scope.shownRights = [];
+    };
+    $scope.showAllRightsholders = function(){
+        $scope.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
+    };
+    $scope.hideAllRightsholders = function(){
+        $scope.shownRightsholders = [];
     };
 
     $scope.getScoreCategoryClass = getScoreCategoryClass; //What's with this global BS
