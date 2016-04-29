@@ -25,11 +25,11 @@ AddTopic.addTopic = function () {
         if (tabIndex >= monitorTabs.getActiveMonitor()) {
             var myTable = g.getMonitorTables().backingData[tabIndex];
             if (rowAt == null) {
-                rowAt = myTable.addRow(myTopic.toData());
+                rowAt = myTable.addRow(myTopic.toData(myTable));
                 rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
             } else {
                 var dataAt = rowAt.data;
-                var newData = new RowData(dataAt);
+                var newData = new RowData(myTable,dataAt);
                 rowAt = myTable.addRow(newData);
             }
         }

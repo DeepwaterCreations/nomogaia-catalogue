@@ -1,5 +1,10 @@
-﻿body .ui-widget {
-font-size:1em;
+﻿html {
+    -webkit-user-select: none;
+}
+
+
+body .ui-widget {
+    font-size: 1em;
 }
 
 .ui-state-active, .ui-state-hover, .ui-state-visited, .ui-state-focus {
@@ -14,10 +19,14 @@ font-size:1em;
     outline: none;
 }
 
+.inputtext textarea, .sourcetext textarea {
+    height: 6em;
+    resize:none;
+}
+
 #tabs {
     padding: 0px;
 }
-
 
 
 #main-page {
@@ -52,7 +61,6 @@ font-size:1em;
 
 .draggable {
     cursor: -webkit-grab;
-
 }
 
 .vert {
@@ -68,15 +76,6 @@ font-size:1em;
 
 #side-bar-monitors {
     width: 140px;
-}
-
-#side-bar-rights {
-    border-left: 0px solid #356C28;
-    width: 500px;
-}
-
-.multi-column {
-    -webkit-column-width: 200px;
 }
 
 .ui-tabs-nav li {

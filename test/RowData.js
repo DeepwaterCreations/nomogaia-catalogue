@@ -15,13 +15,14 @@ var rowDataId = 0;
 g.allRowData = {};
 
 //Holds the data for a single row.
-RowData = function (rowData) {
+RowData = function (table,rowData) {
     this.id = rowDataId++;
     g.allRowData[this.id] = this;
     this.child = null;
     this.ui = null;
     this.onScreen = true;
     this.lastHeight = -1;
+    this.table = table;
 
     // is a dictonary columnName: [listeners...]
     this.listenFunctions = {};
@@ -117,6 +118,21 @@ RowData = function (rowData) {
             return this.rowData.getData(columnName);
         }
     };
+
+    this.delete = function() {
+        console.log("erase me");
+        this.tryUnHook();
+
+        var at = table.tableData.rows.indexOf(this);
+        if (at != -1) {
+            table.tableData.rows.splice(at, 1);
+        }
+
+        // delete monitors looking back to that
+        if (this.child != null) {
+            this.child.ui.delete();
+        }
+    }
 
     this.tryUnHook = function () {
         if (this.rowData != null) {
@@ -279,4 +295,11 @@ RowData = function (rowData) {
 
 RowData.getRow = function (id) {
     return g.allRowData[id];
+}
+
+// f takes a data row
+RowData.forEach = function (f) {
+    for (var i = 0; i < rowDataId; i++) {
+        f(g.allRowData[i]);
+    }
 }

@@ -20,7 +20,7 @@
     }
 
     this.add = function (catalog, category, subCategory, topicString, topicInstance) {
-        console.log("add topic", topicInstance)
+        //console.log("add topic", topicInstance)
         if (catalog in this.hierarchy) {
             var categoryContains = this.hierarchy[catalog];
             if (category in categoryContains) {
@@ -76,7 +76,7 @@
         }
     }
 
-    console.log("catagoryHierararchy", this);
+    //console.log("catagoryHierararchy", this);
 
     this.addSet(string);
 

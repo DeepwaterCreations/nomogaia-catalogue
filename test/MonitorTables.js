@@ -20,7 +20,7 @@
         if (copyFrom != undefined) {
             var dataList = []
             copyFrom.tableData.rows.forEach(function (row) {
-                dataList.push( new RowData(row));
+                dataList.push(new RowData(newTable,row));
             });
             newTable.addRows(dataList, callBack);
         }
