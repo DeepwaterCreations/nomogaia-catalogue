@@ -9,6 +9,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.rightsholdersLocked = true;
     $scope.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
     $scope.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
+    $scope.activeTopic = null;
 
     $scope.updateVisible = function () {
         clearTimeout(this.timeoutId);
@@ -18,9 +19,26 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 var rows = $(".hasRowID");
 
                 var showz = [];
-
+                var dis = -1;
+                var closest = null;
                 for (var i = 0 ; i < rows.length; i++) {
-                    showz.push(Util.checkVisible(rows[i], 500));
+                    var row = rows[i];
+                    var show = Util.checkVisible(row, 500)
+                    showz.push(show);
+                    if (show) {
+                        var myDis = Util.disToCenter(row);
+                        if (closest === null || myDis < dis) {
+                            dis = myDis;
+                            closest = row;
+                        }
+
+                    }
+                }
+
+                if (closest != null) {
+                    var rowId = $(closest).data("row");
+                    var rowData = RowData.getRow(parseInt(rowId));
+                    $scope.activeTopic = rowData;
                 }
 
                 // we have to split this up in to two loops if we start modifying onScreen the DOM starts changing
@@ -112,6 +130,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     $scope.filtered = function (topic) {
         return $scope.search == "" || topic.hasTerm($scope.search);
+    }
+
+    $scope.updateActive = function (topic) {
+
+        $scope.activeTopic = topic;
     }
 
     //Row Edit UI
@@ -314,6 +337,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 console.log("set to " + data);
                 rowData.setData(columnName, data);
                 console.log("result " + rowData.getData(columnName));
+                $scope.activeTopic = rowData;
             }
             else {
                 //Get
@@ -417,6 +441,17 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         event.dataTransfer.setData("type", event.target.dataset.type);
         event.dataTransfer.setData("value", event.target.dataset.value);
     }
+
+    g.doubleClick = function (event) {
+        if ($scope.activeTopic != null) {
+            //console.log("double click!", event);
+            var type =event.target.dataset.type;
+            var value = event.target.dataset.value;
+            $timeout(function () {
+                $scope.activeTopic.acceptDrop(type, value);
+            })
+        }
+ }
 
     g.drop = function (event) {
         event.preventDefault();

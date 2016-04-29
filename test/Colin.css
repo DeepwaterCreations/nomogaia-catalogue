@@ -19,7 +19,10 @@ body .ui-widget {
     outline: none;
 }
 
-
+.inputtext textarea, .sourcetext textarea {
+    height: 6em;
+    resize:none;
+}
 
 #tabs {
     padding: 0px;

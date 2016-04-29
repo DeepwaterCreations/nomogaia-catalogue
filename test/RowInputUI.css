@@ -8,18 +8,27 @@
     border-bottom-right-radius: .5em;
 }
 
-.branchHeader {
+.branchHeader, .TopicHeader {
     background-color: rgba(0,0,0,.05);
     margin: .12em .12em 0 .12em;
     padding: .5em;
     border-radius: .5em;
+    transition: all ease .2s;
 }
+
+    .branchHeader:hover {
+        background-color: rgba(0,0,0,.075);
+    }
 
     .branchHeader.expanded {
         background-color: rgba(0,0,0,.1);
         -webkit-border-bottom-left-radius: 0;
         border-bottom-left-radius: 0;
     }
+
+        .branchHeader.expanded:hover {
+            background-color: rgba(0,0,0,.075);
+        }
 
 .branchBody {
     list-style-type: none;
@@ -35,28 +44,22 @@
         border-left: .5em solid rgba(0,0,0,.1);
     }
 
-.TopicHeader {
-    background-color: rgba(0,0,0,.05);
-    margin: .12em .12em 0 .12em;
-    padding: .5em;
-    border-radius: .5em;
+
+.TopicHeader.expanded {
+    color: white;
+    -webkit-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
-    .TopicHeader.expanded {
-        color: white;
-        -webkit-border-bottom-left-radius: 0;
-        border-bottom-left-radius: 0;
-        -webkit-border-bottom-right-radius: 0;
-        border-bottom-right-radius: 0;
+    .TopicHeader.expanded.odd {
+        background-color: #356C28;
     }
 
-        .TopicHeader.expanded.odd {
-            background-color: #356C28;
-        }
-
-        .TopicHeader.expanded.even {
-            background-color: #2F2D69;
-        }
+    .TopicHeader.expanded.even {
+        background-color: #2F2D69;
+    }
 
 .rowInputUI {
     display: flex;

@@ -80,14 +80,16 @@
                                     <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
                                     <!--<input type="button" class="blueButton" id="addRow" value="Add Row" />
                                     <input type="button" class="blueButton openAddTopic" value="Add Topic" />-->
-                                    <div >
+                                    <div>
                                         <select data-ng-init="activeView='tree'" ng-model="activeView" ng-change="showAll()" ng-options="mode for mode in ['tree','list']"></select>
                                     </div>
                                 </div>
+
                                 <ul data-ng-if="activeView=='tree'" class="branchBody">
                                     <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
                                         <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                        {{::Catalog}}</div>
+                                            {{::Catalog}}
+                                        </div>
                                         <ul data-ng-if="this.show" class="branchBody">
                                             <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
                                                 <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
@@ -99,13 +101,13 @@
                                                             {{::SubCategory}}
                                                         </div>
                                                         <ul data-ng-if="this.show" class="branchBody">
-                                                            <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false" >
-                                                                <div >
+                                                            <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
+                                                                <div data-ng-click="updateActive(Topic)">
                                                                     <div data-ng-click="this.show= !this.show;updateVisible()" class="TopicHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
                                                                         {{::Topic.getData("Topic")}}
                                                                     </div>
                                                                     <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
-                                                                </div> 
+                                                                </div>
                                                             </li>
                                                             <li>
                                                                 <input type="text" data-ng-model="newTopic" />
@@ -131,7 +133,7 @@
                                     </li>
                                 </ul>
                                 <div data-ng-if="activeView=='list'">
-                                    <div data-ng-repeat="Topic in filteredList" >
+                                    <div data-ng-repeat="Topic in filteredList" data-ng-click="updateActive(Topic)">
                                         <div class="TopicHeader expanded" data-ng-class-odd="'odd'" data-ng-class-even="'even'">{{::Topic.getData("Catalog") +" , "+ Topic.getData("Category") +" , "+ Topic.getData("Sub-Category") +" , "+ Topic.getData("Topic")}}</div>
                                         <div data-ng-include="'row.html'"></div>
                                     </div>
@@ -143,17 +145,18 @@
                                 <input type="text" data-ng-model="newRight" />
                                 <button data-ng-click="addNewRight(newRight);newRight='';">Add</button>
                                 <button data-ng-click="rightsLocked = !rightsLocked">{{rightsLocked ? "Show/Hide Rights" : "Done"}}</button>
-                                <br/>
+                                <br />
                                 <button data-ng-if="!rightsLocked" data-ng-click="showAllRights()">Show All</button>
                                 <button data-ng-if="!rightsLocked" data-ng-click="hideAllRights()">Hide All</button>
                                 <div class="multi-column">
                                     <ul class="dont-indent">
                                         <!-- Locked list of rights -->
                                         <li data-ng-if="rightsLocked" class="draggable-holder" data-ng-repeat="right in shownRights">
-                                            <div class="draggable right" 
-                                                 draggable="true" 
-                                                 data-value="{{right}}" 
-                                                 data-type="Impacted Rights" 
+                                            <div class="draggable right"
+                                                 draggable="true"
+                                                 ondblclick="g.doubleClick(event)"
+                                                 data-value="{{right}}"
+                                                 data-type="Impacted Rights"
                                                  ondragstart="g.drag(event)">
                                                 {{right}}
                                             </div>
@@ -170,14 +173,15 @@
                                 <input type="text" data-ng-model="newRightHolder" />
                                 <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';">Add</button>
                                 <button data-ng-click="rightsholdersLocked = !rightsholdersLocked">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
-                                <br/>
+                                <br />
                                 <button data-ng-if="!rightsholdersLocked" data-ng-click="showAllRightsholders()">Show All</button>
                                 <button data-ng-if="!rightsholdersLocked" data-ng-click="hideAllRightsholders()">Hide All</button>
                                 <div class="multi-column">
                                     <ul class="dont-indent">
                                         <!-- Locked list of rightsholders -->
                                         <li data-ng-if="rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in shownRightsholders">
-                                            <div class="draggable right-holder" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)">{{rightsholder}}</div>
+                                            <div class="draggable right-holder" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)"
+                                                 ondblclick="g.doubleClick(event)">{{rightsholder}}</div>
                                         </li>
                                         <!-- Unlocked list of rights -->
                                         <li data-ng-if="!rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in rightsholderlist()">
