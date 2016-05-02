@@ -10,8 +10,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.activeTopic = null;
 
     $scope.updateVisible = function () {
-        clearTimeout(this.timeoutId);
-        this.timeoutId = setTimeout(function () {
+        clearTimeout(this.updateVisible_timeoutId);
+        this.updateVisible_timeoutId = setTimeout(function () {
             // do something
             $timeout(function () {
                 var rows = $(".hasRowID");
@@ -25,7 +25,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     showz.push(show);
                     if (show) {
                         var myDis = Util.disToCenter(row);
-                        if (closest === null || myDis < dis) {
+                        if ((closest === null || myDis < dis) && $(row).height != 0) {
                             dis = myDis;
                             closest = row;
                         }
@@ -46,13 +46,16 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     var rowId = row.data("row");
                     var rowData = RowData.getRow(parseInt(rowId));
                     var lastOnScreen = rowData.onScreen;
-                    rowData.onScreen = showz[i]
-                    if (lastOnScreen && !rowData.onScreen) {
-                        row.height(row.height());
+                    if (lastOnScreen) {
+                        rowData.lastKnowHeight = row.height();
                     }
-                    if (!lastOnScreen && rowData.onScreen) {
+                    if (!showz[i]) {//&& row.height() !=0 //  lastOnScreen &&
+                        row.height(rowData.lastKnowHeight);
+                    }
+                    if (!lastOnScreen && showz[i]) {
                         row.height("auto");
                     }
+                    rowData.onScreen = showz[i]
                 }
             });
         }, 50);
@@ -118,32 +121,37 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 monitorTables.emptyShownRightsholders();
             };
 
-            $(".main").scroll($scope.updateVisible)
+            $("#tree-view .main .body").scroll($scope.updateVisible)
 
         });
     });
 
     // Colin, this seems like a really slow way
     $scope.updateFilteredRows = function (x) {
-        var filteredRows = $scope.tableData.filterRows(x);
-        $scope.filteredTree = {};
-        $scope.filteredList = filteredRows;
-        for (var i = 0; i < filteredRows.length; i++) {
-            var newRow = filteredRows[i];
-            if (!(newRow.getData("Catalog") in $scope.filteredTree)) {
-                $scope.filteredTree[newRow.getData("Catalog")] = {};
-            }
-            if (!(newRow.getData("Category") in $scope.filteredTree[newRow.getData("Catalog")])) {
-                $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")] = {};
-            }
-            if (!(newRow.getData("Sub-Category") in $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")])) {
-                $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
-            }
-            $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
+        clearTimeout(this.updateFilteredRows_timeoutId);
+        this.updateFilteredRows_timeoutId = setTimeout(function () {
+            var filteredRows = $scope.tableData.filterRows(x);
+            $scope.filteredTree = {};
+            $scope.filteredList = filteredRows;
+            for (var i = 0; i < filteredRows.length; i++) {
+                var newRow = filteredRows[i];
+                if (!(newRow.getData("Catalog") in $scope.filteredTree)) {
+                    $scope.filteredTree[newRow.getData("Catalog")] = {};
+                }
+                if (!(newRow.getData("Category") in $scope.filteredTree[newRow.getData("Catalog")])) {
+                    $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")] = {};
+                }
+                if (!(newRow.getData("Sub-Category") in $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")])) {
+                    $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
+                }
+                $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
 
-        }
-        // we need to update what is on screen
-        $scope.updateVisible();
+            }
+            // we need to update what is on screen
+            // we time this out because we want to give angular time to update before we update what is visible
+            setTimeout($scope.updateVisible(),100);
+
+        }, 50);
     }
 
     $scope.filtered = function (topic) {
@@ -151,7 +159,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     $scope.updateActive = function (topic) {
-
         $scope.activeTopic = topic;
     }
 
@@ -340,7 +347,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 console.log("set to " + data);
                 rowData.setData(columnName, data);
                 console.log("result " + rowData.getData(columnName));
-                $scope.activeTopic = rowData;
+                //$scope.activeTopic = rowData;
             }
             else {
                 //Get
@@ -448,13 +455,13 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     g.doubleClick = function (event) {
         if ($scope.activeTopic != null) {
             //console.log("double click!", event);
-            var type =event.target.dataset.type;
+            var type = event.target.dataset.type;
             var value = event.target.dataset.value;
             $timeout(function () {
                 $scope.activeTopic.acceptDrop(type, value);
             })
         }
- }
+    }
 
     g.drop = function (event) {
         event.preventDefault();

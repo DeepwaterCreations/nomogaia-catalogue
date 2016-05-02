@@ -1,9 +1,9 @@
 <div class="rowInputUI hasRowID" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)">
     <!--ondragleave="g.dragExit(event)"-->
-    <div data-ng-if="Topic.onScreen">
-        <div data-ng-if="Topic.id == activeTopic.id"> active!  {{activeTopic.id}}</div>
+    <div data-ng-if="Topic.onScreen" class="fade">
         <button data-ng-click="delete(Topic)">remove</button>
         <button data-ng-click="this.showAbout = !this.showAbout">info</button>
+        <span data-ng-if="Topic.id == activeTopic.id"> active! </span>
         <div class="rowInputUIGroup" data-ng-if="this.showAbout">
             <div class="rowInputUISection">
                 {{::Topic.getData("Description")}}

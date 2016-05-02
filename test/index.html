@@ -18,7 +18,9 @@
         <div id="tabs">
             <ul id="tabsBar">
 
-
+                <li>
+                    <a href="#outlineTab">Outline</a>
+                </li>
                 <li>
                     <a href="#Catalogs">Catalogs</a>
                 </li>
@@ -28,9 +30,7 @@
                 <li id="matrixTab">
                     <a href="#rightsMatrix">Rights Matrix</a>
                 </li>
-                <li>
-                    <a href="#outlineTab">Outline</a>
-                </li>
+
 
                 <button class="blueButton rightButton" id="monitor" type="button">Monitor</button>
 
@@ -84,58 +84,61 @@
                                         <select data-ng-init="activeView='tree'" ng-model="activeView" ng-change="showAll()" ng-options="mode for mode in ['tree','list']"></select>
                                     </div>
                                 </div>
-
-                                <ul data-ng-if="activeView=='tree'" class="branchBody">
-                                    <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
-                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                            {{::Catalog}}
-                                        </div>
-                                        <ul data-ng-if="this.show" class="branchBody">
-                                            <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
-                                                <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                    {{::Category}}
-                                                </div>
-                                                <ul data-ng-if="this.show" class="branchBody">
-                                                    <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
-                                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                            {{::SubCategory}}
-                                                        </div>
-                                                        <ul data-ng-if="this.show" class="branchBody">
-                                                            <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
-                                                                <div data-ng-click="updateActive(Topic)">
-                                                                    <div data-ng-click="this.show= !this.show;updateVisible()" class="TopicHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                                        {{::Topic.getData("Topic")}}
+                                <div class="body">
+                                    <ul data-ng-if="activeView=='tree'" class="branchBody">
+                                        <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
+                                            <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                {{::Catalog}}
+                                            </div>
+                                            <ul data-ng-if="this.show" class="branchBody">
+                                                <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
+                                                    <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                        {{::Category}}
+                                                    </div>
+                                                    <ul data-ng-if="this.show" class="branchBody">
+                                                        <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
+                                                            <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                                {{::SubCategory}}
+                                                            </div>
+                                                            <ul data-ng-if="this.show" class="branchBody">
+                                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
+                                                                    <div>
+                                                                        <!-- data-ng-click="updateActive(Topic)" -->
+                                                                        <div data-ng-click="this.show= !this.show;updateVisible()" class="TopicHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                                            {{::Topic.getData("Topic")}}
+                                                                        </div>
+                                                                        <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
                                                                     </div>
-                                                                    <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <input type="text" data-ng-model="newTopic" />
-                                                                <button ng-disabled="isNewTopic(Catalog,Category,SubCategory,newTopic)" data-ng-click="addNewTopic(Catalog,Category,SubCategory,newTopic);newTopic='';">Add</button>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <input type="text" data-ng-model="newSubCatagorgy" />
-                                                        <button ng-disabled="isNewSubCategory(Catalog,Category,newSubCatagorgy)" data-ng-click="addNewSubCategory(Catalog,Category,newSubCatagorgy);newSubCatagorgy='';">Add</button>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <input type="text" data-ng-model="newCatagorgy" />
-                                                <button ng-disabled="isNewCategory(Catalog,newCatagorgy)" data-ng-click="addNewCategory(Catalog,newCatagorgy);newCatagorgy='';">Add</button>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <input type="text" data-ng-model="newCatalog" />
-                                        <button ng-disabled="isNewCatalog(newCatalog)" data-ng-click="addNewCatalog(newCatalog);newCatalog='';">Add</button>
-                                    </li>
-                                </ul>
-                                <div data-ng-if="activeView=='list'">
-                                    <div data-ng-repeat="Topic in filteredList" data-ng-click="updateActive(Topic)">
-                                        <div class="TopicHeader expanded" data-ng-class-odd="'odd'" data-ng-class-even="'even'">{{::Topic.getData("Catalog") +" , "+ Topic.getData("Category") +" , "+ Topic.getData("Sub-Category") +" , "+ Topic.getData("Topic")}}</div>
-                                        <div data-ng-include="'row.html'"></div>
+                                                                </li>
+                                                                <li>
+                                                                    <input type="text" data-ng-model="newTopic" />
+                                                                    <button ng-disabled="isNewTopic(Catalog,Category,SubCategory,newTopic)" data-ng-click="addNewTopic(Catalog,Category,SubCategory,newTopic);newTopic='';">Add</button>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li>
+                                                            <input type="text" data-ng-model="newSubCatagorgy" />
+                                                            <button ng-disabled="isNewSubCategory(Catalog,Category,newSubCatagorgy)" data-ng-click="addNewSubCategory(Catalog,Category,newSubCatagorgy);newSubCatagorgy='';">Add</button>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <input type="text" data-ng-model="newCatagorgy" />
+                                                    <button ng-disabled="isNewCategory(Catalog,newCatagorgy)" data-ng-click="addNewCategory(Catalog,newCatagorgy);newCatagorgy='';">Add</button>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <input type="text" data-ng-model="newCatalog" />
+                                            <button ng-disabled="isNewCatalog(newCatalog)" data-ng-click="addNewCatalog(newCatalog);newCatalog='';">Add</button>
+                                        </li>
+                                    </ul>
+                                    <div data-ng-if="activeView=='list'">
+                                        <div data-ng-repeat="Topic in filteredList">
+                                            <!-- data-ng-click="updateActive(Topic)" -->
+                                            <div class="TopicHeader expanded" data-ng-class-odd="'odd'" data-ng-class-even="'even'">{{::Topic.getData("Catalog") +" , "+ Topic.getData("Category") +" , "+ Topic.getData("Sub-Category") +" , "+ Topic.getData("Topic")}}</div>
+                                            <div data-ng-include="'row.html'"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +196,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -282,6 +284,7 @@
 
             <!-- EXTERNALS -->
             <script type="text/javascript" src="node_modules/angular/angular.js"></script>
+            <script type="text/javascript" src="node_modules/angular/ng-animate.js"></script>
             <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
             <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
             <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>

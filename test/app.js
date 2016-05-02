@@ -1,3 +1,3 @@
-g.aspenApp = angular.module('aspenApp', []);
+g.aspenApp = angular.module('aspenApp', ['ngAnimate']);
 
 
