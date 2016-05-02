@@ -130,7 +130,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
             }
             // we need to update what is on screen
-            $scope.updateVisible();
+            // we time this out because we want to give angular time to update before we update what is visible
+            setTimeout($scope.updateVisible(),100);
 
         }, 50);
     }
