@@ -4,6 +4,7 @@
         <button data-ng-click="delete(Topic)">remove</button>
         <button data-ng-click="this.showAbout = !this.showAbout">info</button>
         <span data-ng-if="Topic.id == activeTopic.id"> active! </span>
+        <span data-ng-bind="Topic.getData('Monitor')"></span>
         <div class="rowInputUIGroup" data-ng-if="this.showAbout">
             <div class="rowInputUISection">
                 {{::Topic.getData("Description")}}
