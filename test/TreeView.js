@@ -27,7 +27,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     showz.push(show);
                     if (show) {
                         var myDis = Util.disToCenter(row);
-                        if (closest === null || myDis < dis) {
+                        if ((closest === null || myDis < dis) && $(row).height != 0) {
                             dis = myDis;
                             closest = row;
                         }
@@ -49,7 +49,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     var rowData = RowData.getRow(parseInt(rowId));
                     var lastOnScreen = rowData.onScreen;
                     rowData.onScreen = showz[i]
-                    if (lastOnScreen && !rowData.onScreen) {
+                    if (lastOnScreen && !rowData.onScreen && row.height() !=0) {
                         row.height(row.height());
                     }
                     if (!lastOnScreen && rowData.onScreen) {
@@ -133,7 +133,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     $scope.updateActive = function (topic) {
-
         $scope.activeTopic = topic;
     }
 
@@ -337,7 +336,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 console.log("set to " + data);
                 rowData.setData(columnName, data);
                 console.log("result " + rowData.getData(columnName));
-                $scope.activeTopic = rowData;
+                //$scope.activeTopic = rowData;
             }
             else {
                 //Get
