@@ -21,7 +21,7 @@ body .ui-widget {
 
 .inputtext textarea, .sourcetext textarea {
     height: 6em;
-    resize:none;
+    resize: none;
 }
 
 #tabs {
@@ -205,14 +205,11 @@ body {
 }
 
 #outlineTab {
-    height: calc(100% - 55px);
+    height: calc(100% - 35px);
 }
 
     #outlineTab .main {
         flex: 1 1 auto;
-        overflow: scroll;
-        height: calc(100% - 30px);
-        padding: 5px;
     }
 
     #outlineTab .fill {
@@ -232,7 +229,24 @@ body {
     left: 5%;*/
 }
 
+#tree-view .main {
+    display: flex;
+    flex-direction: column;
+}
 
+    #tree-view .main .holder {
+        -ms-flex: 0 0 auto;
+        -webkit-flex: 0 0 auto;
+        flex: 0 0 auto;
+    }
+
+    #tree-view .main .body {
+        height:100%;
+        overflow: scroll;
+        -ms-flex: 1 1 auto;
+        -webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
 
 .catalog-text {
     border: none;
