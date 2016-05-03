@@ -14,6 +14,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         this.updateVisible_timeoutId = setTimeout(function () {
             // do something
             $timeout(function () {
+                console.log("update visible");
+
                 var rows = $(".hasRowID");
 
                 var showz = [];
@@ -101,23 +103,23 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.scorevals = DataOptions.columnOptions["Score"];
             console.log("TableData set!", $scope.tableData);
 
-            $scope.shownRights = function(){
+            $scope.shownRights = function () {
                 return monitorTables.shownRights;
             };
-            $scope.showAllRights = function(){
+            $scope.showAllRights = function () {
                 monitorTables.resetShownRights();
             }
-            $scope.hideAllRights = function(){
+            $scope.hideAllRights = function () {
                 monitorTables.emptyShownRights();
             };
 
-            $scope.shownRightsholders = function(){
+            $scope.shownRightsholders = function () {
                 return monitorTables.shownRightsholders;
             };
-            $scope.showAllRightsholders = function(){
+            $scope.showAllRightsholders = function () {
                 monitorTables.resetShownRightsholders();
             };
-            $scope.hideAllRightsholders = function(){
+            $scope.hideAllRightsholders = function () {
                 monitorTables.emptyShownRightsholders();
             };
 
@@ -130,27 +132,31 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.updateFilteredRows = function (x) {
         clearTimeout(this.updateFilteredRows_timeoutId);
         this.updateFilteredRows_timeoutId = setTimeout(function () {
-            var filteredRows = $scope.tableData.filterRows(x);
-            $scope.filteredTree = {};
-            $scope.filteredList = filteredRows;
-            for (var i = 0; i < filteredRows.length; i++) {
-                var newRow = filteredRows[i];
-                if (!(newRow.getData("Catalog") in $scope.filteredTree)) {
-                    $scope.filteredTree[newRow.getData("Catalog")] = {};
-                }
-                if (!(newRow.getData("Category") in $scope.filteredTree[newRow.getData("Catalog")])) {
-                    $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")] = {};
-                }
-                if (!(newRow.getData("Sub-Category") in $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")])) {
-                    $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
-                }
-                $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
+            $timeout(function () {
+                console.log("filter rows");
+                var filteredRows = $scope.tableData.filterRows(x);
+                $scope.filteredTree = {};
+                $scope.filteredList = filteredRows;
+                for (var i = 0; i < filteredRows.length; i++) {
+                    var newRow = filteredRows[i];
+                    if (!(newRow.getData("Catalog") in $scope.filteredTree)) {
+                        $scope.filteredTree[newRow.getData("Catalog")] = {};
+                    }
+                    if (!(newRow.getData("Category") in $scope.filteredTree[newRow.getData("Catalog")])) {
+                        $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")] = {};
+                    }
+                    if (!(newRow.getData("Sub-Category") in $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")])) {
+                        $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
+                    }
+                    $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
 
-            }
-            // we need to update what is on screen
-            // we time this out because we want to give angular time to update before we update what is visible
-            setTimeout($scope.updateVisible(),100);
-
+                }
+                // we need to update what is on screen
+                // we time this out because we want to give angular time to update before we update what is visible
+                //setTimeout(
+                $scope.updateVisible();
+                    //, 100);
+            })
         }, 50);
     }
 
@@ -313,24 +319,24 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     //Show or hide a right in the sidebar.
-    $scope.toggleRight = function(right){
+    $scope.toggleRight = function (right) {
         var idx = $scope.shownRights().indexOf(right);
-        if(idx > -1){
+        if (idx > -1) {
             //Remove the right
             $scope.shownRights().splice(idx, 1);
-        }else{
+        } else {
             //Add the right, referencing the master list to give it the proper index.
             var new_idx = $scope.rightslist().indexOf(right);
             $scope.shownRights().splice(new_idx, 0, right);
         }
     };
     //Ditto for -holders
-    $scope.toggleRightsholder = function(rightsholder){
+    $scope.toggleRightsholder = function (rightsholder) {
         var idx = $scope.shownRightsholders().indexOf(rightsholder);
-        if(idx > -1){
+        if (idx > -1) {
             //Remove the rightsholder
             $scope.shownRightsholders().splice(idx, 1);
-        }else{
+        } else {
             //Add the rightsholder, referencing the master list to give it the proper index.
             var new_idx = $scope.rightsholderlist().indexOf(rightsholder);
             $scope.shownRightsholders().splice(new_idx, 0, rightsholder);
