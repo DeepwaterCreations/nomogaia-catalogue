@@ -35,7 +35,7 @@
                         <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
                     </li>
                     <li class="rightContainer draggable-holder right adding" data-ng-if="dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && getCurrentRights(Topic).indexOf(dragData.value) ==-1">
-                        {{dragData.value}}
+                        <span> x </span>{{dragData.value}}
                     </li><!--data-ng-show="this.editRights"-->
                 </ul>
                 <ul class="dont-indent rightsholdersUI">
@@ -45,7 +45,7 @@
                         <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
                     </li><!--data-ng-show="this.editRights"-->
                     <li class="rightContainer draggable-holder right-holder adding" data-ng-if="dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id  && getCurrentRightsholders(Topic).indexOf(dragData.value) ==-1">
-                        {{dragData.value}}
+                        <span> x </span>{{dragData.value}}
                     </li>
                 </ul>
             </div>

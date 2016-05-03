@@ -1,7 +1,22 @@
-﻿html {
+﻿
+
+html {
     -webkit-user-select: none;
 }
 
+.search .icon-search {
+    position:relative;
+    /*left:2em;*/
+    /*width:2em;*/
+    margin: 0;
+    border:0 ;
+    padding: .5em;
+}
+
+.search input[type=search] {
+    margin-left: -33px;
+    padding-left: 25px;
+}
 
 body .ui-widget {
     font-size: 1em;
@@ -645,7 +660,7 @@ button.close-icon {
 
 /* The starting CSS styles for the enter animation */
 .fade.ng-enter {
-  transition:0.5s linear all;
+  transition:0.3s ease all;
   opacity:0;
 }
 
@@ -653,3 +668,4 @@ button.close-icon {
 .fade.ng-enter.ng-enter-active {
   opacity:1;
 }
+

@@ -22,22 +22,34 @@
     display: inline-block;
 }
 
-.right.adding, .right-holder.adding {
-    background-color: rgba(182,255,128,0.8);
-}
+    .right.adding, .right-holder.adding, .right-holder.ng-enter:not(.adding) ,.right.ng-enter:not(.adding) {
+        background-color: #2F2D69;
+        color:white;
+    }
+
+    .right-holder.ng-enter:not(.adding) ,.right.ng-enter:not(.adding){
+        transition: 2s background-color ease, .5s color ease;
+
+    }
+
+        /* The finishing CSS styles for the enter animation */
+        .right-holder.ng-enter.ng-enter-active:not(.adding) ,.right.ng-enter.ng-enter-active:not(.adding) {
+            background-color: rgba(255,255,255,0.5);
+            color:black;
+        }
 
 .draggable-holder {
     margin: .2em;
 }
 
-.right.unlocked.hidden_right, .right-holder.unlocked.hidden_rightsholder{
+.right.unlocked.hidden_right, .right-holder.unlocked.hidden_rightsholder {
     color: #888;
     background-color: rgba(255, 220, 220, 0.5);
     border-style: solid;
     border-color: rgba(255, 12, 12, 0.8);
 }
 
-.right.unlocked:not(.hidden_right), .right-holder.unlocked:not(.hidden_rightsholder){
+.right.unlocked:not(.hidden_right), .right-holder.unlocked:not(.hidden_rightsholder) {
     background-color: rgba(220, 255, 220, 0.5);
     border-style: solid;
     border-color: rgba(12, 225, 12, 0.8);
