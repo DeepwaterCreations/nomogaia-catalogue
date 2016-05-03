@@ -157,20 +157,15 @@ $('#load').click(function () {
             //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
             var obj = jQuery.parseJSON(chunk);
             var barMax = 0;//obj.length * obj[obj.length - 1].backingData.length; //The number of monitors times the number of rows in the last monitor.
-            for (var i = 0; i < obj.monitors.length; i++) {
-                barMax += obj.monitors[i].backingData.length;
+            for (var i = 0; i < obj.monitortables.monitors.length; i++) {
+                barMax += obj.monitortables.monitors[i].backingData.length;
             }
 
             $("#loadingBar").progressbar("option", "max", barMax);
             $("#loadingBar").progressbar("value", 0);
-            monitorTables.clear();
-            monitorTables.shownRights = obj.info.shownRights;
-            monitorTables.shownRightsholders = obj.info.shownRightsholders;
-            for (var i = 0; i < obj.monitors.length; i++) {
-                monitorTables.push(createTableFromJSON(obj.monitors, i, monitorTables));
-                $("#monitorNameField").val(obj.monitors[i].label) //Ensures the new tab gets the proper label.
-                monitorTabs.addTab();
-            }
+
+            // DataOptions.loadCustom(obj.dataoptions)
+            monitorTables.loadFile(obj.monitortables);
             //$("#loadingBarDialog").dialog("destroy");
 
             //Update the current filename to the loaded file's name.
@@ -195,5 +190,8 @@ function autosave(interval) {
 }
 
 function save(filename, callback) {
-    fs.writeFile(filename, JSON.stringify(monitorTables.toOut()), callback);
+    var saveobj = {};
+    saveobj.monitortables = monitorTables.toOut();
+    // saveobj.dataoptions = DataOptions.toOut();
+    fs.writeFile(filename, JSON.stringify(saveobj), callback);
 }

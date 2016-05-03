@@ -65,6 +65,17 @@
         return out;
     }
 
+    this.loadFile = function(loaded_data){
+        this.clear();
+        this.shownRights = loaded_data.info.shownRights;
+        this.shownRightsholders = loaded_data.info.shownRightsholders;
+        for (var i = 0; i < loaded_data.monitors.length; i++) {
+            this.push(createTableFromJSON(loaded_data.monitors, i, this));
+            $("#monitorNameField").val(loaded_data.monitors[i].label) //Ensures the new tab gets the proper label.
+                monitorTabs.addTab();
+        }
+    };
+
     this.clear = function () {
         this.backingData.forEach(function (table) {
             table.removeTable();
