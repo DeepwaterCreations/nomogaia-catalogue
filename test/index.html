@@ -4,6 +4,7 @@
     <title>NomoGaia Catalog</title>
     <link href="jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="select2/dist/css/select2.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="DataTable.css" rel="stylesheet">
     <link href="Dialogs.css" rel="stylesheet">
     <link href="ContextMenu.css" rel="stylesheet">
@@ -76,13 +77,16 @@
                         <div data-ng-if="tableData !== null" data-ng-init="init()" class="fill flx-row" id="tree-view">
                             <div class="main">
                                 <div class="header">
-                                    <input type="text" data-ng-model="search" data-ng-change="updateFilteredRows(search)" />
+                                    <span class="search">
+                                        <i class="icon-search"></i>
+                                        <input type="search" data-ng-model="search" placeholder="Search" data-ng-change="updateFilteredRows(search)">
+                                    </span>
                                     <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
                                     <!--<input type="button" class="blueButton" id="addRow" value="Add Row" />
                                     <input type="button" class="blueButton openAddTopic" value="Add Topic" />-->
-                                    <div>
+                                    <span>
                                         <select data-ng-init="activeView='tree'" ng-model="activeView" ng-change="showAll()" ng-options="mode for mode in ['tree','list']"></select>
-                                    </div>
+                                    </span>
                                 </div>
                                 <div class="body">
                                     <ul data-ng-if="activeView=='tree'" class="branchBody">
@@ -203,7 +207,7 @@
                 </div>
             </div>
 
-            <div id="hidy-hole">
+            <div id="hidy-hole" tabindex="-1">
                 <div id="addMonitorDialog" class="dialog">
                     <div>
                         <span>Enter a Label:</span>
