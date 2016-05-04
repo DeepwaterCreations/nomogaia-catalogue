@@ -164,7 +164,7 @@ $('#load').click(function () {
             $("#loadingBar").progressbar("option", "max", barMax);
             $("#loadingBar").progressbar("value", 0);
 
-            // DataOptions.loadCustom(obj.dataoptions)
+            DataOptions.loadCustom(obj.dataoptions)
             monitorTables.loadFile(obj.monitortables);
             //$("#loadingBarDialog").dialog("destroy");
 
@@ -192,6 +192,6 @@ function autosave(interval) {
 function save(filename, callback) {
     var saveobj = {};
     saveobj.monitortables = monitorTables.toOut();
-    // saveobj.dataoptions = DataOptions.toOut();
+    saveobj.dataoptions = DataOptions.toOut();
     fs.writeFile(filename, JSON.stringify(saveobj), callback);
 }

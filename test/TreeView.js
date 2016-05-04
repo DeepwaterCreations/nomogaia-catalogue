@@ -92,15 +92,15 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.filteredTree = $scope.tableData.treeView;
             $scope.filteredList = $scope.tableData.rows;
             $scope.rightslist = function () {
-                return DataOptions.columnOptions["Impacted Rights"];
+                return DataOptions.getColumnOptions("Impacted Rights");
             }
             $scope.rightsholderlist = function () {
-                return DataOptions.columnOptions["Impacted Rights-Holders"];
+                return DataOptions.getColumnOptions("Impacted Rights-Holders");
             }
             $scope.moduleList = function () {
-                return DataOptions.columnOptions["Module"];
+                return DataOptions.getColumnOptions("Module");
             }
-            $scope.scorevals = DataOptions.columnOptions["Score"];
+            $scope.scorevals = DataOptions.getColumnOptions("Score");
             console.log("TableData set!", $scope.tableData);
 
             $scope.shownRights = function () {
@@ -287,16 +287,22 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         }
     }
     $scope.addNewRight = function (newRight) {
-        var list = $scope.rightslist();
-        if (list.indexOf(newRight) == -1) {
-            list.push(newRight);
+        // var list = $scope.rightslist();
+        // if (list.indexOf(newRight) == -1) {
+        //     list.push(newRight);
+        //     $scope.shownRights().push(newRight);
+        // }
+        if(DataOptions.addCustom("Impacted Rights", newRight) > -1){
             $scope.shownRights().push(newRight);
         }
     }
     $scope.addNewRightHolder = function (newRightHolder) {
-        var list = $scope.rightsholderlist();
-        if (list.indexOf(newRightHolder) == -1) {
-            list.push(newRightHolder);
+        // var list = $scope.rightsholderlist();
+        // if (list.indexOf(newRightHolder) == -1) {
+        //     list.push(newRightHolder);
+        //     $scope.shownRightsholders().push(newRightHolder);
+        // }
+        if(DataOptions.addCustom("Impacted Rights-Holders", newRightHolder) > -1){
             $scope.shownRightsholders().push(newRightHolder);
         }
     }

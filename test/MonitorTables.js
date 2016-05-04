@@ -6,13 +6,13 @@
     // We're storing the lists of rights and rights-holders that haven't been 
     // hidden for the project in MonitorTables so that they are saved and loaded between
     // sessions.
-    this.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
-    this.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
+    this.shownRights = DataOptions.getColumnOptions("Impacted Rights").slice(0);
+    this.shownRightsholders = DataOptions.getColumnOptions("Impacted Rights-Holders").slice(0);
     this.resetShownRights = function(){
-        this.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
+        this.shownRights = DataOptions.getColumnOptions("Impacted Rights").slice(0);
     };
     this.resetShownRightsholders = function(){
-        this.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
+        this.shownRightsholders = DataOptions.getColumnOptions("Impacted Rights-Holders").slice(0);
     };
     this.emptyShownRights = function(){
         this.shownRights = [];

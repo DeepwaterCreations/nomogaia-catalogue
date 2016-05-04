@@ -388,7 +388,7 @@ function RowUI(table, rowData) {
             var that = this;
             ["Impacted Rights-Holders", "Impacted Rights", "Module"].forEach(function (column) {
                 if (rowData.getData(column) != DataOptions.getDefaultValue(column)) {
-                    DataOptions.update(column, rowData.getData(column));
+                    // DataOptions.update(column, rowData.getData(column));
                 }
             });
 

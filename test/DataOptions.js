@@ -5,32 +5,6 @@ DataOptions.setCategoryHierarchy = function(CategoryHierarchy) {
     DataOptions.categoryHierarchy = categoryHierarchy;
 }
     
-
-DataOptions.update = function (column, data) {
-    if (Array.isArray(data)) {
-        data.forEach(function (dat) {
-            DataOptions.updateSingle(column, dat);
-        });
-    } else {
-        DataOptions.updateSingle(column, data);
-    }
-}
-
-DataOptions.updateSingle = function (column, data) {
-    if (DataOptions.columnOptions[column].indexOf(data) == -1) {
-        DataOptions.columnOptions[column].push(data);
-    }
-
-    // add it to the other rights holders lists
-    var rightsHoldersSelectList = $('.' + toColumnName(column));
-    for (var i = 0; i < rightsHoldersSelectList.length; i++) {
-        var rightsHoldersSelect = rightsHoldersSelectList[i];
-        if ( $(rightsHoldersSelect).find('[value="' + data + '"]').length == 0) {
-            $(rightsHoldersSelect).append('<option value="' + data + '">' + data + '</option>');
-        }
-    }
-}
-
 // a getter for ColumnOptions
 DataOptions.getColumnOptions = function (column) {
     if (column == "Catalog") {
@@ -51,12 +25,32 @@ DataOptions.getColumnOptions = function (column) {
         return result;
     } else {
         if (DataOptions.columnOptions.hasOwnProperty(column)) {
-            return DataOptions.columnOptions[column];
+            return DataOptions.columnOptions[column].concat(DataOptions.customColumnOptions[column]);
         } else {
             return [];
         }
     }
 }
+
+//Adds a new data option to the custom data list.
+//Returns the index of the added data.
+DataOptions.addCustom = function(column, data){
+    if(data === ""){
+        return -1;
+    } else if (!DataOptions.customColumnOptions.hasOwnProperty(column)) {
+        console.err("WARNING: column ", column, " does not exist.");
+        return -1;
+    } else if(DataOptions.customColumnOptions[column].indexOf(data) >= 0 ||
+            DataOptions.columnOptions[column].indexOf(data) >= 0){
+        //The right or rights-holder we're trying to add already exists.
+        var index = DataOptions.customColumnOptions[column].indexOf(data) || 
+            DataOptions.columnOptions[column].indexOf(data); 
+        return index;
+    } else {
+        DataOptions.customColumnOptions[column].push(data);
+        return DataOptions.customColumnOptions[column].indexOf(data); 
+    }
+};
 
 DataOptions.loadFromFile = function (fileName) {
     var fs = require('fs');
@@ -78,6 +72,12 @@ DataOptions.columnOptions = {
     "Impacted Rights-Holders": DataOptions.loadFromFile("Rightsholders.csv"),
     "Module": DataOptions.loadFromFile("Module.csv"),
     "Score": DataOptions.loadFromFile("Score.csv")
+}
+DataOptions.customColumnOptions = {
+    "Impacted Rights": [],
+    "Impacted Rights-Holders": [],
+    "Module": [],
+    "Score": []
 }
 
 DataOptions.getDefaultValue = function (className) {
