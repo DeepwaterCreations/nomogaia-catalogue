@@ -1,11 +1,16 @@
 .rowInputUI {
-    background-color: rgba(0,0,0,.1);
+    background-color: rgba(0,0,0,.2);
     margin: 0 .12em .12em .12em;
     padding: .5em;
     -webkit-border-bottom-left-radius: .5em;
     border-bottom-left-radius: .5em;
     -webkit-border-bottom-right-radius: .5em;
     border-bottom-right-radius: .5em;
+    transition:   background-color ease .5s;
+}
+
+.rowInputUI.active {
+    background-color: rgba(0,0,0,.05);
 }
 
 .branchHeader, .TopicHeader {

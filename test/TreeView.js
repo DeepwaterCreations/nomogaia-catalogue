@@ -9,7 +9,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.rightsholdersLocked = true;
     $scope.activeTopic = null;
 
-    $scope.updateVisible = function () {
+    $scope.updateVisible = function (updateActive) {
+        updateActive = (updateActive===undefined? false:updateActive);
+
         clearTimeout(this.updateVisible_timeoutId);
         this.updateVisible_timeoutId = setTimeout(function () {
             // do something
@@ -36,7 +38,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     }
                 }
 
-                if (closest != null) {
+                if (updateActive&&closest != null) {
                     var rowId = $(closest).data("row");
                     var rowData = RowData.getRow(parseInt(rowId));
                     $scope.activeTopic = rowData;
@@ -60,11 +62,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     }
                     rowHat.getRowHat(rowData.id).onScreen = showz[i]
                 }
-
-
             });
         }, 50);
     }
+
+    
 
     $scope.showAll = function () {
         //console.log("showing all");
@@ -173,7 +175,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 monitorTables.emptyShownRightsholders();
             };
 
-            $("#tree-view .main .body").scroll($scope.updateVisible)
+            $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
 
         });
     });

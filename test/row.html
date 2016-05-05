@@ -1,23 +1,26 @@
-<div class="rowInputUI hasRowID" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)">
+<div class="rowInputUI hasRowID" data-ng-class="{'active':activeTopic == Topic}" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)" data-ng-click="updateActive(Topic)">
     <!--ondragleave="g.dragExit(event)"-->
     <div data-ng-if="getRowHat(Topic.id).onScreen" class="fade">
 
-        <button data-ng-click="delete(Topic)">remove</button>
-        <button data-ng-click="this.showAbout = !this.showAbout">info</button>
-        <span data-ng-if="Topic.id == activeTopic.id"> active! </span>
+        <button data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic)">remove</button>
+        <button data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout">Topic Description</button>
+        <!--<span data-ng-if="Topic.id == activeTopic.id"> active! </span>-->
         <span data-ng-bind="Topic.getData('Monitor')"></span>
-        <span data-ng-if="search != ''">
-            in <span>{{getRowHat(Topic.id).filterDetails[0].columnName}}</span>: {{getRowHat(Topic.id).filterDetails[0].before}}<span class="hightlight">{{getRowHat(Topic.id).filterDetails[0].data}}</span>{{getRowHat(Topic.id).filterDetails[0].after}}
-        </span>
         <div class="rowInputUIGroup" data-ng-if="this.showAbout">
             <div class="rowInputUISection">
                 {{::Topic.getData("Description")}}
+            </div>
+        </div>
+        <div class="rowInputUIGroup" data-ng-if="search != ''">
+            <div class="rowInputUISection">
+                in <span>{{getRowHat(Topic.id).filterDetails[0].columnName}}</span>: {{getRowHat(Topic.id).filterDetails[0].before}}<span class="hightlight">{{getRowHat(Topic.id).filterDetails[0].data}}</span>{{getRowHat(Topic.id).filterDetails[0].after}}
             </div>
         </div>
         <div class="rowInputUIGroup">
             <div class="rowInputUISection inputtext">
                 <span>Input</span>
                 <textarea name="input"
+                          data-ng-focus="updateActive(Topic)"
                           data-ng-model="getSetData(Topic, 'Input')"
                           data-ng-model-options="{updateOn: 'blur',
                                               getterSetter: true}"></textarea>
@@ -25,6 +28,7 @@
             <div class="rowInputUISection sourcetext">
                 <span>Source</span>
                 <textarea name="source"
+                          data-ng-focus="updateActive(Topic)"
                           data-ng-model="getSetData(Topic, 'Source')"
                           data-ng-model-options="{updateOn: 'blur',
                                               getterSetter: true}"></textarea>
@@ -57,18 +61,18 @@
                 <span>
                     Module
                 </span>
-                <select data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
+                <select data-ng-focus="updateActive(Topic)" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
 
                 <!--<label class="vert" data-ng-repeat="module in moduleList()">
                     <input type="radio" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
                     {{module}}
                 </label>-->
-                <input type="text" name="module" data-ng-model="newMod" />
-                <button data-ng-click="addNewMod(newMod);newMod='';">Add New</button>
-
-                </div>
+                <input data-ng-focus="updateActive(Topic)" type="text" name="module" data-ng-model="newMod" />
+                <button data-ng-focus="updateActive(Topic)" data-ng-click="addNewMod(newMod);newMod='';">Add New</button>
 
             </div>
+        </div>
+        <div clas
         <div class="rowInputUIGroup">
             <div class="rowInputUISection scoreUI">
                 <span>Score</span>
@@ -78,6 +82,7 @@
                 <div>
                     <div data-ng-repeat="score in scorevals">
                         <input type="radio"
+                               data-ng-focus="updateActive(Topic)"
                                id="{{::'radio' + score + Topic.getData('Topic')}}"
                                data-ng-model="getSetData(Topic, 'Score')"
                                data-ng-model-options="{getterSetter: true}"

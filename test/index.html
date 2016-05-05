@@ -107,7 +107,7 @@
                                                                 <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
                                                                     <div>
                                                                         <!-- data-ng-click="updateActive(Topic)" -->
-                                                                        <div data-ng-click="this.show= !this.show;updateVisible()" class="TopicHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                                        <div data-ng-click="this.show= !this.show;updateVisible();updateActive(Topic)" class="TopicHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
                                                                             {{::Topic.getData("Topic")}}
                                                                         </div>
                                                                         <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
