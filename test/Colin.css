@@ -669,3 +669,6 @@ button.close-icon {
   opacity:1;
 }
 
+.hightlight {
+    background-color:yellow;
+}

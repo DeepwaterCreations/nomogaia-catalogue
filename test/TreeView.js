@@ -13,8 +13,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         clearTimeout(this.updateVisible_timeoutId);
         this.updateVisible_timeoutId = setTimeout(function () {
             // do something
+            // I wish this did not effect scrolling so badly 
             $timeout(function () {
-                console.log("update visible");
+                //console.log("update visible");
 
                 var rows = $(".hasRowID");
 
@@ -47,34 +48,83 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     var row = $(rows[i]);
                     var rowId = row.data("row");
                     var rowData = RowData.getRow(parseInt(rowId));
-                    var lastOnScreen = rowData.onScreen;
-                    if (lastOnScreen) {
-                        rowData.lastKnowHeight = row.height();
+                    var lastOnScreen = rowHat.getRowHat(rowData.id).onScreen;
+                    if (lastOnScreen && row.height() >0) {
+                        rowHat.getRowHat(rowData.id).lastKnowHeight = row.height();
                     }
-                    if (!showz[i]) {//&& row.height() !=0 //  lastOnScreen &&
-                        row.height(rowData.lastKnowHeight);
+                    if (!showz[i] && rowHat.getRowHat(rowData.id).lastKnowHeight != -1) {
+                        row.height(rowHat.getRowHat(rowData.id).lastKnowHeight);
                     }
                     if (!lastOnScreen && showz[i]) {
                         row.height("auto");
                     }
-                    rowData.onScreen = showz[i]
+                    rowHat.getRowHat(rowData.id).onScreen = showz[i]
                 }
+
+
             });
         }, 50);
     }
 
     $scope.showAll = function () {
-        RowData.forEach(function (row) {
-            row.onScreen = true;
-        })
+        //console.log("showing all");
+        setTimeout(function () {
+            $scope.measureRow(0, $scope.filteredList);
+        }, 1000);
+        //RowData.forEach(function (row) {
+        //    row.onScreen = true;
+        //})
         // so this is a drity little hak
         // we want to update what is visible as soon as the UI finishes loading 
-        // we put it in a timeout and angluar is such a but it does not let anything run till it is done
+        // we put it in a timeout and angluar is such a butt it does not let anything run till it is done
         // so my little timeout gets called when UI is loaded just like I want it to be
-        setTimeout(function () {
-            $scope.updateVisible();
+        //setTimeout(function () {
+            //$scope.updateVisible();
             //console.log("updated visible");
-        }, 100);//the time of the timeout does not really matter
+        //}, 100);//the time of the timeout does not really matter
+    }
+
+    // we bring getRowHat in scope so we can callit from the UI
+    $scope.getRowHat = function (id) {
+        return rowHat.getRowHat(id);
+    };
+
+    // takes a position and a list of RowData
+    $scope.measureRow = function (at, list) {
+        var fmake = function (myRow,myRowUI) {
+            return function () {
+
+                rowHat.getRowHat(myRow.id).lastKnowHeight = myRowUI.height();
+                myRowUI.height(rowHat.getRowHat(myRow.id).lastKnowHeight);
+                rowHat.getRowHat(myRow.id).onScreen = false;
+            }
+        }
+
+        $timeout(function () {
+            var toRun = [];
+            for (var i = 0; i < 5; i++) {
+                if (at < list.length) {
+                    var row = list[at];
+                    var rowUI = $(".hasRowID[data-row=" + row.id + "]");
+                    if (!rowHat.getRowHat(row.id).onScreen && rowHat.getRowHat(row.id).lastKnowHeight === -1 && rowUI.length === 1) {
+                        rowHat.getRowHat(row.id).onScreen = true;
+                        toRun.push(fmake(row, rowUI));
+                    }
+                } 
+                at = at + 1;
+            }
+            if (toRun.length > 0) {
+                $timeout(function () {
+                    for (var i = 0; i < toRun.length; i++) {
+                        toRun[i]();
+                    }
+                    console.log("measuring a chunk!");
+                }, 10);
+            }
+            if (at < list.length) {
+                setTimeout($scope.measureRow(at, list),10)
+            }
+        });
     }
 
     window.addEventListener('resize', $scope.updateVisible);
@@ -149,13 +199,22 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                         $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
                     }
                     $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
-
                 }
+
+                // we need to get the details on why each row is shown
+                rowHat.clearFilters();
+                for (var i = 0; i < filteredRows.length; i++) {
+                    var row =filteredRows[i];
+                    rowHat.getRowHat(row.id).filterDetails = row.hasTermDetails(x);
+                    //$scope.filterDetails[filteredRows[i].id] = 
+                }
+
+                //console.log("done filtering!", $scope.filterDetails);
                 // we need to update what is on screen
                 // we time this out because we want to give angular time to update before we update what is visible
                 //setTimeout(
                 $scope.updateVisible();
-                    //, 100);
+                //, 100);
             })
         }, 50);
     }
