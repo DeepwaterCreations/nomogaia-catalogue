@@ -137,8 +137,7 @@
                                         </li>
                                     </ul>
                                     <div data-ng-if="activeView=='list'">
-                                        <div data-ng-repeat="Topic in filteredList">
-                                            <!-- data-ng-click="updateActive(Topic)" -->
+                                        <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList">
                                             <div class="TopicHeader expanded" data-ng-class-odd="'odd'" data-ng-class-even="'even'">{{::Topic.getData("Catalog") +" , "+ Topic.getData("Category") +" , "+ Topic.getData("Sub-Category") +" , "+ Topic.getData("Topic")}}</div>
                                             <div data-ng-include="'row.html'"></div>
                                         </div>
