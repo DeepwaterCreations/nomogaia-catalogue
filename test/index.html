@@ -147,55 +147,63 @@
                             </div>
                             <div id="drag-bar"></div>
                             <div id="side-bar-rights" class="side-bar">
-                                <h2>Rights</h2>
-                                <input type="text" data-ng-model="newRight" />
-                                <button data-ng-click="addNewRight(newRight);newRight='';" data-ng-disabled="!newRight">Add</button>
-                                <button data-ng-click="rightsLocked = !rightsLocked">{{rightsLocked ? "Show/Hide Rights" : "Done"}}</button>
-                                <br />
-                                <button data-ng-if="!rightsLocked" data-ng-click="showAllRights()">Show All</button>
-                                <button data-ng-if="!rightsLocked" data-ng-click="hideAllRights()">Hide All</button>
-                                <div class="multi-column">
-                                    <ul class="dont-indent">
-                                        <!-- Locked list of rights -->
-                                        <li data-ng-if="rightsLocked" class="draggable-holder" data-ng-repeat="right in shownRights()">
-                                            <div class="draggable right"
-                                                 draggable="true"
-                                                 ondblclick="g.doubleClick(event)"
-                                                 data-value="{{right}}"
-                                                 data-type="Impacted Rights"
-                                                 ondragstart="g.drag(event)">
-                                                {{right}}
-                                            </div>
-                                        </li>
-                                        <!-- Unlocked list of rights -->
-                                        <li data-ng-if="!rightsLocked" class="draggable-holder" data-ng-repeat="right in rightslist()">
-                                            <div class="right unlocked" data-ng-class="{hidden_right: shownRights().indexOf(right) === -1}" data-ng-click="toggleRight(right)" draggable="false">
-                                                {{right}}
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="sidebarHeader">
+                                    <h2>Rights</h2>
                                 </div>
-                                <h2>Rights Holders</h2>
-                                <input type="text" data-ng-model="newRightHolder" />
-                                <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';" data-ng-disabled="!newRightHolder">Add</button>
-                                <button data-ng-click="rightsholdersLocked = !rightsholdersLocked">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
-                                <br />
-                                <button data-ng-if="!rightsholdersLocked" data-ng-click="showAllRightsholders()">Show All</button>
-                                <button data-ng-if="!rightsholdersLocked" data-ng-click="hideAllRightsholders()">Hide All</button>
-                                <div class="multi-column">
-                                    <ul class="dont-indent">
-                                        <!-- Locked list of rightsholders -->
-                                        <li data-ng-if="rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in shownRightsholders()">
-                                            <div class="draggable right-holder" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)"
-                                                 ondblclick="g.doubleClick(event)">{{rightsholder}}</div>
-                                        </li>
-                                        <!-- Unlocked list of rights -->
-                                        <li data-ng-if="!rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in rightsholderlist()">
-                                            <div class="right-holder unlocked" data-ng-class="{hidden_rightsholder: shownRightsholders().indexOf(rightsholder) === -1}" data-ng-click="toggleRightsholder(rightsholder)" draggable="false">
-                                                {{rightsholder}}
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div>
+                                    <input type="text" data-ng-model="newRight" />
+                                    <button data-ng-click="addNewRight(newRight);newRight='';" data-ng-disabled="!newRight">Add</button>
+                                    <button data-ng-click="rightsLocked = !rightsLocked">{{rightsLocked ? "Show/Hide Rights" : "Done"}}</button>
+                                    <br />
+                                    <button data-ng-if="!rightsLocked" data-ng-click="showAllRights()">Show All</button>
+                                    <button data-ng-if="!rightsLocked" data-ng-click="hideAllRights()">Hide All</button>
+                                    <div class="multi-column">
+                                        <ul class="dont-indent">
+                                            <!-- Locked list of rights -->
+                                            <li data-ng-if="rightsLocked" class="draggable-holder" data-ng-repeat="right in shownRights()">
+                                                <div class="draggable right"
+                                                     draggable="true"
+                                                     ondblclick="g.doubleClick(event)"
+                                                     data-value="{{right}}"
+                                                     data-type="Impacted Rights"
+                                                     ondragstart="g.drag(event)">
+                                                    {{right}}
+                                                </div>
+                                            </li>
+                                            <!-- Unlocked list of rights -->
+                                            <li data-ng-if="!rightsLocked" class="draggable-holder" data-ng-repeat="right in rightslist()">
+                                                <div class="right unlocked" data-ng-class="{hidden_right: shownRights().indexOf(right) === -1}" data-ng-click="toggleRight(right)" draggable="false">
+                                                    {{right}}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="sidebarHeader">
+                                    <h2>Rights Holders</h2>
+                                </div>
+                                <div>
+                                    <input type="text" data-ng-model="newRightHolder" />
+                                    <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';" data-ng-disabled="!newRightHolder">Add</button>
+                                    <button data-ng-click="rightsholdersLocked = !rightsholdersLocked">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
+                                    <br />
+                                    <button data-ng-if="!rightsholdersLocked" data-ng-click="showAllRightsholders()">Show All</button>
+                                    <button data-ng-if="!rightsholdersLocked" data-ng-click="hideAllRightsholders()">Hide All</button>
+                                    <div class="multi-column">
+                                        <ul class="dont-indent">
+                                            <!-- Locked list of rightsholders -->
+                                            <li data-ng-if="rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in shownRightsholders()">
+                                                <div class="draggable right-holder" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)"
+                                                    ondblclick="g.doubleClick(event)">{{rightsholder}}</div>
+                                            </li>
+                                            <!-- Unlocked list of rights -->
+                                            <li data-ng-if="!rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in rightsholderlist()">
+                                                <div class="right-holder unlocked" data-ng-class="{hidden_rightsholder: shownRightsholders().indexOf(rightsholder) === -1}" data-ng-click="toggleRightsholder(rightsholder)" draggable="false">
+                                                    {{rightsholder}}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>

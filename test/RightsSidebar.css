@@ -1,7 +1,31 @@
 #side-bar-rights {
     border-left: 0px solid #356C28;
     width: 500px;
+    /* background-color: rgba(0,0,0,.1); */
 }
+
+.sidebarHeader{
+    margin: .12em .12em 0 .12em;
+    padding: .5em;
+    border-radius: .5em;
+    color: white;
+    -webkit-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #356C28;
+}
+    .sidebarHeader > h2{
+    	margin: .06em .06em;
+    }
+
+    .sidebarHeader + div{
+	/* background-color: rgba(255, 255, 255, .5); */
+	background-color: rgba(0,0,0,.1);
+	margin: 0 .12em;
+	border-bottom-left-radius: .5em;
+	border-bottom-right-radius: .5em;
+    }
 
 .multi-column {
     -webkit-column-width: 200px;
