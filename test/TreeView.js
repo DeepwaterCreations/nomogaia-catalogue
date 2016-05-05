@@ -545,9 +545,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             at = at.parentElement;
         }
         var row = at.dataset.row;
+        var rowData = RowData.getRow(parseInt(row));
+        $scope.updateActive(rowData);
         //console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
         $timeout(function () {
-            RowData.getRow(parseInt(row)).acceptDrop(type, value);
+            rowData.acceptDrop(type, value);
             $scope.dragData = null;
         })
     }

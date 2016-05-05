@@ -62,14 +62,8 @@
                     Module
                 </span>
                 <select data-ng-focus="updateActive(Topic)" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
-
-                <!--<label class="vert" data-ng-repeat="module in moduleList()">
-                    <input type="radio" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}">
-                    {{module}}
-                </label>-->
                 <input data-ng-focus="updateActive(Topic)" type="text" name="module" data-ng-model="newMod" />
                 <button data-ng-focus="updateActive(Topic)" data-ng-click="addNewMod(newMod);newMod='';">Add New</button>
-
             </div>
         </div>
         <div clas
