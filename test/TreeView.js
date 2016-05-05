@@ -500,7 +500,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             AddTopic.canAdd();
         })
 
-        $('#addRowTree').click(function () {
+       // $('#addRowTree').click(function () {
             //var rowAt = null;
             //for (var tabIndex in g.getMonitorTables().backingData) {
             //    if (tabIndex >= g.getMonitorTables().getActiveMonitor()) {
@@ -515,7 +515,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             //        }
             //    }
             //}
-        });
+        //});
     }
 
 
