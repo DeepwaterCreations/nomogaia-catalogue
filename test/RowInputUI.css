@@ -72,7 +72,7 @@
     /*height: 200px;*/
 }
 
-    .rowInputUI > div span {
+    .rowInputUI .rowInputUISectionTitle {
         font-weight: bold;
     }
 
@@ -83,12 +83,12 @@
     }
 
 .rowInputUIGroup > div {
-    display: flex;
-    flex-direction: column;
+    /*display: flex;
+    flex-direction: column;*/
     background-color: rgba(255,255,255,.5);
     margin: .12em;
-    padding: .5em;
-    border-radius: .5em;
+    padding: .2em;
+    border-radius: .2em;
 }
 
 .rowInputUIGroup .inputtext {

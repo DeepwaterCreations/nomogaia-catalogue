@@ -18,7 +18,7 @@
         </div>
         <div class="rowInputUIGroup">
             <div class="rowInputUISection inputtext">
-                <span>Input</span>
+                <span class="rowInputUISectionTitle">Input</span>
                 <textarea name="input"
                           data-ng-focus="updateActive(Topic)"
                           data-ng-model="getSetData(Topic, 'Input')"
@@ -26,7 +26,7 @@
                                               getterSetter: true}"></textarea>
             </div>
             <div class="rowInputUISection sourcetext">
-                <span>Source</span>
+                <span class="rowInputUISectionTitle">Source</span>
                 <textarea name="source"
                           data-ng-focus="updateActive(Topic)"
                           data-ng-model="getSetData(Topic, 'Source')"
@@ -37,7 +37,7 @@
         <div class="rowInputUIGroup">
             <div class="rowInputUISection rightsUI">
                 <ul class="dont-indent rightsUI">
-                    <span>Impacted Rights:</span>
+                    <span class="rowInputUISectionTitle">Impacted Rights:</span>
                     <span data-ng-hide="getCurrentRights(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id)" class="infotext">
                         {{(Topic == activeTopic ? "Double click rights on the sidebar to add them to this section" : "Drag rights from the sidebar list to this section")}}</span>
                     <li class="rightContainer draggable-holder right" data-ng-repeat="right in getCurrentRights(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && dragData.value ==right}">
@@ -48,7 +48,7 @@
                     </li><!--data-ng-show="this.editRights"-->
                 </ul>
                 <ul class="dont-indent rightsholdersUI">
-                    <span>Impacted Rights-holders:</span>
+                    <span class="rowInputUISectionTitle">Impacted Rights-holders:</span>
                     <span data-ng-hide="getCurrentRightsholders(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id)" class="infotext">
                         {{(Topic == activeTopic ? "Double click rights-holders on the sidebar to add them to this section" : "Drag rights-holders from the sidebar list to this section")}}
                     </span>
@@ -61,7 +61,7 @@
                 </ul>
             </div>
             <div data-ng-init="newMod=''" class="rowInputUISection moduleUI">
-                <span>
+                <span class="rowInputUISectionTitle">
                     Module
                 </span>
                 <select data-ng-focus="updateActive(Topic)" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
@@ -72,7 +72,7 @@
         <div clas
         <div class="rowInputUIGroup">
             <div class="rowInputUISection scoreUI">
-                <span>Score</span>
+                <span class="rowInputUISectionTitle">Score</span>
 
                 <!--<select data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}" ng-options="score for score in scorevals"></select>-->
 
