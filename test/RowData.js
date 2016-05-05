@@ -20,9 +20,8 @@ RowData = function (table,rowData) {
     g.allRowData[this.id] = this;
     this.child = null;
     this.ui = null;
-    this.onScreen = true;
-    this.lastHeight = -1;
     this.table = table;
+    
 
     // is a dictonary columnName: [listeners...]
     this.listenFunctions = {};
@@ -63,14 +62,56 @@ RowData = function (table,rowData) {
             var rowValue = this.getData(columnName);
             if (rowValue == DataOptions.getDefaultValue(columnName) || rowValue == undefined) {
             } else if (rowValue.constructor === Array) {
-                if (rowValue.indexOf(data) >= 0) {
-                    return true;
+                for (var j = 0; j < rowValue.length; j++) {
+                    if (rowValue[j].indexOf(data) >= 0) {
+                        return true;
+                    }
                 }
+                
             } else if (rowValue.indexOf(data) >= 0) {
                 return true;
             }
         }
         return false;
+    }
+
+    // returns detains about where data appears in the row
+    // the result is a list of objects
+    // each object has:
+    //  .columnName: the column it appears in
+    //  .data: what was found
+    //  .before: the charaters before
+    //  .after: the charaters after
+    this.hasTermDetails = function (data) {
+        var res = [];
+
+        var checkString = function (rowValue, columnName) {
+            var pad = 45;
+            if (rowValue.indexOf(data) >= 0) {
+                var startsAt = rowValue.indexOf(data);
+                res.push({
+                    columnName: columnName,
+                    data: data,
+                    before: (Math.max(startsAt - pad, 0) != 0 ? "..." : "") + rowValue.substring(Math.max(startsAt - pad, 0), startsAt),
+                    after: rowValue.substring(startsAt + data.length, Math.min(startsAt + data.length + pad, rowValue.length)) + (Math.min(startsAt + data.length + pad, rowValue.length) != rowValue.length ? "..." : "")
+                });
+            }
+        }
+
+
+        for (var i = 0; i < g.columnList.length; i++) {
+            var columnName = g.columnList[i];
+            var rowValue = this.getData(columnName);
+            if (rowValue == DataOptions.getDefaultValue(columnName) || rowValue == undefined) {
+            } else if (rowValue.constructor === Array) {
+                for (var j = 0; j < rowValue.length; j++) {
+                    checkString(rowValue[j], columnName);
+                }
+            } else if (rowValue.indexOf(data) >= 0) {
+                checkString(rowValue, columnName);
+            }
+        }
+        return res;
     }
 
     this.setMonitor = function (val) {
@@ -302,4 +343,12 @@ RowData.forEach = function (f) {
     for (var i = 0; i < rowDataId; i++) {
         f(g.allRowData[i]);
     }
+}
+
+RowData.getRowList = function () {
+    var res = [];
+    RowData.forEach(function (row) {
+        res.push(row);
+    })
+    return res;
 }

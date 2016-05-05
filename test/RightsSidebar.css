@@ -23,12 +23,11 @@
 }
 
     .right.adding, .right-holder.adding, .right-holder.ng-enter:not(.adding) ,.right.ng-enter:not(.adding) {
-        background-color: #2F2D69;
-        color:white;
+        background-color: yellow;
     }
 
     .right-holder.ng-enter:not(.adding) ,.right.ng-enter:not(.adding){
-        transition: 2s background-color ease, .5s color ease;
+        transition: 2s background-color ease;
 
     }
 
