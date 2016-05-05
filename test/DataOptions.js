@@ -88,3 +88,23 @@ DataOptions.getDefaultValue = function (className) {
     }
     return undefined;
 }
+
+//Functions for saving and loading
+DataOptions.toOut = function(){
+    //Possibly someday we might want to make a new object to return and add
+    //filepaths to default rights/holders alongside the customColumnOptions
+    //object.
+    return DataOptions.customColumnOptions;
+};
+
+//"loadFromFile" loads the default options from a csv. This
+//function instead loads rights/rightsholders/so-on that the user 
+//added for this particular project. It's what the load button in the corner
+//of the screen calls when the user loads a project from json.
+DataOptions.loadCustom = function(loaded_data){
+    //In the future, we might have to break up loaded_data and set its fields to 
+    //different things, but for now, the only thing we care about saving and loading is a
+    //single object anyway, so we go ahead and save and load it directly instead of wrapping it
+    //in a bigger structure.
+    DataOptions.customColumnOptions = loaded_data;
+};
