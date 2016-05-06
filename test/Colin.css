@@ -608,6 +608,12 @@ button.close-icon {
             border-color: #888;
         }
 
+    /* For "Add" buttons next to text input fields */
+    button.blueButton.textInputButton{
+        padding: 0 1em;
+        margin-left: 0;
+    }
+
 #saveLoad {
     float: right;
 }
