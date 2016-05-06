@@ -41,7 +41,7 @@
 .right, .right-holder {
     background-color: rgba(255,255,255,0.5);
     border-radius: .25em;
-    padding: .1em;
+    padding: 3px;
     list-style-type: none;
     display: inline-block;
 }
@@ -65,15 +65,18 @@
     margin: .2em;
 }
 
+.right.unlocked, .right-holder.unlocked{
+    border-style: solid;
+    padding: 0px;
+}
+
 .right.unlocked.hidden_right, .right-holder.unlocked.hidden_rightsholder {
     color: #888;
     background-color: rgba(255, 220, 220, 0.5);
-    border-style: solid;
     border-color: rgba(255, 12, 12, 0.8);
 }
 
 .right.unlocked:not(.hidden_right), .right-holder.unlocked:not(.hidden_rightsholder) {
     background-color: rgba(220, 255, 220, 0.5);
-    border-style: solid;
     border-color: rgba(12, 225, 12, 0.8);
 }
