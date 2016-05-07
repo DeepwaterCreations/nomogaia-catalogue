@@ -9,6 +9,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.rightsholdersLocked = true;
     $scope.activeTopic = null;
 
+    
+
     $scope.updateVisible = function (updateActive) {
         updateActive = (updateActive===undefined? false:updateActive);
 
@@ -138,11 +140,13 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 // info angular of changes
                 $timeout(function () {
                     $scope.tableData = $scope.tableData;
+                    $scope.updateFilteredRows($scope.search);
                 })
             });
 
             $scope.filteredTree = $scope.tableData.treeView;
             $scope.filteredList = $scope.tableData.rows;
+            $scope.topicAdder = new TopicAdder($scope.tableData.treeView, $timeout);
             $scope.rightslist = function () {
                 return DataOptions.getColumnOptions("Impacted Rights");
             }
@@ -250,58 +254,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return rowData.getData("Module");
     };
 
-    $scope.addNewCatalog = function (catalog) {
-        $timeout(function () {
-            $scope.tableData.treeView[catalog] = {};
-        });
-    }
-    $scope.isNewCatalog = function (catalog) {
-        return $scope.tableData.treeView[catalog] !== undefined;
-    }
-    $scope.addNewCategory = function (catalog, catagory) {
-        $timeout(function () {
-            $scope.tableData.treeView[catalog][catagory] = {};
-        });
-    }
-    $scope.isNewCategory = function (catalog, catagory) {
-        return $scope.tableData.treeView[catalog][catagory] !== undefined;
-    }
-    $scope.addNewSubCategory = function (catalog, catagory, subCatagory) {
-        $timeout(function () {
-            $scope.tableData.treeView[catalog][catagory][subCatagory] = {};
-        });
-    }
-    $scope.isNewSubCategory = function (catalog, catagory, subCatagory) {
-        return $scope.tableData.treeView[catalog][catagory][subCatagory] !== undefined;
-    }
-
-    $scope.addNewTopic = function (catalog, category, subCategory, topic) {
-        //??
-        $timeout(function () {
-            // add a row
-            var rowAt = null;
-
-            var myTopic = new Topic(catalog, category, subCategory, topic, "", DataOptions.getDefaultValue("Module"), "");
-            for (var tabIndex in g.getMonitorTables().backingData) {
-                if (tabIndex >= monitorTabs.getActiveMonitor()) {
-                    var myTable = g.getMonitorTables().backingData[tabIndex];
-                    if (rowAt == null) {
-                        rowAt = myTable.addRow(myTopic.toData(myTable));
-                        rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
-                    } else {
-                        var dataAt = rowAt.data;
-                        var newData = new RowData(myTable, dataAt);
-                        rowAt = myTable.addRow(newData);
-                    }
-                }
-            }
-            $scope.updateFilteredRows($scope.search);
-        });
-    }
-    $scope.isNewTopic = function (catalog, catagory, subCatagory, topic) {
-        return false;
-    }
-
     // topic is a data row
     $scope.delete = function (topic) {
         $("#deleteDialog").dialog({
@@ -341,12 +293,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         $("#deleteDialog").dialog("open");
     }
 
-    $scope.addNewMod = function (newMod) {
-        var list = $scope.moduleList();
-        if (list.indexOf(newMod) == -1) {
-            list.push(newMod);
-        }
-    }
     $scope.addNewRight = function (newRight) {
         // var list = $scope.rightslist();
         // if (list.indexOf(newRight) == -1) {

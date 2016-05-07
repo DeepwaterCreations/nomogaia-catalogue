@@ -81,8 +81,8 @@
                                         <input type="search" data-ng-model="search" placeholder="Search" data-ng-change="updateFilteredRows(search)">
                                     </span>
                                     <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
-                                    <!--<input type="button" class="blueButton" id="addRow" value="Add Row" />
-                                    <input type="button" class="blueButton openAddTopic" value="Add Topic" />-->
+                                    <!--<input type="button" class="blueButton" id="addRowTree" value="Add Row" />-->
+                                    <input type="button" class="blueButton openAddTopic" value="Add Topic" />
                                     <span>
                                         <select data-ng-init="activeView='tree'" ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select><!---->
                                     </span>
@@ -115,25 +115,25 @@
                                                                 </li>
                                                                 <li>
                                                                     <input type="text" data-ng-model="newTopic" />
-                                                                    <button ng-disabled="isNewTopic(Catalog,Category,SubCategory,newTopic)" data-ng-click="addNewTopic(Catalog,Category,SubCategory,newTopic);newTopic='';">Add</button>
+                                                                    <input type="button" ng-disabled="!topicAdder.isNewTopic(filteredTree,Catalog,Category,SubCategory,newTopic)" data-ng-click="topicAdder.addNewTopic(filteredTree,Catalog,Category,SubCategory,newTopic);newTopic='';" value="Add" />
                                                                 </li>
                                                             </ul>
                                                         </li>
                                                         <li>
                                                             <input type="text" data-ng-model="newSubCatagorgy" />
-                                                            <button ng-disabled="isNewSubCategory(Catalog,Category,newSubCatagorgy)" data-ng-click="addNewSubCategory(Catalog,Category,newSubCatagorgy);newSubCatagorgy='';">Add</button>
+                                                            <input type="button" ng-disabled="!topicAdder.isNewSubCategory(filteredTree,Catalog,Category,newSubCatagorgy)" data-ng-click="topicAdder.addNewSubCategory(filteredTree,Catalog,Category,newSubCatagorgy);newSubCatagorgy='';" value="Add" />
                                                         </li>
                                                     </ul>
                                                 </li>
                                                 <li>
                                                     <input type="text" data-ng-model="newCatagorgy" />
-                                                    <button ng-disabled="isNewCategory(Catalog,newCatagorgy)" data-ng-click="addNewCategory(Catalog,newCatagorgy);newCatagorgy='';">Add</button>
+                                                    <input type="button" ng-disabled="!topicAdder.isNewCategory(filteredTree,Catalog,newCatagorgy)" data-ng-click="topicAdder.addNewCategory(filteredTree,Catalog,newCatagorgy);newCatagorgy='';" value="Add" />
                                                 </li>
                                             </ul>
                                         </li>
                                         <li>
                                             <input type="text" data-ng-model="newCatalog" />
-                                            <button ng-disabled="isNewCatalog(newCatalog)" data-ng-click="addNewCatalog(newCatalog);newCatalog='';">Add</button>
+                                            <input type="button" ng-disabled="!topicAdder.isNewCatalog(filteredTree,newCatalog)" data-ng-click="topicAdder.addNewCatalog(filteredTree,newCatalog);newCatalog='';" value="Add" />
                                         </li>
                                     </ul>
                                     <div data-ng-if="activeView=='list'">
@@ -222,13 +222,57 @@
                     </div>
                 </div>
 
-                <div id="addTopic" class="dialog">
+                <div id="addTopic" class="dialog" data-ng-controller="addController">
                     <div class="addTopic" action="#">
-                        <fieldset>
-                            <!--<input class="blueButton" type="button" id="addTopicButton" value="Add Topic" />-->
+                        <!--<input type="button" data-ng-click="toBackToCatalog()" data-ng-if="catalog != ''" value="{{catalog}}"/>
+                        <input type="button" data-ng-click="toBackToCategory()" data-ng-if="category != ''" value="{{category}}"/>
+                        <input type="button" data-ng-click="toBackToSubCategory()" data-ng-if="subCategory != ''" value="{{subCategory}}"/>
+                        <input type="button" data-ng-click="toBackToTopic()" data-ng-if="topic != ''" value="{{topic}}"/>
+                        <div>------</div>-->
+                        <h2>{{prompt}}</h2>
+                        <div data-ng-if="list[index].name == 'Catalog' || list[index].name == 'Category' || list[index].name == 'SubCategory'">
+                            <ul>
+                                <li data-ng-repeat="(key,value) in at">
+                                    <input type="button" data-ng-click="moveTo(key)" value="{{key}}" />
+                                </li>
+
+                            </ul>
+                            <div data-ng-if="list[index].name == 'Catalog'">
+                                <input type="text" data-ng-model="topicAdder.newCatalog" />
+                                <input type="button" ng-disabled="topicAdder.isNewCatalog(tree,topicAdder.newCatalog)" data-ng-click="topicAdder.addNewCatalog(tree,topicAdder.newCatalog);topicAdder.newCatalog='';" value="Add" />
+                            </div>
+                            <div data-ng-if="list[index].name == 'Category'">
+                                <input type="text" data-ng-model="topicAdder.newCatagorgy" />
+                                <input type="button" ng-disabled="topicAdder.isNewCategory(tree,catalog.value,topicAdder.newCatagorgy)" data-ng-click="topicAdder.addNewCategory(tree,catalog.value,topicAdder.newCatagorgy);topicAdder.newCatagorgy='';" value="Add" />
+
+                            </div>
+                            <div data-ng-if="list[index].name == 'SubCategory'">
+                                <input type="text" data-ng-model="topicAdder.newSubCatagorgy" />
+                                <input type="button" ng-disabled="topicAdder.isNewSubCategory(tree,catalog.value,category.value,topicAdder.newSubCatagorgy)" data-ng-click="topicAdder.addNewSubCategory(tree,catalog.value,category.value,topicAdder.newSubCatagorgy);topicAdder.newSubCatagorgy='';" value="Add" />
+                            </div>
+                        </div>
+
+                        <div data-ng-if="list[index].name == 'Topic'">
+                            <input type="text" data-ng-model="topic.value" />
+                        </div>
+                        <div data-ng-if="list[index].name == 'Module'">
+                            <select data-ng-model="list[index].value" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
+                            <!--<input type="text" name="module" data-ng-model="newMod" />
+                            <button data-ng-click="addNewMod(newMod);newMod='';">Add New</button>-->
+                            <input type="text" /><input type="button" value="add" />
+                        </div>
+                        <div data-ng-if="list[index].name == 'Description'">
+                            <textarea data-ng-model="description.value"></textarea>
+                        </div>
+                        <div data-ng-if="list[index].name == 'Source'">
+                            <textarea data-ng-model="source.value"></textarea>
+                        </div>
+                        <input type="button" data-ng-disabled="!canBack()" data-ng-click="back()" value="Back" />
+                        <input data-ng-if="list[index].name == 'Topic' || list[index].name == 'Module' || list[index].name == 'Description'|| list[index].name == 'Source'" type="button" data-ng-disabled="!canNext()" data-ng-click="next()" value="Next" />
+                        <input type="button" data-ng-disabled="!canFinish()" data-ng-click="finish()" value="Finish" />
 
 
-
+                        <!--<fieldset>
                             <h4>Catalog:</h4>
                             <div class="holder">
                                 <select name="catalog" id="catalogSelect" style="width:100%;"></select>
@@ -258,7 +302,7 @@
                             <h4>Topic Source:</h4>
                             <textarea name="topicSourceText" cols="50" rows="2" id="topicSourceTextBox"></textarea><br />
                             <br />
-                        </fieldset>
+                        </fieldset>-->
                     </div>
                 </div>
 
@@ -313,7 +357,9 @@
             <script type="text/javascript" src="ImpactedRights.js"></script>
 
             <script type="text/javascript" src="Adress.js"></script>
+            <script type="text/javascript" src="TopicAdder.js"></script>
             <script type="text/javascript" src="TreeView.js"></script>
+            <script type="text/javascript" src="AddView.js"></script>
             <script src="AddTopic.js"></script>
             <script src="Hider.js"></script>
             <script type="text/javascript" src="main.js"></script>

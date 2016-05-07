@@ -529,8 +529,8 @@ button.close-icon {
 
     .addTopic select, .addTopic input, .addTopic textarea {
         padding: 5px;
-        width: calc(100% - 218px);
-        -webkit-transition: border 0.3s ease;
+        /*width: calc(100% - 218px);*/
+        /*-webkit-transition: border 0.3s ease;*/
     }
 
         .addTopic input#addTopicButton {
