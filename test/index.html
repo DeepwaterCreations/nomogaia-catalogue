@@ -88,7 +88,7 @@
                                     </span>
                                 </div>
                                 <div class="body">
-                                    <ul data-ng-if="activeView=='tree'" class="branchBody">
+                                    <ul data-ng-if="activeView=='tree'" id="tree" class="branchBody">
                                         <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
                                             <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
                                                 {{::Catalog}}
@@ -141,7 +141,7 @@
                                             <input type="button" ng-disabled="!topicAdder.isNewCatalog(filteredTree,newCatalog)" data-ng-click="topicAdder.addNewCatalog(filteredTree,newCatalog);newCatalog='';" value="Add" />
                                         </li>
                                     </ul>
-                                    <div data-ng-if="activeView=='list'">
+                                    <div data-ng-if="activeView=='list'" id="list">
                                         <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList">
                                             <!-- this is dumb we have 2 topicHeaders move this in to row.html -->
                                             <div class="TopicHeader expanded" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
