@@ -1,6 +1,7 @@
 #side-bar-rights {
     border-left: 0px solid #356C28;
     width: 500px;
+    height: calc(100% - 1.25em);
     /* background-color: rgba(0,0,0,.1); */
 }
 
