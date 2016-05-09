@@ -1,6 +1,4 @@
-﻿
-
-html {
+﻿html {
     -webkit-user-select: none;
 }
 
@@ -671,4 +669,32 @@ button.close-icon {
 
 .hightlight {
     background-color:yellow;
+}
+
+
+.header-button {
+    -moz-transition: background ease .3s;
+    -o-transition: background ease .3s;
+    -webkit-transition: background ease .3s;
+    transition: background ease .3s;
+    background: none;
+    color: white;
+    border: 0;
+    padding-left: .4em;
+    padding-right: .4em;
+    border-radius: .4em;
+    margin: 0;
+}
+
+/*.header-button:focus {
+    background: rgba(0,0,0,.2);
+}*/
+
+
+.header-button:hover {
+    background: rgba(0,0,0,.5);
+}
+
+ .header-button:active{
+    background:black;
 }

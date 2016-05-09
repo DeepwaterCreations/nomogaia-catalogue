@@ -122,7 +122,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     for (var i = 0; i < toRun.length; i++) {
                         toRun[i]();
                     }
-                    console.log("measuring a chunk!");
+                    //console.log("measuring a chunk!");
                 }, 10);
             }
             if (at < list.length) {
@@ -157,7 +157,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 return DataOptions.getColumnOptions("Module");
             }
             $scope.scorevals = DataOptions.getColumnOptions("Score");
-            console.log("TableData set!", $scope.tableData);
+            //console.log("TableData set!", $scope.tableData);
 
             $scope.shownRights = function () {
                 return monitorTables.shownRights;
@@ -363,9 +363,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return function (data) {
             if (arguments.length) {
                 //Set
-                console.log("set to " + data);
+                //console.log("set to " + data);
                 rowData.setData(columnName, data);
-                console.log("result " + rowData.getData(columnName));
+                //console.log("result " + rowData.getData(columnName));
                 //$scope.activeTopic = rowData;
             }
             else {

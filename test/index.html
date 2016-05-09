@@ -12,7 +12,7 @@
     <link href="RightsSidebar.css" rel="stylesheet">
 </head>
 <body>
-    <div id="main">
+    <!--<div id="main">-->
         <!--<div id="loading"><div id="progressbar"></div></div>-->
 
         <div id="tabs">
@@ -108,7 +108,12 @@
                                                                     <div>
                                                                         <!-- data-ng-click="updateActive(Topic)" -->
                                                                         <div data-ng-click="this.show= !this.show;updateVisible();updateActive(Topic)" class="TopicHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                                            {{::Topic.getData("Topic")}}
+                                                                            <span class="header-left">{{::Topic.getData("Topic")}}
+                                                                            </span>
+                                                                            <span data-ng-show="this.show" class="header-right" data-ng-bind="Topic.getData('Monitor')"></span>
+                                                                            <button data-ng-show="this.show" class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout"><i class="icon-question"></i></button>
+                                                                            <button data-ng-show="this.show" class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic)"><i class="icon-trash" aria-hidden="true"></i></button>
+
                                                                         </div>
                                                                         <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
                                                                     </div>
@@ -139,7 +144,13 @@
                                     <div data-ng-if="activeView=='list'">
                                         <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList">
                                             <!-- this is dumb we have 2 topicHeaders move this in to row.html -->
-                                            <div class="TopicHeader expanded" data-ng-class-odd="'odd'" data-ng-class-even="'even'">{{::Topic.getData("Catalog") +" , "+ Topic.getData("Category") +" , "+ Topic.getData("Sub-Category") +" , "+ Topic.getData("Topic")}}</div>
+                                            <div class="TopicHeader expanded" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                <span class="header-left">{{::Topic.getData("Catalog") +" , "+ Topic.getData("Category") +" , "+ Topic.getData("Sub-Category") +" , "+ Topic.getData("Topic")}}
+                                                </span>
+                                                    <span class="header-right" data-ng-bind="Topic.getData('Monitor')"></span>
+                                                <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout"><i class="icon-question"></i></button>
+                                                <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic)"><i class="icon-trash" aria-hidden="true"></i></button>
+                                            </div>
                                             <div data-ng-include="'row.html'"></div>
                                         </div>
                                     </div>
@@ -328,50 +339,51 @@
                 </ul>
 
             </div>
+        </div>
+    <!--</div>-->
+    <!-- EXTERNALS -->
+    <script type="text/javascript" src="node_modules/angular/angular.js"></script>
+    <script type="text/javascript" src="node_modules/angular/ng-animate.js"></script>
+    <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="JSON/json2.js"></script>
 
-            <!-- EXTERNALS -->
-            <script type="text/javascript" src="node_modules/angular/angular.js"></script>
-            <script type="text/javascript" src="node_modules/angular/ng-animate.js"></script>
-            <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
-            <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
-            <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
-            <script type="text/javascript" src="JSON/json2.js"></script>
+    <!-- INTERNALS -->
+    <script type="text/javascript" src="Util.js"></script>
+    <script type="text/javascript" src="g.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="RowData.js"></script>
+    <script type="text/javascript" src="RowHat.js"></script>
+    <script type="text/javascript" src="DataOptions.js"></script>
+    <script type="text/javascript" src="TableData.js"></script>
+    <script type="text/javascript" src="TableUI.js"></script>
+    <script type="text/javascript" src="RowUI.js"></script>
+    <script type="text/javascript" src="Table.js"></script>
+    <script type="text/javascript" src="CategoryHierarchy.js"></script>
+    <script type="text/javascript" src="FileReadWrite.js"></script>
+    <script type="text/javascript" src="MonitorTables.js"></script>
+    <script type="text/javascript" src="Topic.js"></script>
+    <script type="text/javascript" src="MonitorTabsUI.js"></script>
+    <script type="text/javascript" src="FunctionsForMatrixAndImpactedRights.js"></script>
+    <script type="text/javascript" src="ImpactedRights.js"></script>
 
-            <!-- INTERNALS -->
-            <script type="text/javascript" src="Util.js"></script>
-            <script type="text/javascript" src="g.js"></script>
-            <script type="text/javascript" src="app.js"></script>
-            <script type="text/javascript" src="RowData.js"></script>
-            <script type="text/javascript" src="RowHat.js"></script>
-            <script type="text/javascript" src="DataOptions.js"></script>
-            <script type="text/javascript" src="TableData.js"></script>
-            <script type="text/javascript" src="TableUI.js"></script>
-            <script type="text/javascript" src="RowUI.js"></script>
-            <script type="text/javascript" src="Table.js"></script>
-            <script type="text/javascript" src="CategoryHierarchy.js"></script>
-            <script type="text/javascript" src="FileReadWrite.js"></script>
-            <script type="text/javascript" src="MonitorTables.js"></script>
-            <script type="text/javascript" src="Topic.js"></script>
-            <script type="text/javascript" src="MonitorTabsUI.js"></script>
-            <script type="text/javascript" src="FunctionsForMatrixAndImpactedRights.js"></script>
-            <script type="text/javascript" src="ImpactedRights.js"></script>
-
-            <script type="text/javascript" src="Adress.js"></script>
-            <script type="text/javascript" src="TopicAdder.js"></script>
-            <script type="text/javascript" src="TreeView.js"></script>
-            <script type="text/javascript" src="AddView.js"></script>
-            <script src="AddTopic.js"></script>
-            <script src="Hider.js"></script>
-            <script type="text/javascript" src="main.js"></script>
-            <script src="progress.js"></script>
-            <script type="text/javascript" src="MatrixUI.js"></script>
-            <script type="text/javascript" src="ContextMenu.js"></script>
-            <script type="text/javascript">
-                $("#tabs").tabs();
-            </script>
-            <link href="pure-release-0.5.0/pure.css" rel="stylesheet" />
-            <link href="Colin.css" rel="stylesheet" />
-            <style type="text/css">
-            </style>
+    <script type="text/javascript" src="Adress.js"></script>
+    <script type="text/javascript" src="TopicAdder.js"></script>
+    <script type="text/javascript" src="TreeView.js"></script>
+    <script type="text/javascript" src="AddView.js"></script>
+    <script src="AddTopic.js"></script>
+    <script src="Hider.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script src="progress.js"></script>
+    <script type="text/javascript" src="MatrixUI.js"></script>
+    <script type="text/javascript" src="ContextMenu.js"></script>
+    <script type="text/javascript">
+        $("#tabs").tabs();
+    </script>
+    <link href="pure-release-0.5.0/pure.css" rel="stylesheet" />
+    <link href="Colin.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
 </body>
 </html>

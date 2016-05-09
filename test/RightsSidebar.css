@@ -16,29 +16,37 @@
 
 .right, .right-holder {
     background-color: rgba(255,255,255,0.5);
-    border-radius: .25em;
-    padding: .1em;
+    border-radius: .2em;
+    padding-left: .2em;
+    padding-right: .2em;
     list-style-type: none;
     display: inline-block;
 }
 
-    .right.adding, .right-holder.adding, .right-holder.ng-enter:not(.adding) ,.right.ng-enter:not(.adding) {
+    .right.adding, .right-holder.adding, .right-holder.ng-enter:not(.adding), .right.ng-enter:not(.adding) {
         background-color: yellow;
     }
 
-    .right-holder.ng-enter:not(.adding) ,.right.ng-enter:not(.adding){
+    .right-holder.ng-enter:not(.adding), .right.ng-enter:not(.adding) {
         transition: 2s background-color ease;
-
     }
 
-        /* The finishing CSS styles for the enter animation */
-        .right-holder.ng-enter.ng-enter-active:not(.adding) ,.right.ng-enter.ng-enter-active:not(.adding) {
-            background-color: rgba(255,255,255,0.5);
-            color:black;
-        }
+    /* The finishing CSS styles for the enter animation */
+    .right-holder.ng-enter.ng-enter-active:not(.adding), .right.ng-enter.ng-enter-active:not(.adding) {
+        background-color: rgba(255,255,255,0.5);
+        color: black;
+    }
+
+
 
 .draggable-holder {
-    margin: .2em;
+    margin-left: .2em;
+    margin-right: .2em;
+}
+
+#side-bar-rights .draggable-holder {
+    margin-top: .2em;
+    margin-bottom: .2em;
 }
 
 .right.unlocked.hidden_right, .right-holder.unlocked.hidden_rightsholder {
