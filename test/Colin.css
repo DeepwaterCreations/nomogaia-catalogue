@@ -606,6 +606,12 @@ button.close-icon {
             border-color: #888;
         }
 
+    /* For "Add" buttons next to text input fields */
+    button.blueButton.textInputButton{
+        padding: 0 1em;
+        margin-left: 0;
+    }
+
 #saveLoad {
     float: right;
 }
@@ -657,20 +663,27 @@ button.close-icon {
 
 
 /* The starting CSS styles for the enter animation */
-.fade.ng-enter {
+.fade-in.ng-enter {
   transition:0.3s ease all;
   opacity:0;
 }
 
 /* The finishing CSS styles for the enter animation */
-.fade.ng-enter.ng-enter-active {
+.fade-in.ng-enter.ng-enter-active {
   opacity:1;
+}
+
+.fade-out.ng-leave {
+  transition:0.3s ease all;
+  opacity:1;
+}
+.fade-out.ng-leave.ng-leave-active {
+  opacity:0;
 }
 
 .hightlight {
     background-color:yellow;
 }
-
 
 .header-button {
     -moz-transition: background ease .3s;

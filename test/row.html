@@ -1,6 +1,6 @@
 <div class="rowInputUI hasRowID" data-ng-class="{'active':activeTopic == Topic}" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)" data-ng-click="updateActive(Topic)">
     <!--ondragleave="g.dragExit(event)"-->
-    <div data-ng-if="getRowHat(Topic.id).onScreen" class="fade">
+    <div data-ng-if="getRowHat(Topic.id).onScreen" class="fade-in">
         <!--<span data-ng-if="Topic.id == activeTopic.id"> active! </span>-->
         
         <div class="rowInputUIGroup" data-ng-if="this.showAbout">
