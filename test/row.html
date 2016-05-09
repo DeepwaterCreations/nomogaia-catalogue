@@ -62,9 +62,21 @@
                 <span class="rowInputUISectionTitle">
                     Module
                 </span>
-                <select data-ng-focus="updateActive(Topic)" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
+                <select 
+                    data-ng-focus="updateActive(Topic)" 
+                    data-ng-model="getSetData(Topic, 'Module')" 
+                    data-ng-model-options="{getterSetter: true}" 
+                    value="{{module}}" 
+                    ng-options="module for module in moduleList()">
+                </select>
                 <input data-ng-focus="updateActive(Topic)" type="text" name="module" data-ng-model="newMod" />
-                <button data-ng-focus="updateActive(Topic)" data-ng-click="addNewMod(newMod);newMod='';">Add New</button>
+                <button 
+                    class="blueButton textInputButton"
+                    data-ng-focus="updateActive(Topic)" 
+                    data-ng-click="addNewMod(newMod);newMod='';"
+                    data-ng-disabled="!newMod"> 
+                    Add
+                </button>
             </div>
         </div>
         <div class="rowInputUIGroup">
