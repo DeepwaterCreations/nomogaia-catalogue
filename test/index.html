@@ -110,9 +110,9 @@
                                                                         <div data-ng-click="this.show= !this.show;updateVisible();updateActive(Topic)" class="TopicHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
                                                                             <span class="header-left">{{::Topic.getData("Topic")}}
                                                                             </span>
-                                                                            <span data-ng-show="this.show" class="header-right" data-ng-bind="Topic.getData('Monitor')"></span>
-                                                                            <button data-ng-show="this.show" class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout"><i class="icon-question"></i></button>
-                                                                            <button data-ng-show="this.show" class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic)"><i class="icon-trash" aria-hidden="true"></i></button>
+                                                                            <span data-ng-show="this.show" class="header-right fade-in fade-out" data-ng-bind="Topic.getData('Monitor')"></span>
+                                                                            <button data-ng-show="this.show" class="header-right header-button fade-in fade-out" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout"><i class="icon-question"></i></button>
+                                                                            <button data-ng-show="this.show" class="header-right header-button fade-in fade-out" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic)"><i class="icon-trash" aria-hidden="true"></i></button>
 
                                                                         </div>
                                                                         <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
