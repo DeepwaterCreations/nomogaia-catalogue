@@ -34,10 +34,10 @@
         <div class="rowInputUIGroup">
             <div class="rowInputUISection rightsUI">
                 <ul class="dont-indent rightsUI">
-                    <span class="rowInputUISectionTitle">Impacted Rights:</span>
-                    <span data-ng-hide="getCurrentRights(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id)" class="infotext">
+                    <li class="rowInputUISectionTitle">Impacted Rights:</li>
+                    <li data-ng-hide="getCurrentRights(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id)" class="infotext draggable-holder-placeholder">
                         {{(Topic == activeTopic ? "Double click rights on the sidebar to add them to this section" : "Drag rights from the sidebar list to this section")}}
-                    </span>
+                    </li>
                     <li class="rightContainer draggable-holder right" data-ng-repeat="right in getCurrentRights(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && dragData.value ==right}">
                         <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
                     </li>
@@ -46,10 +46,10 @@
                     </li><!--data-ng-show="this.editRights"-->
                 </ul>
                 <ul class="dont-indent rightsholdersUI">
-                    <span class="rowInputUISectionTitle">Impacted Rights-holders:</span>
-                    <span data-ng-hide="getCurrentRightsholders(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id)" class="infotext">
+                    <li class="rowInputUISectionTitle">Impacted Rights-holders:</li>
+                    <li data-ng-hide="getCurrentRightsholders(Topic).length > 0  || (dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id)" class="infotext draggable-holder-placeholder">
                         {{(Topic == activeTopic ? "Double click rights-holders on the sidebar to add them to this section" : "Drag rights-holders from the sidebar list to this section")}}
-                    </span>
+                    </li>
                     <li class="rightContainer draggable-holder right-holder" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id && dragData.value ==rightsholder}">
                         <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
                     </li><!--data-ng-show="this.editRights"-->

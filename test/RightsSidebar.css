@@ -38,13 +38,19 @@
     margin: 0;
 }
 
-.right, .right-holder {
-    background-color: rgba(255,255,255,0.5);
+.right, .right-holder, .draggable-holder-placeholder {
     border-radius: .2em;
     padding-left: .2em;
     padding-right: .2em;
+}
+
+.right, .right-holder, .draggable-holder-placeholder, li.rowInputUISectionTitle {
     list-style-type: none;
     display: inline-block;
+}
+
+.right, .right-holder {
+    background-color: rgba(255,255,255,0.5);
 }
 
     .right.adding, .right-holder.adding, .right-holder.ng-enter:not(.adding), .right.ng-enter:not(.adding) {
@@ -63,15 +69,10 @@
 
 
 
-.draggable-holder {
-    margin-left: .2em;
-    margin-right: .2em;
+.draggable-holder, .draggable-holder-placeholder {
+    margin: .2em;
 }
 
-#side-bar-rights .draggable-holder {
-    margin-top: .2em;
-    margin-bottom: .2em;
-}
 
 .right.unlocked, .right-holder.unlocked{
     border-style: solid;
