@@ -41,8 +41,7 @@
 .right, .right-holder {
     background-color: rgba(255,255,255,0.5);
     border-radius: .2em;
-    padding-left: .2em;
-    padding-right: .2em;
+    padding: 3px;
     list-style-type: none;
     display: inline-block;
 }
