@@ -591,7 +591,7 @@ button.close-icon {
         border: 2px solid #1c1b39;
     }
 
-    .blueButton.off {
+    .blueButton.off, .blueButton:disabled {
         background: #888;
         border-color: #888;
     }
