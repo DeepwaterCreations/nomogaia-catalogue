@@ -154,7 +154,7 @@
                                             <div data-ng-include="'row.html'"></div>
                                         </div>
                                     </div>
-                                    <div data-ng-if="activeView=='table'">
+                                    <div data-ng-if="activeView=='table'" id="table">
                                         <table>
                                             <tr class="rowInputUI hasRowID" data-ng-repeat="Topic in filteredList" data-ng-include="'simpleRow.html'" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)" data-ng-click="updateActive(Topic)">
                                             </tr>
