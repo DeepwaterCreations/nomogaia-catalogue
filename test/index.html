@@ -84,7 +84,7 @@
                                     <!--<input type="button" class="blueButton" id="addRowTree" value="Add Row" />-->
                                     <input type="button" class="blueButton openAddTopic" value="Add Topic" />
                                     <span>
-                                        <select data-ng-init="activeView='tree'" ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select><!---->
+                                        <select data-ng-init="activeView='tree'" ng-model="activeView" ng-options="mode for mode in ['tree','list','table']" ng-change="showAll();updateVisible();"></select><!---->
                                     </span>
                                 </div>
                                 <div class="body">
@@ -154,7 +154,13 @@
                                             <div data-ng-include="'row.html'"></div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div data-ng-if="activeView=='table'">
+                                        <table>
+                                            <tr class="rowInputUI hasRowID" data-ng-repeat="Topic in filteredList" data-ng-include="'simpleRow.html'" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)" data-ng-click="updateActive(Topic)">
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    </div>
                             </div>
                             <div id="drag-bar"></div>
                             <div id="side-bar-rights" class="side-bar">
