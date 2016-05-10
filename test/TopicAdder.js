@@ -8,7 +8,8 @@ var TopicAdder = function ($timeout) {
         //});
     }
     this.isNewCatalog = function (treeView, catalog) {
-        return !treeView[catalog] !== undefined;
+        return DataOptions.isNotEmpty(catalog) && 
+            treeView[catalog] == undefined;
     }
     this.addNewCategory = function (treeView, catalog, catagory) {
         //this.$timeout(function () {
@@ -17,16 +18,24 @@ var TopicAdder = function ($timeout) {
         //});
     }
     this.isNewCategory = function (treeView, catalog, catagory) {
-        return !treeView[catalog][catagory] !== undefined;
+        return DataOptions.isNotEmpty(catalog) &&
+            treeView[catalog] != undefined &&
+            DataOptions.isNotEmpty(catagory) &&
+            treeView[catalog][catagory] == undefined;
     }
     this.addNewSubCategory = function (treeView, catalog, catagory, subCatagory) {
         //this.$timeout(function () {
             console.log("added new sub category", treeView);
-            treeView[catalog][catagory][subCatagory] = {};
+            treeView[catalog][catagory][subCatagory] = [];
         //});
     }
     this.isNewSubCategory = function (treeView, catalog, catagory, subCatagory) {
-        return !treeView[catalog][catagory][subCatagory] !== undefined;
+        return DataOptions.isNotEmpty(catalog) &&
+            treeView[catalog] != undefined &&
+            DataOptions.isNotEmpty(catagory) &&
+            treeView[catalog][catagory] != undefined &&
+            DataOptions.isNotEmpty(subCatagory) &&
+            treeView[catalog][catagory][subCatagory] == undefined;
     }
 
     this.addNewTopic = function (treeView, catalog, category, subCategory, topic, description, module, source) {
@@ -55,8 +64,12 @@ var TopicAdder = function ($timeout) {
             }
         //});
     }
+
     this.isNewTopic = function (treeView, catalog, catagory, subCatagory, topic) {
-        return true;
+        return DataOptions.isNotEmpty(catalog) &&
+            DataOptions.isNotEmpty(catagory) &&
+            DataOptions.isNotEmpty(subCatagory) &&
+            DataOptions.isNotEmpty(topic);
     }
 
     this.addNewMod = function (newMod) {
