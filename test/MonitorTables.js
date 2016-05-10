@@ -3,6 +3,24 @@
     this.backingData = [];
     this.labels = []
 
+    // We're storing the lists of rights and rights-holders that haven't been 
+    // hidden for the project in MonitorTables so that they are saved and loaded between
+    // sessions.
+    this.shownRights = DataOptions.getColumnOptions("Impacted Rights").slice(0);
+    this.shownRightsholders = DataOptions.getColumnOptions("Impacted Rights-Holders").slice(0);
+    this.resetShownRights = function(){
+        this.shownRights = DataOptions.getColumnOptions("Impacted Rights").slice(0);
+    };
+    this.resetShownRightsholders = function(){
+        this.shownRightsholders = DataOptions.getColumnOptions("Impacted Rights-Holders").slice(0);
+    };
+    this.emptyShownRights = function(){
+        this.shownRights = [];
+    };
+    this.emptyShownRightsholders = function(){
+        this.shownRightsholders = [];
+    };
+
     this.getNewestMonitorData = function () {
         return this.backingData[this.backingData.length - 1];
     }
@@ -33,15 +51,30 @@
     }
 
     this.toOut = function () {
-        var out = [];
+        var out = {};
+        out.info = {};
+        out.info.shownRights = this.shownRights;
+        out.info.shownRightsholders = this.shownRightsholders;
+        out.monitors = [];
         for (var i = 0; i < this.backingData.length; i++) {
             var monitorObj = {};
             monitorObj.label = this.monitorIntToString(i);
             monitorObj.backingData = this.backingData[i].toOut();
-            out.push(monitorObj);
+            out.monitors.push(monitorObj);
         }
         return out;
     }
+
+    this.loadFile = function(loaded_data){
+        this.clear();
+        this.shownRights = loaded_data.info.shownRights;
+        this.shownRightsholders = loaded_data.info.shownRightsholders;
+        for (var i = 0; i < loaded_data.monitors.length; i++) {
+            this.push(createTableFromJSON(loaded_data.monitors, i, this));
+            $("#monitorNameField").val(loaded_data.monitors[i].label) //Ensures the new tab gets the proper label.
+                monitorTabs.addTab();
+        }
+    };
 
     this.clear = function () {
         this.backingData.forEach(function (table) {

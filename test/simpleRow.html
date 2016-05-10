@@ -1,0 +1,46 @@
+<div class="rowInputUI hasRowID" data-ng-class="{'active':activeTopic == Topic}" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)" data-ng-click="updateActive(Topic)">
+    <!--ondragleave="g.dragExit(event)"-->
+    <div data-ng-if="getRowHat(Topic.id).onScreen" class="fade">
+        <div class="rowInputUIGroup">
+            <div class="rowInputUISection inputtext">
+                <textarea name="input"
+                          data-ng-focus="updateActive(Topic)"
+                          data-ng-model="getSetData(Topic, 'Input')"
+                          data-ng-model-options="{updateOn: 'blur',
+                                              getterSetter: true}"></textarea>
+            </div>
+            <div class="rowInputUISection sourcetext">
+                <textarea name="source"
+                          data-ng-focus="updateActive(Topic)"
+                          data-ng-model="getSetData(Topic, 'Source')"
+                          data-ng-model-options="{updateOn: 'blur',
+                                              getterSetter: true}"></textarea>
+            </div>
+            <div class="rowInputUISection rightsUI">
+                <ul class="dont-indent rightsUI">
+                    <li class="rightContainer draggable-holder right" data-ng-repeat="right in getCurrentRights(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && dragData.value ==right}">
+                        <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
+                    </li>
+                    <li class="rightContainer draggable-holder right adding" data-ng-if="dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && getCurrentRights(Topic).indexOf(dragData.value) ==-1">
+                        <span> x </span>{{dragData.value}}
+                    </li>
+                </ul>
+            </div>
+            <div class="rowInputUISection rightsholdersUI">
+                <ul class="dont-indent rightsholdersUI">
+                    <li class="rightContainer draggable-holder right-holder" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id && dragData.value ==rightsholder}">
+                        <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
+                    </li><!--data-ng-show="this.editRights"-->
+                    <li class="rightContainer draggable-holder right-holder adding" data-ng-if="dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id  && getCurrentRightsholders(Topic).indexOf(dragData.value) ==-1">
+                        <span> x </span>{{dragData.value}}
+                    </li>
+                </ul>
+            </div>
+            <div data-ng-init="newMod=''" class="rowInputUISection moduleUI">
+                <select data-ng-focus="updateActive(Topic)" data-ng-model="getSetData(Topic, 'Module')" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
+                <input data-ng-focus="updateActive(Topic)" type="text" name="module" data-ng-model="newMod" />
+                <button data-ng-focus="updateActive(Topic)" data-ng-click="addNewMod(newMod);newMod='';">Add New</button>
+            </div>
+        </div>
+    </div>
+</div>

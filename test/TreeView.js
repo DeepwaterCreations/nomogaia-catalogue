@@ -7,15 +7,20 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.dragData = null;
     $scope.rightsLocked = true;
     $scope.rightsholdersLocked = true;
-    $scope.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
-    $scope.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
     $scope.activeTopic = null;
 
-    $scope.updateVisible = function () {
-        clearTimeout(this.timeoutId);
-        this.timeoutId = setTimeout(function () {
+
+
+    $scope.updateVisible = function (updateActive) {
+        updateActive = (updateActive === undefined ? false : updateActive);
+
+        clearTimeout(this.updateVisible_timeoutId);
+        this.updateVisible_timeoutId = setTimeout(function () {
             // do something
+            // I wish this did not effect scrolling so badly 
             $timeout(function () {
+                //console.log("update visible");
+
                 var rows = $(".hasRowID");
 
                 var showz = [];
@@ -27,7 +32,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     showz.push(show);
                     if (show) {
                         var myDis = Util.disToCenter(row);
-                        if (closest === null || myDis < dis) {
+                        if ((closest === null || myDis < dis) && $(row).height != 0) {
                             dis = myDis;
                             closest = row;
                         }
@@ -35,7 +40,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     }
                 }
 
-                if (closest != null) {
+                if (updateActive && closest != null) {
                     var rowId = $(closest).data("row");
                     var rowData = RowData.getRow(parseInt(rowId));
                     $scope.activeTopic = rowData;
@@ -47,31 +52,83 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     var row = $(rows[i]);
                     var rowId = row.data("row");
                     var rowData = RowData.getRow(parseInt(rowId));
-                    var lastOnScreen = rowData.onScreen;
-                    rowData.onScreen = showz[i]
-                    if (lastOnScreen && !rowData.onScreen) {
-                        row.height(row.height());
+                    var lastOnScreen = rowHat.getRowHat(rowData.id).onScreen;
+                    if (lastOnScreen && row.height() > 0) {
+                        rowHat.getRowHat(rowData.id).lastKnowHeight = row.height();
                     }
-                    if (!lastOnScreen && rowData.onScreen) {
+                    if (!showz[i] && rowHat.getRowHat(rowData.id).lastKnowHeight != -1) {
+                        row.height(rowHat.getRowHat(rowData.id).lastKnowHeight);
+                    }
+                    if (!lastOnScreen && showz[i]) {
                         row.height("auto");
                     }
+                    rowHat.getRowHat(rowData.id).onScreen = showz[i]
                 }
             });
         }, 50);
     }
 
+
+
     $scope.showAll = function () {
-        RowData.forEach(function (row) {
-            row.onScreen = true;
-        })
+        //console.log("showing all");
+        setTimeout(function () {
+            $scope.measureRow(0, $scope.filteredList);
+        }, 1000);
+        //RowData.forEach(function (row) {
+        //    row.onScreen = true;
+        //})
         // so this is a drity little hak
         // we want to update what is visible as soon as the UI finishes loading 
-        // we put it in a timeout and angluar is such a but it does not let anything run till it is done
+        // we put it in a timeout and angluar is such a butt it does not let anything run till it is done
         // so my little timeout gets called when UI is loaded just like I want it to be
-        setTimeout(function () {
-            $scope.updateVisible();
-            //console.log("updated visible");
-        }, 100);//the time of the timeout does not really matter
+        //setTimeout(function () {
+        //$scope.updateVisible();
+        //console.log("updated visible");
+        //}, 100);//the time of the timeout does not really matter
+    }
+
+    // we bring getRowHat in scope so we can callit from the UI
+    $scope.getRowHat = function (id) {
+        return rowHat.getRowHat(id);
+    };
+
+    // takes a position and a list of RowData
+    $scope.measureRow = function (at, list) {
+        var fmake = function (myRow, myRowUI) {
+            return function () {
+
+                rowHat.getRowHat(myRow.id).lastKnowHeight = myRowUI.height();
+                myRowUI.height(rowHat.getRowHat(myRow.id).lastKnowHeight);
+                rowHat.getRowHat(myRow.id).onScreen = false;
+            }
+        }
+
+        $timeout(function () {
+            var toRun = [];
+            for (var i = 0; i < 5; i++) {
+                if (at < list.length) {
+                    var row = list[at];
+                    var rowUI = $(".hasRowID[data-row=" + row.id + "]");
+                    if (!rowHat.getRowHat(row.id).onScreen && rowHat.getRowHat(row.id).lastKnowHeight === -1 && rowUI.length === 1) {
+                        rowHat.getRowHat(row.id).onScreen = true;
+                        toRun.push(fmake(row, rowUI));
+                    }
+                }
+                at = at + 1;
+            }
+            if (toRun.length > 0) {
+                $timeout(function () {
+                    for (var i = 0; i < toRun.length; i++) {
+                        toRun[i]();
+                    }
+                    //console.log("measuring a chunk!");
+                }, 10);
+            }
+            if (at < list.length) {
+                setTimeout($scope.measureRow(at, list), 10)
+            }
+        });
     }
 
     window.addEventListener('resize', $scope.updateVisible);
@@ -83,49 +140,89 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 // info angular of changes
                 $timeout(function () {
                     $scope.tableData = $scope.tableData;
+                    $scope.updateFilteredRows($scope.search);
                 })
             });
 
             $scope.filteredTree = $scope.tableData.treeView;
             $scope.filteredList = $scope.tableData.rows;
+            $scope.topicAdder = new TopicAdder($scope.tableData.treeView, $timeout);
             $scope.rightslist = function () {
-                return DataOptions.columnOptions["Impacted Rights"];
+                return DataOptions.getColumnOptions("Impacted Rights");
             }
             $scope.rightsholderlist = function () {
-                return DataOptions.columnOptions["Impacted Rights-Holders"];
+                return DataOptions.getColumnOptions("Impacted Rights-Holders");
             }
             $scope.moduleList = function () {
-                return DataOptions.columnOptions["Module"];
+                return DataOptions.getColumnOptions("Module");
             }
-            $scope.scorevals = DataOptions.columnOptions["Score"];
-            console.log("TableData set!", $scope.tableData);
+            $scope.scorevals = DataOptions.getColumnOptions("Score");
+            //console.log("TableData set!", $scope.tableData);
 
-            $(".main").scroll($scope.updateVisible)
+            $scope.shownRights = function () {
+                return monitorTables.shownRights;
+            };
+            $scope.showAllRights = function () {
+                monitorTables.resetShownRights();
+            }
+            $scope.hideAllRights = function () {
+                monitorTables.emptyShownRights();
+            };
+
+            $scope.shownRightsholders = function () {
+                return monitorTables.shownRightsholders;
+            };
+            $scope.showAllRightsholders = function () {
+                monitorTables.resetShownRightsholders();
+            };
+            $scope.hideAllRightsholders = function () {
+                monitorTables.emptyShownRightsholders();
+            };
+
+            $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
 
         });
     });
 
     // Colin, this seems like a really slow way
     $scope.updateFilteredRows = function (x) {
-        var filteredRows = $scope.tableData.filterRows(x);
-        $scope.filteredTree = {};
-        $scope.filteredList = filteredRows;
-        for (var i = 0; i < filteredRows.length; i++) {
-            var newRow = filteredRows[i];
-            if (!(newRow.getData("Catalog") in $scope.filteredTree)) {
-                $scope.filteredTree[newRow.getData("Catalog")] = {};
-            }
-            if (!(newRow.getData("Category") in $scope.filteredTree[newRow.getData("Catalog")])) {
-                $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")] = {};
-            }
-            if (!(newRow.getData("Sub-Category") in $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")])) {
-                $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
-            }
-            $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
+        clearTimeout(this.updateFilteredRows_timeoutId);
+        this.updateFilteredRows_timeoutId = setTimeout(function () {
+            $timeout(function () {
+                console.log("filter rows");
+                var filteredRows = $scope.tableData.filterRows(x);
+                $scope.filteredTree = {};
+                $scope.filteredList = filteredRows;
+                for (var i = 0; i < filteredRows.length; i++) {
+                    var newRow = filteredRows[i];
+                    if (!(newRow.getData("Catalog") in $scope.filteredTree)) {
+                        $scope.filteredTree[newRow.getData("Catalog")] = {};
+                    }
+                    if (!(newRow.getData("Category") in $scope.filteredTree[newRow.getData("Catalog")])) {
+                        $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")] = {};
+                    }
+                    if (!(newRow.getData("Sub-Category") in $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")])) {
+                        $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")] = [];
+                    }
+                    $scope.filteredTree[newRow.getData("Catalog")][newRow.getData("Category")][newRow.getData("Sub-Category")].push(newRow);
+                }
 
-        }
-        // we need to update what is on screen
-        $scope.updateVisible();
+                // we need to get the details on why each row is shown
+                rowHat.clearFilters();
+                for (var i = 0; i < filteredRows.length; i++) {
+                    var row = filteredRows[i];
+                    rowHat.getRowHat(row.id).filterDetails = row.hasTermDetails(x);
+                    //$scope.filterDetails[filteredRows[i].id] = 
+                }
+
+                //console.log("done filtering!", $scope.filterDetails);
+                // we need to update what is on screen
+                // we time this out because we want to give angular time to update before we update what is visible
+                //setTimeout(
+                $scope.updateVisible();
+                //, 100);
+            })
+        }, 50);
     }
 
     $scope.filtered = function (topic) {
@@ -133,7 +230,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     $scope.updateActive = function (topic) {
-
         $scope.activeTopic = topic;
     }
 
@@ -141,74 +237,26 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     //Retrieve lists of current rights and rights-holders for a given topic (RowData).
     $scope.getCurrentRights = function (rowData) {
-        var res = rowData.getData("Impacted Rights");
-        if (res == null) {
-            return [];
-        }
-        return res;
+        return $scope.getCurrent(rowData, "Impacted Rights");
     };
     $scope.getCurrentRightsholders = function (rowData) {
-        var res = rowData.getData("Impacted Rights-Holders");
+        return $scope.getCurrent(rowData, "Impacted Rights-Holders");
+    };
+
+    $scope.getCurrent = function (rowData, type) {
+        var res = rowData.getData(type);
         if (res == null) {
-            return [];
+            res = [];
+        }
+        if ($scope.dragData != null && $scope.dragData.type == type && $scope.dragData.row == rowData.id && res.indexOf($scope.dragData.value) == -1) {
+            res.push($scope.dragData.value);
         }
         return res;
-    };
+    }
+
     $scope.getModules = function (rowData) {
         return rowData.getData("Module");
     };
-
-    $scope.addNewCatalog = function (catalog) {
-        $timeout(function () {
-            $scope.tableData.treeView[catalog] = {};
-        });
-    }
-    $scope.isNewCatalog = function (catalog) {
-        return $scope.tableData.treeView[catalog] !== undefined;
-    }
-    $scope.addNewCategory = function (catalog, catagory) {
-        $timeout(function () {
-            $scope.tableData.treeView[catalog][catagory] = {};
-        });
-    }
-    $scope.isNewCategory = function (catalog, catagory) {
-        return $scope.tableData.treeView[catalog][catagory] !== undefined;
-    }
-    $scope.addNewSubCategory = function (catalog, catagory, subCatagory) {
-        $timeout(function () {
-            $scope.tableData.treeView[catalog][catagory][subCatagory] = {};
-        });
-    }
-    $scope.isNewSubCategory = function (catalog, catagory, subCatagory) {
-        return $scope.tableData.treeView[catalog][catagory][subCatagory] !== undefined;
-    }
-
-    $scope.addNewTopic = function (catalog, category, subCategory, topic) {
-        //??
-        $timeout(function () {
-            // add a row
-            var rowAt = null;
-
-            var myTopic = new Topic(catalog, category, subCategory, topic, "", DataOptions.getDefaultValue("Module"), "");
-            for (var tabIndex in g.getMonitorTables().backingData) {
-                if (tabIndex >= monitorTabs.getActiveMonitor()) {
-                    var myTable = g.getMonitorTables().backingData[tabIndex];
-                    if (rowAt == null) {
-                        rowAt = myTable.addRow(myTopic.toData(myTable));
-                        rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
-                    } else {
-                        var dataAt = rowAt.data;
-                        var newData = new RowData(myTable, dataAt);
-                        rowAt = myTable.addRow(newData);
-                    }
-                }
-            }
-            $scope.updateFilteredRows($scope.search);
-        });
-    }
-    $scope.isNewTopic = function (catalog, catagory, subCatagory, topic) {
-        return false;
-    }
 
     // topic is a data row
     $scope.delete = function (topic) {
@@ -249,24 +297,24 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         $("#deleteDialog").dialog("open");
     }
 
-    $scope.addNewMod = function (newMod) {
-        var list = $scope.moduleList();
-        if (list.indexOf(newMod) == -1) {
-            list.push(newMod);
-        }
-    }
     $scope.addNewRight = function (newRight) {
-        var list = $scope.rightslist();
-        if (list.indexOf(newRight) == -1) {
-            list.push(newRight);
-            $scope.shownRights.push(newRight);
+        // var list = $scope.rightslist();
+        // if (list.indexOf(newRight) == -1) {
+        //     list.push(newRight);
+        //     $scope.shownRights().push(newRight);
+        // }
+        if (DataOptions.addCustom("Impacted Rights", newRight) > -1) {
+            $scope.shownRights().push(newRight);
         }
     }
     $scope.addNewRightHolder = function (newRightHolder) {
-        var list = $scope.rightsholderlist();
-        if (list.indexOf(newRightHolder) == -1) {
-            list.push(newRightHolder);
-            $scope.shownRightsholders.push(newRightHolder);
+        // var list = $scope.rightsholderlist();
+        // if (list.indexOf(newRightHolder) == -1) {
+        //     list.push(newRightHolder);
+        //     $scope.shownRightsholders().push(newRightHolder);
+        // }
+        if (DataOptions.addCustom("Impacted Rights-Holders", newRightHolder) > -1) {
+            $scope.shownRightsholders().push(newRightHolder);
         }
     }
 
@@ -288,43 +336,28 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     //Show or hide a right in the sidebar.
-    $scope.toggleRight = function(right){
-        var idx = $scope.shownRights.indexOf(right);
-        if(idx > -1){
+    $scope.toggleRight = function (right) {
+        var idx = $scope.shownRights().indexOf(right);
+        if (idx > -1) {
             //Remove the right
-            $scope.shownRights.splice(idx, 1);
-        }else{
+            $scope.shownRights().splice(idx, 1);
+        } else {
             //Add the right, referencing the master list to give it the proper index.
             var new_idx = $scope.rightslist().indexOf(right);
-            $scope.shownRights.splice(new_idx, 0, right);
+            $scope.shownRights().splice(new_idx, 0, right);
         }
     };
     //Ditto for -holders
-    $scope.toggleRightsholder = function(rightsholder){
-        var idx = $scope.shownRightsholders.indexOf(rightsholder);
-        if(idx > -1){
+    $scope.toggleRightsholder = function (rightsholder) {
+        var idx = $scope.shownRightsholders().indexOf(rightsholder);
+        if (idx > -1) {
             //Remove the rightsholder
-            $scope.shownRightsholders.splice(idx, 1);
-        }else{
+            $scope.shownRightsholders().splice(idx, 1);
+        } else {
             //Add the rightsholder, referencing the master list to give it the proper index.
             var new_idx = $scope.rightsholderlist().indexOf(rightsholder);
-            $scope.shownRightsholders.splice(new_idx, 0, rightsholder);
+            $scope.shownRightsholders().splice(new_idx, 0, rightsholder);
         }
-    };
-
-    $scope.showAllRights = function(){
-        //Reset the shown rights list to match the master list
-        $scope.shownRights = DataOptions.columnOptions["Impacted Rights"].slice(0);
-    };
-    $scope.hideAllRights = function(){
-        //Empty the shown rights list
-        $scope.shownRights = [];
-    };
-    $scope.showAllRightsholders = function(){
-        $scope.shownRightsholders = DataOptions.columnOptions["Impacted Rights-Holders"].slice(0);
-    };
-    $scope.hideAllRightsholders = function(){
-        $scope.shownRightsholders = [];
     };
 
     $scope.getScoreCategoryClass = getScoreCategoryClass; //What's with this global BS
@@ -334,10 +367,10 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return function (data) {
             if (arguments.length) {
                 //Set
-                console.log("set to " + data);
+                //console.log("set to " + data);
                 rowData.setData(columnName, data);
-                console.log("result " + rowData.getData(columnName));
-                $scope.activeTopic = rowData;
+                //console.log("result " + rowData.getData(columnName));
+                //$scope.activeTopic = rowData;
             }
             else {
                 //Get
@@ -417,22 +450,22 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             AddTopic.canAdd();
         })
 
-        $('#addRowTree').click(function () {
-            //var rowAt = null;
-            //for (var tabIndex in g.getMonitorTables().backingData) {
-            //    if (tabIndex >= g.getMonitorTables().getActiveMonitor()) {
-            //        var myTable = g.getMonitorTables().backingData[tabIndex];
-            //        if (rowAt == null) {
-            //            rowAt = myTable.addRow();
-            //            rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
-            //        } else {
-            //            var dataAt = rowAt.data;
-            //            var newData = new RowData(myTable,dataAt);
-            //            rowAt = myTable.addRow(newData);
-            //        }
-            //    }
-            //}
-        });
+        // $('#addRowTree').click(function () {
+        //var rowAt = null;
+        //for (var tabIndex in g.getMonitorTables().backingData) {
+        //    if (tabIndex >= g.getMonitorTables().getActiveMonitor()) {
+        //        var myTable = g.getMonitorTables().backingData[tabIndex];
+        //        if (rowAt == null) {
+        //            rowAt = myTable.addRow();
+        //            rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+        //        } else {
+        //            var dataAt = rowAt.data;
+        //            var newData = new RowData(myTable,dataAt);
+        //            rowAt = myTable.addRow(newData);
+        //        }
+        //    }
+        //}
+        //});
     }
 
 
@@ -443,15 +476,25 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     g.doubleClick = function (event) {
+        var type = event.target.dataset.type;
+        var value = event.target.dataset.value;
         if ($scope.activeTopic != null) {
             //console.log("double click!", event);
-            var type =event.target.dataset.type;
-            var value = event.target.dataset.value;
+
             $timeout(function () {
                 $scope.activeTopic.acceptDrop(type, value);
-            })
+                $scope.dragData =
+                    {
+                        type: type,
+                        row: $scope.activeTopic.id,
+                        value: value,
+                    };
+                $timeout(function () {
+                    $scope.dragData = null;
+                },400);
+            });
         }
- }
+    }
 
     g.drop = function (event) {
         event.preventDefault();
@@ -462,9 +505,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             at = at.parentElement;
         }
         var row = at.dataset.row;
+        var rowData = RowData.getRow(parseInt(row));
+        $scope.updateActive(rowData);
         //console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
         $timeout(function () {
-            RowData.getRow(parseInt(row)).acceptDrop(type, value);
+            rowData.acceptDrop(type, value);
             $scope.dragData = null;
         })
     }

@@ -1,12 +1,17 @@
 .rowInputUI {
-    background-color: rgba(0,0,0,.1);
+    background-color: rgba(0,0,0,.2);
     margin: 0 .12em .12em .12em;
     padding: .5em;
     -webkit-border-bottom-left-radius: .5em;
     border-bottom-left-radius: .5em;
     -webkit-border-bottom-right-radius: .5em;
     border-bottom-right-radius: .5em;
+    transition: background-color ease .5s;
 }
+
+    .rowInputUI.active {
+        background-color: rgba(0,0,0,.05);
+    }
 
 .branchHeader, .TopicHeader {
     background-color: rgba(0,0,0,.05);
@@ -61,13 +66,13 @@
         background-color: #2F2D69;
     }
 
-.rowInputUI {
+#list .rowInputUI, #tree .rowInputUI {
     display: flex;
     flex-direction: column;
     /*height: 200px;*/
 }
 
-    .rowInputUI > div span {
+    .rowInputUI .rowInputUISectionTitle {
         font-weight: bold;
     }
 
@@ -78,12 +83,12 @@
     }
 
 .rowInputUIGroup > div {
-    display: flex;
-    flex-direction: column;
     background-color: rgba(255,255,255,.5);
+    /*display: flex;
+    flex-direction: column;*/
     margin: .12em;
-    padding: .5em;
-    border-radius: .5em;
+    padding: .2em;
+    border-radius: .2em;
 }
 
 .rowInputUIGroup .inputtext {
@@ -181,7 +186,34 @@
         border-color: rgba(1, 1, 1, 0.25);
     }
 
+span.bold {
+    font-weight: bold;
+}
+
 span.infotext {
     text-align: center;
     color: rgba(0, 0, 0, 0.25);
 }
+
+.TopicHeader {
+    display: flex;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+    .TopicHeader .header-right, .TopicHeader .header-left {
+        margin-left: .2em;
+        margin-right: .2em;
+    }
+
+    .TopicHeader .header-left {
+        -ms-flex: 1 1 auto;
+        -webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+
+    .TopicHeader .header-right {
+        -ms-flex: 0 0 auto;
+        -webkit-flex: 0 0 auto;
+        flex: 0 0 auto;
+    }

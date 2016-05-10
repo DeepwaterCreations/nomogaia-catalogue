@@ -14,11 +14,10 @@ Util.checkVisible = function(elm, threshold) {
 }
 
 Util.disToCenter = function (elm) {
-
     var rect = elm.getBoundingClientRect();
     var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
     //console.log(rect.bottom + " " + rect.top);
-    return Math.abs( (rect.bottom +rect.top/2) - (viewHeight/2));
+    return Math.abs( ((rect.bottom +rect.top)/2) - (viewHeight/2));
 }
 
 //Util.checkVisible = function (elm) {

@@ -2,6 +2,19 @@
     -webkit-user-select: none;
 }
 
+.search .icon-search {
+    position:relative;
+    /*left:2em;*/
+    /*width:2em;*/
+    margin: 0;
+    border:0 ;
+    padding: .5em;
+}
+
+.search input[type=search] {
+    margin-left: -33px;
+    padding-left: 25px;
+}
 
 body .ui-widget {
     font-size: 1em;
@@ -21,7 +34,7 @@ body .ui-widget {
 
 .inputtext textarea, .sourcetext textarea {
     height: 6em;
-    resize:none;
+    resize: none;
 }
 
 #tabs {
@@ -205,14 +218,11 @@ body {
 }
 
 #outlineTab {
-    height: calc(100% - 55px);
+    height: calc(100% - 35px);
 }
 
     #outlineTab .main {
         flex: 1 1 auto;
-        overflow: scroll;
-        height: calc(100% - 30px);
-        padding: 15px;
     }
 
     #outlineTab .fill {
@@ -232,7 +242,24 @@ body {
     left: 5%;*/
 }
 
+#tree-view .main {
+    display: flex;
+    flex-direction: column;
+}
 
+    #tree-view .main .holder {
+        -ms-flex: 0 0 auto;
+        -webkit-flex: 0 0 auto;
+        flex: 0 0 auto;
+    }
+
+    #tree-view .main .body {
+        height:100%;
+        overflow: scroll;
+        -ms-flex: 1 1 auto;
+        -webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
 
 .catalog-text {
     border: none;
@@ -500,8 +527,8 @@ button.close-icon {
 
     .addTopic select, .addTopic input, .addTopic textarea {
         padding: 5px;
-        width: calc(100% - 218px);
-        -webkit-transition: border 0.3s ease;
+        /*width: calc(100% - 218px);*/
+        /*-webkit-transition: border 0.3s ease;*/
     }
 
         .addTopic input#addTopicButton {
@@ -564,7 +591,7 @@ button.close-icon {
         border: 2px solid #1c1b39;
     }
 
-    .blueButton.off {
+    .blueButton.off, .blueButton:disabled {
         background: #888;
         border-color: #888;
     }
@@ -578,6 +605,12 @@ button.close-icon {
             background: #888;
             border-color: #888;
         }
+
+    /* For "Add" buttons next to text input fields */
+    button.blueButton.textInputButton{
+        padding: 0 1em;
+        margin-left: 0;
+    }
 
 #saveLoad {
     float: right;
@@ -626,4 +659,55 @@ button.close-icon {
 
 .ui-dialog {
     box-shadow: 0 0 12px #888;
+}
+
+
+/* The starting CSS styles for the enter animation */
+.fade-in.ng-enter {
+  transition:0.3s ease all;
+  opacity:0;
+}
+
+/* The finishing CSS styles for the enter animation */
+.fade-in.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.fade-out.ng-leave {
+  transition:0.3s ease all;
+  opacity:1;
+}
+.fade-out.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.hightlight {
+    background-color:yellow;
+}
+
+.header-button {
+    -moz-transition: background ease .3s;
+    -o-transition: background ease .3s;
+    -webkit-transition: background ease .3s;
+    transition: background ease .3s;
+    background: none;
+    color: white;
+    border: 0;
+    padding-left: .4em;
+    padding-right: .4em;
+    border-radius: .4em;
+    margin: 0;
+}
+
+/*.header-button:focus {
+    background: rgba(0,0,0,.2);
+}*/
+
+
+.header-button:hover {
+    background: rgba(0,0,0,.5);
+}
+
+ .header-button:active{
+    background:black;
 }
