@@ -9,10 +9,10 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.rightsholdersLocked = true;
     $scope.activeTopic = null;
 
-    
+
 
     $scope.updateVisible = function (updateActive) {
-        updateActive = (updateActive===undefined? false:updateActive);
+        updateActive = (updateActive === undefined ? false : updateActive);
 
         clearTimeout(this.updateVisible_timeoutId);
         this.updateVisible_timeoutId = setTimeout(function () {
@@ -40,7 +40,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     }
                 }
 
-                if (updateActive&&closest != null) {
+                if (updateActive && closest != null) {
                     var rowId = $(closest).data("row");
                     var rowData = RowData.getRow(parseInt(rowId));
                     $scope.activeTopic = rowData;
@@ -53,7 +53,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     var rowId = row.data("row");
                     var rowData = RowData.getRow(parseInt(rowId));
                     var lastOnScreen = rowHat.getRowHat(rowData.id).onScreen;
-                    if (lastOnScreen && row.height() >0) {
+                    if (lastOnScreen && row.height() > 0) {
                         rowHat.getRowHat(rowData.id).lastKnowHeight = row.height();
                     }
                     if (!showz[i] && rowHat.getRowHat(rowData.id).lastKnowHeight != -1) {
@@ -68,7 +68,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         }, 50);
     }
 
-    
+
 
     $scope.showAll = function () {
         //console.log("showing all");
@@ -83,8 +83,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         // we put it in a timeout and angluar is such a butt it does not let anything run till it is done
         // so my little timeout gets called when UI is loaded just like I want it to be
         //setTimeout(function () {
-            //$scope.updateVisible();
-            //console.log("updated visible");
+        //$scope.updateVisible();
+        //console.log("updated visible");
         //}, 100);//the time of the timeout does not really matter
     }
 
@@ -95,7 +95,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     // takes a position and a list of RowData
     $scope.measureRow = function (at, list) {
-        var fmake = function (myRow,myRowUI) {
+        var fmake = function (myRow, myRowUI) {
             return function () {
 
                 rowHat.getRowHat(myRow.id).lastKnowHeight = myRowUI.height();
@@ -114,7 +114,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                         rowHat.getRowHat(row.id).onScreen = true;
                         toRun.push(fmake(row, rowUI));
                     }
-                } 
+                }
                 at = at + 1;
             }
             if (toRun.length > 0) {
@@ -126,7 +126,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 }, 10);
             }
             if (at < list.length) {
-                setTimeout($scope.measureRow(at, list),10)
+                setTimeout($scope.measureRow(at, list), 10)
             }
         });
     }
@@ -210,7 +210,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 // we need to get the details on why each row is shown
                 rowHat.clearFilters();
                 for (var i = 0; i < filteredRows.length; i++) {
-                    var row =filteredRows[i];
+                    var row = filteredRows[i];
                     rowHat.getRowHat(row.id).filterDetails = row.hasTermDetails(x);
                     //$scope.filterDetails[filteredRows[i].id] = 
                 }
@@ -237,19 +237,23 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     //Retrieve lists of current rights and rights-holders for a given topic (RowData).
     $scope.getCurrentRights = function (rowData) {
-        var res = rowData.getData("Impacted Rights");
-        if (res == null) {
-            return [];
-        }
-        return res;
+        return $scope.getCurrent(rowData, "Impacted Rights");
     };
     $scope.getCurrentRightsholders = function (rowData) {
-        var res = rowData.getData("Impacted Rights-Holders");
+        return $scope.getCurrent(rowData, "Impacted Rights-Holders");
+    };
+
+    $scope.getCurrent = function (rowData, type) {
+        var res = rowData.getData(type);
         if (res == null) {
-            return [];
+            res = [];
+        }
+        if ($scope.dragData != null && $scope.dragData.type == type && $scope.dragData.row == rowData.id && res.indexOf($scope.dragData.value) == -1) {
+            res.push($scope.dragData.value);
         }
         return res;
-    };
+    }
+
     $scope.getModules = function (rowData) {
         return rowData.getData("Module");
     };
@@ -299,7 +303,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         //     list.push(newRight);
         //     $scope.shownRights().push(newRight);
         // }
-        if(DataOptions.addCustom("Impacted Rights", newRight) > -1){
+        if (DataOptions.addCustom("Impacted Rights", newRight) > -1) {
             $scope.shownRights().push(newRight);
         }
     }
@@ -309,7 +313,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         //     list.push(newRightHolder);
         //     $scope.shownRightsholders().push(newRightHolder);
         // }
-        if(DataOptions.addCustom("Impacted Rights-Holders", newRightHolder) > -1){
+        if (DataOptions.addCustom("Impacted Rights-Holders", newRightHolder) > -1) {
             $scope.shownRightsholders().push(newRightHolder);
         }
     }
@@ -446,21 +450,21 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             AddTopic.canAdd();
         })
 
-       // $('#addRowTree').click(function () {
-            //var rowAt = null;
-            //for (var tabIndex in g.getMonitorTables().backingData) {
-            //    if (tabIndex >= g.getMonitorTables().getActiveMonitor()) {
-            //        var myTable = g.getMonitorTables().backingData[tabIndex];
-            //        if (rowAt == null) {
-            //            rowAt = myTable.addRow();
-            //            rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
-            //        } else {
-            //            var dataAt = rowAt.data;
-            //            var newData = new RowData(myTable,dataAt);
-            //            rowAt = myTable.addRow(newData);
-            //        }
-            //    }
-            //}
+        // $('#addRowTree').click(function () {
+        //var rowAt = null;
+        //for (var tabIndex in g.getMonitorTables().backingData) {
+        //    if (tabIndex >= g.getMonitorTables().getActiveMonitor()) {
+        //        var myTable = g.getMonitorTables().backingData[tabIndex];
+        //        if (rowAt == null) {
+        //            rowAt = myTable.addRow();
+        //            rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+        //        } else {
+        //            var dataAt = rowAt.data;
+        //            var newData = new RowData(myTable,dataAt);
+        //            rowAt = myTable.addRow(newData);
+        //        }
+        //    }
+        //}
         //});
     }
 
@@ -472,13 +476,23 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     g.doubleClick = function (event) {
+        var type = event.target.dataset.type;
+        var value = event.target.dataset.value;
         if ($scope.activeTopic != null) {
             //console.log("double click!", event);
-            var type = event.target.dataset.type;
-            var value = event.target.dataset.value;
+
             $timeout(function () {
                 $scope.activeTopic.acceptDrop(type, value);
-            })
+                $scope.dragData =
+                    {
+                        type: type,
+                        row: $scope.activeTopic.id,
+                        value: value,
+                    };
+                $timeout(function () {
+                    $scope.dragData = null;
+                },400);
+            });
         }
     }
 

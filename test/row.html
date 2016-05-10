@@ -41,9 +41,6 @@
                     <li class="rightContainer draggable-holder right" data-ng-repeat="right in getCurrentRights(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && dragData.value ==right}">
                         <span data-ng-click="removeRight(Topic, right)"> x </span>{{right}}
                     </li>
-                    <li class="rightContainer draggable-holder right adding" data-ng-if="dragData != null && dragData.type=='Impacted Rights' && dragData.row ==Topic.id && getCurrentRights(Topic).indexOf(dragData.value) ==-1">
-                        <span> x </span>{{dragData.value}}
-                    </li><!--data-ng-show="this.editRights"-->
                 </ul>
                 <ul class="dont-indent rightsholdersUI">
                     <li class="rowInputUISectionTitle">Impacted Rights-holders:</li>
@@ -52,9 +49,6 @@
                     </li>
                     <li class="rightContainer draggable-holder right-holder" data-ng-repeat="rightsholder in getCurrentRightsholders(Topic)" data-ng-class="{'adding':dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id && dragData.value ==rightsholder}">
                         <span data-ng-click="removeRightsholder(Topic, rightsholder)"> x </span>{{rightsholder}}
-                    </li><!--data-ng-show="this.editRights"-->
-                    <li class="rightContainer draggable-holder right-holder adding" data-ng-if="dragData != null && dragData.type=='Impacted Rights-Holders' && dragData.row ==Topic.id  && getCurrentRightsholders(Topic).indexOf(dragData.value) ==-1">
-                        <span> x </span>{{dragData.value}}
                     </li>
                 </ul>
             </div>
@@ -70,9 +64,7 @@
         <div class="rowInputUIGroup">
             <div class="rowInputUISection scoreUI">
                 <span class="rowInputUISectionTitle">Score</span>
-
                 <!--<select data-ng-model="getSetData(Topic, 'Score')" data-ng-model-options="{getterSetter: true}" value="{{score}}" ng-options="score for score in scorevals"></select>-->
-
                 <div>
                     <div data-ng-repeat="score in scorevals">
                         <input type="radio"
@@ -86,6 +78,5 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
