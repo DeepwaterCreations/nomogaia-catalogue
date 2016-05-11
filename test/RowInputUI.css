@@ -130,7 +130,7 @@
     }
 
 .rowInputUI .moduleUI {
-    flex: 1 2 auto;
+    flex: 0 0 auto;
 }
 
 .rowInputUI .scoreUI {
