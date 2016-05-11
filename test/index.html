@@ -84,9 +84,9 @@
                                 <span>
                                     <select data-ng-init="activeView='list'" ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select><!---->
                                 </span>
-                                <input type="button" class="blueButton textInputButton" data-ng-disabled="mo.vis" data-ng-click="mo.vis = !mo.vis;" value="Add Topic" />
+                                <input type="button" class="blueButton textInputButton" data-ng-click="mo.vis = !mo.vis;" value="{{!mo.vis?'Add Topic':'Hide Add Topic'}}" />
                             </div>
-                            <div data-ng-controller="addController" class="header" data-ng-if="mo.vis">
+                            <div data-ng-controller="addController" class="header" data-ng-hide="mo.vis">
                                 <h2 class="addHeader">Add Topic</h2>
                                 <div class="addBody">
                                     <span class="addPrompt">{{(index+1) +". "+ getPrompt()}}</span>
