@@ -184,7 +184,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         });
     });
 
-    // Colin, this seems like a really slow way
     $scope.updateFilteredRows = function (x) {
         clearTimeout(this.updateFilteredRows_timeoutId);
         this.updateFilteredRows_timeoutId = setTimeout(function () {
@@ -571,6 +570,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 $scope.tableData = monitorTables.backingData[newlyActiveTab].tableData;
                 $scope.filteredTree = $scope.tableData.treeView;
                 $scope.updateFilteredRows($scope.search);
+                $scope.showAll();
+                $scope.updateVisible(true);
             })
         }
     }(this);
