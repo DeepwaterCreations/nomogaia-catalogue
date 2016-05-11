@@ -235,9 +235,9 @@
                                     <input type="text" data-ng-model="newRight" />
                                     <button data-ng-click="addNewRight(newRight);newRight='';" data-ng-disabled="!newRight" class="blueButton textInputButton">Add</button>
                                 </div>
-                                <button data-ng-click="rightsLocked = !rightsLocked" class="blueButton">{{rightsLocked ? "Show/Hide Rights" : "Done"}}</button>
-                                <button data-ng-if="!rightsLocked" data-ng-click="showAllRights()" class="blueButton fade-in fade-out">Show All</button>
-                                <button data-ng-if="!rightsLocked" data-ng-click="hideAllRights()" class="blueButton fade-in fade-out">Hide All</button>
+                                <button data-ng-click="rightsLocked = !rightsLocked" class="blueButton textInputButton">{{rightsLocked ? "Show/Hide Rights" : "Done"}}</button>
+                                <button data-ng-if="!rightsLocked" data-ng-click="showAllRights()" class="blueButton fade-in fade-out textInputButton">Show All</button>
+                                <button data-ng-if="!rightsLocked" data-ng-click="hideAllRights()" class="blueButton fade-in fade-out textInputButton">Hide All</button>
                                 <div class="multi-column">
                                     <ul class="dont-indent">
                                         <!-- Locked list of rights -->
@@ -268,9 +268,9 @@
                                     <input type="text" data-ng-model="newRightHolder" />
                                     <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';" data-ng-disabled="!newRightHolder" class="blueButton textInputButton">Add</button>
                                 </div>
-                                <button data-ng-click="rightsholdersLocked = !rightsholdersLocked" class="blueButton">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
-                                <button data-ng-if="!rightsholdersLocked" data-ng-click="showAllRightsholders()" class="blueButton fade-in fade-out">Show All</button>
-                                <button data-ng-if="!rightsholdersLocked" data-ng-click="hideAllRightsholders()" class="blueButton fade-in fade-out">Hide All</button>
+                                <button data-ng-click="rightsholdersLocked = !rightsholdersLocked" class="blueButton textInputButton">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
+                                <button data-ng-if="!rightsholdersLocked" data-ng-click="showAllRightsholders()" class="blueButton fade-in fade-out textInputButton">Show All</button>
+                                <button data-ng-if="!rightsholdersLocked" data-ng-click="hideAllRightsholders()" class="blueButton fade-in fade-out textInputButton">Hide All</button>
                                 <div class="multi-column">
                                     <ul class="dont-indent">
                                         <!-- Locked list of rightsholders -->
