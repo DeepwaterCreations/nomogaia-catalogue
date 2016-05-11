@@ -157,21 +157,21 @@
                             <div class="body">
                                 <ul data-ng-if="activeView=='tree'" id="tree" class="branchBody">
                                     <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
-                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" >
                                             {{::Catalog}}
                                         </div>
                                         <ul data-ng-if="this.show" class="branchBody">
                                             <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
-                                                <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" >
                                                     {{::Category}}
                                                 </div>
                                                 <ul data-ng-if="this.show" class="branchBody">
                                                     <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
-                                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" >
                                                             {{::SubCategory}}
                                                         </div>
                                                         <ul data-ng-if="this.show" class="branchBody">
-                                                            <li data-ng-repeat="Topic in topics" data-ng-init="this.editRights = false; this.editRightsholders = false; this.showAbout = false" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                                            <li data-ng-repeat="Topic in topics" data-ng-init="this.editRights = false; this.editRightsholders = false; this.showAbout = false">
                                                                 <div>
                                                                     <!-- data-ng-click="updateActive(Topic)" -->
                                                                     <div data-ng-click="getRowHat(Topic.id).getRootHat().show= !getRowHat(Topic.id).getRootHat().show;updateVisible();updateActive(Topic)" class="TopicHeader" data-ng-class="{'expanded':getRowHat(Topic.id).getRootHat().show}">
@@ -210,7 +210,7 @@
                                     </li>-->
                                 </ul>
                                 <div data-ng-if="activeView=='list'" id="list">
-                                    <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
+                                    <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList" >
                                         <!-- this is dumb we have 2 topicHeaders move this in to row.html -->
                                         <div class="TopicHeader expanded">
                                             <span class="header-left">
