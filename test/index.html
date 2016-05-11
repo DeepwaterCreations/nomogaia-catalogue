@@ -84,7 +84,7 @@
                                 <span>
                                     <select data-ng-init="activeView='list'" ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select><!---->
                                 </span>
-                                <input type="button" class="blueButton" data-ng-disabled="mo.vis" data-ng-click="mo.vis = !mo.vis;" value="Add Topic" />
+                                <input type="button" class="blueButton textInputButton" data-ng-disabled="mo.vis" data-ng-click="mo.vis = !mo.vis;" value="Add Topic" />
                             </div>
                             <div data-ng-controller="addController" class="header" data-ng-if="mo.vis">
                                 <h2 class="addHeader">Add Topic</h2>
@@ -97,7 +97,7 @@
                                         </div>
                                         <div>
                                             <input type="text" data-ng-model="newCatalog" />
-                                            <input type="button" ng-disabled="!topicAdder.isNewCatalog(tree,newCatalog)" data-ng-click="topicAdder.addNewCatalog(tree,newCatalog);newCatalog='';" value="Add" />
+                                            <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewCatalog(tree,newCatalog)" data-ng-click="topicAdder.addNewCatalog(tree,newCatalog);newCatalog='';" value="Add" />
                                         </div>
                                     </div>
                                     <div data-ng-if="list[index].name == 'Category'">
@@ -108,7 +108,7 @@
                                             </div>
                                             <div>
                                                 <input type="text" data-ng-model="newCategory" />
-                                                <input type="button" ng-disabled="!topicAdder.isNewCategory(tree,catalog.value,newCategory)" data-ng-click="topicAdder.addNewCategory(tree,catalog.value,newCategory);newCategory='';" value="Add" />
+                                                <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewCategory(tree,catalog.value,newCategory)" data-ng-click="topicAdder.addNewCategory(tree,catalog.value,newCategory);newCategory='';" value="Add" />
                                             </div>
                                         </div>
                                         <div data-ng-if="catalog.value == ''">
@@ -123,7 +123,7 @@
                                             </div>
                                             <div>
                                                 <input type="text" data-ng-model="newSubCategory" />
-                                                <input type="button" ng-disabled="!topicAdder.isNewSubCategory(tree,catalog.value,category.value,newSubCategory)" data-ng-click="topicAdder.addNewSubCategory(tree,catalog.value,category.value,newSubCategory);newSubCategory='';" value="Add" />
+                                                <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewSubCategory(tree,catalog.value,category.value,newSubCategory)" data-ng-click="topicAdder.addNewSubCategory(tree,catalog.value,category.value,newSubCategory);newSubCategory='';" value="Add" />
                                             </div>
                                         </div>
                                         <div data-ng-if="category.value == ''">
@@ -146,12 +146,12 @@
                                         <textarea data-ng-model="source.value"></textarea>
                                     </div>
 
-                                    <input type="button" class="blueButton" data-ng-disabled="!canBack()" data-ng-click="back()" value="Back" />
-                                    <input type="button" class="blueButton" data-ng-disabled="!canNext()" data-ng-click="next()" value="Next" />
+                                    <input type="button" class="blueButton textInputButton" data-ng-disabled="!canBack()" data-ng-click="back()" value="Back" />
+                                    <input type="button" class="blueButton textInputButton" data-ng-disabled="!canNext()" data-ng-click="next()" value="Next" />
                                     <!-- data-ng-if="list[index].name == 'Topic' || list[index].name == 'Module' || list[index].name == 'Description'|| list[index].name == 'Source'" -->
 
-                                    <input type="button" class="blueButton" data-ng-disabled="!canFinish()" data-ng-click="finish();mo.vis = !mo.vis;" value="Finish" />
-                                    <input type="button" class="blueButton" data-ng-click="reset();mo.vis = !mo.vis;" value="Cancel" />
+                                    <input type="button" class="blueButton textInputButton" data-ng-disabled="!canFinish()" data-ng-click="finish();mo.vis = !mo.vis;" value="Finish" />
+                                    <input type="button" class="blueButton textInputButton" data-ng-click="reset();mo.vis = !mo.vis;" value="Cancel" />
                                 </div>
                             </div>
                             <div class="body">
