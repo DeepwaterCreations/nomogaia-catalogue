@@ -82,7 +82,7 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
         $timeout(function () {
             $scope.tableData = monitorTables.backingData[0].tableData;
             $scope.tree = $scope.tableData.treeView;
-            $scope.topicAdder = new TopicAdder($scope.tree, $timeout);
+            $scope.topicAdder = new TopicAdder($timeout);
             $scope.moduleList = function () {
                 return DataOptions.getColumnOptions("Module");
             }
