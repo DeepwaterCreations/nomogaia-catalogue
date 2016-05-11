@@ -107,7 +107,7 @@
 }
 
     .rowInputUIGroup .inputtext textarea, .rowInputUIGroup .sourcetext textarea {
-        width: 100%;
+        width: calc( 100% - .4em);
         flex: 1;
     }
 
