@@ -79,7 +79,7 @@
     /*height: 200px;*/
 }
 
-.rowInputUI .rowInputUISectionTitle {
+.rowInputUI .rowInputUISectionTitle, .addBody .addPrompt {
     font-weight: bold;
 }
 
