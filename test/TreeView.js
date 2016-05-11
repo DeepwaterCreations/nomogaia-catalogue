@@ -181,7 +181,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             };
 
             $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
-
         });
     });
 
