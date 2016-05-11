@@ -8,7 +8,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.rightsLocked = true;
     $scope.rightsholdersLocked = true;
     $scope.activeTopic = null;
-
+    $scope.mo = {}
+    $scope.mo.vis = false;
 
 
     $scope.updateVisible = function (updateActive) {
@@ -419,30 +420,30 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             }
         });
 
-        $("#addTopic").dialog({
-            buttons: [
-                {
-                    text: "Cancel",
-                    click: function () {
-                        $(this).dialog("close");
-                    }
-                }, {
-                    id: "addTopicButton",
-                    text: "Ok",
-                    click: function () {
-                        if (AddTopic.canAdd()) {
-                            AddTopic.addTopic();
-                            $(this).dialog("close");
-                        } else {
-                            AddTopic.highlightIncomplete();
-                        }
+        //$("#addTopic").dialog({
+        //    buttons: [
+        //        {
+        //            text: "Cancel",
+        //            click: function () {
+        //                $(this).dialog("close");
+        //            }
+        //        }, {
+        //            id: "addTopicButton",
+        //            text: "Ok",
+        //            click: function () {
+        //                if (AddTopic.canAdd()) {
+        //                    AddTopic.addTopic();
+        //                    $(this).dialog("close");
+        //                } else {
+        //                    AddTopic.highlightIncomplete();
+        //                }
 
-                    }
-                }
-            ],
-            autoOpen: false,
-            width: "90%"
-        });
+        //            }
+        //        }
+        //    ],
+        //    autoOpen: false,
+        //    width: "90%"
+        //});
 
         $(".openAddTopic").click(function () {
             $("#addTopic").dialog("open");

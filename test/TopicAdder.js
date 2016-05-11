@@ -67,7 +67,8 @@ var TopicAdder = function ($timeout) {
         return DataOptions.isNotEmpty(catalog) &&
             DataOptions.isNotEmpty(catagory) &&
             DataOptions.isNotEmpty(subCatagory) &&
-            DataOptions.isNotEmpty(topic);
+            DataOptions.isNotEmpty(topic) ;
+            // this does not check if it is new dispite the title
     }
 
     this.addNewMod = function (newMod) {
