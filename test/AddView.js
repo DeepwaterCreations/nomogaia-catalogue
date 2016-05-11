@@ -1,7 +1,7 @@
 g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, $timeout) {
     $scope.catalog = {
         name: "Catalog",
-        prompt: "Select Catalog:",
+        prompt: "Select Catalog",
         defaultValue: "",
         value: "",
         valid: function() {
@@ -10,7 +10,7 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     };
     $scope.category = {
         name: "Category",
-        prompt: "Select Category:",
+        prompt: "Select Category",
         defaultValue: "",
         value: "",
         valid: function () {
@@ -19,7 +19,7 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     };
     $scope.subCategory = {
         name: "SubCategory",
-        prompt: "Select Sub-Category:",
+        prompt: "Select Sub-Category",
         defaultValue: "",
         value: "",
         valid: function () {
@@ -28,7 +28,7 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     };
     $scope.topic = {
         name: "Topic",
-        prompt: "Enter Topic:",
+        prompt: "Enter Topic",
         defaultValue: "",
         value: "",
         valid: function () {
@@ -37,7 +37,7 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     };
     $scope.module = {
         name: "Module",
-        prompt: "Enter Default Module:",
+        prompt: "Enter Default Module",
         defaultValue: "None",
         value: "None",
         valid: function () {
@@ -46,7 +46,7 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     };
     $scope.source = {
         name: "Source",
-        prompt: "Enter Recommended Source:",
+        prompt: "Enter Recommended Source",
         defaultValue: "",
         value: "",
         valid: function () {
@@ -55,7 +55,7 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     };
     $scope.description = {
         name: "Description",
-        prompt: "Enter Description:",
+        prompt: "Enter Description",
         defaultValue: "",
         value: "",
         valid: function () {
