@@ -89,7 +89,7 @@
                             </div>
                             <div data-ng-controller="addController" class="header" data-ng-if="mo.vis" class="addBody">
 
-                                <h2 class="addHeader">{{index +". "+ getPrompt()}}</h2>
+                                <h2 class="addHeader">{{(index+1) +". "+ getPrompt()}}</h2>
                                 <div data-ng-if="list[index].name == 'Catalog'">
                                     <ul>
                                         <li data-ng-repeat="(key,value) in tree">
