@@ -9,11 +9,19 @@
     <link href="Dialogs.css" rel="stylesheet">
     <link href="ContextMenu.css" rel="stylesheet">
     <link href="RowInputUI.css" rel="stylesheet">
+    <link href="splash.css" rel="stylesheet">
     <link href="RightsSidebar.css" rel="stylesheet">
 </head>
 <body>
     <!--<div id="main">-->
     <!--<div id="loading"><div id="progressbar"></div></div>-->
+    <div id="splash">
+        <div id="splash-content">
+            <span id="title">Aspen</span>
+            <span id="sub-title">by NomoGaia</span>
+        </div>
+        <img id="splash-background" src="https://scontent-lga3-1.xx.fbcdn.net/t31.0-8/461299_3597005719945_1365846881_o.jpg" alt="Alternate Text" />
+    </div>
 
     <div id="tabs">
         <ul id="tabsBar">
@@ -84,9 +92,9 @@
                                 <span>
                                     <select data-ng-init="activeView='list'" ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select><!---->
                                 </span>
-                                <input type="button" class="blueButton textInputButton" data-ng-click="mo.vis = !mo.vis;" value="{{!mo.vis?'Add Topic':'Hide Add Topic'}}" />
+                                <input type="button" class="blueButton textInputButton" data-ng-click="mo.vis = !mo.vis;" value="{{(!mo.vis)?'Add Topic':'Hide Add Topic'}}" />
                             </div>
-                            <div data-ng-controller="addController" class="header" data-ng-hide="mo.vis">
+                            <div data-ng-controller="addController" class="header" data-ng-hide="!mo.vis">
                                 <h2 class="addHeader">Add Topic</h2>
                                 <div class="addBody">
                                     <span class="addPrompt">{{(index+1) +". "+ getPrompt()}}</span>
@@ -157,17 +165,17 @@
                             <div class="body">
                                 <ul data-ng-if="activeView=='tree'" id="tree" class="branchBody">
                                     <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
-                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" >
+                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
                                             {{::Catalog}}
                                         </div>
                                         <ul data-ng-if="this.show" class="branchBody">
                                             <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
-                                                <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" >
+                                                <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
                                                     {{::Category}}
                                                 </div>
                                                 <ul data-ng-if="this.show" class="branchBody">
                                                     <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
-                                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" >
+                                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
                                                             {{::SubCategory}}
                                                         </div>
                                                         <ul data-ng-if="this.show" class="branchBody">
@@ -210,11 +218,11 @@
                                     </li>-->
                                 </ul>
                                 <div data-ng-if="activeView=='list'" id="list">
-                                    <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList" >
+                                    <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList">
                                         <!-- this is dumb we have 2 topicHeaders move this in to row.html -->
                                         <div class="TopicHeader expanded">
                                             <span class="header-left">
-                                                {{::Topic.getData("Catalog") +" &#8594; "+ Topic.getData("Category") +" &#8594; "+ Topic.getData("Sub-Category") +" &#8594; "+ Topic.getData("Topic")}}
+                                                {{::Topic.getData("Catalog") +" &#10142; "+ Topic.getData("Category") +" &#10142; "+ Topic.getData("Sub-Category") +" &#10142; "+ Topic.getData("Topic")}}
                                             </span>
                                             <span class="header-right" data-ng-bind="Topic.getData('Monitor')"></span>
                                             <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout"><i class="icon-question"></i></button>

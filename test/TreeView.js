@@ -218,7 +218,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 // we need to update what is on screen
                 // we time this out because we want to give angular time to update before we update what is visible
                 //setTimeout(
-                $scope.updateVisible();
+                $scope.updateVisible(true);
+                $scope.showAll();
                 //, 100);
             })
         }, 50);
@@ -414,7 +415,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 $('#ghostbar').remove();
                 $(document).unbind('mousemove');
                 dragging = false;
-                $scope.updateVisible();
+                $scope.updateVisible(false);
             }
         });
 
