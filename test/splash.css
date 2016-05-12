@@ -14,7 +14,7 @@
 }
 
     #splash #splash-background, #splash #splash-content {
-        transition: top .5s ease-in;
+        /*transition: top 10s ease-in, opacity 10s ease-in;*/
         top: 0;
         opacity: 1;
         width: 100%;
@@ -22,8 +22,12 @@
     }
 
         #splash #splash-background.going, #splash #splash-content.going {
-            top: -100%;
-            opacity: 1;
+            /*top: -20%;*/
+            /*opacity: 0;*/
+            -moz-animation: leave 2s ease-in;
+            -o-animation: leave 2s ease-in;
+            -webkit-animation: leave 2s ease-in;
+            animation: leave 2s ease-in;
         }
 
     #splash #splash-background {
@@ -31,24 +35,31 @@
         object-fit: cover;
     }
 
-
-
-    #splash #splash-content {
-        position: absolute;
-        z-index: 2;
+@keyframes leave {
+    0% {
+        opacity: 1;
     }
-
-
-    #splash #title {
-        display: block;
-        font-size: 8em;
-        color: rgba(255,255,255,.4);
-        text-align: center;
+    100% {
+        opacity: 0;
     }
+}
 
-    #splash #sub-title {
-        display: block;
-        font-size: 2em;
-        color: rgba(255,255,255,.4);
-        text-align: center;
-    }
+#splash #splash-content {
+    position: absolute;
+    z-index: 2;
+}
+
+
+#splash #title {
+    display: block;
+    font-size: 8em;
+    color: rgba(255,255,255,.4);
+    text-align: center;
+}
+
+#splash #sub-title {
+    display: block;
+    font-size: 2em;
+    color: rgba(255,255,255,.4);
+    text-align: center;
+}

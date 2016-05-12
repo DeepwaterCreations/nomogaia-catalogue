@@ -65,17 +65,4 @@
             setTimeout(function () { that.checkNext() }, 0);
         }
     }
-
-    this.searchTable = function () {
-        this.hide(this.myTable.tableUI.rows);
-    };
-    var that = this;
-    this.myTable.getTable().find('.searchInput').keyup(function (e) {
-        console.log("Colin", "started a search!");
-        setTimeout(that.searchTable());
-    });
-    this.myTable.getTable().find('.searchInputForm').on('reset', function (e) {
-        console.log("Colin", "started a search!");
-        setTimeout(that.searchTable());
-    });
 }

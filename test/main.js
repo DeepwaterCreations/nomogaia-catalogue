@@ -68,7 +68,8 @@ $(document).ready(function () {
         }
     });
 
-    table.addRowsWrapped(dataList, function () {
+
+    table.addRows(dataList, function () {
         g.setMonitorTables(monitorTables);
         setTimeout(function () {
             console.log("going");
@@ -77,9 +78,9 @@ $(document).ready(function () {
             $("#splash #splash-background").addClass("going");
             setTimeout(function () {
                 console.log("gone");
-                $("#splash").hide();
-            }, 2000);
-        });
+                //$("#splash").hide();
+            }, 10000);
+        },5000);
     });
 
     AddTopic.initFields();
