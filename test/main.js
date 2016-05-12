@@ -68,7 +68,19 @@ $(document).ready(function () {
         }
     });
 
-    table.addRowsWrapped(dataList, function () { g.setMonitorTables(monitorTables); });
+    table.addRowsWrapped(dataList, function () {
+        g.setMonitorTables(monitorTables);
+        setTimeout(function () {
+            console.log("going");
+            $("#splash").addClass("going");
+            $("#splash #splash-content").addClass("going");
+            $("#splash #splash-background").addClass("going");
+            setTimeout(function () {
+                console.log("gone");
+                $("#splash").hide();
+            }, 2000);
+        });
+    });
 
     AddTopic.initFields();
 
@@ -118,14 +130,8 @@ $(document).ready(function () {
     //        $("#splash").hide();
     //    });
     //}, 100000);
-    setTimeout(function () {
-        console.log("going");
-        $("#splash").addClass("going");
-        setTimeout(function () {
-            console.log("gone");
-            $("#splash").hide();
-        }, 1000);
-    }, 1000);
+
+
 
 
 
