@@ -2,7 +2,7 @@
     background-color: rgba(0,0,0,.2);
     margin: 0 .12em .12em .12em;
     padding: .5em;
-    border-left: solid .2em rgba(0,0,0,0);
+    border-left: solid .4em rgba(0,0,0,0);
     -webkit-border-bottom-left-radius: .5em;
     border-bottom-left-radius: .5em;
     -webkit-border-bottom-right-radius: .5em;
@@ -10,15 +10,15 @@
     transition: background-color ease .5s, border-left ease .5s;
 }
 
-    .odd .rowInputUI.active {
-        border-left: solid .2em #356C28;
+    .rowInputUI.active {
+        border-left: solid .4em #356C28;
         /*background-color: rgba(0,0,0,.05);*/
     }
 
-    .even .rowInputUI.active {
+    /*.even .rowInputUI.active {
         border-left: solid .2em #2F2D69;
-        /*background-color: rgba(0,0,0,.05);*/
-    }
+        background-color: rgba(0,0,0,.05);
+    }*/
 
 .branchHeader, .TopicHeader {
     background-color: rgba(0,0,0,.05);
@@ -65,13 +65,13 @@
     border-bottom-right-radius: 0;
 }
 
-    .odd .TopicHeader.expanded {
+     .TopicHeader.expanded {
         background-color: #356C28;
     }
 
-    .even .TopicHeader.expanded {
+    /*.even .TopicHeader.expanded {
         background-color: #2F2D69;
-    }
+    }*/
 
 #list .rowInputUI, #tree .rowInputUI {
     display: flex;
@@ -79,7 +79,7 @@
     /*height: 200px;*/
 }
 
-.rowInputUI .rowInputUISectionTitle {
+.rowInputUI .rowInputUISectionTitle, .addBody .addPrompt {
     font-weight: bold;
 }
 
@@ -107,7 +107,7 @@
 }
 
     .rowInputUIGroup .inputtext textarea, .rowInputUIGroup .sourcetext textarea {
-        width: 100%;
+        width: calc( 100% - .4em);
         flex: 1;
     }
 
@@ -130,7 +130,7 @@
     }
 
 .rowInputUI .moduleUI {
-    flex: 1 2 auto;
+    flex: 0 0 auto;
 }
 
 .rowInputUI .scoreUI {
