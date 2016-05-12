@@ -71,16 +71,6 @@ $(document).ready(function () {
 
     table.addRows(dataList, function () {
         g.setMonitorTables(monitorTables);
-        setTimeout(function () {
-            console.log("going");
-            $("#splash").addClass("going");
-            $("#splash #splash-content").addClass("going");
-            $("#splash #splash-background").addClass("going");
-            setTimeout(function () {
-                console.log("gone");
-                //$("#splash").hide();
-            }, 10000);
-        },5000);
     });
 
     AddTopic.initFields();

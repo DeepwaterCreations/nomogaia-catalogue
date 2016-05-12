@@ -1,3 +1,15 @@
+/*@keyframes leave {
+    0% {
+        opacity: 1;
+            -webkit-transform: translateX(0%);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: translateX(100%);
+    }
+}*/
+
+
 #splash {
     position: absolute;
     left: 0;
@@ -7,15 +19,25 @@
     overflow: hidden;
     width: 100%;
     height: 100%;
-    -moz-transition: all .5s ease;
+    /*-moz-transition: all .5s ease;
     -o-transition: all .5s ease;
     -webkit-transition: all .5s ease;
-    transition: all .5s ease;
+    transition: all .5s ease;*/
 }
 
     #splash #splash-background, #splash #splash-content {
-        /*transition: top 10s ease-in, opacity 10s ease-in;*/
-        top: 0;
+        transition: -moz-transform 2s cubic-bezier(1,0,1,1) 2s,
+             -ms-transform 2s cubic-bezier(1,0,1,1) 2s,
+             -o-transform 2s cubic-bezier(1,0,1,1) 2s,
+             -webkit-transform 2s cubic-bezier(1,0,1,1) 2s,
+             transform 2s cubic-bezier(1,0,1,1) 2s,
+             opacity 1.5s cubic-bezier(.5,0,.5,1) 2s;
+/*these animation times are connected to a timeout that hides #splash if you update them you need to update that timeout too*/
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
         opacity: 1;
         width: 100%;
         height: 100%;
@@ -23,43 +45,44 @@
 
         #splash #splash-background.going, #splash #splash-content.going {
             /*top: -20%;*/
-            /*opacity: 0;*/
-            -moz-animation: leave 2s ease-in;
+            opacity: 0;
+            -moz-transform: translateY(-100%);
+            -ms-transform: translateY(-100%);
+            -o-transform: translateY(-100%);
+            -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
+            /*-moz-animation: leave 2s ease-in;
             -o-animation: leave 2s ease-in;
             -webkit-animation: leave 2s ease-in;
-            animation: leave 2s ease-in;
+            animation: leave 2s ease-in;*/
         }
 
     #splash #splash-background {
         position: relative;
-        object-fit: cover;
     }
 
-@keyframes leave {
-    0% {
-        opacity: 1;
+        #splash #splash-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    #splash #splash-content {
+        position: absolute;
+        z-index: 2;
     }
-    100% {
-        opacity: 0;
+
+
+    #splash #title {
+        display: block;
+        font-size: 8em;
+        color: rgba(255,255,255,.4);
+        text-align: center;
     }
-}
 
-#splash #splash-content {
-    position: absolute;
-    z-index: 2;
-}
-
-
-#splash #title {
-    display: block;
-    font-size: 8em;
-    color: rgba(255,255,255,.4);
-    text-align: center;
-}
-
-#splash #sub-title {
-    display: block;
-    font-size: 2em;
-    color: rgba(255,255,255,.4);
-    text-align: center;
-}
+    #splash #sub-title {
+        display: block;
+        font-size: 2em;
+        color: rgba(255,255,255,.4);
+        text-align: center;
+    }
