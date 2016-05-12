@@ -56,21 +56,38 @@
                 <span class="rowInputUISectionTitle">
                     Module
                 </span>
-                <select 
-                    data-ng-focus="updateActive(Topic)" 
-                    data-ng-model="getSetData(Topic, 'Module')" 
-                    data-ng-model-options="{getterSetter: true}" 
-                    value="{{module}}" 
-                    ng-options="module for module in moduleList()">
-                </select>
-                <input data-ng-focus="updateActive(Topic)" type="text" name="module" data-ng-model="newMod" />
-                <button 
-                    class="blueButton textInputButton"
-                    data-ng-focus="updateActive(Topic)" 
-                    data-ng-click="addNewMod(newMod);newMod='';"
-                    data-ng-disabled="!newMod"> 
-                    Add
-                </button>
+                <div>
+                    <select 
+                      class="blueButton left-button"
+                      data-ng-focus="updateActive(Topic)" 
+                      data-ng-model="getSetData(Topic, 'Module')" 
+                      data-ng-model-options="{getterSetter: true}" 
+                      value="{{module}}" 
+                      ng-options="module for module in moduleList()">
+                    </select>
+                    <button
+                      class="blueButton right-button"
+                      data-ng-focus="updateActive(Topic)"
+                      data-ng-click="moduleShowAdd = !moduleShowAdd">
+                        +
+                    </button>
+                </div>
+
+                <div data-ng-if="moduleShowAdd">
+                    {{newMod}}
+                    <input 
+                        data-ng-focus="updateActive(Topic)" 
+                        type="text" 
+                        name="module" 
+                        data-ng-model="mo.newMod" />
+                    <button 
+                        class="blueButton textInputButton" 
+                        data-ng-focus="updateActive(Topic)" 
+                        data-ng-click="addModule(); moduleShowAdd = false;" 
+                        data-ng-disabled="!mo.newMod"> 
+                        Add
+                    </button>
+                </div>
             </div>
         </div>
         <div class="rowInputUIGroup">

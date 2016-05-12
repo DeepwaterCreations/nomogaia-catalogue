@@ -10,7 +10,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.activeTopic = null;
     $scope.mo = {}
     $scope.mo.vis = false;
-
+    // $scope.mo.moduleShowAdd = false;
+    $scope.mo.newMod = '';
 
     $scope.updateVisible = function (updateActive) {
         updateActive = (updateActive === undefined ? false : updateActive);
@@ -255,6 +256,15 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     $scope.getModules = function (rowData) {
         return rowData.getData("Module");
+    };
+
+    $scope.addModule = function(){
+        //TODO: What if the module can't be added for some reason?
+        //TODO: Select the newly added module
+        //TODO: Remove the text thingy when the add button is clicked.
+        $scope.topicAdder.addNewMod($scope.mo.newMod);
+        $scope.mo.newMod = '';
+        // $scope.mo.moduleShowAdd = false; 
     };
 
     // topic is a data row
@@ -580,6 +590,10 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         addTab: this.addMonitorTabEvent,
         changeTab: this.changeMonitorTabEvent
     });
+
+    $scope.showModuleDropdown = function(){
+        //TODO
+    };
 }]);
 
 //function TreeView(categoryHierarchy) {
