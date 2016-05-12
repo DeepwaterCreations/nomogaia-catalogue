@@ -78,9 +78,9 @@ $(document).ready(function () {
             $("#splash #splash-background").addClass("going");
             setTimeout(function () {
                 console.log("gone");
-                $("#splash").hide();
-            }, 2000);
-        });
+                //$("#splash").hide();
+            }, 10000);
+        },5000);
     });
 
     AddTopic.initFields();
