@@ -72,9 +72,6 @@ var TopicAdder = function ($timeout) {
     }
 
     this.addNewMod = function (newMod) {
-        var list = $scope.moduleList();
-        if (list.indexOf(newMod) == -1) {
-            list.push(newMod);
-        }
+        DataOptions.addCustom("Module", newMod);
     }
 }
