@@ -68,7 +68,20 @@ $(document).ready(function () {
         }
     });
 
-    table.addRows(dataList, function () { g.setMonitorTables(monitorTables); });
+
+    table.addRows(dataList, function () {
+        g.setMonitorTables(monitorTables);
+        setTimeout(function () {
+            console.log("going");
+            $("#splash").addClass("going");
+            $("#splash #splash-content").addClass("going");
+            $("#splash #splash-background").addClass("going");
+            setTimeout(function () {
+                console.log("gone");
+                $("#splash").hide();
+            }, 2000);
+        });
+    });
 
     AddTopic.initFields();
 
@@ -78,10 +91,10 @@ $(document).ready(function () {
 
     $('#tabs').on('tabsactivate', function (event, data) {
         if (event.target === this) { //Filters to make sure this event came from the right source. Without it, we can get tabactivate events from the monitor tabs here as well as the actual page tabs. 
-            if (data.newTab[0] === $("#matrixTab")[0]){
+            if (data.newTab[0] === $("#matrixTab")[0]) {
                 matrix.rebuild(monitorTabs.getActiveMonitor());
             }
-            if (data.newTab[0] === $("#impactRatingsTab")[0]){
+            if (data.newTab[0] === $("#impactRatingsTab")[0]) {
                 rebuildImpactedRights(monitorTables, monitorTabs.getActiveMonitor());
             }
         }
@@ -89,7 +102,7 @@ $(document).ready(function () {
 
     $('#side-bar-monitors').hide();
 
-    $('#monitor').click(function() {
+    $('#monitor').click(function () {
         $('#side-bar-monitors').toggle();
     });
 
@@ -103,12 +116,25 @@ $(document).ready(function () {
                     rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
                 } else {
                     var dataAt = rowAt.data;
-                    var newData = new RowData(myTable,dataAt);
+                    var newData = new RowData(myTable, dataAt);
                     rowAt = myTable.addRow(newData);
                 }
             }
         }
     });
+
+    //setTimeout(function () {
+    //    console.log("should be animating!");
+    //    $("#splash #sub-title").animate({
+    //        opacity: 0,
+    //    }, 1000, function () {
+    //        $("#splash").hide();
+    //    });
+    //}, 100000);
+
+
+
+
 
     //$('#catalog').selectmenu();
     //$('#category').selectmenu();

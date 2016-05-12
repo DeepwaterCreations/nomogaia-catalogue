@@ -32,10 +32,20 @@ DataOptions.getColumnOptions = function (column) {
     }
 }
 
+DataOptions.isNotEmpty = function ( data) {
+    if (data == undefined
+        || data == null
+        || data == "-"
+        || data.replace(/\t/g, "    ").trim() == "") {
+        return false;
+    }
+    return true;
+}
+
 //Adds a new data option to the custom data list.
 //Returns the index of the added data.
 DataOptions.addCustom = function(column, data){
-    if(data === ""){
+    if(!DataOptions.isNotEmpty(data)){
         return -1;
     } else if (!DataOptions.customColumnOptions.hasOwnProperty(column)) {
         console.err("WARNING: column ", column, " does not exist.");

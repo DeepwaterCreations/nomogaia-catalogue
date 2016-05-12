@@ -1,0 +1,54 @@
+#splash {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 1;
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    -moz-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+    #splash #splash-background, #splash #splash-content {
+        transition: top .5s ease-in;
+        top: 0;
+        opacity: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+        #splash #splash-background.going, #splash #splash-content.going {
+            top: -100%;
+            opacity: 1;
+        }
+
+    #splash #splash-background {
+        position: relative;
+        object-fit: cover;
+    }
+
+
+
+    #splash #splash-content {
+        position: absolute;
+        z-index: 2;
+    }
+
+
+    #splash #title {
+        display: block;
+        font-size: 8em;
+        color: rgba(255,255,255,.4);
+        text-align: center;
+    }
+
+    #splash #sub-title {
+        display: block;
+        font-size: 2em;
+        color: rgba(255,255,255,.4);
+        text-align: center;
+    }

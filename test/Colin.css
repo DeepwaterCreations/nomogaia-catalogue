@@ -8,7 +8,8 @@
     /*width:2em;*/
     margin: 0;
     border:0 ;
-    padding: .5em;
+    padding-left: .5em;
+    padding-right: .5em;
 }
 
 .search input[type=search] {
@@ -607,8 +608,8 @@ button.close-icon {
         }
 
     /* For "Add" buttons next to text input fields */
-    button.blueButton.textInputButton{
-        padding: 0 1em;
+    button.blueButton.textInputButton, input[type="button"].blueButton.textInputButton{
+        padding: 0 .4em;
         margin-left: 0;
     }
 

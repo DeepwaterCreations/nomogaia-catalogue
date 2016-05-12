@@ -2,16 +2,23 @@
     background-color: rgba(0,0,0,.2);
     margin: 0 .12em .12em .12em;
     padding: .5em;
+    border-left: solid .4em rgba(0,0,0,0);
     -webkit-border-bottom-left-radius: .5em;
     border-bottom-left-radius: .5em;
     -webkit-border-bottom-right-radius: .5em;
     border-bottom-right-radius: .5em;
-    transition: background-color ease .5s;
+    transition: background-color ease .5s, border-left ease .5s;
 }
 
     .rowInputUI.active {
-        background-color: rgba(0,0,0,.05);
+        border-left: solid .4em #356C28;
+        /*background-color: rgba(0,0,0,.05);*/
     }
+
+    /*.even .rowInputUI.active {
+        border-left: solid .2em #2F2D69;
+        background-color: rgba(0,0,0,.05);
+    }*/
 
 .branchHeader, .TopicHeader {
     background-color: rgba(0,0,0,.05);
@@ -58,13 +65,13 @@
     border-bottom-right-radius: 0;
 }
 
-    .TopicHeader.expanded.odd {
+     .TopicHeader.expanded {
         background-color: #356C28;
     }
 
-    .TopicHeader.expanded.even {
+    /*.even .TopicHeader.expanded {
         background-color: #2F2D69;
-    }
+    }*/
 
 #list .rowInputUI, #tree .rowInputUI {
     display: flex;
@@ -72,15 +79,15 @@
     /*height: 200px;*/
 }
 
-    .rowInputUI .rowInputUISectionTitle {
-        font-weight: bold;
-    }
+.rowInputUI .rowInputUISectionTitle, .addBody .addPrompt {
+    font-weight: bold;
+}
 
-    .rowInputUI .rowInputUIGroup {
-        display: flex;
-        flex-direction: row;
-        flex: 4 1 auto;
-    }
+.rowInputUI .rowInputUIGroup {
+    display: flex;
+    flex-direction: row;
+    flex: 4 1 auto;
+}
 
 .rowInputUIGroup > div {
     background-color: rgba(255,255,255,.5);
@@ -100,7 +107,7 @@
 }
 
     .rowInputUIGroup .inputtext textarea, .rowInputUIGroup .sourcetext textarea {
-        width: 100%;
+        width: calc( 100% - .4em);
         flex: 1;
     }
 
@@ -123,7 +130,7 @@
     }
 
 .rowInputUI .moduleUI {
-    flex: 1 2 auto;
+    flex: 0 0 auto;
 }
 
 .rowInputUI .scoreUI {
@@ -201,6 +208,7 @@ span.infotext {
     -webkit-flex-direction: row;
     flex-direction: row;
 }
+
     .TopicHeader .header-right, .TopicHeader .header-left {
         margin-left: .2em;
         margin-right: .2em;

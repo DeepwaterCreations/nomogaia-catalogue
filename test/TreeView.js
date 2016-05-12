@@ -8,7 +8,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.rightsLocked = true;
     $scope.rightsholdersLocked = true;
     $scope.activeTopic = null;
-
+    $scope.mo = {}
+    $scope.mo.vis = false;
 
 
     $scope.updateVisible = function (updateActive) {
@@ -180,11 +181,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             };
 
             $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
-
         });
     });
 
-    // Colin, this seems like a really slow way
     $scope.updateFilteredRows = function (x) {
         clearTimeout(this.updateFilteredRows_timeoutId);
         this.updateFilteredRows_timeoutId = setTimeout(function () {
@@ -219,7 +218,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 // we need to update what is on screen
                 // we time this out because we want to give angular time to update before we update what is visible
                 //setTimeout(
-                $scope.updateVisible();
+                $scope.updateVisible(true);
+                $scope.showAll();
                 //, 100);
             })
         }, 50);
@@ -415,34 +415,34 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 $('#ghostbar').remove();
                 $(document).unbind('mousemove');
                 dragging = false;
-                $scope.updateVisible();
+                $scope.updateVisible(false);
             }
         });
 
-        $("#addTopic").dialog({
-            buttons: [
-                {
-                    text: "Cancel",
-                    click: function () {
-                        $(this).dialog("close");
-                    }
-                }, {
-                    id: "addTopicButton",
-                    text: "Ok",
-                    click: function () {
-                        if (AddTopic.canAdd()) {
-                            AddTopic.addTopic();
-                            $(this).dialog("close");
-                        } else {
-                            AddTopic.highlightIncomplete();
-                        }
+        //$("#addTopic").dialog({
+        //    buttons: [
+        //        {
+        //            text: "Cancel",
+        //            click: function () {
+        //                $(this).dialog("close");
+        //            }
+        //        }, {
+        //            id: "addTopicButton",
+        //            text: "Ok",
+        //            click: function () {
+        //                if (AddTopic.canAdd()) {
+        //                    AddTopic.addTopic();
+        //                    $(this).dialog("close");
+        //                } else {
+        //                    AddTopic.highlightIncomplete();
+        //                }
 
-                    }
-                }
-            ],
-            autoOpen: false,
-            width: "90%"
-        });
+        //            }
+        //        }
+        //    ],
+        //    autoOpen: false,
+        //    width: "90%"
+        //});
 
         $(".openAddTopic").click(function () {
             $("#addTopic").dialog("open");
@@ -571,6 +571,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 $scope.tableData = monitorTables.backingData[newlyActiveTab].tableData;
                 $scope.filteredTree = $scope.tableData.treeView;
                 $scope.updateFilteredRows($scope.search);
+                $scope.showAll();
+                $scope.updateVisible(true);
             })
         }
     }(this);

@@ -9,30 +9,37 @@
     <link href="Dialogs.css" rel="stylesheet">
     <link href="ContextMenu.css" rel="stylesheet">
     <link href="RowInputUI.css" rel="stylesheet">
+    <link href="splash.css" rel="stylesheet">
     <link href="RightsSidebar.css" rel="stylesheet">
 </head>
 <body>
     <!--<div id="main">-->
-        <!--<div id="loading"><div id="progressbar"></div></div>-->
+    <!--<div id="loading"><div id="progressbar"></div></div>-->
+    <div id="splash">
+        <div id="splash-content">
+            <span id="title">Aspen</span>
+            <span id="sub-title">by NomoGaia</span>
+        </div>
+        <img id="splash-background" src="https://scontent-lga3-1.xx.fbcdn.net/t31.0-8/461299_3597005719945_1365846881_o.jpg" alt="Alternate Text" />
+    </div>
 
-        <div id="tabs">
-            <ul id="tabsBar">
+    <div id="tabs">
+        <ul id="tabsBar">
 
-                <li>
-                    <a href="#outlineTab">Outline</a>
-                </li>
-                <li id="impactRatingsTab">
-                    <a href="#impactedRatings">Impact Ratings</a>
-                </li>
-                <li id="matrixTab">
-                    <a href="#rightsMatrix">Rights Matrix</a>
-                </li>
+            <li>
+                <a href="#outlineTab">Outline</a>
+            </li>
+            <li id="impactRatingsTab">
+                <a href="#impactedRatings">Impact Ratings</a>
+            </li>
+            <li id="matrixTab">
+                <a href="#rightsMatrix">Rights Matrix</a>
+            </li>
 
+            <button class="blueButton rightButton" id="monitor" type="button">Monitor</button>
 
-                <button class="blueButton rightButton" id="monitor" type="button">Monitor</button>
-
-                <button class="blueButton rightButton" id="load" type="button">Load</button>
-                <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
+            <button class="blueButton rightButton" id="load" type="button">Load</button>
+            <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
 
                 <button class="blueButton rightButton" id="save" type="button">Save</button>
                 <input type="file" id="saveFileDialog" style="display:none;" accept=".json" nwsaveas />
@@ -44,302 +51,289 @@
                             <table id="impactedRightsTable"></table>
                         </div>
                     </div>
-                    <div id="rightsMatrix" class="tab">
-                        <form id="matrixSortOptions">
-                            <fieldset>
-                                <legend>Sort By:</legend>
-                                <div id="matrixSortOptionsButtons">
-                                    <input type="radio" id="sortByRightsImpact" name="sortOptions" checked="checked">
-                                    <label for="sortByRightsImpact">Most Impacted Rights</label>
-                                    <input type="radio" id="sortByRightsholdersImpact" name="sortOptions">
-                                    <label for="sortByRightsholdersImpact">Most Impacted Rightsholders</label>
-                                </div>
-                            </fieldset>
-                        </form>
-                        <div id="matrixTableDiv">
-                        </div>
+                </div>
+                <div id="rightsMatrix" class="tab">
+                    <form id="matrixSortOptions">
+                        <fieldset>
+                            <legend>Sort By:</legend>
+                            <div id="matrixSortOptionsButtons">
+                                <input type="radio" id="sortByRightsImpact" name="sortOptions" checked="checked">
+                                <label for="sortByRightsImpact">Most Impacted Rights</label>
+                                <input type="radio" id="sortByRightsholdersImpact" name="sortOptions">
+                                <label for="sortByRightsholdersImpact">Most Impacted Rightsholders</label>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <div id="matrixTableDiv">
                     </div>
-                    <div id="outlineTab" class="tab" data-ng-controller="treeController" ondragenter="g.killDragData(event)">
-                        <div data-ng-if="tableData === null" class="fill">
-                            <h1>Loading</h1>
-                        </div>
-                        <div data-ng-if="tableData !== null" data-ng-init="init()" class="fill flx-row" id="tree-view">
-                            <div class="main">
-                                <div class="header">
-                                    <span class="search">
-                                        <i class="icon-search"></i>
-                                        <input type="search" data-ng-model="search" placeholder="Search" data-ng-change="updateFilteredRows(search)">
-                                    </span>
-                                    <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
-                                    <!--<input type="button" class="blueButton" id="addRowTree" value="Add Row" />-->
-                                    <input type="button" class="blueButton openAddTopic" value="Add Topic" />
-                                    <span>
-                                        <select data-ng-init="activeView='tree'" ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select><!---->
-                                    </span>
-                                </div>
-                                <div class="body">
-                                    <ul data-ng-if="activeView=='tree'" id="tree" class="branchBody">
-                                        <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
-                                            <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                {{::Catalog}}
-                                            </div>
-                                            <ul data-ng-if="this.show" class="branchBody">
-                                                <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
-                                                    <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                        {{::Category}}
-                                                    </div>
-                                                    <ul data-ng-if="this.show" class="branchBody">
-                                                        <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
-                                                            <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                                {{::SubCategory}}
-                                                            </div>
-                                                            <ul data-ng-if="this.show" class="branchBody">
-                                                                <li data-ng-repeat="Topic in topics" data-ng-init="this.show=false; this.editRights = false; this.editRightsholders = false; this.showAbout = false">
-                                                                    <div>
-                                                                        <!-- data-ng-click="updateActive(Topic)" -->
-                                                                        <div data-ng-click="this.show= !this.show;updateVisible();updateActive(Topic)" class="TopicHeader" data-ng-class="{'expanded':this.show}" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                                            <span class="header-left">{{::Topic.getData("Topic")}}
-                                                                            </span>
-                                                                            <span data-ng-show="this.show" class="header-right fade-in fade-out" data-ng-bind="Topic.getData('Monitor')"></span>
-                                                                            <button data-ng-show="this.show" class="header-right header-button fade-in fade-out" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout; $event.stopPropagation();"><i class="icon-question"></i></button>
-                                                                            <button data-ng-show="this.show" class="header-right header-button fade-in fade-out" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic);$event.stopPropagation();"><i class="icon-trash" aria-hidden="true"></i></button>
-
-                                                                        </div>
-                                                                        <div data-ng-show="this.show" data-ng-include="'row.html'"></div>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="text" data-ng-model="newTopic" />
-                                                                    <input type="button" ng-disabled="!topicAdder.isNewTopic(filteredTree,Catalog,Category,SubCategory,newTopic)" data-ng-click="topicAdder.addNewTopic(filteredTree,Catalog,Category,SubCategory,newTopic);newTopic='';" value="Add" />
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li>
-                                                            <input type="text" data-ng-model="newSubCatagorgy" />
-                                                            <input type="button" ng-disabled="!topicAdder.isNewSubCategory(filteredTree,Catalog,Category,newSubCatagorgy)" data-ng-click="topicAdder.addNewSubCategory(filteredTree,Catalog,Category,newSubCatagorgy);newSubCatagorgy='';" value="Add" />
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <input type="text" data-ng-model="newCatagorgy" />
-                                                    <input type="button" ng-disabled="!topicAdder.isNewCategory(filteredTree,Catalog,newCatagorgy)" data-ng-click="topicAdder.addNewCategory(filteredTree,Catalog,newCatagorgy);newCatagorgy='';" value="Add" />
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
+                </div>
+                <div id="outlineTab" class="tab" data-ng-controller="treeController" ondragenter="g.killDragData(event)">
+                    <div data-ng-if="tableData === null" class="fill">
+                        <h1>Loading</h1>
+                    </div>
+                    <div data-ng-if="tableData !== null" data-ng-init="init()" class="fill flx-row" id="tree-view">
+                        <div class="main">
+                            <div class="header">
+                                <span class="search">
+                                    <i class="icon-search"></i>
+                                    <input type="search" data-ng-model="search" placeholder="Search" data-ng-change="updateFilteredRows(search)">
+                                </span>
+                                <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
+                                <!--<input type="button" class="blueButton" id="addRowTree" value="Add Row" />-->
+                                <span>
+                                    <select data-ng-init="activeView='list'" ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select><!---->
+                                </span>
+                                <input type="button" class="blueButton textInputButton" data-ng-click="mo.vis = !mo.vis;" value="{{(!mo.vis)?'Add Topic':'Hide Add Topic'}}" />
+                            </div>
+                            <div data-ng-controller="addController" class="header" data-ng-hide="!mo.vis">
+                                <h2 class="addHeader">Add Topic</h2>
+                                <div class="addBody">
+                                    <span class="addPrompt">{{(index+1) +". "+ getPrompt()}}</span>
+                                    <div data-ng-if="list[index].name == 'Catalog'">
+                                        <div data-ng-repeat="(key,value) in tree">
+                                            <input type="radio" ng-model="catalog.value" id="{{key}}" value="{{key}}" name="catalog" />
+                                            <label for="{{key}}">{{key}}</label>
+                                        </div>
+                                        <div>
                                             <input type="text" data-ng-model="newCatalog" />
-                                            <input type="button" ng-disabled="!topicAdder.isNewCatalog(filteredTree,newCatalog)" data-ng-click="topicAdder.addNewCatalog(filteredTree,newCatalog);newCatalog='';" value="Add" />
-                                        </li>
-                                    </ul>
-                                    <div data-ng-if="activeView=='list'" id="list">
-                                        <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList">
-                                            <!-- this is dumb we have 2 topicHeaders move this in to row.html -->
-                                            <div class="TopicHeader expanded" data-ng-class-odd="'odd'" data-ng-class-even="'even'">
-                                                <span class="header-left">{{::Topic.getData("Catalog") +" , "+ Topic.getData("Category") +" , "+ Topic.getData("Sub-Category") +" , "+ Topic.getData("Topic")}}
-                                                </span>
-                                                    <span class="header-right" data-ng-bind="Topic.getData('Monitor')"></span>
-                                                <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout"><i class="icon-question"></i></button>
-                                                <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic)"><i class="icon-trash" aria-hidden="true"></i></button>
-                                            </div>
-                                            <div data-ng-include="'row.html'"></div>
+                                            <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewCatalog(tree,newCatalog)" data-ng-click="topicAdder.addNewCatalog(tree,newCatalog);newCatalog='';" value="Add" />
                                         </div>
                                     </div>
+                                    <div data-ng-if="list[index].name == 'Category'">
+                                        <div data-ng-if="catalog.value != ''">
+                                            <div data-ng-repeat="(key,value) in tree[catalog.value]">
+                                                <input type="radio" ng-model="category.value" id="{{key}}" value="{{key}}" name="category" />
+                                                <label for="{{key}}">{{key}}</label>
+                                            </div>
+                                            <div>
+                                                <input type="text" data-ng-model="newCategory" />
+                                                <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewCategory(tree,catalog.value,newCategory)" data-ng-click="topicAdder.addNewCategory(tree,catalog.value,newCategory);newCategory='';" value="Add" />
+                                            </div>
+                                        </div>
+                                        <div data-ng-if="catalog.value == ''">
+                                            you must select a catalog before you can select a category
+                                        </div>
+                                    </div>
+                                    <div data-ng-if="list[index].name == 'SubCategory'">
+                                        <div data-ng-if="category.value != ''">
+                                            <div data-ng-repeat="(key,value) in tree[catalog.value][category.value]">
+                                                <input type="radio" ng-model="subCategory.value" id="{{key}}" value="{{key}}" name="subCategory" />
+                                                <label for="{{key}}">{{key}}</label>
+                                            </div>
+                                            <div>
+                                                <input type="text" data-ng-model="newSubCategory" />
+                                                <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewSubCategory(tree,catalog.value,category.value,newSubCategory)" data-ng-click="topicAdder.addNewSubCategory(tree,catalog.value,category.value,newSubCategory);newSubCategory='';" value="Add" />
+                                            </div>
+                                        </div>
+                                        <div data-ng-if="category.value == ''">
+                                            you must select a category before you can select a subcategory
+                                        </div>
+                                    </div>
+                                    <div data-ng-if="list[index].name == 'Topic'">
+                                        <input type="text" data-ng-model="topic.value" />
+                                    </div>
+                                    <div data-ng-if="list[index].name == 'Module'">
+                                        <select data-ng-model="list[index].value" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
+                                        <!--<input type="text" name="module" data-ng-model="newMod" />
+                                        <button data-ng-click="addNewMod(newMod);newMod='';">Add New</button>-->
+                                        <input type="text" /><input type="button" value="add" />
+                                    </div>
+                                    <div data-ng-if="list[index].name == 'Description'">
+                                        <textarea data-ng-model="description.value"></textarea>
+                                    </div>
+                                    <div data-ng-if="list[index].name == 'Source'">
+                                        <textarea data-ng-model="source.value"></textarea>
+                                    </div>
+
+                                    <input type="button" class="blueButton textInputButton" data-ng-disabled="!canBack()" data-ng-click="back()" value="Back" />
+                                    <input type="button" class="blueButton textInputButton" data-ng-disabled="!canNext()" data-ng-click="next()" value="Next" />
+                                    <!-- data-ng-if="list[index].name == 'Topic' || list[index].name == 'Module' || list[index].name == 'Description'|| list[index].name == 'Source'" -->
+
+                                    <input type="button" class="blueButton textInputButton" data-ng-disabled="!canFinish()" data-ng-click="finish();mo.vis = !mo.vis;" value="Finish" />
+                                    <input type="button" class="blueButton textInputButton" data-ng-click="reset();mo.vis = !mo.vis;" value="Cancel" />
                                 </div>
                             </div>
-                            <div id="drag-bar"></div>
-                            <div id="side-bar-rights" class="side-bar">
-                                <div class="sidebarHeader">
-                                    <h2>Rights</h2>
-                                </div>
-                                <div>
-                                    <div>
-                                        <input type="text" data-ng-model="newRight" />
-                                        <button data-ng-click="addNewRight(newRight);newRight='';" data-ng-disabled="!newRight" class="blueButton textInputButton">Add</button>
-                                    </div>
-                                    <button data-ng-click="rightsLocked = !rightsLocked" class="blueButton">{{rightsLocked ? "Show/Hide Rights" : "Done"}}</button>
-                                    <button data-ng-if="!rightsLocked" data-ng-click="showAllRights()" class="blueButton fade-in fade-out">Show All</button>
-                                    <button data-ng-if="!rightsLocked" data-ng-click="hideAllRights()" class="blueButton fade-in fade-out">Hide All</button>
-                                    <div class="multi-column">
-                                        <ul class="dont-indent">
-                                            <!-- Locked list of rights -->
-                                            <li data-ng-if="rightsLocked" class="draggable-holder" data-ng-repeat="right in shownRights()">
-                                                <div class="draggable right"
-                                                     draggable="true"
-                                                     ondblclick="g.doubleClick(event)"
-                                                     data-value="{{right}}"
-                                                     data-type="Impacted Rights"
-                                                     ondragstart="g.drag(event)">
-                                                    {{right}}
+                            <div class="body">
+                                <ul data-ng-if="activeView=='tree'" id="tree" class="branchBody">
+                                    <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
+                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
+                                            {{::Catalog}}
+                                        </div>
+                                        <ul data-ng-if="this.show" class="branchBody">
+                                            <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
+                                                <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
+                                                    {{::Category}}
                                                 </div>
+                                                <ul data-ng-if="this.show" class="branchBody">
+                                                    <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
+                                                        <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
+                                                            {{::SubCategory}}
+                                                        </div>
+                                                        <ul data-ng-if="this.show" class="branchBody">
+                                                            <li data-ng-repeat="Topic in topics" data-ng-init="this.editRights = false; this.editRightsholders = false; this.showAbout = false">
+                                                                <div>
+                                                                    <!-- data-ng-click="updateActive(Topic)" -->
+                                                                    <div data-ng-click="getRowHat(Topic.id).getRootHat().show= !getRowHat(Topic.id).getRootHat().show;updateVisible();updateActive(Topic)" class="TopicHeader" data-ng-class="{'expanded':getRowHat(Topic.id).getRootHat().show}">
+                                                                        <span class="header-left">
+                                                                            {{::Topic.getData("Topic")}}
+                                                                        </span>
+                                                                        <span data-ng-show="getRowHat(Topic.id).getRootHat().show" class="header-right fade-in fade-out" data-ng-bind="Topic.getData('Monitor')"></span>
+                                                                        <button data-ng-show="getRowHat(Topic.id).getRootHat().show" class="header-right header-button fade-in fade-out" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout; $event.stopPropagation();"><i class="icon-question"></i></button>
+                                                                        <button data-ng-show="getRowHat(Topic.id).getRootHat().show" class="header-right header-button fade-in fade-out" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic);$event.stopPropagation();"><i class="icon-trash" aria-hidden="true"></i></button>
+
+                                                                    </div>
+                                                                    <div data-ng-show="getRowHat(Topic.id).getRootHat().show" data-ng-include="'row.html'"></div>
+                                                                </div>
+                                                            </li>
+                                                            <!--<li>
+                                                                <input type="text" data-ng-model="newTopic" />
+                                                                <input type="button" ng-disabled="!topicAdder.isNewTopic(filteredTree,Catalog,Category,SubCategory,newTopic)" data-ng-click="topicAdder.addNewTopic(filteredTree,Catalog,Category,SubCategory,newTopic);newTopic='';" value="Add" />
+                                                            </li>-->
+                                                        </ul>
+                                                    </li>
+                                                    <!--<li>
+                                                        <input type="text" data-ng-model="newSubCatagorgy" />
+                                                        <input type="button" ng-disabled="!topicAdder.isNewSubCategory(filteredTree,Catalog,Category,newSubCatagorgy)" data-ng-click="topicAdder.addNewSubCategory(filteredTree,Catalog,Category,newSubCatagorgy);newSubCatagorgy='';" value="Add" />
+                                                    </li>-->
+                                                </ul>
                                             </li>
-                                            <!-- Unlocked list of rights -->
-                                            <li data-ng-if="!rightsLocked" class="draggable-holder" data-ng-repeat="right in rightslist()">
-                                                <div class="right unlocked" data-ng-class="{hidden_right: shownRights().indexOf(right) === -1}" data-ng-click="toggleRight(right)" draggable="false">
-                                                    {{right}}
-                                                </div>
-                                            </li>
+                                            <!--<li>
+                                                <input type="text" data-ng-model="newCatagorgy" />
+                                                <input type="button" ng-disabled="!topicAdder.isNewCategory(filteredTree,Catalog,newCatagorgy)" data-ng-click="topicAdder.addNewCategory(filteredTree,Catalog,newCatagorgy);newCatagorgy='';" value="Add" />
+                                            </li>-->
                                         </ul>
-                                    </div>
-                                </div>
-                                <div class="sidebarHeader">
-                                    <h2>Rights Holders</h2>
-                                </div>
-                                <div>
-                                    <div>
-                                        <input type="text" data-ng-model="newRightHolder" />
-                                        <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';" data-ng-disabled="!newRightHolder" class="blueButton textInputButton">Add</button>
-                                    </div>
-                                    <button data-ng-click="rightsholdersLocked = !rightsholdersLocked" class="blueButton">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
-                                    <button data-ng-if="!rightsholdersLocked" data-ng-click="showAllRightsholders()" class="blueButton fade-in fade-out">Show All</button>
-                                    <button data-ng-if="!rightsholdersLocked" data-ng-click="hideAllRightsholders()" class="blueButton fade-in fade-out">Hide All</button>
-                                    <div class="multi-column">
-                                        <ul class="dont-indent">
-                                            <!-- Locked list of rightsholders -->
-                                            <li data-ng-if="rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in shownRightsholders()">
-                                                <div class="draggable right-holder" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)"
-                                                    ondblclick="g.doubleClick(event)">{{rightsholder}}</div>
-                                            </li>
-                                            <!-- Unlocked list of rights -->
-                                            <li data-ng-if="!rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in rightsholderlist()">
-                                                <div class="right-holder unlocked" data-ng-class="{hidden_rightsholder: shownRightsholders().indexOf(rightsholder) === -1}" data-ng-click="toggleRightsholder(rightsholder)" draggable="false">
-                                                    {{rightsholder}}
-                                                </div>
-                                            </li>
-                                        </ul>
+                                    </li>
+                                    <!--<li>
+                                        <input type="text" data-ng-model="newCatalog" />
+                                        <input type="button" ng-disabled="!topicAdder.isNewCatalog(filteredTree,newCatalog)" data-ng-click="topicAdder.addNewCatalog(filteredTree,newCatalog);newCatalog='';" value="Add" />
+                                    </li>-->
+                                </ul>
+                                <div data-ng-if="activeView=='list'" id="list">
+                                    <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList">
+                                        <!-- this is dumb we have 2 topicHeaders move this in to row.html -->
+                                        <div class="TopicHeader expanded">
+                                            <span class="header-left">
+                                                {{::Topic.getData("Catalog") +" &#10142; "+ Topic.getData("Category") +" &#10142; "+ Topic.getData("Sub-Category") +" &#10142; "+ Topic.getData("Topic")}}
+                                            </span>
+                                            <span class="header-right" data-ng-bind="Topic.getData('Monitor')"></span>
+                                            <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout"><i class="icon-question"></i></button>
+                                            <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic)"><i class="icon-trash" aria-hidden="true"></i></button>
+                                        </div>
+                                        <div data-ng-include="'row.html'"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div id="drag-bar"></div>
+                        <div id="side-bar-rights" class="side-bar">
+                            <div class="sidebarHeader">
+                                <h2>Rights</h2>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="text" data-ng-model="newRight" />
+                                    <button data-ng-click="addNewRight(newRight);newRight='';" data-ng-disabled="!newRight" class="blueButton textInputButton">Add</button>
+                                </div>
+                                <button data-ng-click="rightsLocked = !rightsLocked" class="blueButton textInputButton">{{rightsLocked ? "Show/Hide Rights" : "Done"}}</button>
+                                <button data-ng-if="!rightsLocked" data-ng-click="showAllRights()" class="blueButton fade-in fade-out textInputButton">Show All</button>
+                                <button data-ng-if="!rightsLocked" data-ng-click="hideAllRights()" class="blueButton fade-in fade-out textInputButton">Hide All</button>
+                                <div class="multi-column">
+                                    <ul class="dont-indent">
+                                        <!-- Locked list of rights -->
+                                        <li data-ng-if="rightsLocked" class="draggable-holder" data-ng-repeat="right in shownRights()">
+                                            <div class="draggable right"
+                                                 draggable="true"
+                                                 ondblclick="g.doubleClick(event)"
+                                                 data-value="{{right}}"
+                                                 data-type="Impacted Rights"
+                                                 ondragstart="g.drag(event)">
+                                                {{right}}
+                                            </div>
+                                        </li>
+                                        <!-- Unlocked list of rights -->
+                                        <li data-ng-if="!rightsLocked" class="draggable-holder" data-ng-repeat="right in rightslist()">
+                                            <div class="right unlocked" data-ng-class="{hidden_right: shownRights().indexOf(right) === -1}" data-ng-click="toggleRight(right)" draggable="false">
+                                                {{right}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="sidebarHeader">
+                                <h2>Rights Holders</h2>
+                            </div>
+                            <div>
+                                <div>
+                                    <input type="text" data-ng-model="newRightHolder" />
+                                    <button data-ng-click="addNewRightHolder(newRightHolder);newRightHolder='';" data-ng-disabled="!newRightHolder" class="blueButton textInputButton">Add</button>
+                                </div>
+                                <button data-ng-click="rightsholdersLocked = !rightsholdersLocked" class="blueButton textInputButton">{{rightsholdersLocked ? "Show/Hide Rightsholders" : "Done"}}</button>
+                                <button data-ng-if="!rightsholdersLocked" data-ng-click="showAllRightsholders()" class="blueButton fade-in fade-out textInputButton">Show All</button>
+                                <button data-ng-if="!rightsholdersLocked" data-ng-click="hideAllRightsholders()" class="blueButton fade-in fade-out textInputButton">Hide All</button>
+                                <div class="multi-column">
+                                    <ul class="dont-indent">
+                                        <!-- Locked list of rightsholders -->
+                                        <li data-ng-if="rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in shownRightsholders()">
+                                            <div class="draggable right-holder" draggable="true" data-value="{{rightsholder}}" data-type="Impacted Rights-Holders" ondragstart="g.drag(event)"
+                                                 ondblclick="g.doubleClick(event)">{{rightsholder}}</div>
+                                        </li>
+                                        <!-- Unlocked list of rights -->
+                                        <li data-ng-if="!rightsholdersLocked" class="draggable-holder" data-ng-repeat="rightsholder in rightsholderlist()">
+                                            <div class="right-holder unlocked" data-ng-class="{hidden_rightsholder: shownRightsholders().indexOf(rightsholder) === -1}" data-ng-click="toggleRightsholder(rightsholder)" draggable="false">
+                                                {{rightsholder}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div id="side-bar-monitors" class="side-bar">
                 </div>
             </div>
 
-            <div id="hidy-hole" tabindex="-1">
-                <div id="addMonitorDialog" class="dialog">
-                    <div>
-                        <span>Enter a Label:</span>
-                        <input type="text" id="monitorNameField">
-                    </div>
-                </div>
-
-                <div id="deleteDialog" class="dialog">
-                    <div>
-                        <span id="deleteDialogText">Are you sure you want to delete</span>
-                        <span id="deleteDialogTopic">Are you sure you want to delete</span>
-                        <span id="deleteDialogMonitors">Are you sure you want to delete</span>
-                    </div>
-                </div>
-
-                <div id="addTopic" class="dialog" data-ng-controller="addController">
-                    <div class="addTopic" action="#">
-                        <!--<input type="button" data-ng-click="toBackToCatalog()" data-ng-if="catalog != ''" value="{{catalog}}"/>
-                        <input type="button" data-ng-click="toBackToCategory()" data-ng-if="category != ''" value="{{category}}"/>
-                        <input type="button" data-ng-click="toBackToSubCategory()" data-ng-if="subCategory != ''" value="{{subCategory}}"/>
-                        <input type="button" data-ng-click="toBackToTopic()" data-ng-if="topic != ''" value="{{topic}}"/>
-                        <div>------</div>-->
-                        <h2>{{prompt}}</h2>
-                        <div data-ng-if="list[index].name == 'Catalog' || list[index].name == 'Category' || list[index].name == 'SubCategory'">
-                            <ul>
-                                <li data-ng-repeat="(key,value) in at">
-                                    <input type="button" data-ng-click="moveTo(key)" value="{{key}}" />
-                                </li>
-
-                            </ul>
-                            <div data-ng-if="list[index].name == 'Catalog'">
-                                <input type="text" data-ng-model="topicAdder.newCatalog" />
-                                <input type="button" ng-disabled="topicAdder.isNewCatalog(tree,topicAdder.newCatalog)" data-ng-click="topicAdder.addNewCatalog(tree,topicAdder.newCatalog);topicAdder.newCatalog='';" value="Add" />
-                            </div>
-                            <div data-ng-if="list[index].name == 'Category'">
-                                <input type="text" data-ng-model="topicAdder.newCatagorgy" />
-                                <input type="button" ng-disabled="topicAdder.isNewCategory(tree,catalog.value,topicAdder.newCatagorgy)" data-ng-click="topicAdder.addNewCategory(tree,catalog.value,topicAdder.newCatagorgy);topicAdder.newCatagorgy='';" value="Add" />
-
-                            </div>
-                            <div data-ng-if="list[index].name == 'SubCategory'">
-                                <input type="text" data-ng-model="topicAdder.newSubCatagorgy" />
-                                <input type="button" ng-disabled="topicAdder.isNewSubCategory(tree,catalog.value,category.value,topicAdder.newSubCatagorgy)" data-ng-click="topicAdder.addNewSubCategory(tree,catalog.value,category.value,topicAdder.newSubCatagorgy);topicAdder.newSubCatagorgy='';" value="Add" />
-                            </div>
-                        </div>
-
-                        <div data-ng-if="list[index].name == 'Topic'">
-                            <input type="text" data-ng-model="topic.value" />
-                        </div>
-                        <div data-ng-if="list[index].name == 'Module'">
-                            <select data-ng-model="list[index].value" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
-                            <!--<input type="text" name="module" data-ng-model="newMod" />
-                            <button data-ng-click="addNewMod(newMod);newMod='';">Add New</button>-->
-                            <input type="text" /><input type="button" value="add" />
-                        </div>
-                        <div data-ng-if="list[index].name == 'Description'">
-                            <textarea data-ng-model="description.value"></textarea>
-                        </div>
-                        <div data-ng-if="list[index].name == 'Source'">
-                            <textarea data-ng-model="source.value"></textarea>
-                        </div>
-                        <input type="button" data-ng-disabled="!canBack()" data-ng-click="back()" value="Back" />
-                        <input data-ng-if="list[index].name == 'Topic' || list[index].name == 'Module' || list[index].name == 'Description'|| list[index].name == 'Source'" type="button" data-ng-disabled="!canNext()" data-ng-click="next()" value="Next" />
-                        <input type="button" data-ng-disabled="!canFinish()" data-ng-click="finish()" value="Finish" />
-
-
-                        <!--<fieldset>
-                            <h4>Catalog:</h4>
-                            <div class="holder">
-                                <select name="catalog" id="catalogSelect" style="width:100%;"></select>
-                            </div>
-
-                            <h4>Category:</h4>
-                            <div class="holder">
-                                <select name="category" id="categorySelect" style="width:100%;"></select>
-                            </div>
-
-                            <h4>Subcategory:</h4>
-                            <div class="holder">
-                                <select name="subcategory" id="subcategorySelect" style="width:100%;"></select>
-                            </div>
-
-                            <h4>Topic:</h4><input type="text" id="topicName" />
-                            <p class="warning" id="warning-topic">! topic already exists</p>
-
-                            <h4>Module:</h4>
-                            <div class="holder">
-                                <select name="module" id="moduleSelect" style="width:100%;"></select>
-                            </div>
-
-                            <h4>Topic Description:</h4>
-                            <textarea name="topicDescText" cols="50" rows="2" id="topicDescTextBox"></textarea><br />
-                            <br />
-                            <h4>Topic Source:</h4>
-                            <textarea name="topicSourceText" cols="50" rows="2" id="topicSourceTextBox"></textarea><br />
-                            <br />
-                        </fieldset>-->
-                    </div>
-                </div>
-
-                <div id="loadingBarDialog" class="dialog">
-                    <div id="loadingBar"></div>
-                </div>
-
-                <div id="aboutDialog" class="dialog">
-                    <p><b>NomoGaia Catalog</b></p>
-                    <p>Ver. 1.0, March 2015</p>
-                    <p>Created by Dylan Craine and Colin Wielga </p>
-                    <p>Visit the <span class="link" dest="http://nomogaia.org">NomoGaia website</span>.</p>
-                </div>
-
-                <div id="loadConfirmationDialog" class="dialog">
-                    <p>There are unsaved changes. Are you sure you want to load a different file?</p>
-                </div>
-
-                <ul class="context-menu">
-                    <li data-action="cut">Cut</li>
-                    <li data-action="copy">Copy</li>
-                    <li data-action="paste">Paste</li>
-                </ul>
-
+            <div id="side-bar-monitors" class="side-bar">
             </div>
         </div>
+
+        <div id="hidy-hole" tabindex="-1">
+            <div id="addMonitorDialog" class="dialog">
+                <div>
+                    <span>Enter a Label:</span>
+                    <input type="text" id="monitorNameField">
+                </div>
+            </div>
+
+            <div id="deleteDialog" class="dialog">
+                <div>
+                    <span id="deleteDialogText">Are you sure you want to delete</span>
+                    <span id="deleteDialogTopic">Are you sure you want to delete</span>
+                    <span id="deleteDialogMonitors">Are you sure you want to delete</span>
+                </div>
+            </div>
+
+            <div id="loadingBarDialog" class="dialog">
+                <div id="loadingBar"></div>
+            </div>
+
+            <div id="aboutDialog" class="dialog">
+                <p><b>NomoGaia Catalog</b></p>
+                <p>Ver. 1.0, March 2015</p>
+                <p>Created by Dylan Craine and Colin Wielga </p>
+                <p>Visit the <span class="link" dest="http://nomogaia.org">NomoGaia website</span>.</p>
+            </div>
+
+            <div id="loadConfirmationDialog" class="dialog">
+                <p>There are unsaved changes. Are you sure you want to load a different file?</p>
+            </div>
+
+            <ul class="context-menu">
+                <li data-action="cut">Cut</li>
+                <li data-action="copy">Copy</li>
+                <li data-action="paste">Paste</li>
+            </ul>
+
+        </div>
+    </div>
     <!--</div>-->
     <!-- EXTERNALS -->
     <script type="text/javascript" src="node_modules/angular/angular.js"></script>
