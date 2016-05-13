@@ -15,11 +15,24 @@
 <body>
     <!--<div id="main">-->
     <!--<div id="loading"><div id="progressbar"></div></div>-->
-    <div id="splash">
+    <div id="splash" data-ng-controller="splashController">
         <div id="splash-content">
             <span id="title">Aspen</span>
             <span id="sub-title">by NomoGaia</span>
+            <div class="space-filler"></div>
+            <div id="file-list">
+                <div class="centerer">
+                    <input class="white-button splash-button" type="button" value="New" data-ng-click="hide()"/>
+                </div>
+                <div class="centerer">
+                    <input class="white-button splash-button" type="button" value="Load"  data-ng-click="hide()"/>
+                </div>
+                <div data-ng-repeat="x in list"  data-ng-cloak class="centerer">
+                    <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="hide()">
+                </div>
+            </div>
         </div>
+
         <div id="splash-background">
             <img src="splash.png" alt="Alternate Text" />
         </div>
@@ -367,6 +380,7 @@
     <script type="text/javascript" src="TopicAdder.js"></script>
     <script type="text/javascript" src="TreeView.js"></script>
     <script type="text/javascript" src="AddView.js"></script>
+    <script type="text/javascript" src="splashController.js"></script>
     <script src="AddTopic.js"></script>
     <script src="Hider.js"></script>
     <script type="text/javascript" src="main.js"></script>

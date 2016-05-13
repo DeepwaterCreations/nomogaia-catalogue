@@ -26,13 +26,8 @@
 }
 
     #splash #splash-background, #splash #splash-content {
-        transition: -moz-transform 2s cubic-bezier(1,0,1,1) 2s,
-             -ms-transform 2s cubic-bezier(1,0,1,1) 2s,
-             -o-transform 2s cubic-bezier(1,0,1,1) 2s,
-             -webkit-transform 2s cubic-bezier(1,0,1,1) 2s,
-             transform 2s cubic-bezier(1,0,1,1) 2s,
-             opacity 1.5s cubic-bezier(.5,0,.5,1) 2s;
-/*these animation times are connected to a timeout that hides #splash if you update them you need to update that timeout too*/
+        transition: -moz-transform 2s cubic-bezier(1,0,1,1), -ms-transform 2s cubic-bezier(1,0,1,1), -o-transform 2s cubic-bezier(1,0,1,1), -webkit-transform 2s cubic-bezier(1,0,1,1), transform 2s cubic-bezier(1,0,1,1), opacity 1.5s cubic-bezier(.5,0,.5,1);
+        /*these animation times are connected to a timeout that hides #splash if you update them you need to update that timeout too*/
         -moz-transform: translateY(0);
         -ms-transform: translateY(0);
         -o-transform: translateY(0);
@@ -70,19 +65,43 @@
     #splash #splash-content {
         position: absolute;
         z-index: 2;
+        display: flex;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
     }
 
+        #splash #splash-content .space-filler {
+            -ms-flex: 1 1 auto;
+            -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+    #splash #file-list {
+        display: flex;
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        padding:1em;
+    }
+
+    #splash #title, #splash #sub-title {
+        -ms-flex: 0 0 auto;
+        -webkit-flex: 0 0 auto;
+        flex: 0 0 auto;
+        display: block;
+        color: rgba(255,255,255,.8);
+        text-align: center;
+    }
 
     #splash #title {
-        display: block;
         font-size: 8em;
-        color: rgba(255,255,255,.4);
-        text-align: center;
     }
 
     #splash #sub-title {
-        display: block;
         font-size: 2em;
-        color: rgba(255,255,255,.4);
-        text-align: center;
     }
+
+.splash-button {
+    width:200px;
+}

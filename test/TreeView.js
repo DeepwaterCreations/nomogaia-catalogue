@@ -70,7 +70,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
 
-
+    $scope.backgroundActivity = false;
     $scope.showAll = function () {
 
         // we don't want to run while the splash screen is because that makes the animations really ugly!
@@ -186,17 +186,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             //});
 
 
-            setTimeout(function () {
-                console.log("going");
-                $("#splash").addClass("going");
-                $("#splash #splash-content").addClass("going");
-                $("#splash #splash-background").addClass("going");
 
-                setTimeout(function () {
-                    console.log("gone");
-                    $("#splash").hide();
-                }, 4000);// the length of this timeout needs to be kept syned with the length of the animation
-            }, 0);
 
         });
     });
