@@ -39,7 +39,7 @@ function openAboutDialog() {
 onload = function () {
     setTimeout(function () {
         gui.Window.get().show();
-    },50);
+    },10);
 }
 
 
