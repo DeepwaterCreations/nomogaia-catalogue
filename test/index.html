@@ -90,7 +90,9 @@
                                 <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
                                 <!--<input type="button" class="blueButton" id="addRowTree" value="Add Row" />-->
                                 <span>
-                                    <select data-ng-init="activeView='list'" ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select><!---->
+                                    <!-- <select ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select> -->
+                                    <button ng-click="setTreeView()"> tree </button>
+                                    <button ng-click="setListView()"> list </button>
                                 </span>
                                 <input type="button" class="blueButton textInputButton" data-ng-click="mo.vis = !mo.vis;" value="{{(!mo.vis)?'Add Topic':'Hide Add Topic'}}" />
                             </div>

@@ -8,9 +8,20 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.rightsLocked = true;
     $scope.rightsholdersLocked = true;
     $scope.activeTopic = null;
+    $scope.activeView = "list";
     $scope.mo = {}
     $scope.mo.vis = false;
 
+    $scope.setTreeView = function(){
+        $scope.activeView = "tree";
+        $scope.showAll();
+        $scope.updateVisible();
+    }
+    $scope.setListView = function(){
+        $scope.activeView = "list";
+        $scope.showAll();
+        $scope.updateVisible();
+    }
 
     $scope.updateVisible = function (updateActive) {
         updateActive = (updateActive === undefined ? false : updateActive);
