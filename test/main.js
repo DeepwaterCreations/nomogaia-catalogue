@@ -141,7 +141,7 @@ $(document).ready(function () {
     //$('#category').selectmenu();
     //$('#subcategory').selectmenu();
 
-    autosave(5 * 60 * 1000); //Minutes * sec/min * ms/sec.
+    autosave(30*1000); //Minutes * sec/min * ms/sec. 5 * 60 * 1000
 });
 
 

@@ -1,12 +1,7 @@
 g.aspenApp.controller('splashController', ['$scope', '$timeout', function ($scope, $timeout) {
-    $scope.list = [{
-        date: "01/01/15",
-        name: "File"
-    }, {
-        date: "01/02/15",
-        name: "Other File"
-    }]
+    $scope.recentFiles = RecentFiles.get();
 
+    console.log("rf", $scope.recentFiles);
     $scope.hide = function () {
         setTimeout(function () {
             console.log("going");

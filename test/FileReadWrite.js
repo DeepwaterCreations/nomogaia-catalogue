@@ -1,4 +1,7 @@
-﻿var fs = require('fs');
+﻿SaveLoad = function () {
+}
+
+var fs = require('fs');
 var gui = require('nw.gui');
 var path = require('path');
 require('events').EventEmitter;
@@ -90,7 +93,7 @@ $('#save').click(function () {
     var fileDialog = $("#saveFileDialog");
     fileDialog.on("change", function (event) {
         var filename = $(this).val();
-        save(filename, function (error) {
+        SaveLoad.save(filename, function (error) {
             if (error)
                 console.log("ERROR: ", error);
             else {
@@ -133,46 +136,11 @@ $('#load').click(function () {
     forceLoad = false;
     var fileDialog = $("#loadFileDialog");
     fileDialog.on("change", function (event) {
-        if (!($(this).val())) return; //Maybe the user didn't specify a value.
-
-        //Make a loading bar dialog
-        $("#loadingBarDialog").dialog({
-            dialogClass: "no-close",
-            closeOnEscape: false,
-            draggable: false,
-            modal: true,
-            resizable: false
-        });
-        $("#loadingBar").progressbar({
-            value: false //It should be an indeterminate progress bar until a file is loaded.
-        });
-
         var filename = $(this).val();
-        fs.readFile(filename, function (error, chunk) {
-            if (error) {
-                console.out("ERROR: ", error);
-                return;
-            }
+        if (!filename) return; //Maybe the user didn't specify a value.
 
-            //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
-            var obj = jQuery.parseJSON(chunk);
-            var barMax = 0;//obj.length * obj[obj.length - 1].backingData.length; //The number of monitors times the number of rows in the last monitor.
-            for (var i = 0; i < obj.monitortables.monitors.length; i++) {
-                barMax += obj.monitortables.monitors[i].backingData.length;
-            }
 
-            $("#loadingBar").progressbar("option", "max", barMax);
-            $("#loadingBar").progressbar("value", 0);
-
-            DataOptions.loadCustom(obj.dataoptions)
-            monitorTables.loadFile(obj.monitortables);
-            //$("#loadingBarDialog").dialog("destroy");
-
-            //Update the current filename to the loaded file's name.
-            FilenameRememberer.setFilename(filename);
-            FilenameRememberer.setClean();
-
-        });
+        SaveLoad.load(filename);
 
         $(this).val(""); //Reset the filepath so that the event will be called again.
     });
@@ -181,17 +149,59 @@ $('#load').click(function () {
 });
 
 
-function autosave(interval) {
+SaveLoad.autosave = function (interval) {
     window.setTimeout(function () {
         console.log("Autosave Triggered!");
-        save(path.join(path.dirname(process.execPath), "autosave.sav"));
-        autosave(interval);
+        SaveLoad.save(RecentFiles.getAutoSaveName());
+        SaveLoad.autosave(interval);
     }, interval);
 }
 
-function save(filename, callback) {
+SaveLoad.save= function(filename, callback) {
     var saveobj = {};
     saveobj.monitortables = monitorTables.toOut();
     saveobj.dataoptions = DataOptions.toOut();
     fs.writeFile(filename, JSON.stringify(saveobj), callback);
+    RecentFiles.push(filename);
+}
+
+SaveLoad.load = function (filename, callback) {
+    //Make a loading bar dialog
+    $("#loadingBarDialog").dialog({
+        dialogClass: "no-close",
+        closeOnEscape: false,
+        draggable: false,
+        modal: true,
+        resizable: false
+    });
+    $("#loadingBar").progressbar({
+        value: false //It should be an indeterminate progress bar until a file is loaded.
+    });
+
+
+    fs.readFile(filename, function (error, chunk) {
+        if (error) {
+            console.out("ERROR: ", error);
+            return;
+        }
+
+        //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
+        var obj = jQuery.parseJSON(chunk);
+        var barMax = 0;//obj.length * obj[obj.length - 1].backingData.length; //The number of monitors times the number of rows in the last monitor.
+        for (var i = 0; i < obj.monitortables.monitors.length; i++) {
+            barMax += obj.monitortables.monitors[i].backingData.length;
+        }
+
+        $("#loadingBar").progressbar("option", "max", barMax);
+        $("#loadingBar").progressbar("value", 0);
+
+        DataOptions.loadCustom(obj.dataoptions)
+        monitorTables.loadFile(obj.monitortables);
+        //$("#loadingBarDialog").dialog("destroy");
+
+        //Update the current filename to the loaded file's name.
+        FilenameRememberer.setFilename(filename);
+        FilenameRememberer.setClean();
+
+    });
 }
