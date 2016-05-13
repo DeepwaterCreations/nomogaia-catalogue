@@ -3,6 +3,10 @@ var fs = require("fs");
 
 var path = require('path');
 
+
+var gui = require('nw.gui');
+
+
 // load in the topic info
 
 var filename = path.join(path.dirname(process.execPath), "TopicInfo.txt");// "TopicInfo515.txt";
@@ -29,6 +33,13 @@ monitorTabs.addTabsDiv("#side-bar-monitors", {});
 function openAboutDialog() {
     $("#aboutDialog").dialog("open");
     $(".ui-dialog").find("button").addClass("blueButton");
+}
+
+
+onload = function () {
+    setTimeout(function () {
+        gui.Window.get().show();
+    },50);
 }
 
 
