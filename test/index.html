@@ -28,7 +28,7 @@
                     <input class="white-button splash-button" type="button" value="Load"  data-ng-click="hide()"/>
                 </div>
                 <div data-ng-repeat="x in recentFiles"  data-ng-cloak class="centerer">
-                    <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="hide()">
+                    <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="load(x)">
                 </div>
             </div>
         </div>

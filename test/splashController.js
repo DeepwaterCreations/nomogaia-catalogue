@@ -15,4 +15,9 @@ g.aspenApp.controller('splashController', ['$scope', '$timeout', function ($scop
             }, 4000);// the length of this timeout needs to be kept syned with the length of the animation
         }, 0);
     }
+
+    $scope.load = function (x) {
+        SaveLoad.load(x.path);
+        $scope.hide();
+    }
 }]);
