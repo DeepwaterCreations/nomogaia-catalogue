@@ -6,64 +6,18 @@ var gui = require('nw.gui');
 var path = require('path');
 require('events').EventEmitter;
 
-//Keep track of the current file.
-var FilenameRememberer = (function () {
-    var title = "NomoGaia Catalog";
-
-    var filename = "";
-    var dirty = false;
-
-    return {
-        setFilename: function (newFilename) {
-            if (filename !== newFilename) {
-                filename = newFilename;
-                $("title").empty();
-                var newTitle = title + " - " + filename;
-                $("title").append(newTitle);
-            }
-
-        },
-
-        getFilename: function () {
-            return filename;
-        },
-
-        setDirty: function () {
-            if (filename) {
-                dirty = true;
-                $("title").empty();
-                var newTitle = title + " - " + filename + "*";
-                $("title").append(newTitle);
-            }
-        },
-
-        setClean: function () {
-            if (filename) {
-                dirty = false;
-                $("title").empty();
-                var newTitle = title + " - " + filename;
-                $("title").append(newTitle);
-            }
-        },
-
-        getIsDirty: function () {
-            return dirty;
-        }
-    };
-}());
-
 //Enabling ctrl-s to save
 var keyboardCommand = new gui.Shortcut({
     key: "Ctrl+S",
     active: function () {
-        filename = FilenameRememberer.getFilename();
+        filename = RecentFiles.getPath();
         if (filename) {
             //If we already have a filename, save to the existing file.
-            save(filename, function (error) {
+            SaveLoad.save(filename, function (error) {
                 if (error)
                     console.log("ERROR: ", error);
                 else {
-                    FilenameRememberer.setClean();
+                    RecentFiles.setClean();
                     console.log("Finished saving");
                 }
             });
@@ -79,7 +33,7 @@ gui.App.registerGlobalHotKey(keyboardCommand);
 //We need to bind and unbind the shortcut when the window loses and gains focus, otherwise
 //we'll steal Ctrl-S from other programs!
 var win = gui.Window.get();
-win.on('focus', function(){
+win.on('focus', function () {
     gui.App.registerGlobalHotKey(keyboardCommand);
 });
 win.on('blur', function () {
@@ -98,8 +52,6 @@ $('#save').click(function () {
                 console.log("ERROR: ", error);
             else {
                 console.log("Finished saving");
-                FilenameRememberer.setFilename(filename);
-                FilenameRememberer.setClean();
             }
         });
     });
@@ -109,7 +61,7 @@ $('#save').click(function () {
 var forceLoad = false;
 $('#load').click(function () {
     //First, warn the user about unsaved changes.
-    if (FilenameRememberer.getIsDirty() && !forceLoad) {
+    if (RecentFiles.getIsDirty() && !forceLoad) {
         $("#loadConfirmationDialog").dialog({
             buttons: [
                 {
@@ -152,31 +104,33 @@ $('#load').click(function () {
 SaveLoad.autosave = function (interval) {
     window.setTimeout(function () {
         console.log("Autosave Triggered!");
-        SaveLoad.save(RecentFiles.getAutoSaveName());
+        if (RecentFiles.getIsDirty()) {
+            SaveLoad.save(RecentFiles.getAutoSaveName());
+        }
         SaveLoad.autosave(interval);
     }, interval);
 }
 
-SaveLoad.save= function(filename, callback) {
+SaveLoad.save = function (filename, callback) {
     var saveobj = {};
     saveobj.monitortables = monitorTables.toOut();
     saveobj.dataoptions = DataOptions.toOut();
     fs.writeFile(filename, JSON.stringify(saveobj), callback);
-    RecentFiles.push(filename);
+    RecentFiles.push(filename, false);
 }
 
 SaveLoad.load = function (filename, callback) {
     //Make a loading bar dialog
-    $("#loadingBarDialog").dialog({
-        dialogClass: "no-close",
-        closeOnEscape: false,
-        draggable: false,
-        modal: true,
-        resizable: false
-    });
-    $("#loadingBar").progressbar({
-        value: false //It should be an indeterminate progress bar until a file is loaded.
-    });
+    //$("#loadingBarDialog").dialog({
+    //    dialogClass: "no-close",
+    //    closeOnEscape: false,
+    //    draggable: false,
+    //    modal: true,
+    //    resizable: false
+    //});
+    //$("#loadingBar").progressbar({
+    //    value: false //It should be an indeterminate progress bar until a file is loaded.
+    //});
 
 
     fs.readFile(filename, function (error, chunk) {
@@ -192,16 +146,12 @@ SaveLoad.load = function (filename, callback) {
             barMax += obj.monitortables.monitors[i].backingData.length;
         }
 
-        $("#loadingBar").progressbar("option", "max", barMax);
-        $("#loadingBar").progressbar("value", 0);
+        //$("#loadingBar").progressbar("option", "max", barMax);
+        //$("#loadingBar").progressbar("value", 0);
 
         DataOptions.loadCustom(obj.dataoptions)
         monitorTables.loadFile(obj.monitortables);
         //$("#loadingBarDialog").dialog("destroy");
-
-        //Update the current filename to the loaded file's name.
-        FilenameRememberer.setFilename(filename);
-        FilenameRememberer.setClean();
-
+        RecentFiles.push(filename, true);
     });
 }

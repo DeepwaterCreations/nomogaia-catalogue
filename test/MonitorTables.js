@@ -45,7 +45,7 @@
 
         this.push(newTable);
 
-        FilenameRememberer.setDirty();
+        RecentFiles.setDirty();
 
         return newTable;
     }
@@ -77,9 +77,6 @@
     };
 
     this.clear = function () {
-        this.backingData.forEach(function (table) {
-            table.removeTable();
-        });
         this.backingData = [];
         this.labels = [];
         tableId = 0;
