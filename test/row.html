@@ -8,10 +8,8 @@
     <span data-ng-if="activeView === 'tree'" class="header-left">
         {{::Topic.getData("Topic")}}
     </span>
-    <span
-        class="header-right fade-in fade-out"
-        data-ng-show="activeView === 'list' || getRowHat(Topic.id).getRootHat().show"
-        data-ng-bind="Topic.getData('Monitor')">
+    <span class="header-right fade-in fade-out">
+        <b>Monitor:</b> {{Topic.getData('Monitor')}}
     </span>
     <button
         class="header-right header-button fade-in fade-out"
