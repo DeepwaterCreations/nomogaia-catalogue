@@ -1,8 +1,50 @@
-<div class="rowInputUI hasRowID" data-ng-class="{'active':activeTopic == Topic}" data-row="{{Topic.id}}" ondrop="g.drop(event)" ondragenter="g.dragEnter(event)" ondragover="g.allowDrop(event)" data-ng-click="updateActive(Topic)">
+<!-- HEADER -->
+<div
+    class="TopicHeader expanded"
+    data-ng-click="expandTopicFromHeader(Topic)">
+    <span data-ng-if="activeView === 'list'" class="header-left">
+        {{::Topic.getData("Catalog") +" &#10142; "+ Topic.getData("Category") +" &#10142; "+ Topic.getData("Sub-Category") +" &#10142; "+ Topic.getData("Topic")}}
+    </span>
+    <span data-ng-if="activeView === 'tree'" class="header-left">
+        {{::Topic.getData("Topic")}}
+    </span>
+    <span
+        class="header-right fade-in fade-out"
+        data-ng-show="activeView === 'list' || getRowHat(Topic.id).getRootHat().show"
+        data-ng-bind="Topic.getData('Monitor')">
+    </span>
+    <button
+        class="header-right header-button fade-in fade-out"
+        data-ng-show="activeView === 'list' || getRowHat(Topic.id).getRootHat().show"
+        tabindex="-1"
+        data-ng-focus="updateActive(Topic)"
+        data-ng-click="this.showAbout = !this.showAbout; $event.stopPropagation();">
+        <i class="icon-question"></i>
+    </button>
+    <button
+        class="header-right header-button fade-in fade-out"
+        data-ng-show="activeView === 'list' || getRowHat(Topic.id).getRootHat().show"
+        tabindex="-1"
+        data-ng-focus="updateActive(Topic)"
+        data-ng-click="delete(Topic);$event.stopPropagation();">
+        <i class="icon-trash" aria-hidden="true"></i>
+    </button>
+</div>
+
+<!-- BODY -->
+     <!-- data-ng-show="activeView === 'list' || getRowHat(Topic.id).getRootHat().show" -->
+<div
+     class="rowInputUI hasRowID"
+     data-ng-class="{'active':activeTopic == Topic}"
+     data-row="{{Topic.id}}"
+     ondrop="g.drop(event)"
+     ondragenter="g.dragEnter(event)"
+     ondragover="g.allowDrop(event)"
+     data-ng-click="updateActive(Topic)">
     <!--ondragleave="g.dragExit(event)"-->
     <div data-ng-if="getRowHat(Topic.id).onScreen" class="fade-in">
         <!--<span data-ng-if="Topic.id == activeTopic.id"> active! </span>-->
-        
+
         <div class="rowInputUIGroup" data-ng-if="this.showAbout">
             <div class="rowInputUISection">
                 {{::Topic.getData("Description")}}

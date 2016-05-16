@@ -69,6 +69,10 @@
         background-color: #356C28;
     }
 
+    .TopicHeader.dummyHeader{
+        transition: none;
+    }
+
     /*.even .TopicHeader.expanded {
         background-color: #2F2D69;
     }*/

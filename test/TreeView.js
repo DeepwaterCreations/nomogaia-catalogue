@@ -391,6 +391,14 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         };
     };
 
+    $scope.expandTopicFromHeader = function(topic){
+        if($scope.activeView === 'tree'){
+            rowHat.getRowHat(topic.id).getRootHat().show = !rowHat.getRowHat(topic.id).getRootHat().show;
+            $scope.updateVisible();
+            $scope.updateActive(topic);
+        }
+    };
+
     $scope.init = function () {
         // resize
         var dragging = false;

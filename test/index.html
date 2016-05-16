@@ -183,15 +183,15 @@
                                                         <ul data-ng-if="this.show" class="branchBody">
                                                             <li data-ng-repeat="Topic in topics" data-ng-init="this.editRights = false; this.editRightsholders = false; this.showAbout = false">
                                                                 <div>
-                                                                    <!-- data-ng-click="updateActive(Topic)" -->
-                                                                    <div data-ng-click="getRowHat(Topic.id).getRootHat().show= !getRowHat(Topic.id).getRootHat().show;updateVisible();updateActive(Topic)" class="TopicHeader" data-ng-class="{'expanded':getRowHat(Topic.id).getRootHat().show}">
+                                                                    <!-- We have a dummy header for unexpanded topics so that we don't have to include the full header -->
+                                                                    <!-- a zillion times. -->
+                                                                    <div
+                                                                        class="TopicHeader dummyHeader"
+                                                                        data-ng-show="!getRowHat(Topic.id).getRootHat().show"
+                                                                        data-ng-click="expandTopicFromHeader(Topic)">
                                                                         <span class="header-left">
                                                                             {{::Topic.getData("Topic")}}
                                                                         </span>
-                                                                        <span data-ng-show="getRowHat(Topic.id).getRootHat().show" class="header-right fade-in fade-out" data-ng-bind="Topic.getData('Monitor')"></span>
-                                                                        <button data-ng-show="getRowHat(Topic.id).getRootHat().show" class="header-right header-button fade-in fade-out" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout; $event.stopPropagation();"><i class="icon-question"></i></button>
-                                                                        <button data-ng-show="getRowHat(Topic.id).getRootHat().show" class="header-right header-button fade-in fade-out" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic);$event.stopPropagation();"><i class="icon-trash" aria-hidden="true"></i></button>
-
                                                                     </div>
                                                                     <div data-ng-show="getRowHat(Topic.id).getRootHat().show" data-ng-include="'row.html'"></div>
                                                                 </div>
@@ -221,15 +221,6 @@
                                 </ul>
                                 <div data-ng-if="activeView=='list'" id="list">
                                     <div data-ng-click="updateActive(Topic)" data-ng-repeat="Topic in filteredList">
-                                        <!-- this is dumb we have 2 topicHeaders move this in to row.html -->
-                                        <div class="TopicHeader expanded">
-                                            <span class="header-left">
-                                                {{::Topic.getData("Catalog") +" &#10142; "+ Topic.getData("Category") +" &#10142; "+ Topic.getData("Sub-Category") +" &#10142; "+ Topic.getData("Topic")}}
-                                            </span>
-                                            <span class="header-right" data-ng-bind="Topic.getData('Monitor')"></span>
-                                            <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="this.showAbout = !this.showAbout"><i class="icon-question"></i></button>
-                                            <button class="header-right header-button" tabindex="-1" data-ng-focus="updateActive(Topic)" data-ng-click="delete(Topic)"><i class="icon-trash" aria-hidden="true"></i></button>
-                                        </div>
                                         <div data-ng-include="'row.html'"></div>
                                     </div>
                                 </div>
