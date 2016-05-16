@@ -15,7 +15,6 @@
     </span>
     <button
         class="header-right header-button fade-in fade-out"
-        data-ng-show="activeView === 'list' || getRowHat(Topic.id).getRootHat().show"
         tabindex="-1"
         data-ng-focus="updateActive(Topic)"
         data-ng-click="this.showAbout = !this.showAbout; $event.stopPropagation();">
@@ -23,7 +22,6 @@
     </button>
     <button
         class="header-right header-button fade-in fade-out"
-        data-ng-show="activeView === 'list' || getRowHat(Topic.id).getRootHat().show"
         tabindex="-1"
         data-ng-focus="updateActive(Topic)"
         data-ng-click="delete(Topic);$event.stopPropagation();">
