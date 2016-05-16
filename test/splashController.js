@@ -1,6 +1,7 @@
 g.aspenApp.controller('splashController', ['$scope', '$timeout', function ($scope, $timeout) {
     var list = RecentFiles.get();
     $scope.recentFiles = [];
+    $scope.loading = false;
 
     list.forEach(function (item) {
         SaveLoad.checkFile(item.path, function () {
@@ -24,6 +25,7 @@ g.aspenApp.controller('splashController', ['$scope', '$timeout', function ($scop
     }
 
     $scope.load = function (path) {
+        $scope.loading = true;
         SaveLoad.load(path, $scope.hide);
     }
 
@@ -33,7 +35,6 @@ g.aspenApp.controller('splashController', ['$scope', '$timeout', function ($scop
         fileDialog.on("change", function (event) {
             var filename = $(this).val();
             if (!filename) return; //Maybe the user didn't specify a value.
-
 
             $scope.load(filename);
 
