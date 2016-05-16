@@ -119,6 +119,20 @@ SaveLoad.save = function (filename, callback) {
     RecentFiles.push(filename, false);
 }
 
+// checks if the file exists and can be read/written
+SaveLoad.checkFile = function (filename, onTrue, onFalse) {
+    onTrue = onTrue || function () { };
+    onFalse = onFalse || function () { };
+
+    fs.access(filename, fs.R_OK | fs.W_OK, function(err) {
+        if (!err) {
+            onTrue();
+        } else {
+            onFalse();
+        }
+    });
+}
+
 SaveLoad.load = function (filename, callback) {
     //Make a loading bar dialog
     //$("#loadingBarDialog").dialog({
@@ -153,5 +167,6 @@ SaveLoad.load = function (filename, callback) {
         monitorTables.loadFile(obj.monitortables);
         //$("#loadingBarDialog").dialog("destroy");
         RecentFiles.push(filename, true);
+        callback();
     });
 }

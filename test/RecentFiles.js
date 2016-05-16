@@ -45,7 +45,8 @@ RecentFiles.push = function (path, load) {
     var newTitle = RecentFiles.private.title + " - " + RecentFiles.getCurrentFileName();
     $("title").append(newTitle);
     RecentFiles.setClean();
-    localStorage.setItem("recentFiles", JSON.stringify(recentFiles));
+    // we only save the last 10
+    localStorage.setItem("recentFiles", JSON.stringify(recentFiles.splice(0,10)));
 }
 
 RecentFiles.getName = function (path) {

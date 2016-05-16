@@ -514,7 +514,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         var row = at.dataset.row;
         var rowData = RowData.getRow(parseInt(row));
         $scope.updateActive(rowData);
-        //console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
+        console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
         $timeout(function () {
             rowData.acceptDrop(type, value);
             $scope.dragData = null;

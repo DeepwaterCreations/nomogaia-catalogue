@@ -25,10 +25,10 @@
                     <input class="white-button splash-button" type="button" value="New" data-ng-click="hide()"/>
                 </div>
                 <div class="centerer">
-                    <input class="white-button splash-button" type="button" value="Load"  data-ng-click="hide()"/>
+                    <input class="white-button splash-button" type="button" value="Load"  data-ng-click="selectFile()"/>
                 </div>
-                <div data-ng-repeat="x in recentFiles"  data-ng-cloak class="centerer">
-                    <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="load(x)">
+                <div data-ng-repeat="x in recentFiles.slice(0, 5)"  data-ng-cloak class="centerer">
+                    <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="load(x.path)">
                 </div>
             </div>
         </div>
