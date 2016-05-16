@@ -11,6 +11,9 @@
     <span class="header-right fade-in fade-out">
         <b>Monitor:</b> {{Topic.getData('Monitor')}}
     </span>
+    <span class="header-right fade-in fade-out">
+        <b>Module: </b> {{getSetData(Topic, 'Module')()}}
+    </span>
     <button
         class="header-right header-button fade-in fade-out"
         tabindex="-1"
