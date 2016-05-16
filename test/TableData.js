@@ -17,10 +17,11 @@ function TableData() {
     //Returns the newly-added row.
     this.addRow = function (inRow) {
         if (inRow === undefined) {
-            var newRow = new RowData();
-        } else {
-            var newRow = inRow;
+            throw new Exception("inRow should be defined");
         }
+        //else {
+            var newRow = inRow;
+        //}
         this.rows.push(newRow);
 
         if (!(newRow.getData("Catalog") in this.treeView)) {

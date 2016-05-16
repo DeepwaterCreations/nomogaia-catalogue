@@ -107,22 +107,22 @@ $(document).ready(function () {
         $('#side-bar-monitors').toggle();
     });
 
-    $('#addRowCatalog').click(function () {
-        var rowAt = null;
-        for (var tabIndex in monitorTables.backingData) {
-            if (tabIndex >= monitorTables.getActiveMonitor()) {
-                var myTable = monitorTables.backingData[tabIndex];
-                if (rowAt == null) {
-                    rowAt = myTable.addRow();
-                    rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
-                } else {
-                    var dataAt = rowAt.data;
-                    var newData = new RowData(myTable, dataAt);
-                    rowAt = myTable.addRow(newData);
-                }
-            }
-        }
-    });
+    //$('#addRowCatalog').click(function () {
+    //    var rowAt = null;
+    //    for (var tabIndex in monitorTables.backingData) {
+    //        if (tabIndex >= monitorTables.getActiveMonitor()) {
+    //            var myTable = monitorTables.backingData[tabIndex];
+    //            if (rowAt == null) {
+    //                rowAt = myTable.addRow();
+    //                rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+    //            } else {
+    //                var dataAt = rowAt.data;
+    //                var newData = new RowData(myTable,"auto", dataAt);
+    //                rowAt = myTable.addRow(newData);
+    //            }
+    //        }
+    //    }
+    //});
 
     //setTimeout(function () {
     //    console.log("should be animating!");

@@ -15,8 +15,13 @@ var rowDataId = 0;
 g.allRowData = {};
 
 //Holds the data for a single row.
-RowData = function (table,rowData) {
-    this.id = rowDataId++;
+RowData = function (table, inId, rowData) {
+    if (inId && inId != "auto") {
+        this.id = inId;
+        rowDataId = Math.max(rowDataId, inId + 1);
+    }else{
+        this.id = rowDataId++;
+    }
     g.allRowData[this.id] = this;
     this.child = null;
     this.ui = null;
@@ -307,10 +312,10 @@ RowData = function (table,rowData) {
         }
     };
 
-    this.setId = function (newId) {
-        this.id = newId;
-        rowDataId = Math.max(rowDataId, newId + 1);
-    }
+    //this.setId = function (newId) {
+    //    this.id = newId;
+    //    rowDataId = Math.max(rowDataId, newId + 1);
+    //}
 
     if (rowData == undefined) {
         this.rowData = null;
@@ -341,8 +346,16 @@ RowData.getRow = function (id) {
 // f takes a data row
 RowData.forEach = function (f) {
     for (var i = 0; i < rowDataId; i++) {
-        f(g.allRowData[i]);
+        // not every u < rowDataId is in g.allRowData
+        if (i in g.allRowData) {
+            f(g.allRowData[i]);
+        }
     }
+}
+
+// f takes a data row
+RowData.clear = function (f) {
+    g.allRowData = {};
 }
 
 RowData.getRowList = function () {
