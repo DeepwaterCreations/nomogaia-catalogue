@@ -3,6 +3,10 @@ var fs = require("fs");
 
 var path = require('path');
 
+
+var gui = require('nw.gui');
+
+
 // load in the topic info
 
 var filename = path.join(path.dirname(process.execPath), "TopicInfo.txt");// "TopicInfo515.txt";
@@ -29,6 +33,13 @@ monitorTabs.addTabsDiv("#side-bar-monitors", {});
 function openAboutDialog() {
     $("#aboutDialog").dialog("open");
     $(".ui-dialog").find("button").addClass("blueButton");
+}
+
+
+onload = function () {
+    setTimeout(function () {
+        gui.Window.get().show();
+    },10);
 }
 
 
@@ -68,18 +79,9 @@ $(document).ready(function () {
         }
     });
 
-    table.addRowsWrapped(dataList, function () {
+
+    table.addRows(dataList, function () {
         g.setMonitorTables(monitorTables);
-        setTimeout(function () {
-            console.log("going");
-            $("#splash").addClass("going");
-            $("#splash #splash-content").addClass("going");
-            $("#splash #splash-background").addClass("going");
-            setTimeout(function () {
-                console.log("gone");
-                $("#splash").hide();
-            }, 2000);
-        });
     });
 
     AddTopic.initFields();
@@ -139,7 +141,7 @@ $(document).ready(function () {
     //$('#category').selectmenu();
     //$('#subcategory').selectmenu();
 
-    autosave(5 * 60 * 1000); //Minutes * sec/min * ms/sec.
+    SaveLoad.autosave(30 * 1000); //Minutes * sec/min * ms/sec. 5 * 60 * 1000
 });
 
 

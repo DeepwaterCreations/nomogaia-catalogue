@@ -40,12 +40,12 @@
             copyFrom.tableData.rows.forEach(function (row) {
                 dataList.push(new RowData(newTable,row));
             });
-            newTable.addRowsWrapped(dataList, callBack);
+            newTable.addRows(dataList, callBack);
         }
 
         this.push(newTable);
 
-        FilenameRememberer.setDirty();
+        RecentFiles.setDirty();
 
         return newTable;
     }
@@ -77,9 +77,6 @@
     };
 
     this.clear = function () {
-        this.backingData.forEach(function (table) {
-            table.removeTable();
-        });
         this.backingData = [];
         this.labels = [];
         tableId = 0;
@@ -104,14 +101,7 @@
 
     this.changeMonitorTabEvent = function (that) {
         return function (newlyActiveTab) {
-            // hide all the tables except the currently active one
-            that.backingData.forEach(function (table) {
-                if (table.id == newlyActiveTab) {
-                    table.getTable().show();
-                } else {
-                    table.getTable().hide();
-                }
-            });
+            // do nothing
         }
     }(this);
 

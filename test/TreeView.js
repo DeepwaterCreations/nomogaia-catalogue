@@ -81,23 +81,18 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
 
-
+    $scope.backgroundActivity = false;
     $scope.showAll = function () {
-        //console.log("showing all");
-        setTimeout(function () {
-            $scope.measureRow(0, $scope.filteredList);
-        }, 1000);
-        //RowData.forEach(function (row) {
-        //    row.onScreen = true;
-        //})
-        // so this is a drity little hak
-        // we want to update what is visible as soon as the UI finishes loading 
-        // we put it in a timeout and angluar is such a butt it does not let anything run till it is done
-        // so my little timeout gets called when UI is loaded just like I want it to be
-        //setTimeout(function () {
-        //$scope.updateVisible();
-        //console.log("updated visible");
-        //}, 100);//the time of the timeout does not really matter
+
+        // we don't want to run while the splash screen is because that makes the animations really ugly!
+        if (!($("#splash").is(":visible"))) {
+            console.log("showAll");
+            setTimeout(function () {
+                $scope.measureRow(0, $scope.filteredList);
+            }, 1000);
+        } else {
+            setTimeout($scope.showAll, 1000);
+        }
     }
 
     // we bring getRowHat in scope so we can callit from the UI
@@ -192,6 +187,18 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             };
 
             $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
+
+            //$("#splash #splash-background, #splash #splash-content").animate({
+            //    opacity: 0,
+            //    top: -200
+            //}, 2000, function () {
+            //    console.log("gone");
+            //    $("#splash").hide();
+            //});
+
+
+
+
         });
     });
 
@@ -510,7 +517,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     };
                 $timeout(function () {
                     $scope.dragData = null;
-                },400);
+                }, 400);
             });
         }
     }
@@ -526,7 +533,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         var row = at.dataset.row;
         var rowData = RowData.getRow(parseInt(row));
         $scope.updateActive(rowData);
-        //console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
+        console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
         $timeout(function () {
             rowData.acceptDrop(type, value);
             $scope.dragData = null;

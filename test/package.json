@@ -9,6 +9,7 @@
 		"width": 1000,
 		"toolbar": true,
 		"frame": true,
-		"min_width": 450
+		"min_width": 450,
+    		"show": false
 	}
 }

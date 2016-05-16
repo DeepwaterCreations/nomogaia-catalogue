@@ -15,12 +15,27 @@
 <body>
     <!--<div id="main">-->
     <!--<div id="loading"><div id="progressbar"></div></div>-->
-    <div id="splash">
+    <div id="splash" data-ng-controller="splashController">
         <div id="splash-content">
             <span id="title">Aspen</span>
             <span id="sub-title">by NomoGaia</span>
+            <div class="space-filler"></div>
+            <div id="file-list">
+                <div class="centerer">
+                    <input class="white-button splash-button" type="button" value="New" data-ng-click="hide()"/>
+                </div>
+                <div class="centerer">
+                    <input class="white-button splash-button" type="button" value="Load"  data-ng-click="selectFile()"/>
+                </div>
+                <div data-ng-repeat="x in recentFiles.slice(0, 5)"  data-ng-cloak class="centerer">
+                    <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="load(x.path)">
+                </div>
+            </div>
         </div>
-        <img id="splash-background" src="https://scontent-lga3-1.xx.fbcdn.net/t31.0-8/461299_3597005719945_1365846881_o.jpg" alt="Alternate Text" />
+
+        <div id="splash-background">
+            <img src="splash.png" alt="Alternate Text" />
+        </div>
     </div>
 
     <div id="tabs">
@@ -28,9 +43,6 @@
 
             <li>
                 <a href="#outlineTab">Outline</a>
-            </li>
-            <li>
-                <a href="#Catalogs">Catalogs</a>
             </li>
             <li id="impactRatingsTab">
                 <a href="#impactedRatings">Impact Ratings</a>
@@ -49,13 +61,6 @@
         </ul>
         <div id="main-page">
             <div id="page">
-                <div id="Catalogs" class="tab">
-                    <div id="catalogMonitorTabs">
-                        <div id="tables"></div>
-                    </div>
-                    <input type="button" class="blueButton" id="addRowCatalog" value="Add Row" />
-                    <input type="button" class="blueButton openAddTopic" value="Add Topic" />
-                </div>
                 <div id="impactedRatings" class="tab">
                     <div id="impactedRightsMonitorTabs">
                         <table id="impactedRightsTable"></table>
@@ -347,6 +352,7 @@
 
     <!-- INTERNALS -->
     <script type="text/javascript" src="Util.js"></script>
+    <script type="text/javascript" src="RecentFiles.js"></script>
     <script type="text/javascript" src="g.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="RowData.js"></script>
@@ -368,6 +374,7 @@
     <script type="text/javascript" src="TopicAdder.js"></script>
     <script type="text/javascript" src="TreeView.js"></script>
     <script type="text/javascript" src="AddView.js"></script>
+    <script type="text/javascript" src="splashController.js"></script>
     <script src="AddTopic.js"></script>
     <script src="Hider.js"></script>
     <script type="text/javascript" src="main.js"></script>
