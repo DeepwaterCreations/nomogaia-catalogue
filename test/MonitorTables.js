@@ -38,7 +38,7 @@
         if (copyFrom != undefined) {
             var dataList = []
             copyFrom.tableData.rows.forEach(function (row) {
-                dataList.push(new RowData(newTable,row));
+                dataList.push(new RowData(newTable, "auto", row));
             });
             newTable.addRows(dataList, callBack);
         }
@@ -74,6 +74,7 @@
             $("#monitorNameField").val(loaded_data.monitors[i].label) //Ensures the new tab gets the proper label.
                 monitorTabs.addTab();
         }
+        g.setMonitorTables(this);
     };
 
     this.clear = function () {
@@ -81,6 +82,8 @@
         this.labels = [];
         tableId = 0;
         monitorTabs.clear();
+        RowData.clear();
+        rowHat.clear();
         return this;
     }
 

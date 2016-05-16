@@ -30,8 +30,15 @@ rowHat.getRowHat = function (id) {
 
 rowHat.clearFilters = function () {
     RowData.forEach(function (row) {
+        if (row.id === undefined) {
+            throw { error: "dis is bad!" };
+        }
         rowHat.getRowHat(row.id).filterDetails = null;
     })
+}
+
+rowHat.clear = function () {
+    rowHat.private.allRowHats = {};
 }
 
 

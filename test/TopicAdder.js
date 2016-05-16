@@ -56,7 +56,7 @@ var TopicAdder = function ($timeout) {
                     rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
                 } else {
                     var dataAt = rowAt.data;
-                    var newData = new RowData(myTable, dataAt);
+                    var newData = new RowData(myTable,"auto", dataAt);
                     rowAt = myTable.addRow(newData);
                 }
             }
