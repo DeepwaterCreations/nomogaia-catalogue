@@ -92,11 +92,11 @@ RowData = function (table, inId, rowData) {
 
         var checkString = function (rowValue, columnName) {
             var pad = 45;
-            if (rowValue.indexOf(data) >= 0) {
-                var startsAt = rowValue.indexOf(data);
+            if (rowValue.toLowerCase().indexOf(data.toLowerCase()) >= 0) {
+                var startsAt = rowValue.toLowerCase().indexOf(data.toLowerCase());
                 res.push({
                     columnName: columnName,
-                    data: data,
+                    data: rowValue.substring(startsAt, startsAt + data.length),
                     before: (Math.max(startsAt - pad, 0) != 0 ? "..." : "") + rowValue.substring(Math.max(startsAt - pad, 0), startsAt),
                     after: rowValue.substring(startsAt + data.length, Math.min(startsAt + data.length + pad, rowValue.length)) + (Math.min(startsAt + data.length + pad, rowValue.length) != rowValue.length ? "..." : "")
                 });
@@ -112,7 +112,7 @@ RowData = function (table, inId, rowData) {
                 for (var j = 0; j < rowValue.length; j++) {
                     checkString(rowValue[j], columnName);
                 }
-            } else if (rowValue.indexOf(data) >= 0) {
+            } else if (rowValue.toLowerCase().indexOf(data.toLowerCase()) >= 0) {
                 checkString(rowValue, columnName);
             }
         }
