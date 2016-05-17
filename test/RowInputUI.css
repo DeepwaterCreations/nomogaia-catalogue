@@ -235,9 +235,9 @@ span.infotext {
         border-radius: 4px;
     }
 
-    .TopicHeader.dummyHeader{
-        transition: none;
-    }
+.TopicHeader.dummyHeader{
+    transition: none;
+}
 
     /*.even .TopicHeader.expanded {
         background-color: #2F2D69;
