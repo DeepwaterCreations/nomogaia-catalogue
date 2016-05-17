@@ -429,6 +429,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         }
     };
 
+    $scope.copyTopic = function(topic){
+    };
+
     $scope.init = function () {
         // resize
         var dragging = false;
