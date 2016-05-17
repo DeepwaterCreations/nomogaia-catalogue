@@ -44,7 +44,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 var closest = null;
                 for (var i = 0 ; i < rows.length; i++) {
                     var row = rows[i];
-                    var show = Util.checkVisible(row, 500)
+                    var show = Util.checkVisible(row, 500);
                     showz.push(show);
                     if (show) {
                         var myDis = Util.disToCenter(row);
@@ -52,7 +52,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                             dis = myDis;
                             closest = row;
                         }
-
                     }
                 }
 
@@ -112,7 +111,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         if (runID == $scope.measurer.currentRunID) {
             if ($scope.measurer.reset) {
                 $scope.measurer.at = 0;
-                $scope.measurer.list = $scope.filteredList;
+                $scope.measurer.list = $(".hasRowID");//$scope.filteredList;
                 $scope.measurer.reset = false;
 
             }
@@ -131,8 +130,10 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 var toRun = [];
                 for (var i = 0; i < 5; i++) {
                     if ($scope.measurer.at < $scope.measurer.list.length) {
-                        var row = $scope.measurer.list[$scope.measurer.at];
-                        var rowUI = $(".hasRowID[data-row=" + row.id + "]");
+                        var rowUI = $($scope.measurer.list[$scope.measurer.at]);
+                        var rowId = rowUI.data("row");
+                        var row = RowData.getRow(parseInt(rowId));
+                        //var row = $(".hasRowID[data-row=" + row.id + "]");
                         if (!rowHat.getRowHat(row.id).onScreen && rowHat.getRowHat(row.id).lastKnowHeight === -1 && rowUI.length === 1) {
                             rowHat.getRowHat(row.id).onScreen = true;
                             toRun.push(fmake(row, rowUI));
