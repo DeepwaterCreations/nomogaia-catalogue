@@ -21,18 +21,21 @@
             <span id="sub-title">by NomoGaia</span>
             <div class="space-filler"></div>
             <div id="file-list">
-                    <div class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
-                        <input class="white-button splash-button fade-in fade-out" type="button" value="New" data-ng-click="hide()" />
-                    </div>
-                    <div class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
-                        <input class="white-button splash-button fade-in fade-out" type="button" value="Load" data-ng-click="selectFile()" />
-                    </div>
-                    <div data-ng-repeat="x in recentFiles.slice(0, 5)" class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
-                        <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="load(x.path)">
-                    </div>
-                    <div class="centerer">
-                        <div class="white-text">{{loading?"Loading...":""}}</div>
-                    </div>
+                <div class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
+                    <input class="white-button splash-button fade-in fade-out" type="button" value="New" data-ng-click="hide()" />
+                </div>
+                <div class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
+                    <input class="white-button splash-button fade-in fade-out" type="button" value="Load" data-ng-click="selectFile()" />
+                </div>
+                <div class="centerer" data-ng-if="recentFiles.lenght != 0 && !loading"  data-ng-cloak>
+                    <div class="white-text">Recent Files</div>
+                </div>
+                <div data-ng-repeat="x in recentFiles.slice(0, 5)" class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
+                    <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="load(x.path)">
+                </div>
+                <div class="centerer">
+                    <div class="white-text">{{loading?"Loading...":""}}</div>
+                </div>
             </div>
         </div>
 
