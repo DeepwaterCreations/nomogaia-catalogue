@@ -70,7 +70,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     var rowData = RowData.getRow(parseInt(rowId));
                     var lastOnScreen = rowHat.getRowHat(rowData.id).onScreen;
                     if (lastOnScreen && row.height() > 0) {
-                        rowHat.getRowHat(rowData.id).lastKnowHeight = row.height();
+                        var h = window.getComputedStyle(row[0]).height;//row[0].getBoundingClientRect().height;
+                        rowHat.getRowHat(rowData.id).lastKnowHeight = h;
                     }
                     if (!showz[i] && rowHat.getRowHat(rowData.id).lastKnowHeight != -1) {
                         row.height(rowHat.getRowHat(rowData.id).lastKnowHeight);
@@ -118,7 +119,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
             var fmake = function (myRow, myRowUI) {
                 return function () {
-                    rowHat.getRowHat(myRow.id).lastKnowHeight = myRowUI.height();
+                    var h = window.getComputedStyle(myRowUI[0]).height;//row[0].getBoundingClientRect().height;
+                    rowHat.getRowHat(myRow.id).lastKnowHeight = h;
+                    //rowHat.getRowHat(myRow.id).lastKnowHeight = myRowUI.height();
                     myRowUI.height(rowHat.getRowHat(myRow.id).lastKnowHeight);
                     rowHat.getRowHat(myRow.id).onScreen = false;
                 }
