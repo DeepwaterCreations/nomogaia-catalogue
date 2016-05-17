@@ -192,6 +192,7 @@ span.infotext {
     -ms-flex-direction: row;
     -webkit-flex-direction: row;
     flex-direction: row;
+    align-items: center;
 }
 
     .TopicHeader .header-right, .TopicHeader .header-left {
