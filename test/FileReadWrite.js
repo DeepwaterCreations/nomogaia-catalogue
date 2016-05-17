@@ -174,6 +174,7 @@ SaveLoad.load = function (filename, callback) {
     //    value: false //It should be an indeterminate progress bar until a file is loaded.
     //});
 
+    callback = callback || function () { }
 
     fs.readFile(filename, function (error, chunk) {
         if (error) {
