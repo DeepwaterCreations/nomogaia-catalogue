@@ -193,10 +193,9 @@
                                                                 <div>
                                                                     <!-- We have a dummy header for unexpanded topics so that we don't have to include the full header -->
                                                                     <!-- a zillion times. -->
-                                                                    <div
-                                                                        class="TopicHeader dummyHeader"
-                                                                        data-ng-show="!getRowHat(Topic.id).getRootHat().show"
-                                                                        data-ng-click="expandTopicFromHeader(Topic)">
+                                                                    <div class="TopicHeader dummyHeader"
+                                                                         data-ng-show="!getRowHat(Topic.id).getRootHat().show"
+                                                                         data-ng-click="expandTopicFromHeader(Topic)">
                                                                         <span class="header-left">
                                                                             {{::Topic.getData("Topic")}}
                                                                         </span>
@@ -334,6 +333,10 @@
 
             <div id="loadConfirmationDialog" class="dialog">
                 <p>There are unsaved changes. Are you sure you want to load a different file?</p>
+            </div>
+
+            <div id="exitConfirmationDialog" class="dialog">
+                <p>There are unsaved changes. Are you sure you want to exit?</p>
             </div>
 
             <ul class="context-menu">

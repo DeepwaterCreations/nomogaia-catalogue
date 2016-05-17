@@ -100,6 +100,34 @@ $('#load').click(function () {
     fileDialog.trigger("click");
 });
 
+gui.Window.get().on('close', function () {
+    var that = this;
+    if (RecentFiles.getIsDirty() && !($("#splash").is(":visible"))) {
+        $("#exitConfirmationDialog").dialog({
+            buttons: [
+                {
+                    text: "Cancel",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Exit",
+                    click: function () {
+                        forceLoad = true;
+                        $('#load').click();
+                        $(this).dialog("close");
+                        that.close(true);
+                    }
+                }
+            ]
+        });
+        $(".ui-dialog").find("button").addClass("blueButton");
+    } else {
+        that.close(true);
+    }
+});
+
 
 SaveLoad.autosave = function (interval) {
     window.setTimeout(function () {
@@ -124,7 +152,7 @@ SaveLoad.checkFile = function (filename, onTrue, onFalse) {
     onTrue = onTrue || function () { };
     onFalse = onFalse || function () { };
 
-    fs.access(filename, fs.R_OK | fs.W_OK, function(err) {
+    fs.access(filename, fs.R_OK | fs.W_OK, function (err) {
         if (!err) {
             onTrue();
         } else {
