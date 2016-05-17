@@ -3,9 +3,7 @@ var fs = require("fs");
 
 var path = require('path');
 
-
 var gui = require('nw.gui');
-
 
 // load in the topic info
 

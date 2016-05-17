@@ -21,14 +21,21 @@
             <span id="sub-title">by NomoGaia</span>
             <div class="space-filler"></div>
             <div id="file-list">
-                <div class="centerer">
-                    <input class="white-button splash-button" type="button" value="New" data-ng-click="hide()"/>
+                <div class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
+                    <input class="white-button splash-button fade-in fade-out" type="button" value="New" data-ng-click="hide()" />
                 </div>
-                <div class="centerer">
-                    <input class="white-button splash-button" type="button" value="Load"  data-ng-click="selectFile()"/>
+                <div class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
+                    <input class="white-button splash-button fade-in fade-out" type="button" value="Load" data-ng-click="selectFile()" />
                 </div>
-                <div data-ng-repeat="x in recentFiles.slice(0, 5)"  data-ng-cloak class="centerer">
+                <div class="centerer" data-ng-if="recentFiles.lenght != 0 && !loading"  data-ng-cloak>
+                    <div class="white-text">Recent Files</div>
+                </div>
+                <div data-ng-repeat="x in recentFiles.slice(0, 5)" class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
                     <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="load(x.path)">
+                </div>
+                <div class="centerer">
+                    <i data-ng-if="loading" class="icon-cog rotating white-text"></i>
+                    <span class="white-text">{{loading?"Loading...":""}}</span>
                 </div>
             </div>
         </div>
@@ -100,6 +107,7 @@
                                     <button ng-click="setListView()"> list </button>
                                 </span>
                                 <input type="button" class="blueButton textInputButton" data-ng-click="mo.vis = !mo.vis;" value="{{(!mo.vis)?'Add Topic':'Hide Add Topic'}}" />
+                                <i data-ng-class="{'rotating':backgroundActivity()}" class="icon-cog"></i>
                             </div>
                             <div data-ng-controller="addController" class="header" data-ng-hide="!mo.vis">
                                 <h2 class="addHeader">Add Topic</h2>
@@ -190,10 +198,9 @@
                                                                 <div>
                                                                     <!-- We have a dummy header for unexpanded topics so that we don't have to include the full header -->
                                                                     <!-- a zillion times. -->
-                                                                    <div
-                                                                        class="TopicHeader dummyHeader"
-                                                                        data-ng-show="!getRowHat(Topic.id).getRootHat().show"
-                                                                        data-ng-click="expandTopicFromHeader(Topic)">
+                                                                    <div class="TopicHeader dummyHeader"
+                                                                         data-ng-show="!getRowHat(Topic.id).getRootHat().show"
+                                                                         data-ng-click="expandTopicFromHeader(Topic)">
                                                                         <span class="header-left">
                                                                             {{::Topic.getData("Topic")}}
                                                                         </span>
@@ -331,6 +338,10 @@
 
             <div id="loadConfirmationDialog" class="dialog">
                 <p>There are unsaved changes. Are you sure you want to load a different file?</p>
+            </div>
+
+            <div id="exitConfirmationDialog" class="dialog">
+                <p>There are unsaved changes. Are you sure you want to exit?</p>
             </div>
 
             <ul class="context-menu">

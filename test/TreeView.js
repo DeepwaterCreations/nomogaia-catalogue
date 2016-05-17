@@ -12,14 +12,18 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.mo = {}
     $scope.mo.vis = false;
 
-    $scope.setTreeView = function(){
+    $scope.backgroundActivity = function () {
+        return $scope.measurer.active;
+    }
+
+    $scope.setTreeView = function () {
         $scope.activeView = "tree";
-        $scope.showAll();
+        $scope.measurer.showAll();
         $scope.updateVisible();
     }
-    $scope.setListView = function(){
+    $scope.setListView = function () {
         $scope.activeView = "list";
-        $scope.showAll();
+        $scope.measurer.showAll();
         $scope.updateVisible();
     }
 
@@ -40,7 +44,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 var closest = null;
                 for (var i = 0 ; i < rows.length; i++) {
                     var row = rows[i];
-                    var show = Util.checkVisible(row, 500)
+                    var show = Util.checkVisible(row, 500);
                     showz.push(show);
                     if (show) {
                         var myDis = Util.disToCenter(row);
@@ -48,7 +52,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                             dis = myDis;
                             closest = row;
                         }
-
                     }
                 }
 
@@ -66,7 +69,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                     var rowData = RowData.getRow(parseInt(rowId));
                     var lastOnScreen = rowHat.getRowHat(rowData.id).onScreen;
                     if (lastOnScreen && row.height() > 0) {
-                        rowHat.getRowHat(rowData.id).lastKnowHeight = row.height();
+                        var h = window.getComputedStyle(row[0]).height;//row[0].getBoundingClientRect().height;
+                        rowHat.getRowHat(rowData.id).lastKnowHeight = h;
                     }
                     if (!showz[i] && rowHat.getRowHat(rowData.id).lastKnowHeight != -1) {
                         row.height(rowHat.getRowHat(rowData.id).lastKnowHeight);
@@ -81,61 +85,80 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
 
-    $scope.backgroundActivity = false;
-    $scope.showAll = function () {
-
-        // we don't want to run while the splash screen is because that makes the animations really ugly!
-        if (!($("#splash").is(":visible"))) {
-            console.log("showAll");
-            setTimeout(function () {
-                $scope.measureRow(0, $scope.filteredList);
-            }, 1000);
-        } else {
-            setTimeout($scope.showAll, 1000);
-        }
-    }
 
     // we bring getRowHat in scope so we can callit from the UI
     $scope.getRowHat = function (id) {
         return rowHat.getRowHat(id);
     };
 
-    // takes a position and a list of RowData
-    $scope.measureRow = function (at, list) {
-        var fmake = function (myRow, myRowUI) {
-            return function () {
+    $scope.measurer = { at: 0, list: [], reset: false, currentRunID: 0, active:false};
 
-                rowHat.getRowHat(myRow.id).lastKnowHeight = myRowUI.height();
-                myRowUI.height(rowHat.getRowHat(myRow.id).lastKnowHeight);
-                rowHat.getRowHat(myRow.id).onScreen = false;
-            }
+    $scope.measurer.showAll = function () {
+
+        // we don't want to run while the splash screen is because that makes the animations really ugly!
+        if (!($("#splash").is(":visible"))) {
+            $scope.measurer.currentRunID = $scope.measurer.currentRunID + 1;
+            $scope.measurer.reset = true;
+            $scope.measurer.active = true;
+            setTimeout(function () { $scope.measurer.measureNextSet($scope.measurer.currentRunID); },500);
+        } else {
+            setTimeout($scope.measurer.showAll, 1000);
         }
+    }
 
-        $timeout(function () {
-            var toRun = [];
-            for (var i = 0; i < 5; i++) {
-                if (at < list.length) {
-                    var row = list[at];
-                    var rowUI = $(".hasRowID[data-row=" + row.id + "]");
-                    if (!rowHat.getRowHat(row.id).onScreen && rowHat.getRowHat(row.id).lastKnowHeight === -1 && rowUI.length === 1) {
-                        rowHat.getRowHat(row.id).onScreen = true;
-                        toRun.push(fmake(row, rowUI));
-                    }
+    // takes a position and a list of RowData
+    $scope.measurer.measureNextSet = function (runID) {
+        if (runID == $scope.measurer.currentRunID) {
+            if ($scope.measurer.reset) {
+                $scope.measurer.at = 0;
+                $scope.measurer.list = $(".hasRowID");//$scope.filteredList;
+                $scope.measurer.reset = false;
+
+            }
+
+            var fmake = function (myRow, myRowUI) {
+                return function () {
+                    var h = window.getComputedStyle(myRowUI[0]).height;//row[0].getBoundingClientRect().height;
+                    rowHat.getRowHat(myRow.id).lastKnowHeight = h;
+                    //rowHat.getRowHat(myRow.id).lastKnowHeight = myRowUI.height();
+                    myRowUI.height(rowHat.getRowHat(myRow.id).lastKnowHeight);
+                    rowHat.getRowHat(myRow.id).onScreen = false;
                 }
-                at = at + 1;
             }
-            if (toRun.length > 0) {
-                $timeout(function () {
-                    for (var i = 0; i < toRun.length; i++) {
-                        toRun[i]();
+
+            $timeout(function () {
+                var toRun = [];
+                for (var i = 0; i < 5; i++) {
+                    if ($scope.measurer.at < $scope.measurer.list.length) {
+                        var rowUI = $($scope.measurer.list[$scope.measurer.at]);
+                        var rowId = rowUI.data("row");
+                        var row = RowData.getRow(parseInt(rowId));
+                        //var row = $(".hasRowID[data-row=" + row.id + "]");
+                        if (!rowHat.getRowHat(row.id).onScreen && rowHat.getRowHat(row.id).lastKnowHeight === -1 && rowUI.length === 1) {
+                            rowHat.getRowHat(row.id).onScreen = true;
+                            toRun.push(fmake(row, rowUI));
+                        }
                     }
-                    //console.log("measuring a chunk!");
-                }, 10);
-            }
-            if (at < list.length) {
-                setTimeout($scope.measureRow(at, list), 10)
-            }
-        });
+                    $scope.measurer.at = $scope.measurer.at + 1;
+                }
+                if ($scope.measurer.at < $scope.measurer.list.length) {
+                    toRun.push(function () {
+                            $scope.measurer.measureNextSet(runID);
+                    })
+                } else {
+                    $scope.measurer.active = false;
+                }
+                if (toRun.length > 0) {
+                    $timeout(function () {
+                        for (var i = 0; i < toRun.length; i++) {
+                            toRun[i]();
+                        }
+                        //console.log("measuring a chunk!");
+                    }, 10);
+                }
+
+            });
+        }
     }
 
     window.addEventListener('resize', $scope.updateVisible);
@@ -237,7 +260,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 // we time this out because we want to give angular time to update before we update what is visible
                 //setTimeout(
                 $scope.updateVisible(true);
-                $scope.showAll();
+                $scope.measurer.showAll();
                 //, 100);
             })
         }, 50);
@@ -398,8 +421,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         };
     };
 
-    $scope.expandTopicFromHeader = function(topic){
-        if($scope.activeView === 'tree'){
+    $scope.expandTopicFromHeader = function (topic) {
+        if ($scope.activeView === 'tree') {
             rowHat.getRowHat(topic.id).getRootHat().show = !rowHat.getRowHat(topic.id).getRootHat().show;
             $scope.updateVisible();
             $scope.updateActive(topic);
@@ -597,7 +620,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 $scope.tableData = monitorTables.backingData[newlyActiveTab].tableData;
                 $scope.filteredTree = $scope.tableData.treeView;
                 $scope.updateFilteredRows($scope.search);
-                $scope.showAll();
+                $scope.measurer.showAll();
                 $scope.updateVisible(true);
             })
         }
