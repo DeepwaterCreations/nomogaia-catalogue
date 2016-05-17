@@ -68,12 +68,12 @@ RowData = function (table, inId, rowData) {
             if (rowValue == DataOptions.getDefaultValue(columnName) || rowValue == undefined) {
             } else if (rowValue.constructor === Array) {
                 for (var j = 0; j < rowValue.length; j++) {
-                    if (rowValue[j].indexOf(data) >= 0) {
+                    if (rowValue[j].toLowerCase().indexOf(data.toLowerCase()) >= 0) {
                         return true;
                     }
                 }
                 
-            } else if (rowValue.indexOf(data) >= 0) {
+            } else if (rowValue.toLowerCase().indexOf(data.toLowerCase()) >= 0) {
                 return true;
             }
         }
