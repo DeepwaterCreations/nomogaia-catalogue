@@ -16,7 +16,6 @@ RecentFiles.get = function () {
     } else {
         recentFiles = JSON.parse(localStorage.getItem("recentFiles"));
     }
-    console.log("", recentFiles);
     return recentFiles;
 }
 

@@ -1,4 +1,3 @@
-
 var TopicAdder = function ($timeout) {
 
     this.addNewCatalog = function (treeView, catalog) {
@@ -11,31 +10,61 @@ var TopicAdder = function ($timeout) {
         return DataOptions.isNotEmpty(catalog) &&
             treeView[catalog] == undefined;
     }
-    this.addNewCategory = function (treeView, catalog, catagory) {
+    this.addNewCategory = function (treeView, catalog, category) {
         //this.$timeout(function () {
         console.log("added new category", treeView);
-        treeView[catalog][catagory] = {};
+        if (this.isNewCatalog(treeView, catalog)) {
+            this.addNewCatalog(treeView, catalog);
+        }
+
+        treeView[catalog][category] = {};
         //});
     }
-    this.isNewCategory = function (treeView, catalog, catagory) {
-        return DataOptions.isNotEmpty(catalog) &&
+    this.isNewCategory = function (treeView, catalog, category) {
+        console.log("is new category :" + catalog + " , " + category, treeView)
+        return DataOptions.isNotEmpty(category) &&
             treeView[catalog] != undefined &&
-            DataOptions.isNotEmpty(catagory) &&
-            treeView[catalog][catagory] == undefined;
+            DataOptions.isNotEmpty(category) &&
+            treeView[catalog][category] == undefined;
     }
-    this.addNewSubCategory = function (treeView, catalog, catagory, subCatagory) {
+    this.addNewSubCategory = function (treeView, catalog, category, subCatagory) {
         //this.$timeout(function () {
-        console.log("added new sub category", treeView);
-        treeView[catalog][catagory][subCatagory] = [];
+        if (this.isNewCatalog(treeView, catalog)) {
+            this.addNewCatalog(treeView, catalog);
+        }
+        if (this.isNewCategory(treeView, catalog, category)) {
+            this.addNewCategory(treeView, catalog, category);
+        }
+        treeView[catalog][category][subCatagory] = [];
         //});
     }
-    this.isNewSubCategory = function (treeView, catalog, catagory, subCatagory) {
+    this.isNewSubCategory = function (treeView, catalog, category, subCatagory) {
         return DataOptions.isNotEmpty(catalog) &&
             treeView[catalog] != undefined &&
-            DataOptions.isNotEmpty(catagory) &&
-            treeView[catalog][catagory] != undefined &&
+            DataOptions.isNotEmpty(category) &&
+            treeView[catalog][category] != undefined &&
             DataOptions.isNotEmpty(subCatagory) &&
-            treeView[catalog][catagory][subCatagory] == undefined;
+            treeView[catalog][category][subCatagory] == undefined;
+    }
+
+    this.isNewTopic = function (treeView, catalog, category, subCatagory, topic) {
+        var isNew = function (topic, listOfTopics) {
+            for (var i = 0; i < listOfTopics.length; i++) {
+                if (listOfTopics[i].getData("Topic") == topic) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        return DataOptions.isNotEmpty(catalog) &&
+            treeView[catalog] != undefined &&
+            DataOptions.isNotEmpty(category) &&
+            treeView[catalog][category] != undefined &&
+            DataOptions.isNotEmpty(subCatagory) &&
+            treeView[catalog][category][subCatagory] != undefined &&
+            DataOptions.isNotEmpty(topic) &&
+            isNew(topic, treeView[catalog][category][subCatagory]);
     }
 
     this.addNewTopic = function (treeView, catalog, category, subCategory, topic, description, module, source) {
@@ -44,7 +73,6 @@ var TopicAdder = function ($timeout) {
         module = module || DataOptions.getDefaultValue("Module");
         source = source || "";
 
-        console.log("added new topic", treeView);
         var rowAt = null;
 
         var myTopic = new Topic(catalog, category, subCategory, topic, description, module, source);
@@ -63,13 +91,13 @@ var TopicAdder = function ($timeout) {
         }
     }
 
-    this.isNewTopic = function (treeView, catalog, catagory, subCatagory, topic) {
-        return DataOptions.isNotEmpty(catalog) &&
-            DataOptions.isNotEmpty(catagory) &&
-            DataOptions.isNotEmpty(subCatagory) &&
-            DataOptions.isNotEmpty(topic) ;
-            // this does not check if it is new dispite the title
-    }
+    //this.isNewTopic = function (treeView, catalog, category, subCatagory, topic) {
+    //    return DataOptions.isNotEmpty(catalog) &&
+    //        DataOptions.isNotEmpty(category) &&
+    //        DataOptions.isNotEmpty(subCatagory) &&
+    //        DataOptions.isNotEmpty(topic) ;
+    //        // this does not check if it is new dispite the title
+    //}
 
     this.addNewMod = function (newMod) {
         DataOptions.addCustom("Module", newMod);

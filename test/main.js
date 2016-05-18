@@ -13,12 +13,6 @@ var buf = fs.readFileSync(filename, "utf8");
 var categoryHierarchy = new CategoryHierarchy(buf);
 DataOptions.setCategoryHierarchy(categoryHierarchy);
 
-// add the users own topics
-var myTopics = path.join(path.dirname(process.execPath), "myTopics.txt");//"myTopics.txt";
-var myTopicsBuf = fs.readFileSync(myTopics, "utf8");
-categoryHierarchy.addSet(myTopicsBuf);
-
-
 var monitorTables = new MonitorTables(categoryHierarchy);
 var table = new Table(monitorTables);
 monitorTables.push(table);
@@ -82,7 +76,7 @@ $(document).ready(function () {
         g.setMonitorTables(monitorTables);
     });
 
-    AddTopic.initFields();
+    //AddTopic.initFields();
 
 
     //Hider.init();
@@ -139,7 +133,7 @@ $(document).ready(function () {
     //$('#category').selectmenu();
     //$('#subcategory').selectmenu();
 
-    SaveLoad.autosave(30 * 1000); //Minutes * sec/min * ms/sec. 5 * 60 * 1000
+    SaveLoad.autosave(5 * 60 * 1000); //Minutes * sec/min * ms/sec. 5 * 60 * 1000
 });
 
 
