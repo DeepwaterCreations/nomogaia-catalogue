@@ -64,7 +64,10 @@ DataOptions.addCustom = function(column, data){
 
 DataOptions.loadFromFile = function (fileName) {
     var fs = require('fs');
-    var buf = fs.readFileSync(fileName, "utf8");
+    var path = require('path');
+    var filePath = path.join(path.dirname(process.execPath), fileName);
+    console.log("loading: " + filePath);
+    var buf = fs.readFileSync(filePath, "utf8");
     var result = [];
     buf.split("\n").forEach(function (line) {
         line = line.trim();
