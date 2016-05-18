@@ -13,12 +13,6 @@ var buf = fs.readFileSync(filename, "utf8");
 var categoryHierarchy = new CategoryHierarchy(buf);
 DataOptions.setCategoryHierarchy(categoryHierarchy);
 
-// add the users own topics
-var myTopics = path.join(path.dirname(process.execPath), "myTopics.txt");//"myTopics.txt";
-var myTopicsBuf = fs.readFileSync(myTopics, "utf8");
-categoryHierarchy.addSet(myTopicsBuf);
-
-
 var monitorTables = new MonitorTables(categoryHierarchy);
 var table = new Table(monitorTables);
 monitorTables.push(table);
