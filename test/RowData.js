@@ -62,22 +62,7 @@ RowData = function (table, inId, rowData) {
     }
 
     this.hasTerm = function (data) {
-        for (var i = 0; i < g.columnList.length; i++) {
-            var columnName = g.columnList[i];
-            var rowValue = this.getData(columnName);
-            if (rowValue == DataOptions.getDefaultValue(columnName) || rowValue == undefined) {
-            } else if (rowValue.constructor === Array) {
-                for (var j = 0; j < rowValue.length; j++) {
-                    if (rowValue[j].toLowerCase().indexOf(data.toLowerCase()) >= 0) {
-                        return true;
-                    }
-                }
-                
-            } else if (rowValue.toLowerCase().indexOf(data.toLowerCase()) >= 0) {
-                return true;
-            }
-        }
-        return false;
+        return this.hasTermDetails(data).length != 0;
     }
 
     // returns detains about where data appears in the row
