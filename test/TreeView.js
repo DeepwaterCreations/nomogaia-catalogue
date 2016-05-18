@@ -493,11 +493,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         //    width: "90%"
         //});
 
-        $(".openAddTopic").click(function () {
-            $("#addTopic").dialog("open");
-            $(".ui-dialog").find("button").addClass("blueButton");
-            AddTopic.canAdd();
-        })
+        //$(".openAddTopic").click(function () {
+        //    $("#addTopic").dialog("open");
+        //    $(".ui-dialog").find("button").addClass("blueButton");
+        //    AddTopic.canAdd();
+        //})
 
         // $('#addRowTree').click(function () {
         //var rowAt = null;

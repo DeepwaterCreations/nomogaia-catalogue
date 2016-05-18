@@ -82,7 +82,7 @@ $(document).ready(function () {
         g.setMonitorTables(monitorTables);
     });
 
-    AddTopic.initFields();
+    //AddTopic.initFields();
 
 
     //Hider.init();
@@ -139,7 +139,7 @@ $(document).ready(function () {
     //$('#category').selectmenu();
     //$('#subcategory').selectmenu();
 
-    SaveLoad.autosave(30 * 1000); //Minutes * sec/min * ms/sec. 5 * 60 * 1000
+    SaveLoad.autosave(5 * 60 * 1000); //Minutes * sec/min * ms/sec. 5 * 60 * 1000
 });
 
 

@@ -3,7 +3,7 @@
 <head>
     <title>NomoGaia Catalog</title>
     <link href="jquery-ui/jquery-ui.min.css" rel="stylesheet">
-    <link href="select2/dist/css/select2.min.css" rel="stylesheet">
+    <!--<link href="select2/dist/css/select2.min.css" rel="stylesheet">-->
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="DataTable.css" rel="stylesheet">
     <link href="Dialogs.css" rel="stylesheet">
@@ -111,62 +111,127 @@
                             </div>
                             <div data-ng-controller="addController" class="header" data-ng-hide="!mo.vis">
                                 <h2 class="addHeader">Add Topic</h2>
+
+
                                 <div class="addBody">
                                     <span class="addPrompt">{{(index+1) +". "+ getPrompt()}}</span>
                                     <div data-ng-if="list[index].name == 'Catalog'">
-                                        <div data-ng-repeat="(key,value) in tree">
-                                            <input type="radio" ng-model="catalog.value" id="{{key}}" value="{{key}}" name="catalog" />
-                                            <label for="{{key}}">{{key}}</label>
+                                        <div data-ng-repeat="val in getCatalogs()">
+                                            <input type="radio" 
+                                                   ng-model="catalog.value" 
+                                                   id="{{val}}" 
+                                                   value="{{val}}" 
+                                                   name="catalog" />
+                                            <label for="{{val}}">{{val}}</label>
                                         </div>
                                         <div>
                                             <input type="text" data-ng-model="newCatalog" />
-                                            <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewCatalog(tree,newCatalog)" data-ng-click="topicAdder.addNewCatalog(tree,newCatalog);newCatalog='';" value="Add" />
+                                            <input type="button" 
+                                                   class="blueButton textInputButton" 
+                                                   data-ng-disabled="!legalNewCatalog(newCatalog)" 
+                                                   data-ng-click="topicAdder.addNewCatalog(overlayTree,newCatalog);newCatalog='';" 
+                                                   value="Add" />
                                         </div>
                                     </div>
                                     <div data-ng-if="list[index].name == 'Category'">
-                                        <div data-ng-if="catalog.value != ''">
-                                            <div data-ng-repeat="(key,value) in tree[catalog.value]">
-                                                <input type="radio" ng-model="category.value" id="{{key}}" value="{{key}}" name="category" />
-                                                <label for="{{key}}">{{key}}</label>
+                                        <div data-ng-if="legalCatalog(catalog.value)">
+                                            <div data-ng-repeat="val in getCategories(catalog.value)">
+                                                <input type="radio" 
+                                                       ng-model="category.value" 
+                                                       id="{{val}}" 
+                                                       value="{{val}}" 
+                                                       name="category" />
+                                                <label for="{{val}}">{{val}}</label>
                                             </div>
                                             <div>
                                                 <input type="text" data-ng-model="newCategory" />
-                                                <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewCategory(tree,catalog.value,newCategory)" data-ng-click="topicAdder.addNewCategory(tree,catalog.value,newCategory);newCategory='';" value="Add" />
+                                                <input type="button" 
+                                                       class="blueButton textInputButton" 
+                                                       data-ng-disabled="!legalNewCategory(catalog.value,newCategory)" 
+                                                       data-ng-click="topicAdder.addNewCategory(overlayTree,catalog.value,newCategory);newCategory='';" value="Add" />
                                             </div>
                                         </div>
-                                        <div data-ng-if="catalog.value == ''">
-                                            you must select a catalog before you can select a category
+                                        <div data-ng-if="!legalCatalog(catalog.value)">
+                                            you must select a Catalog before you can select a Category
                                         </div>
                                     </div>
                                     <div data-ng-if="list[index].name == 'SubCategory'">
-                                        <div data-ng-if="category.value != ''">
-                                            <div data-ng-repeat="(key,value) in tree[catalog.value][category.value]">
-                                                <input type="radio" ng-model="subCategory.value" id="{{key}}" value="{{key}}" name="subCategory" />
-                                                <label for="{{key}}">{{key}}</label>
+                                        <div data-ng-if="legalCategory(catalog.value,category.value)">
+                                            <div data-ng-repeat="val in getSubCategories(catalog.value,category.value)">
+                                                <input type="radio" 
+                                                       data-ng-model="subCategory.value" 
+                                                       id="{{val}}" 
+                                                       value="{{val}}" 
+                                                       name="subCategory" />
+                                                <label for="{{val}}">{{val}}</label>
                                             </div>
                                             <div>
                                                 <input type="text" data-ng-model="newSubCategory" />
-                                                <input type="button" class="blueButton textInputButton" ng-disabled="!topicAdder.isNewSubCategory(tree,catalog.value,category.value,newSubCategory)" data-ng-click="topicAdder.addNewSubCategory(tree,catalog.value,category.value,newSubCategory);newSubCategory='';" value="Add" />
+                                                <input type="button" class="blueButton textInputButton" 
+                                                       data-ng-disabled="!legalNewSubCategory(catalog.value,category.value,newSubCategory)" 
+                                                       data-ng-click="topicAdder.addNewSubCategory(overlayTree,catalog.value,category.value,newSubCategory);newSubCategory='';" 
+                                                       value="Add" />
                                             </div>
                                         </div>
-                                        <div data-ng-if="category.value == ''">
-                                            you must select a category before you can select a subcategory
+                                        <div data-ng-if="!legalCategory(catalog.value,category.value)">
+                                            you must select a Category before you can select a Sub-Category
                                         </div>
                                     </div>
                                     <div data-ng-if="list[index].name == 'Topic'">
-                                        <input type="text" data-ng-model="topic.value" />
+                                        <div data-ng-if="legalSubCategory(catalog.value,category.value,subCategory.value)">
+                                            <div data-ng-repeat="value in getTopics(catalog.value,category.value,subCategory.value)">
+                                                <input type="radio" 
+                                                       data-ng-model="topic.value" 
+                                                       id="{{value}}" 
+                                                       value="{{value}}" 
+                                                       name="topic" />
+                                                <label for="{{value}}">{{value}}</label>
+                                            </div>
+                                            <div>
+                                                <input type="text" data-ng-model="newTopic" />
+                                                <input type="button" 
+                                                       class="blueButton textInputButton" 
+                                                       data-ng-disabled="!legalNewTopic(catalog.value,category.value,subCategory.value,newTopic)" 
+                                                       data-ng-click="addOverlayTopic(catalog.value,category.value,subCategory.value,newTopic);newTopic='';" value="Add" />
+                                            </div>
+                                        </div>
+                                        <div data-ng-if="!legalSubCategory(catalog.value,category.value,subCategory.value)">
+                                            you must select a Sub-Category before you can select a Topic
+                                        </div>
                                     </div>
+                                    <!--<div data-ng-if="list[index].name == 'Topic'">
+                                        <input type="text" data-ng-model="topic.value" />
+                                    </div>-->
                                     <div data-ng-if="list[index].name == 'Module'">
-                                        <select data-ng-model="list[index].value" data-ng-model-options="{getterSetter: true}" value="{{module}}" ng-options="module for module in moduleList()"></select>
+                                        <div data-ng-repeat="mod in moduleList()">
+                                            <input type="radio"
+                                                   data-ng-model="module.value"
+                                                   id="{{mod}}"
+                                                   value="{{mod}}"
+                                                   name="module" />
+                                            <label for="{{mod}}">{{mod}}</label>
+                                        </div>
+                                        <div>
+                                            <input type="text" data-ng-model="newModule"/>
+                                            <input type="button"
+                                                   class="blueButton textInputButton"
+                                                   data-ng-disabled="!legalNewModule(newModule)"
+                                                   data-ng-click="addModule(newModule);newModule='';" value="Add" />
+                                        </div>
+
+
+
+                                        <!--<select data-ng-model="module.value"  value="{{module}}" ng-options="module for module in moduleList()"></select>-->
+                                        <!--data-ng-model-options="{getterSetter: true}"-->
                                         <!--<input type="text" name="module" data-ng-model="newMod" />
                                         <button data-ng-click="addNewMod(newMod);newMod='';">Add New</button>-->
-                                        <input type="text" /><input type="button" value="add" />
+                                        <!--<input type="text" /><input type="button" value="add" />-->
                                     </div>
                                     <div data-ng-if="list[index].name == 'Description'">
-                                        <textarea data-ng-model="description.value"></textarea>
+                                        <textarea data-ng-model="description.value" data-ng-disabled="!topicAdder.isNewTopic(tree,catalog.value,category.value,subCategory.value,topic.value)"></textarea>
                                     </div>
                                     <div data-ng-if="list[index].name == 'Source'">
-                                        <textarea data-ng-model="source.value"></textarea>
+                                        <textarea data-ng-model="source.value" data-ng-disabled="!topicAdder.isNewTopic(tree,catalog.value,category.value,subCategory.value,topic.value)"></textarea>
                                     </div>
 
                                     <input type="button" class="blueButton textInputButton" data-ng-disabled="!canBack()" data-ng-click="back()" value="Back" />
@@ -358,7 +423,7 @@
     <script type="text/javascript" src="node_modules/angular/ng-animate.js"></script>
     <script type="text/javascript" src="jquery/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="select2/dist/js/select2.min.js"></script>
+    <!--<script type="text/javascript" src="select2/dist/js/select2.min.js"></script>-->
     <script type="text/javascript" src="JSON/json2.js"></script>
 
     <!-- INTERNALS -->
