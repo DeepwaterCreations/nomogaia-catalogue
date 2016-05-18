@@ -35,8 +35,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             // do something
             // I wish this did not effect scrolling so badly 
             $timeout(function () {
-                //console.log("update visible");
-
                 var rows = $(".hasRowID");
 
                 var showz = [];
@@ -153,7 +151,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                         for (var i = 0; i < toRun.length; i++) {
                             toRun[i]();
                         }
-                        //console.log("measuring a chunk!");
                     }, 10);
                 }
 
@@ -187,7 +184,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 return DataOptions.getColumnOptions("Module");
             }
             $scope.scorevals = DataOptions.getColumnOptions("Score");
-            //console.log("TableData set!", $scope.tableData);
 
             $scope.shownRights = function () {
                 return monitorTables.shownRights;
@@ -210,18 +206,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             };
 
             $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
-
-            //$("#splash #splash-background, #splash #splash-content").animate({
-            //    opacity: 0,
-            //    top: -200
-            //}, 2000, function () {
-            //    console.log("gone");
-            //    $("#splash").hide();
-            //});
-
-
-
-
         });
     });
 
@@ -229,7 +213,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         clearTimeout(this.updateFilteredRows_timeoutId);
         this.updateFilteredRows_timeoutId = setTimeout(function () {
             $timeout(function () {
-                console.log("filter rows");
                 var filteredRows = $scope.tableData.filterRows(x);
                 $scope.filteredTree = {};
                 $scope.filteredList = filteredRows;
@@ -252,16 +235,12 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 for (var i = 0; i < filteredRows.length; i++) {
                     var row = filteredRows[i];
                     rowHat.getRowHat(row.id).filterDetails = row.hasTermDetails(x);
-                    //$scope.filterDetails[filteredRows[i].id] = 
                 }
-
-                //console.log("done filtering!", $scope.filterDetails);
                 // we need to update what is on screen
                 // we time this out because we want to give angular time to update before we update what is visible
-                //setTimeout(
+                // atm the timeout is inside updateVisible
                 $scope.updateVisible(true);
                 $scope.measurer.showAll();
-                //, 100);
             })
         }, 50);
     }
@@ -408,10 +387,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return function (data) {
             if (arguments.length) {
                 //Set
-                //console.log("set to " + data);
                 rowData.setData(columnName, data);
-                //console.log("result " + rowData.getData(columnName));
-                //$scope.activeTopic = rowData;
             }
             else {
                 //Get
@@ -456,7 +432,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
         $(document).mouseup(function (e) {
             if (dragging) {
-                console.log(" width: " + $('#side-bar-rights').css("width") + " startX: " + startX + " e.pageX: " + e.pageX, e)
                 $('#side-bar-rights').css("width",
                     ($('#side-bar-rights').width() +
                     startX - e.pageX) + "px");
@@ -467,59 +442,10 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 $scope.updateVisible(false);
             }
         });
-
-        //$("#addTopic").dialog({
-        //    buttons: [
-        //        {
-        //            text: "Cancel",
-        //            click: function () {
-        //                $(this).dialog("close");
-        //            }
-        //        }, {
-        //            id: "addTopicButton",
-        //            text: "Ok",
-        //            click: function () {
-        //                if (AddTopic.canAdd()) {
-        //                    AddTopic.addTopic();
-        //                    $(this).dialog("close");
-        //                } else {
-        //                    AddTopic.highlightIncomplete();
-        //                }
-
-        //            }
-        //        }
-        //    ],
-        //    autoOpen: false,
-        //    width: "90%"
-        //});
-
-        //$(".openAddTopic").click(function () {
-        //    $("#addTopic").dialog("open");
-        //    $(".ui-dialog").find("button").addClass("blueButton");
-        //    AddTopic.canAdd();
-        //})
-
-        // $('#addRowTree').click(function () {
-        //var rowAt = null;
-        //for (var tabIndex in g.getMonitorTables().backingData) {
-        //    if (tabIndex >= g.getMonitorTables().getActiveMonitor()) {
-        //        var myTable = g.getMonitorTables().backingData[tabIndex];
-        //        if (rowAt == null) {
-        //            rowAt = myTable.addRow();
-        //            rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
-        //        } else {
-        //            var dataAt = rowAt.data;
-        //            var newData = new RowData(myTable,"auto",dataAt);
-        //            rowAt = myTable.addRow(newData);
-        //        }
-        //    }
-        //}
-        //});
     }
 
 
     g.drag = function (event) {
-        //console.log("drag!", event);
         event.dataTransfer.setData("type", event.target.dataset.type);
         event.dataTransfer.setData("value", event.target.dataset.value);
     }
@@ -528,7 +454,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         var type = event.target.dataset.type;
         var value = event.target.dataset.value;
         if ($scope.activeTopic != null) {
-            //console.log("double click!", event);
 
             $timeout(function () {
                 $scope.activeTopic.acceptDrop(type, value);
@@ -556,7 +481,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         var row = at.dataset.row;
         var rowData = RowData.getRow(parseInt(row));
         $scope.updateActive(rowData);
-        console.log("drop! type: " + type + " value:" + value + " rowId: " + row, event);
         $timeout(function () {
             rowData.acceptDrop(type, value);
             $scope.dragData = null;
@@ -564,13 +488,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     g.allowDrop = function (event) {
-        //console.log("allow Drop!",event);
         event.preventDefault();
     }
 
     g.dragEnter = function (event) {
         event.stopPropagation();
-        //console.log("enter!")
         var type = event.dataTransfer.getData("type");
         var value = event.dataTransfer.getData("value");
         var at = event.target;
@@ -589,7 +511,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     }
 
     g.dragExit = function (event) {
-        console.log("exit!")
         if ($scope.dragData !== null) {
             var type = event.dataTransfer.getData("type");
             var value = event.dataTransfer.getData("value");
@@ -615,7 +536,6 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     this.changeMonitorTabEvent = function (that) {
         return function (newlyActiveTab) {
-            //console.log("newly active tab:", monitorTables.backingData[newlyActiveTab]);
             $timeout(function () {
                 $scope.tableData = monitorTables.backingData[newlyActiveTab].tableData;
                 $scope.filteredTree = $scope.tableData.treeView;
@@ -631,106 +551,3 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         changeTab: this.changeMonitorTabEvent
     });
 }]);
-
-//function TreeView(categoryHierarchy) {
-//this.hierarchy = categoryHierarchy;
-//this.address = new Adress();
-
-
-//var that = this;
-
-//this.update = function () {
-//    var currentItems = this.hierarchy.itemsForAdress(this.address);
-
-//    var uiList = $("#currentItems");
-
-//    uiList.empty();
-
-//    for (var i = 0; i < currentItems.length; i++) {
-//        var str = "<li class='expandable'>" + currentItems[i] + "</li>";
-//        uiList.append(str);
-//    }
-
-//    $(".expandable").click(function () {
-//        var me = $(this);
-//        var myName = me.text();
-//        that.address.append(myName);
-//        that.update();
-//    });
-
-//    var adressBar = $("#adressBar");
-//    adressBar.empty();
-
-
-
-//    var title = $("#title");
-
-//    if (this.address.catalog !== null) {
-//        adressBar.append('<button id="home">home</button>');
-//        $("#home").click(function () {
-//            that.address.home();
-//            that.update();
-//        })
-//        if (this.address.category !== null) {
-//            adressBar.append('<button id="catalog" class="adressButton">' + this.address.catalog + '</button>');
-//            if (this.address.subCategory !== null) {
-//                adressBar.append('<button id="category" class="adressButton">' + this.address.category + '</button>');
-//                if (this.address.topic !== null) {
-//                    //adressBar.append('<button id="subCategory" class="adressButton">' + this.address.subCategory + '</button>');
-//                    //adressBar.append('<button id="topic" class="adressButton">' + this.address.topic + '</button>');
-//                } else {
-//                    title.text(this.address.subCategory);
-//                }
-//            } else {
-//                title.text(this.address.category);
-//            }
-//        } else {
-//            title.text(this.address.catalog);
-//        }
-//    } else {
-//        title.text("home");
-//    }
-
-//    $(".adressButton").click(function () {
-//        that.address.rollBackTo($(this).text());
-//        that.update();
-//    });
-//}
-
-//this.update();
-
-//$("#up").click(function () {
-//    that.address.up();
-//    that.update();
-//});
-
-
-
-
-//var outerList = $("#outline");
-//var outlineString = TreeView.treeFromDictionary(categoryHierarchy.hierarchy);
-//outerList.append(outlineString);
-//$(".show-hide").click(function () {
-//    var me = $(this);
-//    var current = me.attr('data-shown');
-//    current = current == "true" ? "false" : "true";
-//    me.attr('data-shown', current);
-//    var text = current == "true" ? "hide" : "show";
-//    me.text(text)
-//});
-//}
-
-// returns a html string 
-//TreeView.treeFromDictionary = function (dict) {
-//    var res = "";
-//    for (var key in dict) {
-//        res += "<li> " + key;
-//        res += '<button class="show-hide" data-shown="false">show</button>'
-//        // if dict[key] is not a topic recurse
-//        if (!(dict[key] instanceof Topic)) {
-//            res += " <ul>" + TreeView.treeFromDictionary(dict[key]) + " </ul>";
-//        }
-//        res += " </li>";
-//    }
-//    return res;
-//}

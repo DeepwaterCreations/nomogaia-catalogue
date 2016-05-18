@@ -66,7 +66,6 @@ DataOptions.loadFromFile = function (fileName) {
     var fs = require('fs');
     var path = require('path');
     var filePath = path.join(path.dirname(process.execPath), fileName);
-    console.log("loading: " + filePath);
     var buf = fs.readFileSync(filePath, "utf8");
     var result = [];
     buf.split("\n").forEach(function (line) {
