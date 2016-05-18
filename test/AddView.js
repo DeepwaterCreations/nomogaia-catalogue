@@ -281,7 +281,7 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     }
 
     $scope.legalNewModule = function (newModule) {
-        return $scope.isNew(newModule, $scope.moduleList());
+        return DataOptions.isNotEmpty(newModule) && $scope.isNew(newModule, $scope.moduleList());
     }
 
     $scope.addModule = function (newModule) {
