@@ -73,10 +73,8 @@ $(document).ready(function () {
     });
 
 
-    table.addRows(dataList, function () {
-        g.setMonitorTables(monitorTables);
-    });
-
+    table.addRows(dataList);
+    g.setMonitorTables(monitorTables);
     //AddTopic.initFields();
 
 
