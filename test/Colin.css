@@ -677,7 +677,7 @@ button.blueButton.textInputButton, input[type="button"].blueButton.textInputButt
 }*/
 
 /* a bit ugly, this is the div we hide our pop ups in*/
-#hidy-hole {
+#hidy-hole, .hidden{
     height: 0px;
     overflow: hidden;
 }

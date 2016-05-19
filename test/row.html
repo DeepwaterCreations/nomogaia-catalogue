@@ -98,26 +98,6 @@
                     </li>
                 </ul>
             </div>
-            <div data-ng-init="newMod=''" class="rowInputUISection moduleUI">
-                <span class="rowInputUISectionTitle">
-                    Module
-                </span>
-                <select 
-                    data-ng-focus="updateActive(Topic)" 
-                    data-ng-model="getSetData(Topic, 'Module')" 
-                    data-ng-model-options="{getterSetter: true}" 
-                    value="{{module}}" 
-                    ng-options="module for module in moduleList()">
-                </select>
-                <input data-ng-focus="updateActive(Topic)" type="text" name="module" data-ng-model="newMod" />
-                <button 
-                    class="blueButton textInputButton"
-                    data-ng-focus="updateActive(Topic)" 
-                    data-ng-click="addNewMod(newMod);newMod='';"
-                    data-ng-disabled="!newMod"> 
-                    Add
-                </button>
-            </div>
         </div>
         <div class="rowInputUIGroup">
             <div class="rowInputUISection scoreUI">
@@ -137,4 +117,20 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- DIALOG -->
+<div id="{{'copyTopicModuleDialog' + Topic.id}}" class="dialog hidden">
+    <span>Split Topic Into New Module</span>
+    <p>Select a module:</p>
+    <div>
+        <div data-ng-repeat="module in moduleList()">
+            <input type="radio"
+                   id="{{::'radio' + Topic.id + 'MOD' + module}}"
+                   data-ng-model="mo.selectedModule"
+                   value="{{module}}">
+            <label for="{{::'radio' + Topic.id + 'MOD' + module}}">{{module}}</label>
+        </div>
+    </div>
+           
 </div>

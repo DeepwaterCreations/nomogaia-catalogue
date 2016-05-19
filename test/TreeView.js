@@ -11,6 +11,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.activeView = "list";
     $scope.mo = {}
     $scope.mo.vis = false;
+    $scope.mo.selectedModule = "";
 
     $scope.backgroundActivity = function () {
         return $scope.measurer.active;
@@ -405,7 +406,27 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         }
     };
 
+    //Opens a dialog to select a module, then creates a new row with the same information,
+    //but a different module
     $scope.copyTopic = function(topic){
+        $scope.mo.selectedModule = topic.Module;
+        $( "#copyTopicModuleDialog" + topic.id).dialog({
+            buttons: {
+                "Ok": function(){
+                    $scope.topicAdder.addNewTopic(topic.catalog,
+                            topic.category,
+                            topic.subCategory,
+                            topic.topic,
+                            topic.description,
+                            $scope.mo.selectedModule,
+                            topic.source);
+                    $( this ).dialog( "close" );
+                },
+                "Cancel": function(){
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
     };
 
     $scope.init = function () {
