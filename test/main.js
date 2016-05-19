@@ -31,6 +31,7 @@ function openAboutDialog() {
 onload = function () {
     setTimeout(function () {
         gui.Window.get().show();
+        gui.Window.get().maximize();
     },10);
 }
 
