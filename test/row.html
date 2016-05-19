@@ -124,11 +124,11 @@
                     <div data-ng-repeat="score in scorevals">
                         <input type="radio"
                                data-ng-focus="updateActive(Topic)"
-                               id="{{::'radio' + score + Topic.getData('Topic')}}"
+                               id="{{::'radio' + Topic.id + '#' + score}}"
                                data-ng-model="getSetData(Topic, 'Score')"
                                data-ng-model-options="{getterSetter: true}"
                                value="{{score}}">
-                        <label for="{{::'radio' + score + Topic.getData('Topic')}}" data-ng-class="getScoreCategoryClass(score)">{{score}}</label>
+                        <label for="{{::'radio' + Topic.id + '#' + score}}" data-ng-class="getScoreCategoryClass(score)">{{score}}</label>
                     </div>
                 </div>
             </div>
