@@ -32,7 +32,7 @@
         this.backingData.push(table);
     }
 
-    this.addTable = function (copyFrom, callBack) {
+    this.addTable = function (copyFrom) {
         var newTable = new Table(this);
 
         if (copyFrom != undefined) {
@@ -40,7 +40,7 @@
             copyFrom.tableData.rows.forEach(function (row) {
                 dataList.push(new RowData(newTable, "auto", "auto", row));
             });
-            newTable.addRows(dataList, callBack);
+            newTable.addRows(dataList);
         }
 
         this.push(newTable);

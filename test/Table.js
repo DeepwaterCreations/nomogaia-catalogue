@@ -30,12 +30,11 @@ function Table(monitorTables) {
         return rowData;
     }
 
-    this.addRows = function (dataList, callBack) {
+    this.addRows = function (dataList) {
         var that = this;
         dataList.forEach(function (data) {
             that.tableData.addRow(data);
         })
-        callBack();
     }
 
 
@@ -70,7 +69,6 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
             dataList.push(newRowData);
         }
     });
-    newTable.addRows(dataList, function () {
-    });
+    newTable.addRows(dataList);
     return newTable;
 }
