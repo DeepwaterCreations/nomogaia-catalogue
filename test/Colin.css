@@ -751,3 +751,8 @@ button.blueButton.textInputButton, input[type="button"].blueButton.textInputButt
 .rotating {
     -webkit-animation: rotating 2s linear infinite;
 }
+
+.greenDialogTitlebar{
+    background-color: #356C28;
+    color: white;
+}

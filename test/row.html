@@ -120,9 +120,8 @@
 </div>
 
 <!-- DIALOG -->
-<div id="{{'copyTopicModuleDialog' + Topic.id}}" class="dialog hidden">
-    <span>Split Topic Into New Module</span>
-    <p>Select a module:</p>
+<div id="{{'copyTopicModuleDialog' + Topic.id}}" class="dialog hidden moduleDialog">
+    <!-- <p>Select a module:</p> -->
     <div>
         <div data-ng-repeat="module in moduleList()">
             <input type="radio"

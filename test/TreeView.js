@@ -411,8 +411,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.copyTopic = function(topic){
         $scope.mo.selectedModule = topic.Module;
         $( "#copyTopicModuleDialog" + topic.id).dialog({
+            title: "Split Topic Into New Module",
             buttons: {
-                "Ok": function(){
+                "Make Topic": function(){
                     $scope.topicAdder.addNewTopic(topic.catalog,
                             topic.category,
                             topic.subCategory,
@@ -427,6 +428,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 }
             }
         });
+        $(".ui-dialog").find("button").addClass("blueButton");
+        $(".ui-dialog-titlebar").addClass("greenDialogTitlebar");
     };
 
     $scope.init = function () {
