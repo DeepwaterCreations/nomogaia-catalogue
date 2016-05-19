@@ -49,7 +49,7 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
     objFromFile[tableIndex].backingData.forEach(function (objRow) {
         var modified = objRow["modified"];
         if ("pointsTo" in objRow) {
-            var refRow = undefined;
+            var refRow = undefined || false;
             //Search through the existing data and find the row with the id the new data points to.
             refRow = RowData.getRow(objRow["pointsTo"]);
             //Once we've found the row being pointed to, make a new row that references it. 
