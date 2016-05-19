@@ -28,7 +28,7 @@ Util.union = function (lst1, lst2) {
         res.push(lst1[i]);
     }
     for (var i = 0; i < lst2.length; i++) {
-        if (res.indexOf(lst2[i])!=-1) {
+        if (res.indexOf(lst2[i])==-1) {
             res.push(lst2[i])
         }
     }

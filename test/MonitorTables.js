@@ -38,7 +38,7 @@
         if (copyFrom != undefined) {
             var dataList = []
             copyFrom.tableData.rows.forEach(function (row) {
-                dataList.push(new RowData(newTable, "auto", row));
+                dataList.push(new RowData(newTable, "auto", "auto", row));
             });
             newTable.addRows(dataList, callBack);
         }

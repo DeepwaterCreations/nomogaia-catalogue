@@ -109,7 +109,7 @@ $(document).ready(function () {
     //                rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
     //            } else {
     //                var dataAt = rowAt.data;
-    //                var newData = new RowData(myTable,"auto", dataAt);
+    //                var newData = new RowData(myTable,"auto","auto", dataAt);
     //                rowAt = myTable.addRow(newData);
     //            }
     //        }

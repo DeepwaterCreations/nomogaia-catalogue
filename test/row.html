@@ -8,6 +8,9 @@
     <span data-ng-if="activeView === 'tree'" class="header-left">
         {{::Topic.getData("Topic")}}
     </span>
+    <span data-ng-if="Topic.modified" class="header-left">
+        (Modified!)
+    </span>
     <span class="header-right spacer"></span>
     <span class="header-right fade-in fade-out">
         <b>Monitor:</b> {{Topic.getData('Monitor')}}

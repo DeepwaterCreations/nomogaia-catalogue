@@ -15,13 +15,20 @@ var rowDataId = 0;
 g.allRowData = {};
 
 //Holds the data for a single row.
-RowData = function (table, inId, rowData) {
+RowData = function (table, inId, inModified, rowData) {
     if (inId && inId != "auto") {
         this.id = inId;
         rowDataId = Math.max(rowDataId, inId + 1);
     }else{
         this.id = rowDataId++;
     }
+
+    if (inModified && inModified != "auto") {
+        this.modified = inModified;
+    } else {
+        this.modified = false;
+    }
+
     g.allRowData[this.id] = this;
     this.child = null;
     this.ui = null;
@@ -38,6 +45,7 @@ RowData = function (table, inId, rowData) {
         // we need a unique identifier for each one so we can "point" to other rowData if we have to
         var out = {};
         out["id"] = this.id;
+        out["modified"] = this.modified;
         if (this.rowData == null) {
             var that = this;
             g.columnList.forEach(function (columnName) {
@@ -250,8 +258,9 @@ RowData = function (table, inId, rowData) {
         }
     }
 
-    this.setData = function (columnName, data) {
+    this.setData = function (columnName, data, updateModified) {
         var oldData = this.getData(columnName)
+        updateModified = updateModified || false;
 
         // we need to know if the data is different
         var changed;
@@ -265,6 +274,7 @@ RowData = function (table, inId, rowData) {
 
         // we only need to do something if the new value is different that the old value
         if (changed) {
+            this.modified = this.modified || updateModified;
             setVisualizationsDirty();
             if (this.rowData != undefined) {
                 // since a change has been made we no long are going to look to rowData
