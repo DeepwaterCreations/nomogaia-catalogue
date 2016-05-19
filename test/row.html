@@ -2,14 +2,14 @@
 <div
     class="TopicHeader expanded"
     data-ng-click="expandTopicFromHeader(Topic)">
+    <span data-ng-if="Topic.modified" class="header-left">
+        <i class="icon-pencil" aria-hidden="true"></i>
+    </span>
     <span data-ng-if="activeView === 'list'" class="header-left">
         {{::Topic.getData("Catalog") +" &#10142; "+ Topic.getData("Category") +" &#10142; "+ Topic.getData("Sub-Category") +" &#10142; "+ Topic.getData("Topic")}}
     </span>
     <span data-ng-if="activeView === 'tree'" class="header-left">
         {{::Topic.getData("Topic")}}
-    </span>
-    <span data-ng-if="Topic.modified" class="header-left">
-        (Modified!)
     </span>
     <span class="header-right spacer"></span>
     <span class="header-right fade-in fade-out">
