@@ -17,7 +17,7 @@ g.aspenApp.controller('splashController', ['$scope', '$timeout', function ($scop
 
             setTimeout(function () {
                 $("#splash").hide();
-            }, 4000);// the length of this timeout needs to be kept syned with the length of the animation
+            }, 1500);// the length of this timeout needs to be kept syned with the length of the animation
         }, 0);
     }
 

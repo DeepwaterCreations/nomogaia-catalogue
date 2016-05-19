@@ -30,12 +30,11 @@ function Table(monitorTables) {
         return rowData;
     }
 
-    this.addRows = function (dataList, callBack) {
+    this.addRows = function (dataList) {
         var that = this;
         dataList.forEach(function (data) {
             that.tableData.addRow(data);
         })
-        callBack();
     }
 
 
@@ -47,13 +46,14 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
     var newTable = new Table(monitorTables);
     var dataList = [];
     objFromFile[tableIndex].backingData.forEach(function (objRow) {
+        var modified = objRow["modified"];
         if ("pointsTo" in objRow) {
-            var refRow = undefined;
+            var refRow = undefined || false;
             //Search through the existing data and find the row with the id the new data points to.
             refRow = RowData.getRow(objRow["pointsTo"]);
             //Once we've found the row being pointed to, make a new row that references it. 
             if (refRow) {
-                var newRowData = new RowData(newTable, objRow.id, refRow);
+                var newRowData = new RowData(newTable, objRow.id, modified, refRow);
                 dataList.push(newRowData);
             }
             else {
@@ -61,7 +61,7 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
             }
         }
         else {
-            var newRowData = new RowData(newTable, objRow.id);
+            var newRowData = new RowData(newTable, objRow.id, modified);
             g.columnList.forEach(function (columnName) {
                 if (columnName in objRow)
                     newRowData.setData(columnName, objRow[columnName]);
@@ -69,7 +69,6 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
             dataList.push(newRowData);
         }
     });
-    newTable.addRows(dataList, function () {
-    });
+    newTable.addRows(dataList);
     return newTable;
 }

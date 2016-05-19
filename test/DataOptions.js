@@ -25,7 +25,7 @@ DataOptions.getColumnOptions = function (column) {
         return result;
     } else {
         if (DataOptions.columnOptions.hasOwnProperty(column)) {
-            return DataOptions.columnOptions[column].concat(DataOptions.customColumnOptions[column]);
+            return DataOptions.columnOptions[column];
         } else {
             return [];
         }
@@ -42,23 +42,23 @@ DataOptions.isNotEmpty = function ( data) {
     return true;
 }
 
-//Adds a new data option to the custom data list.
+//Adds a new data option to the data list.
 //Returns the index of the added data.
 DataOptions.addCustom = function(column, data){
     if(!DataOptions.isNotEmpty(data)){
         return -1;
-    } else if (!DataOptions.customColumnOptions.hasOwnProperty(column)) {
+    } else if (!DataOptions.columnOptions.hasOwnProperty(column)) {
         console.err("WARNING: column ", column, " does not exist.");
         return -1;
-    } else if(DataOptions.customColumnOptions[column].indexOf(data) >= 0 ||
+    } else if (DataOptions.columnOptions[column].indexOf(data) >= 0 ||
             DataOptions.columnOptions[column].indexOf(data) >= 0){
         //The right or rights-holder we're trying to add already exists.
-        var index = DataOptions.customColumnOptions[column].indexOf(data) || 
+        var index = DataOptions.columnOptions[column].indexOf(data) ||
             DataOptions.columnOptions[column].indexOf(data); 
         return index;
     } else {
-        DataOptions.customColumnOptions[column].push(data);
-        return DataOptions.customColumnOptions[column].indexOf(data); 
+        DataOptions.columnOptions[column].push(data);
+        return DataOptions.columnOptions[column].indexOf(data);
     }
 };
 
@@ -85,16 +85,10 @@ DataOptions.columnOptions = {
     "Module": DataOptions.loadFromFile("Module.csv"),
     "Score": DataOptions.loadFromFile("Score.csv")
 }
-DataOptions.customColumnOptions = {
-    "Impacted Rights": [],
-    "Impacted Rights-Holders": [],
-    "Module": [],
-    "Score": []
-}
 
 DataOptions.getDefaultValue = function (className) {
     if (className == "Score") {
-        return DataOptions.columnOptions["Score"][0];//25";//
+        return DataOptions.columnOptions["Score"][0];
     } else if (className == "Module") {
         return DataOptions.columnOptions["Module"][0];
     }
@@ -103,20 +97,23 @@ DataOptions.getDefaultValue = function (className) {
 
 //Functions for saving and loading
 DataOptions.toOut = function(){
-    //Possibly someday we might want to make a new object to return and add
-    //filepaths to default rights/holders alongside the customColumnOptions
-    //object.
-    return DataOptions.customColumnOptions;
+    return DataOptions.columnOptions;
 };
 
 //"loadFromFile" loads the default options from a csv. This
-//function instead loads rights/rightsholders/so-on that the user 
+//function unions those with the rights/rightsholders/so-on that the user 
 //added for this particular project. It's what the load button in the corner
 //of the screen calls when the user loads a project from json.
 DataOptions.loadCustom = function(loaded_data){
-    //In the future, we might have to break up loaded_data and set its fields to 
-    //different things, but for now, the only thing we care about saving and loading is a
-    //single object anyway, so we go ahead and save and load it directly instead of wrapping it
-    //in a bigger structure.
-    DataOptions.customColumnOptions = loaded_data;
+    DataOptions.columnOptions = {
+        "Impacted Rights": DataOptions.loadFromFile("Impacted Rights.csv"),
+        "Impacted Rights-Holders": DataOptions.loadFromFile("Rightsholders.csv"),
+        "Module": DataOptions.loadFromFile("Module.csv"),
+        "Score": DataOptions.loadFromFile("Score.csv")
+    }
+    for (key in DataOptions.columnOptions) {
+        if (loaded_data.hasOwnProperty(key)) {
+            DataOptions.columnOptions[key] = Util.union(DataOptions.columnOptions[key], loaded_data[key]);
+        }
+    }
 };

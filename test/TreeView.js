@@ -387,7 +387,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return function (data) {
             if (arguments.length) {
                 //Set
-                rowData.setData(columnName, data);
+                rowData.setData(columnName, data ,true);
             }
             else {
                 //Get
