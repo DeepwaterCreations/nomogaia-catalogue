@@ -730,12 +730,20 @@ button.blueButton.textInputButton, input[type="button"].blueButton.textInputButt
 }*/
 
 
-    .header-button:hover {
+    .TopicHeader.expanded .header-button:hover {
         background: rgba(0,0,0,.5);
     }
 
-    .header-button:active {
+    .TopicHeader.expanded .header-button:active {
         background: black;
+    }
+
+     .branchHeader .header-button:hover,.TopicHeader.dummyHeader .header-button:hover {
+        background: rgba(255,255,255,.5);
+    }
+
+    .branchHeader .header-button:active, .TopicHeader.dummyHeader .header-button:active {
+        background: white;
     }
 
 
