@@ -26,7 +26,7 @@
                 <div class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
                     <input class="white-button splash-button fade-in fade-out" type="button" value="Load" data-ng-click="selectFile()" />
                 </div>
-                <div class="centerer" data-ng-if="recentFiles.lenght != 0 && !loading"  data-ng-cloak>
+                <div class="centerer" data-ng-if="recentFiles.lenght != 0 && !loading" data-ng-cloak>
                     <div class="white-text">Recent Files</div>
                 </div>
                 <div data-ng-repeat="x in recentFiles.slice(0, 5)" class="centerer fade-in fade-out" data-ng-if="!loading" data-ng-cloak>
@@ -63,7 +63,7 @@
             <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
 
             <button class="blueButton rightButton" id="save" type="button">Save</button>
-            <input type="file" id="saveFileDialog" style="display:none;" accept=".csv,.json" nwsaveas/>
+            <input type="file" id="saveFileDialog" style="display:none;" accept=".csv,.json" nwsaveas />
         </ul>
         <div id="main-page">
             <div id="page">
@@ -108,46 +108,44 @@
                                 <input type="button" class="blueButton textInputButton" data-ng-click="mo.vis = !mo.vis;" value="{{(!mo.vis)?'Add Topic':'Hide Add Topic'}}" />
                                 <i data-ng-class="{'rotating':backgroundActivity()}" class="icon-cog"></i>
                             </div>
-                            <div data-ng-controller="addController" class="header" data-ng-hide="!mo.vis">
+                            <div data-ng-controller="addController" class="header" data-ng-if="mo.vis">
                                 <h2 class="addHeader">Add Topic</h2>
-
-
                                 <div class="addBody">
                                     <span class="addPrompt">{{(index+1) +". "+ getPrompt()}}</span>
                                     <div data-ng-if="list[index].name == 'Catalog'">
                                         <div data-ng-repeat="val in getCatalogs()">
-                                            <input type="radio" 
-                                                   ng-model="catalog.value" 
-                                                   id="{{val}}" 
-                                                   value="{{val}}" 
+                                            <input type="radio"
+                                                   ng-model="catalog.value"
+                                                   id="{{val}}"
+                                                   value="{{val}}"
                                                    name="catalog" />
                                             <label for="{{val}}">{{val}}</label>
                                         </div>
-                                        <form  data-ng-submit="topicAdder.addNewCatalog(overlayTree,newCatalog);catalog.value=newCatalog;newCatalog='';">
+                                        <form data-ng-submit="topicAdder.addNewCatalog(overlayTree,newCatalog);catalog.value=newCatalog;newCatalog='';">
                                             <input type="text" data-ng-model="newCatalog" />
-                                            <input type="submit" 
-                                                   class="blueButton textInputButton" 
+                                            <input type="submit"
+                                                   class="blueButton textInputButton"
                                                    data-ng-disabled="!legalNewCatalog(newCatalog)"
                                                    value="Add" />
-                                                   <!--data-ng-click="topicAdder.addNewCatalog(overlayTree,newCatalog);catalog.value=newCatalog;newCatalog='';"--> 
-                                                   
+                                            <!--data-ng-click="topicAdder.addNewCatalog(overlayTree,newCatalog);catalog.value=newCatalog;newCatalog='';"-->
+
                                         </form>
                                     </div>
                                     <div data-ng-if="list[index].name == 'Category'">
                                         <div data-ng-if="legalCatalog(catalog.value)">
                                             <div data-ng-repeat="val in getCategories(catalog.value)">
-                                                <input type="radio" 
-                                                       ng-model="category.value" 
-                                                       id="{{val}}" 
-                                                       value="{{val}}" 
+                                                <input type="radio"
+                                                       ng-model="category.value"
+                                                       id="{{val}}"
+                                                       value="{{val}}"
                                                        name="category" />
                                                 <label for="{{val}}">{{val}}</label>
                                             </div>
                                             <form data-ng-submit="topicAdder.addNewCategory(overlayTree,catalog.value,newCategory);category.value=newCategory;newCategory='';">
                                                 <input type="text" data-ng-model="newCategory" />
-                                                <input type="submit" 
-                                                       class="blueButton textInputButton" 
-                                                       data-ng-disabled="!legalNewCategory(catalog.value,newCategory)" 
+                                                <input type="submit"
+                                                       class="blueButton textInputButton"
+                                                       data-ng-disabled="!legalNewCategory(catalog.value,newCategory)"
                                                        value="Add" />
                                             </form>
                                         </div>
@@ -158,17 +156,17 @@
                                     <div data-ng-if="list[index].name == 'SubCategory'">
                                         <div data-ng-if="legalCategory(catalog.value,category.value)">
                                             <div data-ng-repeat="val in getSubCategories(catalog.value,category.value)">
-                                                <input type="radio" 
-                                                       data-ng-model="subCategory.value" 
-                                                       id="{{val}}" 
-                                                       value="{{val}}" 
+                                                <input type="radio"
+                                                       data-ng-model="subCategory.value"
+                                                       id="{{val}}"
+                                                       value="{{val}}"
                                                        name="subCategory" />
                                                 <label for="{{val}}">{{val}}</label>
                                             </div>
                                             <form data-ng-submit="topicAdder.addNewSubCategory(overlayTree,catalog.value,category.value,newSubCategory);subCategory.value=newSubCategory;newSubCategory='';">
                                                 <input type="text" data-ng-model="newSubCategory" />
-                                                <input type="button" class="blueButton textInputButton" 
-                                                       data-ng-disabled="!legalNewSubCategory(catalog.value,category.value,newSubCategory)" 
+                                                <input type="button" class="blueButton textInputButton"
+                                                       data-ng-disabled="!legalNewSubCategory(catalog.value,category.value,newSubCategory)"
                                                        value="Add" />
                                             </form>
                                         </div>
@@ -179,18 +177,18 @@
                                     <div data-ng-if="list[index].name == 'Topic'">
                                         <div data-ng-if="legalSubCategory(catalog.value,category.value,subCategory.value)">
                                             <div data-ng-repeat="value in getTopics(catalog.value,category.value,subCategory.value)">
-                                                <input type="radio" 
-                                                       data-ng-model="topic.value" 
-                                                       id="{{value}}" 
-                                                       value="{{value}}" 
+                                                <input type="radio"
+                                                       data-ng-model="topic.value"
+                                                       id="{{value}}"
+                                                       value="{{value}}"
                                                        name="topic" />
                                                 <label for="{{value}}">{{value}}</label>
                                             </div>
                                             <form data-ng-submit="addOverlayTopic(catalog.value,category.value,subCategory.value,newTopic);topic.value=newTopic;newTopic='';">
                                                 <input type="text" data-ng-model="newTopic" />
-                                                <input type="submit" 
-                                                       class="blueButton textInputButton" 
-                                                       data-ng-disabled="!legalNewTopic(catalog.value,category.value,subCategory.value,newTopic)" 
+                                                <input type="submit"
+                                                       class="blueButton textInputButton"
+                                                       data-ng-disabled="!legalNewTopic(catalog.value,category.value,subCategory.value,newTopic)"
                                                        value="Add" />
                                             </form>
                                         </div>
@@ -211,7 +209,7 @@
                                             <label for="{{mod}}">{{mod}}</label>
                                         </div>
                                         <form data-ng-submit="addModule(newModule);module.value=newModule;newModule='';">
-                                            <input type="text" data-ng-model="newModule"/>
+                                            <input type="text" data-ng-model="newModule" />
                                             <input type="submit"
                                                    class="blueButton textInputButton"
                                                    data-ng-disabled="!legalNewModule(newModule)"
@@ -245,17 +243,37 @@
                                 <ul data-ng-if="activeView=='tree'" id="tree" class="branchBody">
                                     <li data-ng-repeat="(Catalog,Categories) in filteredTree" data-ng-init="this.show=false">
                                         <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
-                                            {{::Catalog}}
+                                            <span class="header-left">{{::Catalog}}</span>
+                                            <span class="header-right spacer"></span>
+                                            <button class="header-right header-button"
+                                                    tabindex="-1"
+                                                    data-ng-click="deleteBranch(filteredTree[Catalog],Catalog);$event.stopPropagation();">
+                                                <i class="icon-trash" aria-hidden="true"></i>
+                                            </button>
                                         </div>
                                         <ul data-ng-if="this.show" class="branchBody">
-                                            <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
+                                            <li data-ng-repeat="(Category,SubCategories) in Categories" data-ng-init="this.show=false">
                                                 <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
-                                                    {{::Category}}
+                                                    <span class="header-left">{{::Category}}</span>
+                                                    <span class="header-right spacer"></span>
+                                                    <button class="header-right header-button"
+                                                            tabindex="-1"
+                                                            data-ng-click="deleteBranch(Categories[Category],Category);$event.stopPropagation();">
+                                                        <i class="icon-trash" aria-hidden="true"></i>
+                                                    </button>
                                                 </div>
                                                 <ul data-ng-if="this.show" class="branchBody">
-                                                    <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
+                                                    <li data-ng-repeat="(SubCategory,topics) in SubCategories" data-ng-init="this.show=false">
                                                         <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
-                                                            {{::SubCategory}}
+                                                            <span class="header-left">
+                                                                {{::SubCategory}}
+                                                            </span>
+                                                            <span class="header-right spacer"></span>
+                                                            <button class="header-right header-button"
+                                                                    tabindex="-1"
+                                                                    data-ng-click="deleteBranch(SubCategories[SubCategory],SubCategory);$event.stopPropagation();">
+                                                                <i class="icon-trash" aria-hidden="true"></i>
+                                                            </button>
                                                         </div>
                                                         <ul data-ng-if="this.show" class="branchBody">
                                                             <li data-ng-repeat="Topic in topics" data-ng-init="this.editRights = false; this.editRightsholders = false; this.showAbout = false">
@@ -265,11 +283,20 @@
                                                                     <div class="TopicHeader dummyHeader"
                                                                          data-ng-show="!getRowHat(Topic.id).getRootHat().show"
                                                                          data-ng-click="expandTopicFromHeader(Topic)">
+                                                                        <span data-ng-if="Topic.modified" class="header-left">
+                                                                            <i class="icon-pencil" aria-hidden="true"></i>
+                                                                        </span>
                                                                         <span class="header-left">
                                                                             {{::Topic.getData("Topic")}}
                                                                         </span>
+                                                                        <span class="header-right spacer"></span>
+                                                                        <button class="header-right header-button"
+                                                                                tabindex="-1"
+                                                                                data-ng-click="delete(Topic);$event.stopPropagation();">
+                                                                            <i class="icon-trash" aria-hidden="true"></i>
+                                                                        </button>
                                                                     </div>
-                                                                    <div data-ng-show="getRowHat(Topic.id).getRootHat().show" data-ng-include="'row.html'"></div>
+                                                                    <div data-ng-if="getRowHat(Topic.id).getRootHat().show" data-ng-include="'row.html'"></div>
                                                                 </div>
                                                             </li>
                                                             <!--<li>
