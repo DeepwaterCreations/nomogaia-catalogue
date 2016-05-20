@@ -38,7 +38,7 @@ RecentFiles.push = function (path, load) {
             name: RecentFiles.getName(path)
         }
     );
-    if (path.getType().toLowerCase() == ".json") {
+    if (RecentFiles.getType(path).toLowerCase() == ".json") {
         RecentFiles.private.currentAddress = RecentFiles.getAddress(path);
         RecentFiles.setCurrentFileName(RecentFiles.getName(path));
         $("title").empty();
