@@ -256,29 +256,39 @@ RowData = function (table, inId, inModified,inUnHooked, rowData) {
         if (typeof rights === 'string')
             rights = [rights];
 
-        var topic_rights = this.getData("Impacted Rights") || [];
+        var current_rights = this.getData("Impacted Rights") || [];
+        var next_rights = [];
+        for (var i = 0; i < current_rights.length; i++) {
+            next_rights.push(current_rights[i]);
+        }
+
         rights.forEach(function (right) {
-            var index = topic_rights.indexOf(right);
+            var index = next_rights.indexOf(right);
             if (index >= 0) {
-                topic_rights.splice(index, 1);
+                next_rights.splice(index, 1);
             }
         });
 
-        this.setData("Impacted Rights", topic_rights);
+        this.setData("Impacted Rights", next_rights, true);
     };
     this.removeRightsholders = function (rightsholders) {
         if (typeof rightsholders === 'string')
             rightsholders = [rightsholders];
 
-        var topic_rightsholders = this.getData("Impacted Rights-Holders") || [];
+        var current_rightsholders = this.getData("Impacted Rights-Holders") || [];
+        var next_rightsholders = [];
+        for (var i = 0; i < current_rightsholders.length; i++) {
+            next_rightsholders.push(current_rightsholders[i]);
+        }
+
         rightsholders.forEach(function (rightsholder) {
-            var index = topic_rightsholders.indexOf(rightsholder);
+            var index = next_rightsholders.indexOf(rightsholder);
             if (index >= 0) {
-                topic_rightsholders.splice(index, 1);
+                next_rightsholders.splice(index, 1);
             }
         });
 
-        this.setData("Impacted Rights-Holders", topic_rightsholders);
+        this.setData("Impacted Rights-Holders", next_rightsholders, true);
     };
 
     this.acceptDrop = function (type, value) {
