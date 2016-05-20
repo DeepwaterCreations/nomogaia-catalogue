@@ -38,14 +38,17 @@ RecentFiles.push = function (path, load) {
             name: RecentFiles.getName(path)
         }
     );
-    RecentFiles.private.currentAddress = RecentFiles.getAddress(path);
-    RecentFiles.setCurrentFileName(RecentFiles.getName(path));
-    $("title").empty();
-    var newTitle = RecentFiles.private.title + " - " + RecentFiles.getCurrentFileName();
-    $("title").append(newTitle);
-    RecentFiles.setClean();
+    if (path.getType().toLowerCase() == ".json") {
+        RecentFiles.private.currentAddress = RecentFiles.getAddress(path);
+        RecentFiles.setCurrentFileName(RecentFiles.getName(path));
+        $("title").empty();
+        var newTitle = RecentFiles.private.title + " - " + RecentFiles.getCurrentFileName();
+        $("title").append(newTitle);
+        // do we want csv's to count as clean?? for now I think no
+        RecentFiles.setClean();
+    }
     // we only save the last 10
-    localStorage.setItem("recentFiles", JSON.stringify(recentFiles.splice(0,10)));
+    localStorage.setItem("recentFiles", JSON.stringify(recentFiles.splice(0, 10)));
 }
 
 RecentFiles.getName = function (path) {
@@ -53,6 +56,13 @@ RecentFiles.getName = function (path) {
     filename = filename.substr(0, filename.indexOf("."));
     return filename;
 }
+
+RecentFiles.getType = function (path) {
+    var filename = path.replace(/^.*[\\\/]/, '');
+    filename = filename.substr(filename.indexOf("."), filename.length);
+    return filename;
+}
+
 
 // return just the address and not the file name
 RecentFiles.getAddress = function (path) {
