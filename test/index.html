@@ -247,23 +247,23 @@
                                             <span class="header-right spacer"></span>
                                             <button class="header-right header-button"
                                                     tabindex="-1"
-                                                    data-ng-click="$event.stopPropagation();">
+                                                    data-ng-click="deleteBranch(filteredTree[Catalog],Catalog);$event.stopPropagation();">
                                                 <i class="icon-trash" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                         <ul data-ng-if="this.show" class="branchBody">
-                                            <li data-ng-repeat="(Category,SubDategories) in Categories" data-ng-init="this.show=false">
+                                            <li data-ng-repeat="(Category,SubCategories) in Categories" data-ng-init="this.show=false">
                                                 <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
                                                     <span class="header-left">{{::Category}}</span>
                                                     <span class="header-right spacer"></span>
                                                     <button class="header-right header-button"
                                                             tabindex="-1"
-                                                            data-ng-click="$event.stopPropagation();">
+                                                            data-ng-click="deleteBranch(Categories[Category],Category);$event.stopPropagation();">
                                                         <i class="icon-trash" aria-hidden="true"></i>
                                                     </button>
                                                 </div>
                                                 <ul data-ng-if="this.show" class="branchBody">
-                                                    <li data-ng-repeat="(SubCategory,topics) in SubDategories" data-ng-init="this.show=false">
+                                                    <li data-ng-repeat="(SubCategory,topics) in SubCategories" data-ng-init="this.show=false">
                                                         <div data-ng-click="this.show= !this.show" class="branchHeader" data-ng-class="{'expanded':this.show}">
                                                             <span class="header-left">
                                                                 {{::SubCategory}}
@@ -271,7 +271,7 @@
                                                             <span class="header-right spacer"></span>
                                                             <button class="header-right header-button"
                                                                     tabindex="-1"
-                                                                    data-ng-click="$event.stopPropagation();">
+                                                                    data-ng-click="deleteBranch(SubCategories[SubCategory],SubCategory);$event.stopPropagation();">
                                                                 <i class="icon-trash" aria-hidden="true"></i>
                                                             </button>
                                                         </div>
@@ -292,7 +292,7 @@
                                                                         <span class="header-right spacer"></span>
                                                                         <button class="header-right header-button"
                                                                                 tabindex="-1"
-                                                                                data-ng-click="$event.stopPropagation();">
+                                                                                data-ng-click="delete(Topic);$event.stopPropagation();">
                                                                             <i class="icon-trash" aria-hidden="true"></i>
                                                                         </button>
                                                                     </div>

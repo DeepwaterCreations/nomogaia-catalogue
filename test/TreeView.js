@@ -400,6 +400,70 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         };
     };
 
+    $scope.deleteBranch = function (branch, name) {
+        var addAll = function (topics,at) {
+            if (at instanceof Array){
+                for (var i = 0; i < at.length; i++) {
+                    topics.push(at[i]);
+                }
+            }else {
+                for (var x in at) {
+                    addAll(topics,at[x]);
+                }
+            }
+        }
+        var topics =[];
+        addAll(topics, branch);
+
+        var deleteAll = function () {
+            for (var i = 0; i < topics.length; i++) {
+                topics[i].delete();
+            }
+        }
+
+        $("#deleteDialog").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: [
+                {
+                    text: "Ok",
+                    click: function () {
+                        deleteAll();
+                        $timeout(function () {
+                            $scope.updateFilteredRows($scope.search);
+                        })
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Cancel",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ],
+            title: "Delete Topic?"
+        });
+        $(".ui-dialog").find("button").addClass("blueButton");
+
+        var count = 0;
+        for (var i = 0; i < topics.length; i++) {
+            var at = topics[i];
+            while (at.child != null) {
+                at = at.child;
+                count++;
+            }
+        }
+
+        $("#deleteDialogText").text("Are you sure you want to delete topics under: ");
+        $("#deleteDialogTopic").text("" + name)
+        $("#deleteDialogTopic").css("font-weight", "Bold");
+        $("#deleteDialogMonitors").text("" + (count != 0 ? " and it's " + (count > 1 ? count + " monitors" : " monitor") : "") + "?");
+        $("#deleteDialog").dialog("open");
+
+        console.log("deleting branch:", branch);
+    };
+
     $scope.expandTopicFromHeader = function (topic) {
         if ($scope.activeView === 'tree') {
             rowHat.getRowHat(topic.id).getRootHat().show = !rowHat.getRowHat(topic.id).getRootHat().show;
