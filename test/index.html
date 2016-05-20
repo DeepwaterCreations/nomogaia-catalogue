@@ -128,7 +128,7 @@
                                             <input type="button" 
                                                    class="blueButton textInputButton" 
                                                    data-ng-disabled="!legalNewCatalog(newCatalog)" 
-                                                   data-ng-click="topicAdder.addNewCatalog(overlayTree,newCatalog);newCatalog='';" 
+                                                   data-ng-click="topicAdder.addNewCatalog(overlayTree,newCatalog);catalog.value=newCatalog;newCatalog='';" 
                                                    value="Add" />
                                         </div>
                                     </div>
@@ -147,7 +147,7 @@
                                                 <input type="button" 
                                                        class="blueButton textInputButton" 
                                                        data-ng-disabled="!legalNewCategory(catalog.value,newCategory)" 
-                                                       data-ng-click="topicAdder.addNewCategory(overlayTree,catalog.value,newCategory);newCategory='';" value="Add" />
+                                                       data-ng-click="topicAdder.addNewCategory(overlayTree,catalog.value,newCategory);category.value=newCategory;newCategory='';" value="Add" />
                                             </div>
                                         </div>
                                         <div data-ng-if="!legalCatalog(catalog.value)">
@@ -168,7 +168,7 @@
                                                 <input type="text" data-ng-model="newSubCategory" />
                                                 <input type="button" class="blueButton textInputButton" 
                                                        data-ng-disabled="!legalNewSubCategory(catalog.value,category.value,newSubCategory)" 
-                                                       data-ng-click="topicAdder.addNewSubCategory(overlayTree,catalog.value,category.value,newSubCategory);newSubCategory='';" 
+                                                       data-ng-click="topicAdder.addNewSubCategory(overlayTree,catalog.value,category.value,newSubCategory);subCategory.value=newSubCategory;newSubCategory='';" 
                                                        value="Add" />
                                             </div>
                                         </div>
@@ -191,7 +191,7 @@
                                                 <input type="button" 
                                                        class="blueButton textInputButton" 
                                                        data-ng-disabled="!legalNewTopic(catalog.value,category.value,subCategory.value,newTopic)" 
-                                                       data-ng-click="addOverlayTopic(catalog.value,category.value,subCategory.value,newTopic);newTopic='';" value="Add" />
+                                                       data-ng-click="addOverlayTopic(catalog.value,category.value,subCategory.value,newTopic);topic.value=newTopic;newTopic='';" value="Add" />
                                             </div>
                                         </div>
                                         <div data-ng-if="!legalSubCategory(catalog.value,category.value,subCategory.value)">
@@ -215,7 +215,7 @@
                                             <input type="button"
                                                    class="blueButton textInputButton"
                                                    data-ng-disabled="!legalNewModule(newModule)"
-                                                   data-ng-click="addModule(newModule);newModule='';" value="Add" />
+                                                   data-ng-click="addModule(newModule);module.value=newModule;newModule='';" value="Add" />
                                         </div>
 
 
