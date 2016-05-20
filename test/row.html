@@ -131,7 +131,7 @@
             <label for="{{::'radio' + Topic.id + 'MOD' + module}}">{{module}}</label>
         </div>
         <div class="newModuleField">
-            <span data-ng-show="!mo.showAddModule" data-ng-click="mo.showAddModule = true">
+            <span data-ng-show="!mo.showAddModule" data-ng-click="showAddMod()">
                 Add New Module
             </span>
             <input type="text" data-ng-show="mo.showAddModule" data-ng-model="mo.newMod"></input>

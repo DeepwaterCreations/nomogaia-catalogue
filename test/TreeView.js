@@ -436,10 +436,16 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         $(".ui-dialog-titlebar").addClass("greenDialogTitlebar");
     };
 
+    //Displays the copy topic module dialog's new module field and shows the add/cancel buttons.
+    $scope.showAddMod = function(){
+        $scope.mo.selectedModule = "";
+        $scope.mo.showAddModule = true;
+    };
+
     //Clears the copy topic module dialog's new module field and hides the add/cancel buttons.
     $scope.resetAddMod = function(){
         $scope.mo.showAddModule = false;
-        $scope.mo.newMod = '';
+        $scope.mo.newMod = "";
     };
 
     $scope.init = function () {
