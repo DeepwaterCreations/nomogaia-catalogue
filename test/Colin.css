@@ -632,7 +632,7 @@ button.close-icon {
         }
 
 /* For "Add" buttons next to text input fields */
-button.blueButton.textInputButton, input[type="button"].blueButton.textInputButton {
+button.blueButton.textInputButton, input[type="button"].blueButton.textInputButton, input[type="submit"].blueButton.textInputButton {
     padding: 0 .4em;
     margin-left: 0;
 }

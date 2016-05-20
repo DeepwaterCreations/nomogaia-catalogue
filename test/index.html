@@ -123,14 +123,15 @@
                                                    name="catalog" />
                                             <label for="{{val}}">{{val}}</label>
                                         </div>
-                                        <div>
+                                        <form  data-ng-submit="topicAdder.addNewCatalog(overlayTree,newCatalog);catalog.value=newCatalog;newCatalog='';">
                                             <input type="text" data-ng-model="newCatalog" />
-                                            <input type="button" 
+                                            <input type="submit" 
                                                    class="blueButton textInputButton" 
-                                                   data-ng-disabled="!legalNewCatalog(newCatalog)" 
-                                                   data-ng-click="topicAdder.addNewCatalog(overlayTree,newCatalog);catalog.value=newCatalog;newCatalog='';" 
+                                                   data-ng-disabled="!legalNewCatalog(newCatalog)"
                                                    value="Add" />
-                                        </div>
+                                                   <!--data-ng-click="topicAdder.addNewCatalog(overlayTree,newCatalog);catalog.value=newCatalog;newCatalog='';"--> 
+                                                   
+                                        </form>
                                     </div>
                                     <div data-ng-if="list[index].name == 'Category'">
                                         <div data-ng-if="legalCatalog(catalog.value)">
@@ -142,13 +143,13 @@
                                                        name="category" />
                                                 <label for="{{val}}">{{val}}</label>
                                             </div>
-                                            <div>
+                                            <form data-ng-submit="topicAdder.addNewCategory(overlayTree,catalog.value,newCategory);category.value=newCategory;newCategory='';">
                                                 <input type="text" data-ng-model="newCategory" />
-                                                <input type="button" 
+                                                <input type="submit" 
                                                        class="blueButton textInputButton" 
                                                        data-ng-disabled="!legalNewCategory(catalog.value,newCategory)" 
-                                                       data-ng-click="topicAdder.addNewCategory(overlayTree,catalog.value,newCategory);category.value=newCategory;newCategory='';" value="Add" />
-                                            </div>
+                                                       value="Add" />
+                                            </form>
                                         </div>
                                         <div data-ng-if="!legalCatalog(catalog.value)">
                                             you must select a Catalog before you can select a Category
@@ -164,13 +165,12 @@
                                                        name="subCategory" />
                                                 <label for="{{val}}">{{val}}</label>
                                             </div>
-                                            <div>
+                                            <form data-ng-submit="topicAdder.addNewSubCategory(overlayTree,catalog.value,category.value,newSubCategory);subCategory.value=newSubCategory;newSubCategory='';">
                                                 <input type="text" data-ng-model="newSubCategory" />
                                                 <input type="button" class="blueButton textInputButton" 
                                                        data-ng-disabled="!legalNewSubCategory(catalog.value,category.value,newSubCategory)" 
-                                                       data-ng-click="topicAdder.addNewSubCategory(overlayTree,catalog.value,category.value,newSubCategory);subCategory.value=newSubCategory;newSubCategory='';" 
                                                        value="Add" />
-                                            </div>
+                                            </form>
                                         </div>
                                         <div data-ng-if="!legalCategory(catalog.value,category.value)">
                                             you must select a Category before you can select a Sub-Category
@@ -186,13 +186,13 @@
                                                        name="topic" />
                                                 <label for="{{value}}">{{value}}</label>
                                             </div>
-                                            <div>
+                                            <form data-ng-submit="addOverlayTopic(catalog.value,category.value,subCategory.value,newTopic);topic.value=newTopic;newTopic='';">
                                                 <input type="text" data-ng-model="newTopic" />
-                                                <input type="button" 
+                                                <input type="submit" 
                                                        class="blueButton textInputButton" 
                                                        data-ng-disabled="!legalNewTopic(catalog.value,category.value,subCategory.value,newTopic)" 
-                                                       data-ng-click="addOverlayTopic(catalog.value,category.value,subCategory.value,newTopic);topic.value=newTopic;newTopic='';" value="Add" />
-                                            </div>
+                                                       value="Add" />
+                                            </form>
                                         </div>
                                         <div data-ng-if="!legalSubCategory(catalog.value,category.value,subCategory.value)">
                                             you must select a Sub-Category before you can select a Topic
@@ -210,13 +210,13 @@
                                                    name="module" />
                                             <label for="{{mod}}">{{mod}}</label>
                                         </div>
-                                        <div>
+                                        <form data-ng-submit="addModule(newModule);module.value=newModule;newModule='';">
                                             <input type="text" data-ng-model="newModule"/>
-                                            <input type="button"
+                                            <input type="submit"
                                                    class="blueButton textInputButton"
                                                    data-ng-disabled="!legalNewModule(newModule)"
-                                                   data-ng-click="addModule(newModule);module.value=newModule;newModule='';" value="Add" />
-                                        </div>
+                                                   value="Add" />
+                                        </form>
 
 
 
