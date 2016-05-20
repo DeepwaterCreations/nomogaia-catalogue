@@ -38,7 +38,7 @@
         if (copyFrom != undefined) {
             var dataList = []
             copyFrom.tableData.rows.forEach(function (row) {
-                dataList.push(new RowData(newTable, "auto", "auto", row));
+                dataList.push(new RowData(newTable, "auto", "auto","auto", row));
             });
             newTable.addRows(dataList);
         }
@@ -63,6 +63,38 @@
             out.monitors.push(monitorObj);
         }
         return out;
+    }
+
+    // returns a string
+    this.toCSV = function () {
+        var str = "";
+        str += RowData.CSVHeader();
+        for (var i = 0; i < this.backingData.length; i++) {
+            str += this.backingData[i].toCSV();
+        }
+        return str;
+    }
+
+    this.loadCSV = function (str) {
+        this.clear();
+        var table = Papa.parse(str, { header: true });
+        console.log("table", table);
+        var tables = {};
+
+        // we need to split up in to row
+        for (var i = 0; i < table.data.length; i++) {
+            var row = table.data[i];
+            if (tables[row["monitor id"]] === undefined) {
+                tables[row["monitor id"]] = [];
+            } else {
+                tables[row["monitor id"]].push(row);
+            }
+        }
+
+        //now we need to copy the rows froward
+        for (var i = 0; i < tables.length; i++) {
+
+        }
     }
 
     this.loadFile = function(loaded_data){

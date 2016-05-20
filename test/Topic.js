@@ -8,7 +8,7 @@
     this.source = source;
 
     this.toData = function (table) {
-        var result = new RowData(table);
+        var result = new RowData(table, "auto", "auto", "auto");
         result.setData("Catalog", this.catalog);
         result.setData("Category", this.category);
         result.setData("Sub-Category", this.subCategory);

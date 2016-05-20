@@ -35,7 +35,6 @@ onload = function () {
     },10);
 }
 
-
 $(document).ready(function () {
 
     //Make the about dialog.
@@ -108,7 +107,7 @@ $(document).ready(function () {
     //                rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
     //            } else {
     //                var dataAt = rowAt.data;
-    //                var newData = new RowData(myTable,"auto","auto", dataAt);
+    //                var newData = new RowData(myTable,"auto","auto","auto", dataAt);
     //                rowAt = myTable.addRow(newData);
     //            }
     //        }
