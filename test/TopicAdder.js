@@ -1,24 +1,18 @@
 var TopicAdder = function ($timeout) {
 
     this.addNewCatalog = function (treeView, catalog) {
-        //this.$timeout(function () {
-        console.log("added new catalog", treeView);
         treeView[catalog] = {};
-        //});
     }
     this.isNewCatalog = function (treeView, catalog) {
         return DataOptions.isNotEmpty(catalog) &&
             treeView[catalog] == undefined;
     }
     this.addNewCategory = function (treeView, catalog, category) {
-        //this.$timeout(function () {
-        console.log("added new category", treeView);
         if (this.isNewCatalog(treeView, catalog)) {
             this.addNewCatalog(treeView, catalog);
         }
 
         treeView[catalog][category] = {};
-        //});
     }
     this.isNewCategory = function (treeView, catalog, category) {
         console.log("is new category :" + catalog + " , " + category, treeView)
@@ -28,7 +22,6 @@ var TopicAdder = function ($timeout) {
             treeView[catalog][category] == undefined;
     }
     this.addNewSubCategory = function (treeView, catalog, category, subCatagory) {
-        //this.$timeout(function () {
         if (this.isNewCatalog(treeView, catalog)) {
             this.addNewCatalog(treeView, catalog);
         }
@@ -36,7 +29,6 @@ var TopicAdder = function ($timeout) {
             this.addNewCategory(treeView, catalog, category);
         }
         treeView[catalog][category][subCatagory] = [];
-        //});
     }
     this.isNewSubCategory = function (treeView, catalog, category, subCatagory) {
         return DataOptions.isNotEmpty(catalog) &&
