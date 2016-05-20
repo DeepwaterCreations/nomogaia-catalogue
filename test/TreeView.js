@@ -448,6 +448,19 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         $scope.mo.newMod = "";
     };
 
+    //Adds a new module to the list of modules and selects it in the copy topic dialog.
+    $scope.addNewMod = function(){
+        if($scope.mo.newMod === "")
+            return;
+        else
+            var mod = $scope.mo.newMod;
+
+        $scope.topicAdder.addNewMod(mod);
+        $scope.mo.selectedModule = mod;    
+
+        $scope.resetAddMod();
+    };
+
     $scope.init = function () {
         // resize
         var dragging = false;
