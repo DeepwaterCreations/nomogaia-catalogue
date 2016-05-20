@@ -412,6 +412,10 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     //but a different module
     $scope.copyTopic = function(topic){
         $scope.mo.selectedModule = topic.Module;
+        //Redefine this function so this topic's dialog is rendered
+        $scope.renderCopyTopicModuleDialog = function(other_topic){
+            return topic.id === other_topic.id;
+        }
         $( "#copyTopicModuleDialog" + topic.id).dialog({
             title: "Split Topic Into New Module",
             buttons: {
@@ -436,6 +440,12 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         });
         $(".ui-dialog").find("button").addClass("blueButton");
         $(".ui-dialog-titlebar").addClass("greenDialogTitlebar");
+    };
+
+    //This function is redefined in $scope.copyTopic, so that only one version of the
+    //dialog will be rendered at a time.
+    $scope.renderCopyTopicModuleDialog = function(){
+        return false;
     };
 
     //Displays the copy topic module dialog's new module field and shows the add/cancel buttons.

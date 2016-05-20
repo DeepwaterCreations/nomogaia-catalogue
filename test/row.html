@@ -121,8 +121,7 @@
 
 <!-- DIALOG -->
 <div id="{{'copyTopicModuleDialog' + Topic.id}}" class="dialog hidden moduleDialog">
-    <!-- <p>Select a module:</p> -->
-    <div>
+    <div data-ng-if="renderCopyTopicModuleDialog(Topic)">
         <div data-ng-repeat="module in moduleList()">
             <input type="radio"
                    id="{{::'radio' + Topic.id + 'MOD' + module}}"
