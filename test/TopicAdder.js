@@ -59,7 +59,7 @@ var TopicAdder = function ($timeout) {
             isNew(topic, treeView[catalog][category][subCatagory]);
     }
 
-    this.addNewTopic = function (treeView, catalog, category, subCategory, topic, description, module, source) {
+    this.addNewTopic = function (catalog, category, subCategory, topic, description, module, source) {
 
         description = description || "";
         module = module || DataOptions.getDefaultValue("Module");
