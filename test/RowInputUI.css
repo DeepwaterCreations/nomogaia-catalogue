@@ -247,7 +247,7 @@ span.infotext {
     border-radius: 4px;
 }
 
-.moduleDialog > div > div{
+.moduleDialog > div > div:not(.addModButtons){
     display: flex;
     flex-direction: column;
     margin: 3px;
@@ -259,14 +259,14 @@ span.infotext {
         width: 0;
     }
 
-    .moduleDialog label{
+    .moduleDialog label, .moduleDialog .newModuleField{
         background-color: rgba(0,0,0,.2);
         border-radius: 4px;
-        height: 1em;
         padding: 3px;
+        cursor: pointer;
     }
 
-    .moduleDialog label:hover{
+    .moduleDialog label:hover, .moduleDialog .newModuleField:hover{
         background-color: rgba(0,0,0,.1);
     }
 

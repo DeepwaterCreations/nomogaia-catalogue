@@ -12,6 +12,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.mo = {}
     $scope.mo.vis = false;
     $scope.mo.selectedModule = "";
+    $scope.mo.showAddModule = false;
+    $scope.mo.newMod = "";
 
     $scope.backgroundActivity = function () {
         return $scope.measurer.active;
@@ -421,15 +423,23 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                             topic.description,
                             $scope.mo.selectedModule,
                             topic.source);
+                    $scope.resetAddMod();
                     $( this ).dialog( "close" );
                 },
                 "Cancel": function(){
+                    $scope.resetAddMod();
                     $( this ).dialog( "close" );
                 }
             }
         });
         $(".ui-dialog").find("button").addClass("blueButton");
         $(".ui-dialog-titlebar").addClass("greenDialogTitlebar");
+    };
+
+    //Clears the copy topic module dialog's new module field and hides the add/cancel buttons.
+    $scope.resetAddMod = function(){
+        $scope.mo.showAddModule = false;
+        $scope.mo.newMod = '';
     };
 
     $scope.init = function () {
