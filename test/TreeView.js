@@ -416,13 +416,15 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             title: "Split Topic Into New Module",
             buttons: {
                 "Make Topic": function(){
-                    $scope.topicAdder.addNewTopic(topic.catalog,
-                            topic.category,
-                            topic.subCategory,
-                            topic.topic,
-                            topic.description,
+                    $scope.topicAdder.addNewTopic(
+                            topic["Catalog"],
+                            topic["Category"],
+                            topic["Sub-Category"],
+                            topic["Topic"],
+                            topic["Description"],
                             $scope.mo.selectedModule,
-                            topic.source);
+                            topic["Source"]
+                            );
                     $scope.resetAddMod();
                     $( this ).dialog( "close" );
                 },
