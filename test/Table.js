@@ -16,6 +16,10 @@ function Table(monitorTables) {
         return out;
     }
 
+    this.toCSV = function () {
+        return this.tableData.toCSV();
+    }
+
     this.removeTable = function () {
         this.getTable().remove();
     }
@@ -46,22 +50,24 @@ function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
     var newTable = new Table(monitorTables);
     var dataList = [];
     objFromFile[tableIndex].backingData.forEach(function (objRow) {
-        var modified = objRow["modified"];
-        if ("pointsTo" in objRow) {
-            var refRow = undefined || false;
+        var id = objRow["id"];
+        var modified = objRow["modified"] ||'auto';
+        var parentID = objRow["parentID"] || 'auto';
+        var unHooked = objRow["unHooked"] || 'auto';
+        if (parentID !== 'auto' && parentID != -1) {
             //Search through the existing data and find the row with the id the new data points to.
-            refRow = RowData.getRow(objRow["pointsTo"]);
+            var refRow = RowData.getRow(parentID);
             //Once we've found the row being pointed to, make a new row that references it. 
-            if (refRow) {
-                var newRowData = new RowData(newTable, objRow.id, modified, refRow);
+            if (refRow!= undefined) {
+                var newRowData = new RowData(newTable, id, modified,unHooked, refRow);
                 dataList.push(newRowData);
             }
             else {
-                console.log("WARNING: couldn't find a row with id " + objRow["pointsTo"]);
+                console.log("WARNING: couldn't find a row with id " + parentID);
             }
         }
         else {
-            var newRowData = new RowData(newTable, objRow.id, modified);
+            var newRowData = new RowData(newTable, id, modified, unHooked);
             g.columnList.forEach(function (columnName) {
                 if (columnName in objRow)
                     newRowData.setData(columnName, objRow[columnName]);

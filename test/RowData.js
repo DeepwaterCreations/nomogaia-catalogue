@@ -15,25 +15,31 @@ var rowDataId = 0;
 g.allRowData = {};
 
 //Holds the data for a single row.
-RowData = function (table, inId, inModified, rowData) {
-    if (inId && inId != "auto") {
+RowData = function (table, inId, inModified,inUnHooked, rowData) {
+    if (inId !== undefined &&  inId != "auto") {
         this.id = inId;
         rowDataId = Math.max(rowDataId, inId + 1);
-    }else{
+    } else {
         this.id = rowDataId++;
     }
 
-    if (inModified && inModified != "auto") {
+    if (inModified !== undefined  && inModified != "auto") {
         this.modified = inModified;
     } else {
         this.modified = false;
     }
 
+    if (inUnHooked !== undefined && inUnHooked != "auto") {
+        this.unHooked = inUnHooked;
+    } else {
+        this.unHooked = false;
+    }
+
+
     g.allRowData[this.id] = this;
     this.child = null;
     this.ui = null;
     this.table = table;
-    
 
     // is a dictonary columnName: [listeners...]
     this.listenFunctions = {};
@@ -46,15 +52,40 @@ RowData = function (table, inId, inModified, rowData) {
         var out = {};
         out["id"] = this.id;
         out["modified"] = this.modified;
-        if (this.rowData == null) {
-            var that = this;
-            g.columnList.forEach(function (columnName) {
-                out[columnName] = that[columnName];
-            });
-        } else {
-            out["pointsTo"] = this.rowData.id;
-        }
+        out["unHooked"] = this.unHooked;
+        out["parentID"] = (this.rowData == null ? -1 : this.rowData.id);
+        g.columnList.forEach(function (columnName) {
+            out[columnName] = that.getData(columnName);
+        });
+
         return out;
+    }
+
+    // return a string 
+    // note changes to this should be reflected in RowData.CSVHeader
+    this.toCSV = function () {
+        if (this.isHooked()) {
+            throw "we should only be exporting independent rows";
+        }
+        var toUnParse = [];
+        //toUnParse.push(this.id);
+        var that = this;
+        g.columnList.forEach(function (columnName) {
+            if (that[columnName] === undefined) {
+                toUnParse.push("");
+            } else {
+                toUnParse.push(that[columnName]);
+            }
+        });
+
+        //toUnParse.push(this.table.owner.monitorStringToInt(that["Monitor"]));
+        //if (this.rowData != null) {
+        //    toUnParse.push(this.rowData.id)
+        //} else {
+        //    toUnParse.push(-1);
+        //}
+        var str = Papa.unparse([toUnParse]);
+        return str + '\n';
     }
 
     // generates a function that calls our listeners
@@ -124,8 +155,6 @@ RowData = function (table, inId, inModified, rowData) {
                 monitor += monitorTables.monitorStringToInt(at.getData("Monitor"));
             }
 
-            this.rowData = undefined;
-
             this.setData("Monitor", monitorTables.monitorIntToString(monitor));
         } else {
             this.setData("Monitor", val);
@@ -151,14 +180,14 @@ RowData = function (table, inId, inModified, rowData) {
     };
 
     this.getData = function (columnName) {
-        if (this.rowData == undefined) {
+        if (!this.isHooked()) {
             return this[columnName];
         } else {
             return this.rowData.getData(columnName);
         }
     };
 
-    this.delete = function() {
+    this.delete = function () {
         console.log("erase me");
         this.tryUnHook();
 
@@ -173,20 +202,24 @@ RowData = function (table, inId, inModified, rowData) {
         }
     }
 
+    this.isHooked = function () {
+        return this.rowData != null && !this.unHooked;
+    }
+
     this.tryUnHook = function () {
-        if (this.rowData != null) {
+        if (this.isHooked()) {
             this.unHook();
         }
     }
 
     this.unHook = function (columnName) {
+        console.log("unhooking!")
         // now remove our listeners form rowData
         this.listeningWith.forEach(function (listener) {
             that.rowData.removeListener(listener);
         });
 
-        // tell our source that we are no longer it's monitor
-        this.rowData.child = null;
+        this.unHooked = true;
     }
 
     //Helper functions so we can add new rights/rightsholders without clobbering
@@ -203,7 +236,7 @@ RowData = function (table, inId, inModified, rowData) {
                 next_rights.push(rights[i]);
             }
         }
-        this.setData("Impacted Rights", next_rights);
+        this.setData("Impacted Rights", next_rights, true);
     };
     this.addRightsholders = function (rightsholders) {
         var current_rightsholders = this.getData("Impacted Rights-Holders") || [];
@@ -216,36 +249,46 @@ RowData = function (table, inId, inModified, rowData) {
                 next_rightsholders.push(rightsholders[i]);
             }
         }
-        this.setData("Impacted Rights-Holders", next_rightsholders);
+        this.setData("Impacted Rights-Holders", next_rightsholders, true);
     };
 
     this.removeRights = function (rights) {
         if (typeof rights === 'string')
             rights = [rights];
 
-        var topic_rights = this.getData("Impacted Rights") || [];
+        var current_rights = this.getData("Impacted Rights") || [];
+        var next_rights = [];
+        for (var i = 0; i < current_rights.length; i++) {
+            next_rights.push(current_rights[i]);
+        }
+
         rights.forEach(function (right) {
-            var index = topic_rights.indexOf(right);
+            var index = next_rights.indexOf(right);
             if (index >= 0) {
-                topic_rights.splice(index, 1);
+                next_rights.splice(index, 1);
             }
         });
 
-        this.setData("Impacted Rights", topic_rights);
+        this.setData("Impacted Rights", next_rights, true);
     };
     this.removeRightsholders = function (rightsholders) {
         if (typeof rightsholders === 'string')
             rightsholders = [rightsholders];
 
-        var topic_rightsholders = this.getData("Impacted Rights-Holders") || [];
+        var current_rightsholders = this.getData("Impacted Rights-Holders") || [];
+        var next_rightsholders = [];
+        for (var i = 0; i < current_rightsholders.length; i++) {
+            next_rightsholders.push(current_rightsholders[i]);
+        }
+
         rightsholders.forEach(function (rightsholder) {
-            var index = topic_rightsholders.indexOf(rightsholder);
+            var index = next_rightsholders.indexOf(rightsholder);
             if (index >= 0) {
-                topic_rightsholders.splice(index, 1);
+                next_rightsholders.splice(index, 1);
             }
         });
 
-        this.setData("Impacted Rights-Holders", topic_rightsholders);
+        this.setData("Impacted Rights-Holders", next_rightsholders, true);
     };
 
     this.acceptDrop = function (type, value) {
@@ -276,7 +319,7 @@ RowData = function (table, inId, inModified, rowData) {
         if (changed) {
             this.modified = this.modified || updateModified;
             setVisualizationsDirty();
-            if (this.rowData != undefined) {
+            if (this.isHooked()) {
                 // since a change has been made we no long are going to look to rowData
                 // we are now our own independent grown-up data point!
 
@@ -334,8 +377,12 @@ RowData = function (table, inId, inModified, rowData) {
     }
 };
 
-RowData.getRow = function (id) {
-    return g.allRowData[id];
+RowData.getRow = function (id) { 
+    var res = g.allRowData[id];
+    if (res === undefined || res === null) {
+        throw "trying to get row data row that does not exist! id:" + id;
+    }
+    return res;
 }
 
 // f takes a data row
@@ -359,4 +406,18 @@ RowData.getRowList = function () {
         res.push(row);
     })
     return res;
+}
+
+RowData.CSVHeader = function () {
+    var toUnParse = [];
+    //toUnParse.push("id");
+    var that = this;
+    g.columnList.forEach(function (columnName) {
+        toUnParse.push(columnName);
+    });
+    //toUnParse.push("monitor id");
+    //toUnParse.push("parent id");
+
+    var str = Papa.unparse([toUnParse]);
+    return str + '\n';
 }

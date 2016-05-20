@@ -49,6 +49,16 @@ function TableData() {
         return out;
     }
 
+    this.toCSV = function () {
+        var str = "";
+        this.rows.forEach(function (row) {
+            if (!row.isHooked()) {
+                str+=row.toCSV();
+            }
+        });
+        return str;
+    }
+
     //Returns an array with all the rows for which the "columnName" value contains "data". 
     //If "columnName" holds an array, includes the row in the return values if that array contains "data".
     this.getRows = function (columnName, data) {

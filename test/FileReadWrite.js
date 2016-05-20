@@ -140,11 +140,18 @@ SaveLoad.autosave = function (interval) {
 }
 
 SaveLoad.save = function (filename, callback) {
-    var saveobj = {};
-    saveobj.monitortables = monitorTables.toOut();
-    saveobj.dataoptions = DataOptions.toOut();
-    fs.writeFile(filename, JSON.stringify(saveobj), callback);
-    RecentFiles.push(filename, false);
+    if (filename.toLowerCase().indexOf(".json") != -1) {
+        var saveobj = {};
+        saveobj.monitortables = monitorTables.toOut();
+        saveobj.dataoptions = DataOptions.toOut();
+        fs.writeFile(filename, JSON.stringify(saveobj), callback);
+        RecentFiles.push(filename, false);
+    } else if (filename.toLowerCase().indexOf(".csv") != -1) {
+        var str = monitorTables.toCSV();
+        fs.writeFile(filename, str, callback);
+    } else {
+        console.log("errror! save must be .json or .csv");
+    }
 }
 
 // checks if the file exists and can be read/written
@@ -175,27 +182,45 @@ SaveLoad.load = function (filename, callback) {
     //});
 
     callback = callback || function () { }
+    if (filename.toLowerCase().indexOf(".json") != -1) {
+        fs.readFile(filename, function (error, chunk) {
+            if (error) {
+                console.out("ERROR: ", error);
+                return;
+            }
 
-    fs.readFile(filename, function (error, chunk) {
-        if (error) {
-            console.out("ERROR: ", error);
-            return;
-        }
+            //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
+            var obj = jQuery.parseJSON(chunk);
+            var barMax = 0;//obj.length * obj[obj.length - 1].backingData.length; //The number of monitors times the number of rows in the last monitor.
+            for (var i = 0; i < obj.monitortables.monitors.length; i++) {
+                barMax += obj.monitortables.monitors[i].backingData.length;
+            }
 
-        //TODO: We need to test this thoroughly! I'm not convinced that this will work properly for all valid data inputs.
-        var obj = jQuery.parseJSON(chunk);
-        var barMax = 0;//obj.length * obj[obj.length - 1].backingData.length; //The number of monitors times the number of rows in the last monitor.
-        for (var i = 0; i < obj.monitortables.monitors.length; i++) {
-            barMax += obj.monitortables.monitors[i].backingData.length;
-        }
+            //$("#loadingBar").progressbar("option", "max", barMax);
+            //$("#loadingBar").progressbar("value", 0);
 
-        //$("#loadingBar").progressbar("option", "max", barMax);
-        //$("#loadingBar").progressbar("value", 0);
+            DataOptions.loadCustom(obj.dataoptions)
+            monitorTables.loadFile(obj.monitortables);
+            //$("#loadingBarDialog").dialog("destroy");
+            RecentFiles.push(filename, true);
+            callback();
+        });
+    } else if (filename.toLowerCase().indexOf(".csv") != -1) {
+        fs.readFile(filename, function (error, chunk) {
+            if (error) {
+                console.out("ERROR: ", error);
+                return;
+            }
 
-        DataOptions.loadCustom(obj.dataoptions)
-        monitorTables.loadFile(obj.monitortables);
-        //$("#loadingBarDialog").dialog("destroy");
-        RecentFiles.push(filename, true);
-        callback();
-    });
+
+            DataOptions.reset();
+            monitorTables.loadCSV(chunk + "");
+            RecentFiles.push(filename, true);
+            callback();
+        });
+    } else {
+        console.log("errror! load must be .json or .csv");
+    }
+    
+   
 }

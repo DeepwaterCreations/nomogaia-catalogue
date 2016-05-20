@@ -77,14 +77,17 @@ DataOptions.loadFromFile = function (fileName) {
     return result;
 }
 
+DataOptions.reset = function () {
+    DataOptions.columnOptions = {
+        "Impacted Rights": DataOptions.loadFromFile("Impacted Rights.csv"),
+        "Impacted Rights-Holders": DataOptions.loadFromFile("Rightsholders.csv"),
+        "Module": DataOptions.loadFromFile("Module.csv"),
+        "Score": DataOptions.loadFromFile("Score.csv")
+    }
+}
 
 // the options for a drop down in the key column
-DataOptions.columnOptions = {
-    "Impacted Rights": DataOptions.loadFromFile("Impacted Rights.csv"),
-    "Impacted Rights-Holders": DataOptions.loadFromFile("Rightsholders.csv"),
-    "Module": DataOptions.loadFromFile("Module.csv"),
-    "Score": DataOptions.loadFromFile("Score.csv")
-}
+DataOptions.reset();
 
 DataOptions.getDefaultValue = function (className) {
     if (className == "Score") {

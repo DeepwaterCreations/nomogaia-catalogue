@@ -25,4 +25,4 @@ g.getMonitorTables = function () {
 }
 
 //This is the list of column names. Populate the html table from here.
-g.columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Description", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor", "Delete"];
+g.columnList = ["Catalog", "Category", "Sub-Category", "Topic", "Description", "Input", "Module", "Source", "Impacted Rights", "Impacted Rights-Holders", "Score", "Monitor"];//, "Delete"

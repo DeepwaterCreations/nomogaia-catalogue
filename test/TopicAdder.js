@@ -1,24 +1,18 @@
 var TopicAdder = function ($timeout) {
 
     this.addNewCatalog = function (treeView, catalog) {
-        //this.$timeout(function () {
-        console.log("added new catalog", treeView);
         treeView[catalog] = {};
-        //});
     }
     this.isNewCatalog = function (treeView, catalog) {
         return DataOptions.isNotEmpty(catalog) &&
             treeView[catalog] == undefined;
     }
     this.addNewCategory = function (treeView, catalog, category) {
-        //this.$timeout(function () {
-        console.log("added new category", treeView);
         if (this.isNewCatalog(treeView, catalog)) {
             this.addNewCatalog(treeView, catalog);
         }
 
         treeView[catalog][category] = {};
-        //});
     }
     this.isNewCategory = function (treeView, catalog, category) {
         console.log("is new category :" + catalog + " , " + category, treeView)
@@ -28,7 +22,6 @@ var TopicAdder = function ($timeout) {
             treeView[catalog][category] == undefined;
     }
     this.addNewSubCategory = function (treeView, catalog, category, subCatagory) {
-        //this.$timeout(function () {
         if (this.isNewCatalog(treeView, catalog)) {
             this.addNewCatalog(treeView, catalog);
         }
@@ -36,7 +29,6 @@ var TopicAdder = function ($timeout) {
             this.addNewCategory(treeView, catalog, category);
         }
         treeView[catalog][category][subCatagory] = [];
-        //});
     }
     this.isNewSubCategory = function (treeView, catalog, category, subCatagory) {
         return DataOptions.isNotEmpty(catalog) &&
@@ -77,17 +69,17 @@ var TopicAdder = function ($timeout) {
 
         var myTopic = new Topic(catalog, category, subCategory, topic, description, module, source);
         for (var tabIndex in g.getMonitorTables().backingData) {
-            if (tabIndex >= monitorTabs.getActiveMonitor()) {
+            //if (tabIndex >= monitorTabs.getActiveMonitor()) {
                 var myTable = g.getMonitorTables().backingData[tabIndex];
                 if (rowAt == null) {
                     rowAt = myTable.addRow(myTopic.toData(myTable));
-                    rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+                    rowAt.setMonitor(monitorTabs.getActiveMonitorAsString());
                 } else {
-                    var dataAt = rowAt.data;
-                    var newData = new RowData(myTable,"auto","data", dataAt);
+                    var dataAt = rowAt;
+                    var newData = new RowData(myTable,"auto","auto","auto", dataAt);
                     rowAt = myTable.addRow(newData);
                 }
-            }
+            //}
         }
     }
 

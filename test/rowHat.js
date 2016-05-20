@@ -8,13 +8,20 @@ rowHat = function (id) {
     this.show = false;
     this.showAbout = false;
     this.getRootHat = function () {
-        var rowData = RowData.getRow(id);
-        while (rowData.rowData !== undefined) {
+        var rowData = RowData.getRow(this.id);
+        if (rowData === null || rowData === undefined) {
+            throw "rowData should be a thing! id: " + this.id;
+        }
+        while (rowData.rowData !== null && rowData.rowData !== undefined) {
             rowData = rowData.rowData;
         }
         return rowData;
     }
-    
+    var row = RowData.getRow(this.id);
+    if (row.isHooked()) {
+        var rowParentHat = rowHat.getRowHat(row.rowData.id);
+        this.lastKnowHeight = rowParentHat.lastKnowHeight;
+    }
 }
 
 rowHat.private = {};
@@ -23,7 +30,9 @@ rowHat.private.allRowHats = {};
 
 rowHat.getRowHat = function (id) {
     if (!(id in rowHat.private.allRowHats)) {
-        rowHat.private.allRowHats[id] = new rowHat(id);
+        var newHat =  new rowHat(id);
+        rowHat.private.allRowHats[id] = newHat;
+        // if we have the parent populate with it's data?
     }
     return rowHat.private.allRowHats[id];
 }
