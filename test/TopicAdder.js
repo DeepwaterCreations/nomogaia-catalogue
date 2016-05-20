@@ -77,17 +77,17 @@ var TopicAdder = function ($timeout) {
 
         var myTopic = new Topic(catalog, category, subCategory, topic, description, module, source);
         for (var tabIndex in g.getMonitorTables().backingData) {
-            if (tabIndex >= monitorTabs.getActiveMonitor()) {
+            //if (tabIndex >= monitorTabs.getActiveMonitor()) {
                 var myTable = g.getMonitorTables().backingData[tabIndex];
                 if (rowAt == null) {
                     rowAt = myTable.addRow(myTopic.toData(myTable));
-                    rowAt.data.setMonitor(monitorTabs.getActiveMonitorAsString());
+                    rowAt.setMonitor(monitorTabs.getActiveMonitorAsString());
                 } else {
-                    var dataAt = rowAt.data;
+                    var dataAt = rowAt;
                     var newData = new RowData(myTable,"auto","auto","auto", dataAt);
                     rowAt = myTable.addRow(newData);
                 }
-            }
+            //}
         }
     }
 
