@@ -92,7 +92,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return rowHat.getRowHat(id);
     };
 
-    $scope.measurer = { at: 0, list: [], reset: false, currentRunID: 0, active:false};
+    $scope.measurer = { at: 0, list: [], reset: false, currentRunID: 0, active: false };
 
     $scope.measurer.showAll = function () {
 
@@ -101,7 +101,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
             $scope.measurer.currentRunID = $scope.measurer.currentRunID + 1;
             $scope.measurer.reset = true;
             $scope.measurer.active = true;
-            setTimeout(function () { $scope.measurer.measureNextSet($scope.measurer.currentRunID); },500);
+            setTimeout(function () { $scope.measurer.measureNextSet($scope.measurer.currentRunID); }, 500);
         } else {
             setTimeout($scope.measurer.showAll, 1000);
         }
@@ -144,7 +144,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                 }
                 if ($scope.measurer.at < $scope.measurer.list.length) {
                     toRun.push(function () {
-                            $scope.measurer.measureNextSet(runID);
+                        $scope.measurer.measureNextSet(runID);
                     })
                 } else {
                     $scope.measurer.active = false;
@@ -164,52 +164,51 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     window.addEventListener('resize', $scope.updateVisible);
 
     g.onMonitorTablesChange(function (monitorTables) {
-        $timeout(function () {
-            $scope.tableData = monitorTables.backingData[0].tableData;
-            $scope.tableData.onAddRow(function () {
-                // info angular of changes
-                $timeout(function () {
-                    $scope.tableData = $scope.tableData;
-                    $scope.updateFilteredRows($scope.search);
-                })
-            });
 
-            $scope.filteredTree = $scope.tableData.treeView;
-            $scope.filteredList = $scope.tableData.rows;
-            $scope.topicAdder = new TopicAdder($scope.tableData.treeView, $timeout);
-            $scope.rightslist = function () {
-                return DataOptions.getColumnOptions("Impacted Rights");
-            }
-            $scope.rightsholderlist = function () {
-                return DataOptions.getColumnOptions("Impacted Rights-Holders");
-            }
-            $scope.moduleList = function () {
-                return DataOptions.getColumnOptions("Module");
-            }
-            $scope.scorevals = DataOptions.getColumnOptions("Score");
-
-            $scope.shownRights = function () {
-                return monitorTables.shownRights;
-            };
-            $scope.showAllRights = function () {
-                monitorTables.resetShownRights();
-            }
-            $scope.hideAllRights = function () {
-                monitorTables.emptyShownRights();
-            };
-
-            $scope.shownRightsholders = function () {
-                return monitorTables.shownRightsholders;
-            };
-            $scope.showAllRightsholders = function () {
-                monitorTables.resetShownRightsholders();
-            };
-            $scope.hideAllRightsholders = function () {
-                monitorTables.emptyShownRightsholders();
-            };
-
-            $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
+        $scope.tableData = monitorTables.backingData[0].tableData;
+        $scope.tableData.onAddRow(function () {
+            // info angular of changes
+            $timeout(function () {
+                $scope.tableData = $scope.tableData;
+                $scope.updateFilteredRows($scope.search);
+            })
         });
+
+        $scope.filteredTree = $scope.tableData.treeView;
+        $scope.filteredList = $scope.tableData.rows;
+        $scope.topicAdder = new TopicAdder($scope.tableData.treeView, $timeout);
+        $scope.rightslist = function () {
+            return DataOptions.getColumnOptions("Impacted Rights");
+        }
+        $scope.rightsholderlist = function () {
+            return DataOptions.getColumnOptions("Impacted Rights-Holders");
+        }
+        $scope.moduleList = function () {
+            return DataOptions.getColumnOptions("Module");
+        }
+        $scope.scorevals = DataOptions.getColumnOptions("Score");
+
+        $scope.shownRights = function () {
+            return monitorTables.shownRights;
+        };
+        $scope.showAllRights = function () {
+            monitorTables.resetShownRights();
+        }
+        $scope.hideAllRights = function () {
+            monitorTables.emptyShownRights();
+        };
+
+        $scope.shownRightsholders = function () {
+            return monitorTables.shownRightsholders;
+        };
+        $scope.showAllRightsholders = function () {
+            monitorTables.resetShownRightsholders();
+        };
+        $scope.hideAllRightsholders = function () {
+            monitorTables.emptyShownRightsholders();
+        };
+
+        $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
     });
 
     $scope.updateFilteredRows = function (x) {
@@ -390,7 +389,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         return function (data) {
             if (arguments.length) {
                 //Set
-                rowData.setData(columnName, data ,true);
+                rowData.setData(columnName, data, true);
             }
             else {
                 //Get
@@ -401,18 +400,18 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     $scope.deleteBranch = function (branch, name) {
-        var addAll = function (topics,at) {
-            if (at instanceof Array){
+        var addAll = function (topics, at) {
+            if (at instanceof Array) {
                 for (var i = 0; i < at.length; i++) {
                     topics.push(at[i]);
                 }
-            }else {
+            } else {
                 for (var x in at) {
-                    addAll(topics,at[x]);
+                    addAll(topics, at[x]);
                 }
             }
         }
-        var topics =[];
+        var topics = [];
         addAll(topics, branch);
 
         var deleteAll = function () {
@@ -474,17 +473,17 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     //Opens a dialog to select a module, then creates a new row with the same information,
     //but a different module
-    $scope.copyTopic = function(topic){
+    $scope.copyTopic = function (topic) {
         $scope.mo.selectedModule = topic.Module;
         //Redefine this function so this topic's dialog is rendered
-        $scope.renderCopyTopicModuleDialog = function(other_topic){
+        $scope.renderCopyTopicModuleDialog = function (other_topic) {
             return topic.id === other_topic.id;
         }
-        $( "#copyTopicModuleDialog" + topic.id).dialog({
+        $("#copyTopicModuleDialog" + topic.id).dialog({
             title: "Split Topic Into New Module",
             dialogClass: "moduleDialog-container",
             buttons: {
-                "Make Topic": function(){
+                "Make Topic": function () {
                     $scope.topicAdder.addNewTopic(
                             topic["Catalog"],
                             topic["Category"],
@@ -495,11 +494,11 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
                             topic["Source"]
                             );
                     $scope.resetAddMod();
-                    $( this ).dialog( "close" );
+                    $(this).dialog("close");
                 },
-                "Cancel": function(){
+                "Cancel": function () {
                     $scope.resetAddMod();
-                    $( this ).dialog( "close" );
+                    $(this).dialog("close");
                 }
             }
         });
@@ -509,31 +508,31 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
 
     //This function is redefined in $scope.copyTopic, so that only one version of the
     //dialog will be rendered at a time.
-    $scope.renderCopyTopicModuleDialog = function(){
+    $scope.renderCopyTopicModuleDialog = function () {
         return false;
     };
 
     //Displays the copy topic module dialog's new module field and shows the add/cancel buttons.
-    $scope.showAddMod = function(){
+    $scope.showAddMod = function () {
         $scope.mo.selectedModule = "";
         $scope.mo.showAddModule = true;
     };
 
     //Clears the copy topic module dialog's new module field and hides the add/cancel buttons.
-    $scope.resetAddMod = function(){
+    $scope.resetAddMod = function () {
         $scope.mo.showAddModule = false;
         $scope.mo.newMod = "";
     };
 
     //Adds a new module to the list of modules and selects it in the copy topic dialog.
-    $scope.addNewMod = function(){
-        if($scope.mo.newMod === "")
+    $scope.addNewMod = function () {
+        if ($scope.mo.newMod === "")
             return;
         else
             var mod = $scope.mo.newMod;
 
         $scope.topicAdder.addNewMod(mod);
-        $scope.mo.selectedModule = mod;    
+        $scope.mo.selectedModule = mod;
 
         $scope.resetAddMod();
     };
