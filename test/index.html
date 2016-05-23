@@ -10,6 +10,7 @@
     <link href="RowInputUI.css" rel="stylesheet">
     <link href="splash.css" rel="stylesheet">
     <link href="RightsSidebar.css" rel="stylesheet">
+    <link href="treeListViews.css" rel="stylesheet">
 </head>
 <body>
     <!--<div id="main">-->
@@ -94,17 +95,32 @@
                     <div data-ng-if="tableData !== null" data-ng-init="init()" class="fill flx-row" id="tree-view">
                         <div class="main">
                             <div class="header">
+                                <div class="viewToggle">
+                                    <b>View:</b>
+                                    <form class="viewToggleForm">
+                                        <div>
+                                            <input type="radio" 
+                                                   id="listViewRadio" 
+                                                   name="viewSelect" 
+                                                   data-ng-click="setListView()"
+                                                   checked="true">
+                                            <label class="blueButton left_button" for="listViewRadio">List</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" 
+                                                   id="treeViewRadio" 
+                                                   name="viewSelect" 
+                                                   data-ng-click="setTreeView()">
+                                            <label class="blueButton right_button" for="treeViewRadio">Tree</label>
+                                        </div>
+                                    </form>
+                                </div>
                                 <span class="search">
                                     <i class="icon-search"></i>
                                     <input type="search" data-ng-model="search" placeholder="Search" data-ng-change="updateFilteredRows(search)">
                                 </span>
                                 <!-- we would like these to use ids and not classes, we can make that change when we remove that catalog -->
                                 <!--<input type="button" class="blueButton" id="addRowTree" value="Add Row" />-->
-                                <span>
-                                    <!-- <select ng-model="activeView" ng-options="mode for mode in ['tree','list']" ng-change="showAll();updateVisible();"></select> -->
-                                    <button ng-click="setTreeView()"> tree </button>
-                                    <button ng-click="setListView()"> list </button>
-                                </span>
                                 <input type="button" class="blueButton textInputButton" data-ng-click="mo.vis = !mo.vis;" value="{{(!mo.vis)?'Add Topic':'Hide Add Topic'}}" />
                                 <i data-ng-class="{'rotating':backgroundActivity()}" class="icon-cog"></i>
                             </div>

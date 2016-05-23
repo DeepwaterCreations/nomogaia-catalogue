@@ -1,0 +1,46 @@
+div.viewToggle{
+    display: flex;
+    align-items: center;
+}
+
+form.viewToggleForm{
+    display: flex;
+}
+
+form.viewToggleForm div{
+    display: flex;
+}
+
+form.viewToggleForm input{
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+form.viewToggleForm label{
+    padding: 0 .4em;
+}
+
+    form.viewToggleForm label:hover {
+        background: #1c1b39;
+        border-color: #1c1b39;
+    }
+
+    form.viewToggleForm input[type='radio']:not(:checked) ~ label{
+        background: #888;
+        border: 2px solid #888;
+    }
+
+    form.viewToggleForm input[type='radio']:not(:checked) ~ label:hover{
+        background: #666;
+        border: 2px solid #2F2D69;
+    }
+    
+    form.viewToggleForm label.left_button{
+        margin-right: 0;
+        border-radius: 4px 0px 0px 4px;
+    }
+    form.viewToggleForm label.right_button{
+        margin-left: 0;
+        border-radius: 0px 4px 4px 0px;
+    }
