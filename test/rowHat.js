@@ -17,6 +17,7 @@ rowHat = function (id) {
         }
         return rowData;
     }
+
     var row = RowData.getRow(this.id);
     if (row.isHooked()) {
         var rowParentHat = rowHat.getRowHat(row.rowData.id);

@@ -21,22 +21,12 @@ function getScoreCategoryClass(score) {
     }
 }
 
-//Adds a function to ALL STRINGS EVERYWHERE ALWAYS that returns a copy stripped of all non-alphanumeric characters. 
-String.prototype.stripNonAlphanumeric = function () {
-    return this.replace(/\W/g, "");
-}
+
 
 //Rounding.
 Number.prototype.decRound = function (places) {
     var dec = Math.pow(10,places);
     return Math.round(this.valueOf() * dec) / dec;
-}
-
-//TODO: These are ugly.
-//I'm not actually sure what, if anything, we can do about that.
-function getColumnHeadID(columnName) {
-    var idString = "column" + columnName.stripNonAlphanumeric(); 
-    return idString;
 }
 
 function getRowID(rightName) {
@@ -78,4 +68,8 @@ function rightsholderHasEntries(rightsholderName) {
         }
     }
     return false;
+}
+
+function generateHTMLout(javascript, css, html) {
+    return '<!DOCTYPE html><html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8" /><script>' + javascript + '</script><style>'+css+'</style><title></title></head><body>' + html+'</body></html>';
 }

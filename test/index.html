@@ -87,6 +87,8 @@
                     </form>
                     <div id="matrixTableDiv">
                     </div>
+                    <button class="blueButton rightButton" id="export-html" type="button">Export</button>
+                    <input type="file" id="export-matrix-dialog" style="display:none;" accept=".html" nwsaveas />
                 </div>
                 <div id="outlineTab" class="tab" data-ng-controller="treeController" ondragenter="g.killDragData(event)">
                     <div data-ng-if="tableData === null" class="fill">
@@ -475,6 +477,7 @@
     <script type="text/javascript" src="Util.js"></script>
     <script type="text/javascript" src="RecentFiles.js"></script>
     <script type="text/javascript" src="g.js"></script>
+    <script type="text/javascript" src="ExportableMatrixFunctions.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="RowData.js"></script>
     <script type="text/javascript" src="RowHat.js"></script>
