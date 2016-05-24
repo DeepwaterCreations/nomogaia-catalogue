@@ -1,3 +1,12 @@
+div.header-bar{
+    display: flex;
+    align-items: center;
+}
+
+div.header-bar span.spacer{
+    flex: 1;
+}
+
 div.viewToggle{
     display: flex;
     align-items: center;
