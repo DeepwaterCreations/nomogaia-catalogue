@@ -8,7 +8,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     $scope.rightsLocked = true;
     $scope.rightsholdersLocked = true;
     $scope.activeTopic = null;
-    $scope.activeView = "list";
+    $scope.activeView = "tree";
     $scope.mo = {}
     $scope.mo.vis = false;
     $scope.mo.selectedModule = "";
