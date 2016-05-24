@@ -1,4 +1,4 @@
-﻿ #matrixTableDiv table, #impactedRightsTable {
+﻿#matrixTableDiv table#matrixTable, #impactedRightsTable {
     border-collapse: separate;
     text-align: center;
 }

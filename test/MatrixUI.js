@@ -305,7 +305,7 @@ var matrix = new Matrix();
 $('#export-html').click(function () {
     var fileDialog = $("#export-matrix-dialog");
 
-    var HTMLbody = "<table id='matrixTable'>" + matrix.generateMatrixString(monitorTabs.getActiveMonitor()) + "</table>";
+    var HTMLbody = "<div id='matrixTableDiv'><table id='matrixTable'>" + matrix.generateMatrixString(monitorTabs.getActiveMonitor()) + "</table></div>";
     var javascript = "";
     var css = "";
 
@@ -378,11 +378,17 @@ $('#export-html').click(function () {
         }
     }
     filesToRead.forEach(function (obj) {
-        fs.readFile(obj.name, function (error, chunk) {
+        fs.readFile(obj.name, { encoding: 'utf8' }, function (error, chunk) {
             if (error) {
                 console.log("ERROR: ", error);
                 return;
             }
+
+            // we have to clean the chunk if it starts with a bom we need to remove it
+            if (chunk.charAt(0) === '\ufeff') {
+                chunk = chunk.substring(1, chunk.length);
+            }
+
             obj.res = chunk;
             allDone();
         });
