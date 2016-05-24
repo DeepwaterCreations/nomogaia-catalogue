@@ -182,7 +182,7 @@ span.bold {
     font-weight: bold;
 }
 
-span.infotext {
+li.infotext {
     text-align: center;
     color: rgba(0, 0, 0, 0.25);
 }
