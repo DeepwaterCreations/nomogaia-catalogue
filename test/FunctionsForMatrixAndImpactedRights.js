@@ -7,21 +7,6 @@ function getTooltipForRow(row) {
     return tooltipContent;
 }
 
-function getScoreCategoryClass(score) {
-    if (score <= -12) {
-        return "terrible";
-    } else if (score <= -.5) {
-        return "bad";
-    } else if (score < .5) {
-        return "okay";
-    } else if (score < 12) {
-        return "good";
-    } else if (score >= 12) {
-        return "great";
-    }
-}
-
-
 
 //Rounding.
 Number.prototype.decRound = function (places) {
@@ -71,5 +56,8 @@ function rightsholderHasEntries(rightsholderName) {
 }
 
 function generateHTMLout(javascript, css, html) {
-    return '<!DOCTYPE html><html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8" /><script>' + javascript + '</script><style>'+css+'</style><title></title></head><body>' + html+'</body></html>';
+    console.log("javascript", javascript);
+    console.log("css", css);
+    console.log("html", html);
+    return '<!DOCTYPE html><html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8" />' + javascript + ''+css+'<title></title></head><body>' + html+'</body></html>';
 }

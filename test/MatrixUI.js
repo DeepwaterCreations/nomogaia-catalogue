@@ -19,18 +19,8 @@
     });
 
 
-    this.generateMatrixString = function (monitor) {
-        var asString = "";
+    this.getDataForMatrix = function (monitor) {
 
-
-        //TODO: Figure out where these values ought to live, and where they come from.
-        var sortByMostImpactedRight = $("#sortByRightsImpact:checked").val();
-        var sortByMostImpactedRightsholder = $("#sortByRightsholdersImpact:checked").val();
-
-        if (!monitorTables.backingData[monitor]) {
-            console.log("ERROR: Monitor " + monitor + " is undefined.");
-            return undefined;
-        }
         var data = monitorTables.backingData[monitor].tableData;
         var newestMonitorData = monitorTables.getNewestMonitorData().tableData;
 
@@ -116,92 +106,102 @@
             if (rightHasEntries(rightName))
                 rowHTMLList.push(rowHTML);
         });
+        return { rowHTMLList: rowHTMLList, columnSortScores: columnSortScores };
+    }
 
-        //First clear what's already there.
-        $("#" + this.matrixTablePrefix).empty();
-        $("#" + this.divID + " .nodata").remove();
-        $("#matrixSortOptions").removeClass("hidden");
+    this.generateMatrixString = function (monitor) {
+        var asString = "";
 
-        //Display a message and disable the radio buttons if there is no data.
-        if (!rowHTMLList.length) {
-            $("#" + this.divID).append(noDataHTML);
-            $("#matrixSortOptions").addClass("hidden");
+
+        //TODO: Figure out where these values ought to live, and where they come from.
+        var sortByMostImpactedRight = $("#sortByRightsImpact:checked").val();
+        var sortByMostImpactedRightsholder = $("#sortByRightsholdersImpact:checked").val();
+
+        if (!monitorTables.backingData[monitor]) {
+            console.log("ERROR: Monitor " + monitor + " is undefined.");
+            return undefined;
         }
-        else {
+        var data = monitorTables.backingData[monitor].tableData;
+        var newestMonitorData = monitorTables.getNewestMonitorData().tableData;
 
-            //Then, rebuild it.
-            //$("#" + this.matrixTablePrefix).append('<thead><tr><th class="columnHeader">-</th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
-            //$("#" + this.matrixTablePrefix).append("<tbody></tbody>");
+        // if we are ever converned about pref we could pass data in
+        var dataForMatrix = this.getDataForMatrix(monitor);
+        var rowHTMLList = dataForMatrix.rowHTMLList;
+        var columnSortScores = dataForMatrix.columnSortScores;
 
-            //Add the column headings
-            var sortedRightsholders = DataOptions.getColumnOptions("Impacted Rights-Holders");
-            //Weed out the rightsHolders with no data in any monitor
-            sortedRightsholders = sortedRightsholders.filter(function (value, index, array) {
-                //return value in columnSortScores
-                return rightsholderHasEntries(value);
+        //Then, rebuild it.
+        //$("#" + this.matrixTablePrefix).append('<thead><tr><th class="columnHeader">-</th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
+        //$("#" + this.matrixTablePrefix).append("<tbody></tbody>");
+
+        //Add the column headings
+        var sortedRightsholders = DataOptions.getColumnOptions("Impacted Rights-Holders");
+        //Weed out the rightsHolders with no data in any monitor
+        sortedRightsholders = sortedRightsholders.filter(function (value, index, array) {
+            //return value in columnSortScores
+            return rightsholderHasEntries(value);
+        });
+        //Do the sorting.
+        if (sortByMostImpactedRightsholder) {
+            sortedRightsholders.sort(function (a, b) {
+                return columnSortScores[b] - columnSortScores[a];
             });
-            //Do the sorting.
-            if (sortByMostImpactedRightsholder) {
-                sortedRightsholders.sort(function (a, b) {
-                    return columnSortScores[b] - columnSortScores[a];
-                });
-            }
-            // open the head
-            asString += '<thead><tr><th class="columnHeader">';
+        }
+        // open the head
+        asString += '<thead><tr><th class="columnHeader">';
 
+        sortedRightsholders.forEach(function (rightsholderName) {
+            rightsholderName = rightsholderName || undefinedRightsHolderNameFiller; //This is a bit goofy, but in practice, I think we shouldn't have this ever. If we see it, it's an error. 
+            var temp = '<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>';
+            //$("#" + this.matrixTablePrefix).find("thead").find("tr").append(temp);
+            asString += temp;
+        });
+
+        //close the head
+        asString += '</th></tr></thead>';
+
+
+        if (sortByMostImpactedRight) {
+            rowHTMLList.sort(function (a, b) {
+                return b.rowScore - a.rowScore;
+            });
+        }
+
+        // open the body 
+        asString += '<tbody>';
+
+        //Add the cells
+        rowHTMLList.forEach(function (rowHTML) {
+            // open the cell
+            //$("#" + this.matrixTablePrefix).find("tbody").append(rowHTML.rowTag + rowHTML.header + rowHTML.rowCloseTag);
+            asString += rowHTML.rowTag + rowHTML.header;
             sortedRightsholders.forEach(function (rightsholderName) {
-                rightsholderName = rightsholderName || undefinedRightsHolderNameFiller; //This is a bit goofy, but in practice, I think we shouldn't have this ever. If we see it, it's an error. 
-                var temp = '<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>';
-                //$("#" + this.matrixTablePrefix).find("thead").find("tr").append(temp);
-                asString += temp;
+                //Add the cell
+                //$("#" + this.matrixTablePrefix).find("tbody").find('tr').last().append(rowHTML[rightsholderName].HTML);
+                asString += rowHTML[rightsholderName].HTML;
+                //var cell = $("#" + this.matrixTablePrefix).find("tbody").find('tr').last().children().last(); //This is ugly. Unfortunately, append returns the thing receiving the appendage, not the thing being appended.
+                //Give it a tooltip
+                //if (rowHTML[rightsholderName].tooltipContent) {
+                //    cell.tooltip({ content: rowHTML[rightsholderName].tooltipContent });
+                //}
+                //Style it if it has a score
+
+                //When the user mouses over a cell, this makes the cell's column header become highlighted.
+                //Row headers already do this via pure CSS. (You can put a hover selector on the <tr> to find the appropriate row head, but the column heads aren't exclusively enclosed
+                //in an element with the cells below them, so we have to resort to javascript.) 
+                //cell.hover(function (event) {
+                //On mouse hover, give the column header a class.
+                //$('#' + getColumnHeadID(rightsholderName)).addClass("hoveredColumn");
+                //},
+                //function (event) {
+                //On mouse hover end, remove the class.
+                //    $('#' + getColumnHeadID(rightsholderName)).removeClass("hoveredColumn");
+                //});
             });
+            asString += rowHTML.rowCloseTag;
+        });
 
-            //close the head
-            asString += '</th></tr></thead>';
+        //this.filter(monitorTables.backingData.length - 1);
 
-
-            if (sortByMostImpactedRight) {
-                rowHTMLList.sort(function (a, b) {
-                    return b.rowScore - a.rowScore;
-                });
-            }
-
-            // open the body 
-            asString += '<tbody>';
-
-            //Add the cells
-            rowHTMLList.forEach(function (rowHTML) {
-                // open the cell
-                //$("#" + this.matrixTablePrefix).find("tbody").append(rowHTML.rowTag + rowHTML.header + rowHTML.rowCloseTag);
-                asString += rowHTML.rowTag + rowHTML.header;
-                sortedRightsholders.forEach(function (rightsholderName) {
-                    //Add the cell
-                    //$("#" + this.matrixTablePrefix).find("tbody").find('tr').last().append(rowHTML[rightsholderName].HTML);
-                    asString += rowHTML[rightsholderName].HTML;
-                    //var cell = $("#" + this.matrixTablePrefix).find("tbody").find('tr').last().children().last(); //This is ugly. Unfortunately, append returns the thing receiving the appendage, not the thing being appended.
-                    //Give it a tooltip
-                    //if (rowHTML[rightsholderName].tooltipContent) {
-                    //    cell.tooltip({ content: rowHTML[rightsholderName].tooltipContent });
-                    //}
-                    //Style it if it has a score
-
-                    //When the user mouses over a cell, this makes the cell's column header become highlighted.
-                    //Row headers already do this via pure CSS. (You can put a hover selector on the <tr> to find the appropriate row head, but the column heads aren't exclusively enclosed
-                    //in an element with the cells below them, so we have to resort to javascript.) 
-                    //cell.hover(function (event) {
-                    //On mouse hover, give the column header a class.
-                    //$('#' + getColumnHeadID(rightsholderName)).addClass("hoveredColumn");
-                    //},
-                    //function (event) {
-                    //On mouse hover end, remove the class.
-                    //    $('#' + getColumnHeadID(rightsholderName)).removeClass("hoveredColumn");
-                    //});
-                });
-                asString += rowHTML.rowCloseTag;
-            });
-
-            //this.filter(monitorTables.backingData.length - 1);
-        }
         return asString;
     }
 
@@ -211,10 +211,31 @@
         if (!this.dirty)
             return;
 
-        var asString = this.generateMatrixString(monitor);
 
-        $("#" + this.matrixTablePrefix).append(asString);
-        g.emf.setToolTips();
+
+        //First clear what's already there.
+        $("#" + this.matrixTablePrefix).empty();
+        $("#" + this.divID + " .nodata").remove();
+        $("#matrixSortOptions").removeClass("hidden");
+        $("#export-html").removeClass("hidden");
+
+        var data = this.getDataForMatrix(monitor);
+        var rowHTMLList = data.rowHTMLList;
+        var columnSortScores = data.columnSortScores;
+
+        if (!rowHTMLList.length) {
+            //Display a message and disable the radio buttons if there is no data.
+            $("#" + this.divID).append(noDataHTML);
+            $("#matrixSortOptions").addClass("hidden");
+            $("#export-html").addClass("hidden");
+        }
+        else {
+
+            var asString = this.generateMatrixString(monitor);
+
+            $("#" + this.matrixTablePrefix).append(asString);
+            g.emf.setToolTips();
+        }
 
 
         this.dirty = false;
@@ -284,7 +305,7 @@ var matrix = new Matrix();
 $('#export-html').click(function () {
     var fileDialog = $("#export-matrix-dialog");
 
-    var HTMLbody = "<table id='rightsMatrix'>" + matrix.generateMatrixString(monitorTabs.getActiveMonitor()) + "</table>";
+    var HTMLbody = "<table id='matrixTable'>" + matrix.generateMatrixString(monitorTabs.getActiveMonitor()) + "</table>";
     var javascript = "";
     var css = "";
 
@@ -293,28 +314,36 @@ $('#export-html').click(function () {
     var filesToRead = [{
         name: "jquery/jquery-2.1.3.min.js",
         type: "JS",
-        done: false
+        res: ""
     }, {
         name: "jquery-ui/jquery-ui.min.js",
         type: "JS",
-        done: false
+        res: ""
+    },  {
+        name: "ExportableMatrixFunctions.js",
+        type: "JS",
+        res: ""
+    }, {
+        name: "ExportableOnStart.js",
+        type: "JS",
+        res: ""
     }, {
         name: "jquery-ui/jquery-ui.min.css",
         type: "CSS",
-        done: false
-    },
-        {
-            name: "ExportableMatrixFunctions.js",
-            type: "JS",
-            done: false
-        }, {
-            name: "ExportableOnStart.js",
-            type: "JS",
-            done: false
-        }];
-
-
-
+        res: ""
+    }, {
+        name: "pure-release-0.5.0/pure.css",
+        type: "CSS",
+        res: ""
+    }, {
+        name: "DataTable.css",
+        type: "CSS",
+        res: ""
+    }, {
+        name: "Colin.css",
+        type: "CSS",
+        res: ""
+    }];
 
     var filename = "";
 
@@ -322,13 +351,27 @@ $('#export-html').click(function () {
         var pass = filename !== "";
 
         for (var i = 0; i < filesToRead.length; i++) {
-            pass = pass && filesToRead[i].done;
+            pass = pass && filesToRead[i].res !== "";
         }
 
+        console.log("allDone ", pass);
+
         if (pass) {
+
+            filesToRead.forEach(function (obj) {
+                if (obj.type === "JS") {
+                    javascript += "<script>" + obj.res + "</script>\n";
+                } else if (obj.type === "CSS") {
+                    css += "<style>" + obj.res + "</style>\n";
+                }
+            });
+
             if (filename.toLowerCase().indexOf(".html") != -1) {
                 var htmlDoc = generateHTMLout(javascript, css, HTMLbody);
-                fs.writeFile(filename, htmlDoc);
+                console.log(htmlDoc);
+                fs.writeFile(filename, htmlDoc, function (res) {
+                    console.log(res);
+                });
             } else {
                 console.log("errror! save must be .json or .csv");
             }
@@ -340,19 +383,13 @@ $('#export-html').click(function () {
                 console.log("ERROR: ", error);
                 return;
             }
-
-            if (obj.type === "JS") {
-                javascript += chunk;
-            } else if (obj.type === "CSS") {
-                css += chunk;
-            }
-            obj.done = true;
+            obj.res = chunk;
             allDone();
         });
     });
 
     fileDialog.on("change", function (event) {
-        var filename = $(this).val();
+        filename = $(this).val();
         allDone();
     });
     fileDialog.trigger("click");

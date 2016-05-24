@@ -1,6 +1,9 @@
 // when this is exported g might not be defined for it
 // lets be safe
-g = g || {};
+if (g === undefined) {
+    var g = {};
+}
+
 
 g.emf = {};
 
@@ -61,4 +64,18 @@ String.prototype.stripNonAlphanumeric = function () {
 function getColumnHeadID(columnName) {
     var idString = "column" + columnName.stripNonAlphanumeric();
     return idString;
+}
+
+function getScoreCategoryClass(score) {
+    if (score <= -12) {
+        return "terrible";
+    } else if (score <= -.5) {
+        return "bad";
+    } else if (score < .5) {
+        return "okay";
+    } else if (score < 12) {
+        return "good";
+    } else if (score >= 12) {
+        return "great";
+    }
 }

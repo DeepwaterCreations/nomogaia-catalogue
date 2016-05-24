@@ -46,31 +46,31 @@ th.hoveredColumn {
 }
 
 /*IMPACT SCORE COLORING*/
-.terrible, #matrixTableDiv td.terrible, #impactedRightsTable td.terrible, .ui-tooltip-content .terrible{
+.terrible, #matrixTable td.terrible, #impactedRightsTable td.terrible, .ui-tooltip-content .terrible{
     border-width:3px;
     border-color:#FF0000;
     background-color:#FAC8C8;
 }
 
-.bad, #matrixTableDiv td.bad, #impactedRightsTable td.bad, .ui-tooltip-content .bad{
+.bad, #matrixTable td.bad, #impactedRightsTable td.bad, .ui-tooltip-content .bad{
     border-width:3px;
     border-color:#FF9933;
     background-color:#FFE6CC;
 }
 
-.okay, #matrixTableDiv td.okay, #impactedRightsTable td.okay, .ui-tooltip-content .okay{
+.okay, #matrixTable td.okay, #impactedRightsTable td.okay, .ui-tooltip-content .okay{
     border-width:3px;
     border-color:#FFFF33;
     background-color:#FFFFCC;
 }
 
-.good, #matrixTableDiv td.good, #impactedRightsTable td.good, .ui-tooltip-content .good{
+.good, #matrixTable td.good, #impactedRightsTable td.good, .ui-tooltip-content .good{
     border-width:3px;
     border-color:#66FF99;
     background-color:#CCFFDD;
 }
 
-.great, #matrixTableDiv td.great, #impactedRightsTable td.great, .ui-tooltip-content .great{
+.great, #matrixTable td.great, #impactedRightsTable td.great, .ui-tooltip-content .great{
     border-width:3px;
     border-color:#52A4FF;
     background-color:#CCE4FF;
