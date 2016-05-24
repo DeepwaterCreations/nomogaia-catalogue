@@ -75,6 +75,9 @@
         return str;
     }
 
+
+    //TODO incomplete!
+    // loading from CSV is not simple
     this.loadCSV = function (str) {
         this.clear();
         var table = Papa.parse(str, { header: true });
@@ -97,7 +100,8 @@
         }
     }
 
-    this.loadFile = function(loaded_data){
+    this.loadFile = function (loaded_data) {
+        console.log("clearing out old data");
         this.clear();
         this.shownRights = loaded_data.info.shownRights;
         this.shownRightsholders = loaded_data.info.shownRightsholders;

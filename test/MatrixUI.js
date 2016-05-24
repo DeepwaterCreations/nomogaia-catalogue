@@ -18,18 +18,14 @@
         matrix.rebuild(monitorTabs.getActiveMonitor());
     });
 
-    //We need to know which table we're rebuilding in the function.
-    //We also don't want to do this unless something has legitimately changed.
-    this.rebuild = function (monitor) {
-        if (!this.dirty)
-            return;
+
+    this.generateMatrixString = function (monitor) {
+        var asString = "";
 
 
         //TODO: Figure out where these values ought to live, and where they come from.
         var sortByMostImpactedRight = $("#sortByRightsImpact:checked").val();
         var sortByMostImpactedRightsholder = $("#sortByRightsholdersImpact:checked").val();
-
-        var matrixTableID = this.matrixTablePrefix;
 
         if (!monitorTables.backingData[monitor]) {
             console.log("ERROR: Monitor " + monitor + " is undefined.");
@@ -38,16 +34,6 @@
         var data = monitorTables.backingData[monitor].tableData;
         var newestMonitorData = monitorTables.getNewestMonitorData().tableData;
 
-        //First clear what's already there.
-        $("#" + matrixTableID).empty();
-        $("#" + this.divID + " .nodata").remove();
-        $("#matrixSortOptions").removeClass("hidden");
-
-
-        //Then, rebuild it.
-        $("#" + matrixTableID).append('<thead><tr><th class="columnHeader">-</th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
-        $("#" + matrixTableID).append("<tbody></tbody>");
-  
         var rowHTMLList = [];
 
         var columnSortScores = {};
@@ -64,7 +50,7 @@
                 rowCloseTag: '</tr>',
                 rowScore: undefined //A score of 0 is different from no score at all, yeah?
             }
-            
+
             //Generate the scores and push them into the htmlString.
             var rows = data.getRows("Impacted Rights", rightName);
             rows = rows.filter(function (element, index, array) {
@@ -76,7 +62,7 @@
             });
             DataOptions.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
                 rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
-                
+
                 var scoreCount = 0;
                 var scoreSum = 0;
                 var sortScoreCount = 0;
@@ -104,13 +90,13 @@
                 };
                 if (scoreCount > 0) {
                     var avg = scoreSum / scoreCount;
-                    cell.HTML = '<td title="" class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">' + avg.decRound(2) + '</td>';
+                    cell.HTML = '<td data-rightsholderName="' + rightsholderName + '" data-tooltip="' + encodeURI(tooltipContent) + '" data-score="' + avg + '" title="" class="analytics-cell hasToolTip ' + cellClass.rowClass + ' ' + cellClass.colClass + ' ' + getScoreCategoryClass(avg) + '">' + avg.decRound(2) + '</td>';
                     //Also add a tooltip.
                     cell.tooltipContent = tooltipContent; //Leave this undefined to have no tooltip.
                     cell.score = avg;
                 }
                 else {
-                    cell.HTML = '<td class="' + cellClass.rowClass + ', ' + cellClass.colClass + '">-</td>';
+                    cell.HTML = '<td data-rightsholderName="' + rightsholderName + '" class="analytics-cell ' + cellClass.rowClass + ' ' + cellClass.colClass + '">-</td>';
                 }
                 //Get the newest monitor data, not the current monitor data, for sorting.
                 //The row's score will be the sum of the cell data scores for that Right in the newest matrix.
@@ -128,16 +114,24 @@
             //if(rowHTML.rowScore !== undefined)
             //...but I guess we actually only want to filter out the rows with no data in any monitor at all.
             if (rightHasEntries(rightName))
-                rowHTMLList.push(rowHTML); 
+                rowHTMLList.push(rowHTML);
         });
-        
+
+        //First clear what's already there.
+        $("#" + this.matrixTablePrefix).empty();
+        $("#" + this.divID + " .nodata").remove();
+        $("#matrixSortOptions").removeClass("hidden");
+
         //Display a message and disable the radio buttons if there is no data.
         if (!rowHTMLList.length) {
-            $("#" + matrixTableID).empty();
             $("#" + this.divID).append(noDataHTML);
             $("#matrixSortOptions").addClass("hidden");
         }
         else {
+
+            //Then, rebuild it.
+            //$("#" + this.matrixTablePrefix).append('<thead><tr><th class="columnHeader">-</th></tr></thead>'); //Contains a blank <th> so there's space for a column of row names.
+            //$("#" + this.matrixTablePrefix).append("<tbody></tbody>");
 
             //Add the column headings
             var sortedRightsholders = DataOptions.getColumnOptions("Impacted Rights-Holders");
@@ -152,73 +146,95 @@
                     return columnSortScores[b] - columnSortScores[a];
                 });
             }
-            sortedRightsholders.forEach(function(rightsholderName){
-                rightsholderName = rightsholderName || undefinedRightsHolderNameFiller; //This is a bit goofy, but in practice, I think we shouldn't have this ever. If we see it, it's an error. 
+            // open the head
+            asString += '<thead><tr><th class="columnHeader">';
 
-                $("#" + matrixTableID).find("thead").find("tr").append('<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>');
+            sortedRightsholders.forEach(function (rightsholderName) {
+                rightsholderName = rightsholderName || undefinedRightsHolderNameFiller; //This is a bit goofy, but in practice, I think we shouldn't have this ever. If we see it, it's an error. 
+                var temp = '<th title="" id="' + getColumnHeadID(rightsholderName) + '" class="columnHeader">' + rightsholderName + '</th>';
+                //$("#" + this.matrixTablePrefix).find("thead").find("tr").append(temp);
+                asString += temp;
             });
 
-            //Add the cells
+            //close the head
+            asString += '</th></tr></thead>';
+
+
             if (sortByMostImpactedRight) {
                 rowHTMLList.sort(function (a, b) {
                     return b.rowScore - a.rowScore;
                 });
             }
+
+            // open the body 
+            asString += '<tbody>';
+
+            //Add the cells
             rowHTMLList.forEach(function (rowHTML) {
-                $("#" + matrixTableID).find("tbody").append(rowHTML.rowTag + rowHTML.header + rowHTML.rowCloseTag);
+                // open the cell
+                //$("#" + this.matrixTablePrefix).find("tbody").append(rowHTML.rowTag + rowHTML.header + rowHTML.rowCloseTag);
+                asString += rowHTML.rowTag + rowHTML.header;
                 sortedRightsholders.forEach(function (rightsholderName) {
                     //Add the cell
-                    $("#" + matrixTableID).find("tbody").find('tr').last().append(rowHTML[rightsholderName].HTML);
-                    var cell = $("#" + matrixTableID).find("tbody").find('tr').last().children().last(); //This is ugly. Unfortunately, append returns the thing receiving the appendage, not the thing being appended.
+                    //$("#" + this.matrixTablePrefix).find("tbody").find('tr').last().append(rowHTML[rightsholderName].HTML);
+                    asString += rowHTML[rightsholderName].HTML;
+                    //var cell = $("#" + this.matrixTablePrefix).find("tbody").find('tr').last().children().last(); //This is ugly. Unfortunately, append returns the thing receiving the appendage, not the thing being appended.
                     //Give it a tooltip
-                    if (rowHTML[rightsholderName].tooltipContent) {
-                        cell.tooltip({ content: rowHTML[rightsholderName].tooltipContent });
-                    }
+                    //if (rowHTML[rightsholderName].tooltipContent) {
+                    //    cell.tooltip({ content: rowHTML[rightsholderName].tooltipContent });
+                    //}
                     //Style it if it has a score
-                    if (rowHTML[rightsholderName].score !== "-") {
-                        cell.addClass(getScoreCategoryClass(parseInt(rowHTML[rightsholderName].score)));
-                        //Tooltips need to get their score category class when they open, because they don't exist until then. 
-                        cell.on("tooltipopen", function (scoreCategoryClass) {
-                            return function (event, ui) {
-                                ui.tooltip.addClass(scoreCategoryClass);
-                            }
-                        }(getScoreCategoryClass(parseInt(rowHTML[rightsholderName].score))));
-                    }
+
                     //When the user mouses over a cell, this makes the cell's column header become highlighted.
                     //Row headers already do this via pure CSS. (You can put a hover selector on the <tr> to find the appropriate row head, but the column heads aren't exclusively enclosed
                     //in an element with the cells below them, so we have to resort to javascript.) 
-                    cell.hover(function (event) {
-                        //On mouse hover, give the column header a class.
-                        $('#' + getColumnHeadID(rightsholderName)).addClass("hoveredColumn");
-                    },
-                    function (event) {
-                        //On mouse hover end, remove the class.
-                        $('#' + getColumnHeadID(rightsholderName)).removeClass("hoveredColumn");
-                    });
+                    //cell.hover(function (event) {
+                    //On mouse hover, give the column header a class.
+                    //$('#' + getColumnHeadID(rightsholderName)).addClass("hoveredColumn");
+                    //},
+                    //function (event) {
+                    //On mouse hover end, remove the class.
+                    //    $('#' + getColumnHeadID(rightsholderName)).removeClass("hoveredColumn");
+                    //});
                 });
+                asString += rowHTML.rowCloseTag;
             });
 
             //this.filter(monitorTables.backingData.length - 1);
         }
+        return asString;
+    }
+
+    //We need to know which table we're rebuilding in the function.
+    //We also don't want to do this unless something has legitimately changed.
+    this.rebuild = function (monitor) {
+        if (!this.dirty)
+            return;
+
+        var asString = this.generateMatrixString(monitor);
+
+        $("#" + this.matrixTablePrefix).append(asString);
+        g.emf.setToolTips();
+
 
         this.dirty = false;
-        return $("#" + matrixTableID); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
+        return $("#" + this.matrixTablePrefix); //Do we need this return value? I guess probably not, but we can at least check it for truthiness to see if the rebuild succeeded. 
     };
 
     //this.filter = function (monitor) {
     //    var keptColumns = {};
     //    var keptRows = {};
-        
+
     //    var data = monitorTables.backingData[monitor].tableData;
     //    var DataOptions = monitorTables.dataOptions;
-                
+
     //    //We're going to iterate over all the rows and columns to see which have scores. Each row/column that has at least one score in it, we'll keep. 
     //    DataOptions.getColumnOptions("Impacted Rights").forEach(function (rightName) {
     //        rightName = rightName || undefinedRightNameFiller;
 
-            //var rows = data.getRowsWithScore("Impacted Rights", rightName);
-            //DataOptions.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
-            //    rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
+    //var rows = data.getRowsWithScore("Impacted Rights", rightName);
+    //DataOptions.getColumnOptions("Impacted Rights-Holders").forEach(function (rightsholderName) {
+    //    rightsholderName = rightsholderName || undefinedRightsHolderNameFiller;
 
     //            rows.forEach(function (row) {
     //                if (row.getData("Impacted Rights-Holders") && row.getData("Impacted Rights-Holders").indexOf(rightsholderName) > -1) {
@@ -254,14 +270,90 @@
 
     this.changeMonitorTabEvent = function (that) {
         return function (newlyActiveTab) {
-             that.rebuild(newlyActiveTab); //The index of the tab is currently the same as the monitor. This might change, though. 
+            that.rebuild(newlyActiveTab); //The index of the tab is currently the same as the monitor. This might change, though. 
         }
     }(this);
 
     monitorTabs.addFunctions({
         addTab: this.addMonitorTabEvent,
         changeTab: this.changeMonitorTabEvent
-    });    
+    });
 }
 var matrix = new Matrix();
 
+$('#export-html').click(function () {
+    var fileDialog = $("#export-matrix-dialog");
+
+    var HTMLbody = "<table id='rightsMatrix'>" + matrix.generateMatrixString(monitorTabs.getActiveMonitor()) + "</table>";
+    var javascript = "";
+    var css = "";
+
+    // we have to read in the JS
+    // this needs to include jQuery
+    var filesToRead = [{
+        name: "jquery/jquery-2.1.3.min.js",
+        type: "JS",
+        done: false
+    }, {
+        name: "jquery-ui/jquery-ui.min.js",
+        type: "JS",
+        done: false
+    }, {
+        name: "jquery-ui/jquery-ui.min.css",
+        type: "CSS",
+        done: false
+    },
+        {
+            name: "ExportableMatrixFunctions.js",
+            type: "JS",
+            done: false
+        }, {
+            name: "ExportableOnStart.js",
+            type: "JS",
+            done: false
+        }];
+
+
+
+
+    var filename = "";
+
+    var allDone = function () {
+        var pass = filename !== "";
+
+        for (var i = 0; i < filesToRead.length; i++) {
+            pass = pass && filesToRead[i].done;
+        }
+
+        if (pass) {
+            if (filename.toLowerCase().indexOf(".html") != -1) {
+                var htmlDoc = generateHTMLout(javascript, css, HTMLbody);
+                fs.writeFile(filename, htmlDoc);
+            } else {
+                console.log("errror! save must be .json or .csv");
+            }
+        }
+    }
+    filesToRead.forEach(function (obj) {
+        fs.readFile(obj.name, function (error, chunk) {
+            if (error) {
+                console.log("ERROR: ", error);
+                return;
+            }
+
+            if (obj.type === "JS") {
+                javascript += chunk;
+            } else if (obj.type === "CSS") {
+                css += chunk;
+            }
+            obj.done = true;
+            allDone();
+        });
+    });
+
+    fileDialog.on("change", function (event) {
+        var filename = $(this).val();
+        allDone();
+    });
+    fileDialog.trigger("click");
+});
