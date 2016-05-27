@@ -75,9 +75,12 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     $scope.tree = {};
     $scope.overlayTree = {};
 
-    $scope.newCatalog = "";
-    $scope.newCategory = "";
-    $scope.newSubCategory = "";
+    $scope.newElementText = {};
+    $scope.newElementText.newCatalog = "";
+    $scope.newElementText.newCategory = "";
+    $scope.newElementText.newSubCategory = "";
+    $scope.newElementText.newTopic = "";
+    $scope.newElementText.newModule = "";
 
 
     g.onMonitorTablesChange(function (monitorTables) {
@@ -284,7 +287,33 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
         return DataOptions.isNotEmpty(newModule) && $scope.isNew(newModule, $scope.moduleList());
     }
 
-    $scope.addModule = function (newModule) {
-        DataOptions.addCustom("Module", newModule);
-    }
+    $scope.addNewCatalog = function(){
+        $scope.topicAdder.addNewCatalog($scope.overlayTree, $scope.newElementText.newCatalog);
+        $scope.catalog.value = $scope.newElementText.newCatalog;
+        $scope.newElementText.newCatalog = '';
+    };
+
+    $scope.addNewCategory = function(){
+        $scope.topicAdder.addNewCategory($scope.overlayTree, $scope.catalog.value, $scope.newElementText.newCategory);
+        $scope.category.value = $scope.newElementText.newCategory;
+        $scope.newElementText.newCategory = '';
+    };
+
+    $scope.addNewSubCategory = function(){
+        $scope.topicAdder.addNewSubCategory($scope.overlayTree, $scope.catalog.value, $scope.category.value, $scope.newElementText.newSubCategory);
+        $scope.subCategory.value = $scope.newElementText.newSubCategory;
+        $scope.newElementText.newSubCategory = '';
+    };
+
+    $scope.addNewOverlayTopic = function(){
+        $scope.addOverlayTopic($scope.catalog.value, $scope.category.value, $scope.subCategory.value, $scope.newElementText.newTopic);
+        $scope.topic.value = $scope.newElementText.newTopic;
+        $scope.newElementText.newTopic = '';
+    };
+
+    $scope.addNewModule = function(){
+        $scope.topicAdder.addNewMod($scope.newElementText.newModule);
+        $scope.module.value = $scope.newElementText.newModule;
+        $scope.newElementText.newModule = '';
+    };
 }]);
