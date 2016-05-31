@@ -266,7 +266,6 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
                     $scope.description.value, 
                     $scope.module.value, 
                     $scope.source.value);
-            $("#addTopic").dialog("close");
             $scope.reset();
         }
     }
