@@ -481,6 +481,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         }
         var dialog = $("#copyTopicModuleDialog" + $scope.activeView + topic.id).dialog({
             title: "Split Topic Into New Module",
+            autoOpen: false,
             dialogClass: "moduleDialog-container",
             buttons: {
                 "Make Topic": function () {
@@ -504,6 +505,8 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         });
         $(".ui-dialog.moduleDialog-container").find("button").addClass("blueButton");
         $(".moduleDialog-container .ui-dialog-titlebar").addClass("greenDialogTitlebar");
+        dialog.dialog("open");
+
     };
 
     //This function is redefined in $scope.copyTopic, so that only one version of the
