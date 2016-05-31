@@ -258,7 +258,6 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
 
     $scope.finish = function () {
         if ($scope.canFinish()) {
-            console.log("finish!")
             $scope.topicAdder.addNewTopic(
                     $scope.catalog.value, 
                     $scope.category.value, 
