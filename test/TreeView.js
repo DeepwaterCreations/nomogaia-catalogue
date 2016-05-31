@@ -479,7 +479,7 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         $scope.renderCopyTopicModuleDialog = function (other_topic) {
             return topic.id === other_topic.id;
         }
-        $("#copyTopicModuleDialog" + topic.id).dialog({
+        var dialog = $("#copyTopicModuleDialog" + $scope.activeView + topic.id).dialog({
             title: "Split Topic Into New Module",
             dialogClass: "moduleDialog-container",
             buttons: {

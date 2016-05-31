@@ -130,14 +130,14 @@
 </div>
 
 <!-- DIALOG -->
-<div id="{{'copyTopicModuleDialog' + Topic.id}}" class="dialog hidden moduleDialog">
+<div id="{{'copyTopicModuleDialog' + activeView + Topic.id}}" class="dialog hidden moduleDialog">
     <div data-ng-if="renderCopyTopicModuleDialog(Topic)">
         <div data-ng-repeat="module in moduleList()">
             <input type="radio"
-                   id="{{::'radio' + Topic.id + 'MOD' + module}}"
+                   id="{{::'radio' + activeView + Topic.id + 'MOD' + module}}"
                    data-ng-model="mo.selectedModule"
                    value="{{module}}">
-            <label for="{{::'radio' + Topic.id + 'MOD' + module}}">{{module}}</label>
+            <label for="{{::'radio' + activeView + Topic.id + 'MOD' + module}}">{{module}}</label>
         </div>
         <div class="newModuleField">
             <span data-ng-show="!mo.showAddModule" data-ng-click="showAddMod()">
