@@ -259,7 +259,14 @@ g.aspenApp.controller('addController', ['$scope', '$timeout', function ($scope, 
     $scope.finish = function () {
         if ($scope.canFinish()) {
             console.log("finish!")
-            $scope.topicAdder.addNewTopic($scope.tree, $scope.catalog.value, $scope.category.value, $scope.subCategory.value, $scope.topic.value, $scope.description.value, $scope.module.value, $scope.source.value)
+            $scope.topicAdder.addNewTopic(
+                    $scope.catalog.value, 
+                    $scope.category.value, 
+                    $scope.subCategory.value, 
+                    $scope.topic.value, 
+                    $scope.description.value, 
+                    $scope.module.value, 
+                    $scope.source.value);
             $("#addTopic").dialog("close");
             $scope.reset();
         }
