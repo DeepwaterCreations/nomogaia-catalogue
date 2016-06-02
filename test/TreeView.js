@@ -207,8 +207,9 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
         $scope.hideAllRightsholders = function () {
             monitorTables.emptyShownRightsholders();
         };
-
-        $("#tree-view .main .body").scroll(function () { $scope.updateVisible(true); })
+        $("#tree-view .main .body").scroll(function () { 
+            $scope.updateVisible(true); 
+        });
     });
 
     $scope.updateFilteredRows = function (x) {
