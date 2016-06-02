@@ -91,10 +91,10 @@
                     <input type="file" id="export-matrix-dialog" style="display:none;" accept=".html" nwsaveas />
                 </div>
                 <div id="outlineTab" class="tab" data-ng-controller="treeController" ondragenter="g.killDragData(event)">
-                    <div data-ng-if="tableData === null" class="fill">
+                    <div data-ng-show="tableData === null" class="fill">
                         <h1>Loading</h1>
                     </div>
-                    <div data-ng-if="tableData !== null" data-ng-init="init()" class="fill flx-row" id="tree-view">
+                    <div data-ng-show="tableData !== null" data-ng-init="init()" class="fill flx-row" id="tree-view">
                         <div class="main">
                             <div class="header">
                                 <div class="header-bar">
