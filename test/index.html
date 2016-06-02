@@ -46,7 +46,7 @@
     </div>
 
     <div id="tabs">
-        <ul id="tabsBar">
+        <ul id="tabsBar" data-ng-controller="tabBarController">
 
             <li>
                 <a href="#outlineTab">Outline</a>
@@ -63,7 +63,7 @@
             <button class="blueButton rightButton" id="load" type="button">Load</button>
             <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
 
-            <button class="blueButton rightButton" id="save" type="button">Save</button>
+            <button class="blueButton rightButton" data-ng-click="clickSaveAs()" id="save" type="button">Save</button>
             <input type="file" id="saveFileDialog" style="display:none;" accept=".csv,.json" nwsaveas />
         </ul>
         <div id="main-page">
@@ -511,6 +511,7 @@
     <script src="progress.js"></script>
     <script type="text/javascript" src="MatrixUI.js"></script>
     <script type="text/javascript" src="ContextMenu.js"></script>
+    <script type="text/javascript" src="TabsBarCtrl.js"></script>
     <script type="text/javascript">
         $("#tabs").tabs();
     </script>

@@ -43,7 +43,8 @@ win.on('blur', function () {
 
 //What we're basically doing with these is using the button's onClick to trigger the (hidden) file input's onClick. That way, we get the dialog but not the
 //standard filepath-and-"choose-file"-button UI element from the file input. See https://github.com/nwjs/nw.js/wiki/File-dialogs
-$('#save').click(function () {
+// $('#save').click(function () {
+SaveLoad.saveAs = function(){
     var fileDialog = $("#saveFileDialog");
     fileDialog.on("change", function (event) {
         var filename = $(this).val();
@@ -56,7 +57,7 @@ $('#save').click(function () {
         });
     });
     fileDialog.trigger("click");
-});
+};
 
 var forceLoad = false;
 $('#load').click(function () {
