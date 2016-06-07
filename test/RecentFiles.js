@@ -39,7 +39,7 @@ RecentFiles.push = function (path, load) {
         }
     );
     if (pathLib.extname(path) === ".json") {
-        RecentFiles.private.currentAddress = RecentFiles.getAddress(path);
+        RecentFiles.private.currentAddress = pathLib.dirname(path);
         RecentFiles.setCurrentFileName(RecentFiles.getName(path));
         $("title").empty();
         var newTitle = RecentFiles.private.title + " - " + RecentFiles.getCurrentFileName();
