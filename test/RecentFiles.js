@@ -23,9 +23,9 @@ RecentFiles.push = function (path, load) {
     // remove all files with a matching name from the list and autosave with the same file name
     var recentFiles = JSON.parse(localStorage.getItem("recentFiles"));
     for (var i = 0; i < recentFiles.length;) {
-        if (RecentFiles.getAddress(recentFiles[i].path) == RecentFiles.getAddress(path) && (
-           RecentFiles.getName(recentFiles[i].path) == RecentFiles.getName(path) || (
-            RecentFiles.getName(recentFiles[i].path) == RecentFiles.getName(path) + "-autosave"
+        if (pathLib.dirname(recentFiles[i].path) === pathLib.dirname(path) && (
+           RecentFiles.getName(recentFiles[i].path) === RecentFiles.getName(path) || (
+            RecentFiles.getName(recentFiles[i].path) === RecentFiles.getName(path) + "-autosave"
             ) && !load)) {
             recentFiles.splice(i, 1);
         } else {
@@ -38,7 +38,7 @@ RecentFiles.push = function (path, load) {
             name: RecentFiles.getName(path)
         }
     );
-    if (RecentFiles.getType(path).toLowerCase() == ".json") {
+    if (pathLib.extname(path) === ".json") {
         RecentFiles.private.currentAddress = RecentFiles.getAddress(path);
         RecentFiles.setCurrentFileName(RecentFiles.getName(path));
         $("title").empty();
@@ -55,20 +55,6 @@ RecentFiles.getName = function (path) {
     var filename = path.replace(/^.*[\\\/]/, '');
     filename = filename.substr(0, filename.indexOf("."));
     return filename;
-}
-
-RecentFiles.getType = function (path) {
-    var filename = path.replace(/^.*[\\\/]/, '');
-    filename = filename.substr(filename.indexOf("."), filename.length);
-    return filename;
-}
-
-
-// return just the address and not the file name
-RecentFiles.getAddress = function (path) {
-    var filename = path.replace(/^.*[\\\/]/, '');
-    var address = path.substr(0, path.indexOf(filename));
-    return address;
 }
 
 RecentFiles.getCurrentFileAddress = function () {
