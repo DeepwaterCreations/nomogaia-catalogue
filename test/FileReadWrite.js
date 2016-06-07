@@ -6,27 +6,31 @@ var gui = require('nw.gui');
 var path = require('path');
 require('events').EventEmitter;
 
+//Check if we have an existing filename to save to.
+//If so, save directly. Otherwise, call saveAs.
+SaveLoad.checkSave = function(){
+    filename = RecentFiles.getPath();
+    if (filename) {
+        //If we already have a filename, save to the existing file.
+        SaveLoad.save(filename, function (error) {
+            if (error)
+                console.log("ERROR: ", error);
+            else {
+                RecentFiles.setClean();
+                console.log("Finished saving");
+            }
+        });
+    }
+    else {
+        //Otherwise, open the dialog to select a new filename.
+        SaveLoad.saveAs();
+    }
+};
+
 //Enabling ctrl-s to save
 var keyboardCommand = new gui.Shortcut({
     key: "Ctrl+S",
-    active: function () {
-        filename = RecentFiles.getPath();
-        if (filename) {
-            //If we already have a filename, save to the existing file.
-            SaveLoad.save(filename, function (error) {
-                if (error)
-                    console.log("ERROR: ", error);
-                else {
-                    RecentFiles.setClean();
-                    console.log("Finished saving");
-                }
-            });
-        }
-        else {
-            //Otherwise, open the dialog to select a new filename.
-            $('#save').click();
-        }
-    }
+    active: SaveLoad.checkSave
 });
 gui.App.registerGlobalHotKey(keyboardCommand);
 
@@ -58,6 +62,7 @@ SaveLoad.saveAs = function(){
     });
     fileDialog.trigger("click");
 };
+
 
 var forceLoad = false;
 $('#load').click(function () {
