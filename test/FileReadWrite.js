@@ -137,8 +137,8 @@ gui.Window.get().on('close', function () {
 
 SaveLoad.autosave = function (interval) {
     window.setTimeout(function () {
-        console.log("Autosave Triggered!");
-        if (RecentFiles.getIsDirty()) {
+        if (RecentFiles.getIsDirty() && !($("#splash").is(":visible"))) {
+            console.log("Autosave Triggered!");
             SaveLoad.save(RecentFiles.getAutoSaveName());
         }
         SaveLoad.autosave(interval);
