@@ -146,13 +146,13 @@ SaveLoad.autosave = function (interval) {
 }
 
 SaveLoad.save = function (filename, callback) {
-    if (filename.toLowerCase().indexOf(".json") != -1) {
+    if (path.extname(filename) === ".json") {
         var saveobj = {};
         saveobj.monitortables = monitorTables.toOut();
         saveobj.dataoptions = DataOptions.toOut();
         fs.writeFile(filename, JSON.stringify(saveobj), callback);
         RecentFiles.push(filename, false);
-    } else if (filename.toLowerCase().indexOf(".csv") != -1) {
+    } else if (path.extname(filename) === ".csv") {
         var str = monitorTables.toCSV();
         fs.writeFile(filename, str, callback);
     } else {
@@ -188,7 +188,7 @@ SaveLoad.load = function (filename, callback) {
     //});
 
     callback = callback || function () { }
-    if (filename.toLowerCase().indexOf(".json") != -1) {
+    if (path.extname(filename) === ".json") {
         fs.readFile(filename, function (error, chunk) {
             if (error) {
                 console.out("ERROR: ", error);
@@ -211,7 +211,7 @@ SaveLoad.load = function (filename, callback) {
             RecentFiles.push(filename, true);
             callback();
         });
-    } else if (filename.toLowerCase().indexOf(".csv") != -1) {
+    } else if (path.extname(filename) === ".csv") {
         fs.readFile(filename, function (error, chunk) {
             if (error) {
                 console.out("ERROR: ", error);
