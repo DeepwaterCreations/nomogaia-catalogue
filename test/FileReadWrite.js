@@ -14,7 +14,7 @@ SaveLoad.checkSave = function(){
         //If we already have a filename, save to the existing file.
         SaveLoad.save(filename, function (error) {
             if (error)
-                console.log("ERROR: ", error);
+                console.log("ERROR: ", error.message);
             else {
                 RecentFiles.setClean();
                 console.log("Finished saving");
