@@ -62,6 +62,21 @@ SaveLoad.saveAs = function(){
         if(path.extname(filename) !== ".json" &&
            path.extname(filename) !== ".csv"){
             filename = filename + ".json";
+            $("#saveFileTypeWarningDialog").dialog({
+                autoOpen: false,
+                buttons: [
+                    {
+                        text: "Ok",
+                        click: function(){
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+            });
+            $("#saveFileTypeWarningDialog span").append("<span>" + path.basename(filename) + "</span>");
+            $(".ui-dialog").find("button").addClass("blueButton");
+            $("#saveFileTypeWarningDialog").dialog("open");
+        }
         SaveLoad.save(filename, function (error) {
             if (error)
                 console.log("ERROR: ", error);
