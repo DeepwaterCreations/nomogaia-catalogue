@@ -59,6 +59,9 @@ SaveLoad.saveAs = function(){
     var fileDialog = $("#saveFileDialog");
     fileDialog.on("change", function (event) {
         var filename = $(this).val();
+        if(path.extname(filename) !== ".json" &&
+           path.extname(filename) !== ".csv"){
+            filename = filename + ".json";
         SaveLoad.save(filename, function (error) {
             if (error)
                 console.log("ERROR: ", error);
