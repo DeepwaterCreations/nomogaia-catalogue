@@ -6,11 +6,15 @@ var gui = require('nw.gui');
 var path = require('path');
 require('events').EventEmitter;
 
+//Should be true if the file has been saved, (properly, not auto,) or if the file was loaded from the fs,
+//which pretty strongly implies that it just maybe was saved at some point in the past.
+SaveLoad.hasBeenSaved = false;
+
 //Check if we have an existing filename to save to.
 //If so, save directly. Otherwise, call saveAs.
 SaveLoad.checkSave = function(){
     filename = RecentFiles.getPath();
-    if (filename) {
+    if (SaveLoad.hasBeenSaved && filename) {
         //If we already have a filename, save to the existing file.
         SaveLoad.save(filename, function (error) {
             if (error)
@@ -56,6 +60,8 @@ SaveLoad.saveAs = function(){
             if (error)
                 console.log("ERROR: ", error);
             else {
+                RecentFiles.setClean();
+                SaveLoad.hasBeenSaved = true;
                 console.log("Finished saving");
             }
         });
@@ -145,6 +151,9 @@ SaveLoad.autosave = function (interval) {
     }, interval);
 }
 
+//Saves the file.
+//Callback is necessary because we might not want the same behavior for
+//autosaving as for when the user deliberately saves.
 SaveLoad.save = function (filename, callback) {
     if (path.extname(filename) === ".json") {
         var saveobj = {};
@@ -209,6 +218,7 @@ SaveLoad.load = function (filename, callback) {
             monitorTables.loadFile(obj.monitortables);
             //$("#loadingBarDialog").dialog("destroy");
             RecentFiles.push(filename, true);
+            SaveLoad.hasBeenSaved = true;
             callback();
         });
     } else if (path.extname(filename) === ".csv") {
