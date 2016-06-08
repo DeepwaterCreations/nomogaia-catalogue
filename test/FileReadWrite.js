@@ -34,7 +34,10 @@ SaveLoad.checkSave = function(){
 //Enabling ctrl-s to save
 var keyboardCommand = new gui.Shortcut({
     key: "Ctrl+S",
-    active: SaveLoad.checkSave
+    active: SaveLoad.checkSave,
+    failed: function(message){
+        console.log("KEYBOARD SHORTCUT ERROR: " + message);
+    }
 });
 gui.App.registerGlobalHotKey(keyboardCommand);
 
