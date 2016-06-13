@@ -54,11 +54,19 @@ win.on('blur', function () {
 
 //What we're basically doing with these is using the button's onClick to trigger the (hidden) file input's onClick. That way, we get the dialog but not the
 //standard filepath-and-"choose-file"-button UI element from the file input. See https://github.com/nwjs/nw.js/wiki/File-dialogs
-// $('#save').click(function () {
 SaveLoad.saveAs = function(){
     var fileDialog = $("#saveFileDialog");
-    fileDialog.on("change", function (event) {
+    //Make the event only trigger once, so that we can reset the filename without triggering it again.
+    fileDialog.one("change", function (event) {
+        event.stopPropagation();
+
         var filename = $(this).val();
+        //Reset the filename. Otherwise, the change event won't fire if we try to save to the same filename again.
+        $(this).val("");
+        
+        if(filename === "")
+            return;
+
         if(path.extname(filename) !== ".json" &&
            path.extname(filename) !== ".csv"){
             filename = filename + ".json";
@@ -77,6 +85,7 @@ SaveLoad.saveAs = function(){
             $(".ui-dialog").find("button").addClass("blueButton");
             $("#saveFileTypeWarningDialog").dialog("open");
         }
+        
         SaveLoad.save(filename, function (error) {
             if (error)
                 console.log("ERROR: ", error);
