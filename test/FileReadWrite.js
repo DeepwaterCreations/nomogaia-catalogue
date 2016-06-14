@@ -56,7 +56,15 @@ win.on('blur', function () {
 //standard filepath-and-"choose-file"-button UI element from the file input. See https://github.com/nwjs/nw.js/wiki/File-dialogs
 SaveLoad.saveAs = function(){
     var fileDialog = $("#saveFileDialog");
-    //Make the event only trigger once, so that we can reset the filename without triggering it again.
+    //Set the default filepath for the next save to match the current document
+    fileDialog.attr({
+        nwsaveas: RecentFiles.getCurrentFileName() + ".json",
+        nwworkingdir: RecentFiles.getCurrentFileAddress()
+    });
+
+    //Add an event handler that will trigger when the form's value is changed, which should happen
+    //when a file path is chosen.
+    //The event should only trigger once, so that we can reset the filename without triggering it again.
     fileDialog.one("change", function (event) {
         event.stopPropagation();
 
