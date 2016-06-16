@@ -54,13 +54,15 @@ win.on('blur', function () {
 
 //What we're basically doing with these is using the button's onClick to trigger the (hidden) file input's onClick. That way, we get the dialog but not the
 //standard filepath-and-"choose-file"-button UI element from the file input. See https://github.com/nwjs/nw.js/wiki/File-dialogs
-SaveLoad.saveAs = function(){
+SaveLoad.saveAs = function(isCSV){
+    var file_extension = isCSV ? ".csv" : ".json";
     var fileDialog = $("#saveFileDialog");
     //Set the default filepath for the next save to match the current document
     fileDialog.attr({
-        nwsaveas: RecentFiles.getCurrentFileName() + ".json",
+        nwsaveas: RecentFiles.getCurrentFileName() + file_extension,
         nwworkingdir: RecentFiles.getCurrentFileAddress()
     });
+
 
     //Add an event handler that will trigger when the form's value is changed, which should happen
     //when a file path is chosen.
@@ -75,9 +77,9 @@ SaveLoad.saveAs = function(){
         if(filename === "")
             return;
 
-        if(path.extname(filename) !== ".json" &&
-           path.extname(filename) !== ".csv"){
-            filename = filename + ".json";
+        if(path.extname(filename) !== file_extension){
+            filename = filename + file_extension;
+            //Warn the user that we're appending a file extension.
             $("#saveFileTypeWarningDialog").dialog({
                 autoOpen: false,
                 buttons: [
@@ -106,7 +108,6 @@ SaveLoad.saveAs = function(){
     });
     fileDialog.trigger("click");
 };
-
 
 var forceLoad = false;
 $('#load').click(function () {

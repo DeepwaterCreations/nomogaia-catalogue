@@ -7,4 +7,8 @@ g.aspenApp.controller('tabBarController', ['$scope', function($scope){
     $scope.clickSaveAs = function(){
         SaveLoad.saveAs();
     };
+
+    $scope.clickSaveCSV = function(){
+        SaveLoad.saveAs(true);
+    };
 }]);
