@@ -19,3 +19,32 @@
         margin: 0px;
         margin-right: 5px;
     }
+
+#tabsBar #saveMenu{
+    background-color: rgba(0, 0, 0, 0.25);
+    float: right;
+}
+
+    #tabsBar #saveMenu .rightButton{
+        margin: 0 2px;
+        border-radius: 0px;
+    }
+    #tabsBar #saveMenu .rightButton:first-of-type{
+        /* margin-right: 2px; */
+    }
+    #tabsBar #saveMenu .rightButton:last-of-type{
+        margin-left: 4px;
+    }
+
+#tabsBar #saveMenu_button{
+    border-radius: 0px 4px 4px 0px;
+    border-left: rgb(192, 192, 192) 2px solid;
+    /* padding: 0 0.4em; */
+    padding-right: 0.4em;
+    padding-left: 0.4em;
+}
+
+#tabsBar #save{
+    border-radius: 4px 0px 0px 4px;
+    margin-right: 0;
+}
