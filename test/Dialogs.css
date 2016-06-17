@@ -54,10 +54,3 @@
         margin: 0px;
         border-radius: 0px;
     }
-
-/*This isn't technically a dialog and probably shouldn't go here, but it has to go somewhere*/
-ul .rightButton {
-    float: right;
-    margin: 0px;
-    margin-right: 5px;
-}

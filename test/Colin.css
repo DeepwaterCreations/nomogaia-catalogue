@@ -185,21 +185,6 @@ body {
     overflow: hidden;
 }
 
-#tabsBar {
-    height: 45px;
-    padding-top: 2px;
-    padding-bottom: 5px;
-    padding-left: 15px;
-    border-bottom: 2px solid #356C28;
-    -webkit-border-radius: 0px;
-    overflow-x: hidden;
-}
-
-    #tabsBar li {
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
-
 #tabs {
     height: 100%;
     width: 100%;
