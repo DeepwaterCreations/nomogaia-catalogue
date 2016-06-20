@@ -31,6 +31,7 @@
     justify-content: center;
 }
 #tabsBar #saveMenu.visible{
+    /* Hard-coded because we can't animate calculated values, unfo. */
     width: 268px;
 }
 
