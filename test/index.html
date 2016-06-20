@@ -65,7 +65,7 @@
             <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
 
             <button class="blueButton rightButton" data-ng-click="clickSaveMenu()" id="saveMenu_button" type="button">+</button>
-            <div id="saveMenu" data-ng-show="showSaveMenu">
+            <div id="saveMenu" data-ng-class="{visible: showSaveMenu}">
                 <button class="blueButton rightButton" data-ng-click="clickSaveCSV()">Export as CSV</button>
                 <button class="blueButton rightButton" data-ng-click="clickSaveAs()">Save As...</button>
             </div>
