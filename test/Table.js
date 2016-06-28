@@ -46,10 +46,10 @@ function Table(monitorTables) {
 
 }
 
-function createTableFromJSON(objFromFile, tableIndex, monitorTables) {
+function createTableFromFile(monitorArray, monitorTables){
     var newTable = new Table(monitorTables);
     var dataList = [];
-    objFromFile[tableIndex].backingData.forEach(function (objRow) {
+    monitorArray.forEach(function (objRow) {
         var id = objRow["id"];
         var modified = objRow["modified"] ||'auto';
         var parentID = objRow["parentID"] || 'auto';

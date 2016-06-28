@@ -106,9 +106,10 @@
         this.shownRights = loaded_data.info.shownRights;
         this.shownRightsholders = loaded_data.info.shownRightsholders;
         for (var i = 0; i < loaded_data.monitors.length; i++) {
-            this.push(createTableFromJSON(loaded_data.monitors, i, this));
-            $("#monitorNameField").val(loaded_data.monitors[i].label) //Ensures the new tab gets the proper label.
-                monitorTabs.addTab();
+            var monitorArray = loaded_data.monitors[i].backingData;
+            this.push(createTableFromFile(monitorArray, this));
+            $("#monitorNameField").val(loaded_data.monitors[i].label); //Ensures the new tab gets the proper label.
+            monitorTabs.addTab();
         }
         g.setMonitorTables(this);
     };
