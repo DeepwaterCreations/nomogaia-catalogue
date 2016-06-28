@@ -51,15 +51,15 @@ function createTableFromFile(monitorArray, monitorTables){
     var dataList = [];
     monitorArray.forEach(function (objRow) {
         var id = objRow["id"];
-        var modified = objRow["modified"] ||'auto';
+        var modified = objRow["modified"] || 'auto';
         var parentID = objRow["parentID"] || 'auto';
         var unHooked = objRow["unHooked"] || 'auto';
-        if (parentID !== 'auto' && parentID != -1) {
+        if (parentID !== 'auto' && parentID !== -1) {
             //Search through the existing data and find the row with the id the new data points to.
             var refRow = RowData.getRow(parentID);
             //Once we've found the row being pointed to, make a new row that references it. 
-            if (refRow!= undefined) {
-                var newRowData = new RowData(newTable, id, modified,unHooked, refRow);
+            if (refRow !== undefined) {
+                var newRowData = new RowData(newTable, id, modified, unHooked, refRow);
                 dataList.push(newRowData);
             }
             else {
