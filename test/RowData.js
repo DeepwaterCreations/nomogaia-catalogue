@@ -85,7 +85,7 @@ RowData = function (table, inId, inModified,inUnHooked, rowData) {
         //    toUnParse.push(-1);
         //}
         var str = Papa.unparse([toUnParse]);
-        return str + '\n';
+        return '\n' + str;
     }
 
     // generates a function that calls our listeners
@@ -419,5 +419,5 @@ RowData.CSVHeader = function () {
     //toUnParse.push("parent id");
 
     var str = Papa.unparse([toUnParse]);
-    return str + '\n';
+    return str;
 }
