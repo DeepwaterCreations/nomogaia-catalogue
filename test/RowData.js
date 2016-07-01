@@ -15,21 +15,21 @@ var rowDataId = 0;
 g.allRowData = {};
 
 //Holds the data for a single row.
-RowData = function (table, inId, inModified,inUnHooked, rowData) {
-    if (inId !== undefined &&  inId != "auto") {
+RowData = function (table, inId, inModified, inUnHooked, rowData) {
+    if (inId !== undefined && inId !== "auto") {
         this.id = inId;
         rowDataId = Math.max(rowDataId, inId + 1);
     } else {
         this.id = rowDataId++;
     }
 
-    if (inModified !== undefined  && inModified != "auto") {
+    if (inModified !== undefined && inModified !== "auto") {
         this.modified = inModified;
     } else {
         this.modified = false;
     }
 
-    if (inUnHooked !== undefined && inUnHooked != "auto") {
+    if (inUnHooked !== undefined && inUnHooked !== "auto") {
         this.unHooked = inUnHooked;
     } else {
         this.unHooked = false;

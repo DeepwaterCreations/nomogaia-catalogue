@@ -53,7 +53,7 @@ function TableData() {
         var str = "";
         this.rows.forEach(function (row) {
             if (!row.isHooked()) {
-                str+=row.toCSV();
+                str += row.toCSV();
             }
         });
         return str;
