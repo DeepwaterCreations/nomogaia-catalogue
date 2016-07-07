@@ -77,27 +77,56 @@
 
 
     //TODO incomplete!
-    // loading from CSV is not simple
     this.loadCSV = function (str) {
         this.clear();
-        var table = Papa.parse(str, { header: true });
-        console.log("table", table);
-        var tables = {};
+        var parse_result = Papa.parse(str, { header: true });
+        if(parse_result.errors){
+            parse_result.errors.forEach(function(error){
+                console.error(error.message + " ROW #: " + error.row);
+            });
+        }
+        var loaded_data = parse_result.data;
+        var new_monitors = {};
+        var new_monitor_names = [];
 
         // we need to split up in to row
-        for (var i = 0; i < table.data.length; i++) {
-            var row = table.data[i];
-            if (tables[row["monitor id"]] === undefined) {
-                tables[row["monitor id"]] = [];
-            } else {
-                tables[row["monitor id"]].push(row);
+
+        for (var i = 0; i < loaded_data.length; i++) {
+            var row = loaded_data[i];
+
+            //Put parsed rows into an object keyed by monitor labels.
+            //Each monitor label key should have as its value an array of rows representing that monitor.
+            //We also maintain an array of monitor labels in order so we can iterate over it later.
+            var monitorLabel = row["Monitor"];
+            if (new_monitors[monitorLabel] === undefined) {
+                new_monitors[monitorLabel] = [];
+                new_monitor_names.push(monitorLabel);
+            } 
+            new_monitors[monitorLabel].push(row);
+        }
+
+        var prev_monitor = [];
+        for(var i = 0; i < new_monitor_names.length; i++){
+            var label = new_monitor_names[i];
+            var new_monitor = new_monitors[label];
+            if(i === 0){
+                //If we imported from JSON, everything would already have IDs, but we aren't
+                //storing that in the CSV, so we'll have to reassign them from scratch. 
+                //TODO: Find a way to do this that doesn't trespass in RowData's domain 
+                new_monitor.forEach(function(row){
+                   row.id = row.id || rowDataId++;
+                });
+            }else{
+                new_monitor = fillFromPreviousMonitor(prev_monitor, new_monitor);
             }
+            this.push(createTableFromFile(new_monitor, this));
+            prev_monitor = new_monitor;
+             
+            //Add the UI element to select this monitor 
+            $("#monitorNameField").val(label);
+            monitorTabs.addTab();
         }
-
-        //now we need to copy the rows froward
-        for (var i = 0; i < tables.length; i++) {
-
-        }
+        g.setMonitorTables(this);
     }
 
     this.loadFile = function (loaded_data) {

@@ -46,6 +46,47 @@ function Table(monitorTables) {
 
 }
 
+//Returns a new array of rows containing wrapper rows for all the rows in prevMonitor, except where there is a 
+//row in newRows with the same column values, in which case the newRow member is inserted.
+//When we export CSV, we leave out all unmodified rows, so now we need to recreate those rows and put them
+//back in. What's important is to make sure that they all have the correct references to previous rows.
+//prevMonitor, newRows: Arrays of rowData. 
+function fillFromPreviousMonitor(prevMonitor, newRows){
+    var newMonitor = [];
+    //Iterate over each member of the previous monitor, and for each of those,
+    //check its category values against all of the rows being added.     
+    for(var i = 0; i < prevMonitor.length; i++){
+        newRows.forEach(function(newRow){
+            // var match = true;
+            // g.columnList.forEach(function(column){
+                // if(row[column] !== newRow[column]){
+                    // match = false;
+                // }                
+            // })
+            var match = (prevMonitor[i]["Catalog"] === newRow["Catalog"]) &&
+                    (prevMonitor[i]["Category"] === newRow["Category"]) &&
+                    (prevMonitor[i]["Sub-Category"] === newRow["Sub-Category"]) &&
+                    (prevMonitor[i]["Topic"] === newRow["Topic"]); 
+
+            //If there's a match, copy in the new row.
+            if(match){
+                newRow.modified = true;
+                newRow.unHooked = false;
+                newMonitor[i] = newRow;
+            }            
+        });
+        //Otherwise, copy the previous monitor's row and set a parent id on it.
+        if(newMonitor[i] === undefined){
+            newMonitor[i] = prevMonitor[i];
+            if(prevMonitor[i].id === undefined){
+                throw new Exception("Previous monitor's row has no id");
+            }
+            newMonitor[i].parentID = prevMonitor[i].id; 
+        }
+    };
+    return newMonitor;
+}
+
 function createTableFromFile(monitorArray, monitorTables){
     var newTable = new Table(monitorTables);
     var dataList = [];
