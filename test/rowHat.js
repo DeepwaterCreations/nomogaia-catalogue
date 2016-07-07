@@ -20,6 +20,10 @@ rowHat = function (id) {
 
     var row = RowData.getRow(this.id);
     if (row.isHooked()) {
+        if(row.id === row.rowData.id){
+            throw "ERROR: rows shouldn't be their own parents.";
+            return;
+        }
         var rowParentHat = rowHat.getRowHat(row.rowData.id);
         this.lastKnowHeight = rowParentHat.lastKnowHeight;
     }
