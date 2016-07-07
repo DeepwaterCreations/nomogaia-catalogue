@@ -395,9 +395,9 @@ RowData.forEach = function (f) {
     }
 }
 
-// f takes a data row
-RowData.clear = function (f) {
+RowData.clear = function () {
     g.allRowData = {};
+    var rowDataId = 0;
 }
 
 RowData.getRowList = function () {
