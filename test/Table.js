@@ -79,7 +79,7 @@ function fillFromPreviousMonitor(prevMonitor, newRows){
         if(newMonitor[i] === undefined){
             newMonitor[i] = prevMonitor[i];
             if(prevMonitor[i].id === undefined){
-                throw new Exception("Previous monitor's row has no id");
+                throw "Previous monitor's row has no id";
             }
             newMonitor[i].parentID = prevMonitor[i].id; 
         }
