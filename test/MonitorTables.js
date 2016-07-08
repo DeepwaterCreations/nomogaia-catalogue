@@ -120,19 +120,22 @@
             });
 
             if(i === 0){
-                //If we imported from JSON, everything would already have IDs, but we aren't
-                //storing that in the CSV, so we'll have to reassign them from scratch. 
-                //Note that RowData (semi-)intelligently sets its own max row id count when it sees a 
-                //number higher than its current max.
-                //TODO: How the heck do we know if these were modified? Maybe it would be better if we 
-                //only saved rows that were modified in the first place, and re-generated a "default" set of
-                //rows...? 
                 var max_id = 0;
                 new_monitor.forEach(function(row){
-                   row.id = row.id || max_id++;
-                   row.parentID = row.parentID || -1;
-                   row.modified = row.modified || false;
-                   row.unHooked = row.unHooked || false;
+                    //If we imported from JSON, everything would already have IDs, but we aren't
+                    //storing that in the CSV, so we'll have to reassign them from scratch. 
+                    //Note that RowData (semi-)intelligently sets its own max row id count when it sees a 
+                    //number higher than its current max.
+                    row.id = row.id || max_id++;
+                    row.parentID = row.parentID || -1;
+                    //We can't know for sure if a row in the first monitor has been modified, since we have
+                    //nothing to compare it to. However, there are some fields we should expect to see as 
+                    //certain values if they haven't been modified, so we can at least catch some cases.
+                    row.modified = row.modified ||
+                        row["Impacted Rights"] !== "" ||
+                        row["Impacted Rights-Holders"] !== "" ||
+                        row["Score"] !== "-";
+                    row.unHooked = row.unHooked || false;
                 });
             }else{
                 new_monitor = fillFromPreviousMonitor(prev_monitor, new_monitor);
