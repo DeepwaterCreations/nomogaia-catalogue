@@ -35,8 +35,10 @@
                     <input class="white-button splash-button" type="button" value="{{x.name}}" data-ng-click="load(x.path)">
                 </div>
                 <div class="centerer">
-                    <i data-ng-if="loading" class="icon-cog rotating white-text"></i>
-                    <span class="white-text">{{loading?"Loading...":""}}</span>
+                    <i data-ng-if="false" class="icon-cog rotating white-text"></i>
+                    <span data-ng-if="false" class="white-text">
+                        Loading...
+                    </span>
                 </div>
             </div>
         </div>
