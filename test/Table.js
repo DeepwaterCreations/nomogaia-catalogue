@@ -71,7 +71,7 @@ function fillFromPreviousMonitor(prevMonitor, newRows){
             //If there's a match, copy in the new row.
             if(match){
                 newRow.modified = true;
-                newRow.unHooked = false;
+                newRow.unHooked = true;
                 newMonitor[i] = newRow;
             }            
         });
@@ -82,11 +82,19 @@ function fillFromPreviousMonitor(prevMonitor, newRows){
                 throw "Previous monitor's row has no id";
             }
             newMonitor[i].parentID = prevMonitor[i].id; 
+
+            //We don't really want to copy the parent row's id as this row's actual id, though.
+            //That will cause big problems. IDs should be unique.
+            //Fortunately, RowData can handle all that stuff for us, as long as we don't
+            //foolishly tell it we already have an id for this row.
+            newMonitor[i].id = "auto"; 
         }
     };
     return newMonitor;
 }
 
+//monitorArray: A list of objects, each representing data for a single row as parsed from an external file.
+//monitorTables: Our MonitorTables object.
 function createTableFromFile(monitorArray, monitorTables){
     var newTable = new Table(monitorTables);
     var dataList = [];

@@ -77,7 +77,6 @@
     }
 
 
-    //TODO incomplete!
     this.loadCSV = function (str) {
         this.clear();
         var parse_result = Papa.parse(str, { header: true });
@@ -90,14 +89,12 @@
         var new_monitors = {};
         var new_monitor_names = [];
 
-        // we need to split up in to row
-
         for (var i = 0; i < loaded_data.length; i++) {
             var row = loaded_data[i];
 
             //Put parsed rows into an object keyed by monitor labels.
             //Each monitor label key should have as its value an array of rows representing that monitor.
-            //We also maintain an array of monitor labels in order so we can iterate over it later.
+            //We also maintain an array of monitor labels in order so we can iterate over it in order later.
             var monitorLabel = row["Monitor"];
             if (new_monitors[monitorLabel] === undefined) {
                 new_monitors[monitorLabel] = [];
@@ -113,9 +110,17 @@
             if(i === 0){
                 //If we imported from JSON, everything would already have IDs, but we aren't
                 //storing that in the CSV, so we'll have to reassign them from scratch. 
-                //TODO: Find a way to do this that doesn't trespass in RowData's domain 
+                //Note that RowData (semi-)intelligently sets its own max row id count when it sees a 
+                //number higher than its current max.
+                //TODO: How the heck do we know if these were modified? Maybe it would be better if we 
+                //only saved rows that were modified in the first place, and re-generated a "default" set of
+                //rows...? 
+                var max_id = 0;
                 new_monitor.forEach(function(row){
-                   row.id = row.id || rowDataId++;
+                   row.id = row.id || max_id++;
+                   row.parentID = row.parentID || -1;
+                   row.modified = row.modified || false;
+                   row.unHooked = row.unHooked || false;
                 });
             }else{
                 new_monitor = fillFromPreviousMonitor(prev_monitor, new_monitor);
