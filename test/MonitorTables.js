@@ -107,6 +107,18 @@
         for(var i = 0; i < new_monitor_names.length; i++){
             var label = new_monitor_names[i];
             var new_monitor = new_monitors[label];
+
+            //Rights and Rights-holders are stored as comma-separated strings, but
+            //we'd rather have them as arrays. 
+            new_monitor.forEach(function(row){
+                if(row["Impacted Rights"] !== ""){
+                    row["Impacted Rights"] = row["Impacted Rights"].split(','); 
+                }
+                if(row["Impacted Rights-Holders"] !== ""){
+                    row["Impacted Rights-Holders"] = row["Impacted Rights-Holders"].split(','); 
+                }
+            });
+
             if(i === 0){
                 //If we imported from JSON, everything would already have IDs, but we aren't
                 //storing that in the CSV, so we'll have to reassign them from scratch. 
