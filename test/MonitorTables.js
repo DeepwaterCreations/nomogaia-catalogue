@@ -1,5 +1,6 @@
 ﻿function MonitorTables(categoryHierarchy) {
     // a list of tables 
+    //Each table in this array is a new monitor.
     this.backingData = [];
     this.labels = []
 
