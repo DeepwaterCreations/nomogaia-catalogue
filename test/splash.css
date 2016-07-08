@@ -9,6 +9,9 @@
     }
 }*/
 
+[data-ng-cloak]{
+    display: none !important;
+}
 
 #splash {
     position: absolute;
