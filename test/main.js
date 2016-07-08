@@ -61,19 +61,6 @@ $(document).ready(function () {
     // when we add rows the look to the tabs for their monitor
     monitorTabs.addTab();
 
-    // we need to add all the rows with module =None to the table
-    var topicList = categoryHierarchy.getAllTopics();
-    var dataList = []
-    topicList.forEach(function (topicInstance) {
-        if (topicInstance.module == "None") {
-            var data = topicInstance.toData(table);
-            dataList.push(data);
-        }
-    });
-
-
-    table.addRows(dataList);
-    g.setMonitorTables(monitorTables);
     //AddTopic.initFields();
 
 

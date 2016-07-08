@@ -21,6 +21,26 @@ g.aspenApp.controller('splashController', ['$scope', '$timeout', function ($scop
         }, 0);
     }
 
+    $scope.newDoc = function(){
+        // we need to add all the rows with module =None to the table
+        var topicList = categoryHierarchy.getAllTopics();
+        var dataList = []
+            topicList.forEach(function (topicInstance) {
+                if (topicInstance.module == "None") {
+                    var data = topicInstance.toData(table);
+                    dataList.push(data);
+                }
+            });
+
+
+        table.addRows(dataList);
+        g.setMonitorTables(monitorTables);
+
+        RecentFiles.setClean()
+
+        $scope.hide();
+    };
+
     $scope.load = function (path) {
         $scope.loading = true;
         SaveLoad.load(path, $scope.hide);
