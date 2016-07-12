@@ -109,10 +109,13 @@ SaveLoad.saveAs = function(isCSV){
     fileDialog.trigger("click");
 };
 
-var forceLoad = false;
-$('#load').click(function () {
+//Check if the file is dirty + warn the user, then call the load functionality if they
+//still want to go ahead.
+SaveLoad.forceLoad = false;
+SaveLoad.checkLoad = function(isCSV){
+// $('#load').click(function () {
     //First, warn the user about unsaved changes.
-    if (RecentFiles.getIsDirty() && !forceLoad) {
+    if (RecentFiles.getIsDirty() && !SaveLoad.forceLoad) {
         $("#loadConfirmationDialog").dialog({
             buttons: [
                 {
@@ -124,8 +127,8 @@ $('#load').click(function () {
                 {
                     text: "Load",
                     click: function () {
-                        forceLoad = true;
-                        $('#load').click();
+                        SaveLoad.forceLoad = true;
+                        SaveLoad.checkLoad(isCSV);
                         $(this).dialog("close");
                     }
                 }
@@ -136,8 +139,15 @@ $('#load').click(function () {
         return; //We'll call this function again and bypass this condition if we want to load after all. 
     }
 
-    forceLoad = false;
+    SaveLoad.forceLoad = false;
+
+    var file_extension = isCSV ? ".csv" : ".json";
     var fileDialog = $("#loadFileDialog");
+    //Set the dialog's file extension
+    fileDialog.attr({
+        accept: file_extension
+    });
+
     fileDialog.on("change", function (event) {
         var filename = $(this).val();
         if (!filename) return; //Maybe the user didn't specify a value.
@@ -149,7 +159,7 @@ $('#load').click(function () {
     });
 
     fileDialog.trigger("click");
-});
+};
 
 gui.Window.get().on('close', function () {
     var that = this;

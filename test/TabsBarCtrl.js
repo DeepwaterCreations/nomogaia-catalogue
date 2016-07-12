@@ -1,6 +1,7 @@
 g.aspenApp.controller('tabBarController', ['$scope', function($scope){
 
     $scope.showSaveMenu = false;
+    $scope.showLoadMenu = false;
 
     $scope.clickSave = function(){
         SaveLoad.checkSave();
@@ -18,4 +19,11 @@ g.aspenApp.controller('tabBarController', ['$scope', function($scope){
         $scope.showSaveMenu = !$scope.showSaveMenu;
     };
 
+    $scope.clickLoad = function(){
+        SaveLoad.checkLoad();
+    };
+
+    $scope.clickLoadCSV = function(){
+        SaveLoad.checkLoad(true);
+    };
 }]);
