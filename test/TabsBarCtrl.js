@@ -26,4 +26,8 @@ g.aspenApp.controller('tabBarController', ['$scope', function($scope){
     $scope.clickLoadCSV = function(){
         SaveLoad.checkLoad(true);
     };
+
+    $scope.clickLoadMenu = function(){
+        $scope.showLoadMenu = !$scope.showLoadMenu;
+    };
 }]);

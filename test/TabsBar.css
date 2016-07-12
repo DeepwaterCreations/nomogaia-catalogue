@@ -20,7 +20,7 @@
         margin-right: 5px;
     }
 
-#tabsBar #saveMenu{
+#tabsBar #saveMenu, #tabsBar #loadMenu{
     -webkit-transition: all .3s ease;
     background-color: rgba(0, 0, 0, 0.25);
     float: right;
@@ -34,26 +34,29 @@
     /* Hard-coded because we can't animate calculated values, unfo. */
     width: 268px;
 }
+#tabsBar #loadMenu.visible{
+    width: 168px; 
+}
 
-    #tabsBar #saveMenu .rightButton{
+    #tabsBar #saveMenu .rightButton, #tabsBar #loadMenu .rightButton{
         margin: 0 2px;
         border-radius: 0px;
         white-space: nowrap;
     }
-    #tabsBar #saveMenu .rightButton:first-of-type{
+    #tabsBar #saveMenu .rightButton:first-of-type, #tabsBar #loadMenu .rightButton:first-of-type{
     }
-    #tabsBar #saveMenu .rightButton:last-of-type{
+    #tabsBar #saveMenu .rightButton:last-of-type, #tabsBar #loadMenu .rightButton:last-of-type{
         margin-right: 0;
     }
 
-#tabsBar #saveMenu_button{
+#tabsBar #saveMenu_button, #tabsBar #loadMenu_button{
     border-radius: 0px 4px 4px 0px;
     border-left: rgb(192, 192, 192) 2px solid;
     padding-right: 0.4em;
     padding-left: 0.4em;
 }
 
-#tabsBar #save{
+#tabsBar #save, #tabsBar #load{
     border-radius: 4px 0px 0px 4px;
     margin-right: 0;
 }

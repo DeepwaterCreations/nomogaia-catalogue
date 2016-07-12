@@ -63,7 +63,10 @@
 
             <button class="blueButton rightButton" id="monitor" type="button">Monitor</button>
 
-            <button class="blueButton rightButton" data-ng-click="clickLoadCSV()">Import from CSV</button>
+            <button class="blueButton rightButton" data-ng-click="clickLoadMenu()" id="loadMenu_button" type="button">+</button>
+            <div id="loadMenu" data-ng-class="{visible: showLoadMenu}">
+                <button class="blueButton rightButton" data-ng-click="clickLoadCSV()">Import from CSV</button>
+            </div>
             <button class="blueButton rightButton" data-ng-click="clickLoad()" id="load" type="button">Load</button>
             <input type="file" id="loadFileDialog" style="display:none;" accept=".json">
 
