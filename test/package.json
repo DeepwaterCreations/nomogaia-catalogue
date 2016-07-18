@@ -1,15 +1,15 @@
 {
-	"name": "Aspen",
-	"version": "1.0.0",
-	"main": "index.html",
-	"single-instance" : false,
-	"window": {
-		"title": "Aspen",
-		"icon": "icon.png",
-		"width": 1000,
-		"toolbar": true,
-		"frame": true,
-		"min_width": 450,
-    		"show": false
-	}
+    "name": "NomoData",
+    "version": "1.0.0",
+    "main": "index.html",
+    "single-instance": false,
+    "window": {
+        "title": "NomoData",
+        "icon": "icon.png",
+        "width": 1000,
+        "toolbar": true,
+        "frame": true,
+        "min_width": 450,
+        "show": false
+    }
 }
