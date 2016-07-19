@@ -184,3 +184,7 @@ function rebuildImpactedRights(monitorTable, index) {
     impactedRights_dirty = false;
 }
 
+//Returns the table as an HTML string.
+function generateImpactRatingsString(){
+    return document.getElementById("impactedRightsTable").outerHTML;    
+}
