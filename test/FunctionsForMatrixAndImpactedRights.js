@@ -61,3 +61,107 @@ function generateHTMLout(javascript, css, html) {
     console.log("html", html);
     return '<!DOCTYPE html><html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8" />' + javascript + ''+css+'<title></title></head><body>' + html+'</body></html>';
 }
+
+
+function exportViewToHTML(fileDialog, HTMLbody){
+    // var fileDialog = $("#export-matrix-dialog");
+    if(fileDialog === undefined){
+        throw "Error: No file dialog defined";
+        return;
+    }
+
+    var HTMLbody = HTMLbody || ""; 
+    var javascript = "";
+    var css = "";
+
+    // we have to read in the JS
+    // this needs to include jQuery
+    var filesToRead = [{
+        name: "jquery/jquery-2.1.3.min.js",
+        type: "JS",
+        res: ""
+    }, {
+        name: "jquery-ui/jquery-ui.min.js",
+        type: "JS",
+        res: ""
+    },  {
+        name: "ExportableMatrixFunctions.js",
+        type: "JS",
+        res: ""
+    }, {
+        name: "ExportableOnStart.js",
+        type: "JS",
+        res: ""
+    }, {
+        name: "jquery-ui/jquery-ui.min.css",
+        type: "CSS",
+        res: ""
+    }, {
+        name: "pure-release-0.5.0/pure.css",
+        type: "CSS",
+        res: ""
+    }, {
+        name: "DataTable.css",
+        type: "CSS",
+        res: ""
+    }, {
+        name: "Colin.css",
+        type: "CSS",
+        res: ""
+    }];
+
+    var filename = "";
+
+    var allDone = function () {
+        var pass = filename !== "";
+
+        for (var i = 0; i < filesToRead.length; i++) {
+            pass = pass && filesToRead[i].res !== "";
+        }
+
+        console.log("allDone ", pass);
+
+        if (pass) {
+
+            filesToRead.forEach(function (obj) {
+                if (obj.type === "JS") {
+                    javascript += "<script>" + obj.res + "</script>\n";
+                } else if (obj.type === "CSS") {
+                    css += "<style>" + obj.res + "</style>\n";
+                }
+            });
+
+            if (filename.toLowerCase().indexOf(".html") != -1) {
+                var htmlDoc = generateHTMLout(javascript, css, HTMLbody);
+                console.log(htmlDoc);
+                fs.writeFile(filename, htmlDoc, function (res) {
+                    console.log(res);
+                });
+            } else {
+                console.log("errrror! save must be .html");
+            }
+        }
+    }
+    filesToRead.forEach(function (obj) {
+        fs.readFile(obj.name, { encoding: 'utf8' }, function (error, chunk) {
+            if (error) {
+                console.log("ERROR: ", error);
+                return;
+            }
+
+            // we have to clean the chunk if it starts with a bom we need to remove it
+            if (chunk.charAt(0) === '\ufeff') {
+                chunk = chunk.substring(1, chunk.length);
+            }
+
+            obj.res = chunk;
+            allDone();
+        });
+    });
+
+    fileDialog.on("change", function (event) {
+        filename = $(this).val();
+        allDone();
+    });
+    fileDialog.trigger("click");
+};
