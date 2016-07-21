@@ -84,6 +84,8 @@
                     <div id="impactedRightsMonitorTabs">
                         <table id="impactedRightsTable"></table>
                     </div>
+                    <button class="blueButton rightButton" id="export-impactratings-button" type="button">Export</button>
+                    <input type="file" id="export-impactratings-dialog" style="display:none;" accept=".html" nwsaveas />
                 </div>
                 <div id="rightsMatrix" class="tab">
                     <form id="matrixSortOptions">
@@ -100,7 +102,7 @@
                     <div id="matrixTableDiv">
                     </div>
                     <!-- TODO: rightButton won't work here anymore. -->
-                    <button class="blueButton rightButton" id="export-html" type="button">Export</button>
+                    <button class="blueButton rightButton" id="export-matrix-button" type="button">Export</button>
                     <input type="file" id="export-matrix-dialog" style="display:none;" accept=".html" nwsaveas />
                 </div>
                 <div id="outlineTab" class="tab" data-ng-controller="treeController" ondragenter="g.killDragData(event)">

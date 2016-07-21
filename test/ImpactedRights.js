@@ -154,6 +154,7 @@ function rebuildImpactedRights(monitorTable, index) {
             }
         }(getScoreCategoryClass(getAverage(columnRows))));
         cell.addClass(getScoreCategoryClass(getAverage(columnRows)));
+        cell.addClass("hasToolTip");
         cell.hover(function (event) {
             //On mouse hover, give the column header a class.
             $('#' + getColumnHeadID(columnHeadName)).addClass("hoveredColumn");
@@ -188,3 +189,11 @@ function rebuildImpactedRights(monitorTable, index) {
 function generateImpactRatingsString(){
     return document.getElementById("impactedRightsTable").outerHTML;    
 }
+
+//Export HTML button functionality
+$('#export-impactratings-button').click(function () {
+    var fileDialog = $("#export-impactratings-dialog");
+    var HTMLbody = generateImpactRatingsString();
+    exportViewToHTML(fileDialog, HTMLbody);
+});
+

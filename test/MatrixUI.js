@@ -302,7 +302,7 @@
 }
 var matrix = new Matrix();
 
-$('#export-html').click(function () {
+$('#export-matrix-button').click(function () {
     var fileDialog = $("#export-matrix-dialog");
     var HTMLbody = "<div id='matrixTableDiv'><table id='matrixTable'>" + matrix.generateMatrixString(monitorTabs.getActiveMonitor()) + "</table></div>";
     exportViewToHTML(fileDialog, HTMLbody);
