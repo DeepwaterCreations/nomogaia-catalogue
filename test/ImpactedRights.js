@@ -147,14 +147,21 @@ function rebuildImpactedRights(monitorTable, index) {
 
         row.append(getCell(columnRows, toClassName(rightName) + " " + moduleClass));
         var cell = row.find("." + toClassName(rightName) + "." + moduleClass);
-        cell.tooltip({ content: getFullToolTip(columnRows) });
+        var tooltipContent = getFullToolTip(columnRows);
+        cell.tooltip({ content:tooltipContent });
+        //Add some stuff for HTML export: 
+        cell.addClass("hasToolTip");
+        cell.addClass("analytics-cell");
+        cell.attr("data-tooltip", encodeURI(tooltipContent));
+        cell.attr("data-score", getAverage(columnRows));
+        cell.attr("data-columnhead", getColumnHeadID(columnHeadName));
+
         cell.on("tooltipopen", function (scoreCategoryClass) {
             return function (event, ui) {
                 ui.tooltip.addClass(scoreCategoryClass);
             }
         }(getScoreCategoryClass(getAverage(columnRows))));
         cell.addClass(getScoreCategoryClass(getAverage(columnRows)));
-        cell.addClass("hasToolTip");
         cell.hover(function (event) {
             //On mouse hover, give the column header a class.
             $('#' + getColumnHeadID(columnHeadName)).addClass("hoveredColumn");

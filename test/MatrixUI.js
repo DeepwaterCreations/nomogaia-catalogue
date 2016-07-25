@@ -80,7 +80,7 @@
                 };
                 if (scoreCount > 0) {
                     var avg = scoreSum / scoreCount;
-                    cell.HTML = '<td data-rightsholderName="' + rightsholderName + '" data-tooltip="' + encodeURI(tooltipContent) + '" data-score="' + avg + '" title="" class="analytics-cell hasToolTip ' + cellClass.rowClass + ' ' + cellClass.colClass + ' ' + getScoreCategoryClass(avg) + '">' + avg.decRound(2) + '</td>';
+                    cell.HTML = '<td data-columnhead="' + getColumnHeadID(rightsholderName) + '" data-tooltip="' + encodeURI(tooltipContent) + '" data-score="' + avg + '" title="" class="analytics-cell hasToolTip ' + cellClass.rowClass + ' ' + cellClass.colClass + ' ' + getScoreCategoryClass(avg) + '">' + avg.decRound(2) + '</td>';
                     //Also add a tooltip.
                     cell.tooltipContent = tooltipContent; //Leave this undefined to have no tooltip.
                     cell.score = avg;

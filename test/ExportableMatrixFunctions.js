@@ -45,11 +45,11 @@ g.emf.setToolTips = function () {
     cells.each(function (i, cell) {
         $(cell).hover(function (event) {
             //On mouse hover, give the column header a class.
-            $('#' + getColumnHeadID(cell.dataset.rightsholdername)).addClass("hoveredColumn");
+            $('#' + cell.dataset.columnhead).addClass("hoveredColumn");
         },
             function (event) {
                 //On mouse hover end, remove the class.
-                $('#' + getColumnHeadID(cell.dataset.rightsholdername)).removeClass("hoveredColumn");
+                $('#' + cell.dataset.columnhead).removeClass("hoveredColumn");
             });
     });
 }
