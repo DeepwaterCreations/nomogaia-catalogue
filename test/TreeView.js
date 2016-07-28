@@ -267,9 +267,12 @@ g.aspenApp.controller('treeController', ['$scope', '$timeout', function ($scope,
     };
 
     $scope.getCurrent = function (rowData, type) {
-        var res = rowData.getData(type);
-        if (res == null) {
-            res = [];
+        var res = [];
+        var toCopy = rowData.getData(type);
+        if (toCopy != null) {
+            for (var i=0;i<toCopy.length;i++) {
+                res.push(toCopy[i]);
+            }
         }
         if ($scope.dragData != null && $scope.dragData.type == type && $scope.dragData.row == rowData.id && res.indexOf($scope.dragData.value) == -1) {
             res.push($scope.dragData.value);
