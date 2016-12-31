@@ -1,6 +1,9 @@
 # NomoData
 NomoData is a data tracker and visualizer developed by Dylan Craine and Colin Wielga for [NomoGaia](http://nomogaia.org/), a non-profit organization dedicated to protecting human rights.
 
+<img src="http://www.deepwatercreations.com/Images/nomodata_screenshot1.png" width="45%" />
+<img src="http://www.deepwatercreations.com/Images/nomodata_screenshot2.png" width="45%" />
+
 Features:
 * Tracks human rights analysis scores within a tree of categories and subjects, related to both rights and rights-holders
 * Easily customizable categories, modules, and lists of rights and rights-holders
